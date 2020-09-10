@@ -31,7 +31,7 @@ public class MobData implements IRecipe<IInventory> {
         this.entityType = entityType;
         this.growTicks = growTicks;
         this.results = results;
-        System.out.println("Loaded MobData recipe for: " + this.entityType.toString());
+        CagedMobs.LOGGER.info("Loaded MobData recipe for: " + this.entityType.toString());
     }
 
     public EntityType<?> getEntityType(){

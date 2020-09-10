@@ -27,7 +27,7 @@ import static com.corgam.cagedmobs.serializers.RecipesHelper.MOB_RECIPE;
 public class CagedMobs
 {
     // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
     final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
     public CagedMobs() {

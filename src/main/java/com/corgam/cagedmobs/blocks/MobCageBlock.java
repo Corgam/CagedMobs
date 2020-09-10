@@ -57,22 +57,34 @@ public class MobCageBlock extends ContainerBlock {
             }
             // Try to add env
             if(!cage.hasEnvironment()) {
-
+                // Check if there exists a recipe with given item
+                if(MobCageTE.existsEnvironmentFromItemStack(heldItem)){
+                    cage.setEnvironment(heldItem);
+                    // Consume one item if not in creative
+                    if(!player.isCreative()) {
+                        heldItem.shrink(1);
+                    }
+                    return ActionResultType.SUCCESS;
+                }
+                return ActionResultType.PASS;
             }
             // Try to add a mob
             if(!cage.hasEntity()){
                 // Check if player holds DNA Sampler
                 if(heldItem.getItem() instanceof DnaSamplerItem) {
-                    // Copy the sampler's mob type
                     DnaSamplerItem sampler = (DnaSamplerItem) heldItem.getItem();
-                    cage.setEntityFromType(sampler.getEntityType(heldItem));
-                    // Clear the sampler's mob type if not in creative
-                    if(!player.isCreative()) {
-                        sampler.removeEntityType(heldItem);
+                    // Check if there exists a recipe with given entity type
+                    if(MobCageTE.existsEntityFromType(sampler.getEntityType(heldItem))){
+                        cage.setEntityFromType(sampler.getEntityType(heldItem));
+                        // Clear the sampler's mob type if not in creative
+                        if(!player.isCreative()) {
+                            sampler.removeEntityType(heldItem);
+                        }
+                        return ActionResultType.SUCCESS;
                     }
-                    return ActionResultType.SUCCESS;
+                    return ActionResultType.PASS;
                 }
-                return ActionResultType.FAIL;
+                return ActionResultType.PASS;
             }
             // Try to harvest
             if(!cage.isHopping() && cage.isWaitingForHarvest()) {
@@ -100,6 +112,21 @@ public class MobCageBlock extends ContainerBlock {
         }
         return "";
     }
+
+    @Override
+    public void onReplaced (BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if(state.hasTileEntity() && state.getBlock() != newState.getBlock()){
+            final TileEntity tileEntity = worldIn.getTileEntity(pos);
+            if (tileEntity instanceof MobCageTE) {
+                final MobCageTE tile = (MobCageTE) tileEntity;
+                if(tile.hasEnvironment()){
+                    tile.dropItem(tile.getEnvItem().copy());
+                }
+            }
+        }
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
+    }
+
 
     /// SHAPE ///
 

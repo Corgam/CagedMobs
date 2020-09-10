@@ -1,6 +1,5 @@
 package com.corgam.cagedmobs.TileEntities;
 
-import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
 import com.corgam.cagedmobs.serializers.mob.LootData;
@@ -19,11 +18,20 @@ import net.minecraft.util.NonNullList;
 import java.util.List;
 
 public class MobCageTE extends TileEntity implements ITickableTileEntity {
+    // Hopping
     boolean hopping = false;
+    // Env
     private EnvironmentData environment = null;
+    private ItemStack envItem = ItemStack.EMPTY;
+    // Entity
     private MobData entity = null;
+    private EntityType<?> entityType = null;
+    // Ticks
     private int currentGrowTicks = 0;
+    private int totalGrowTicks = 0;
     boolean waitingForHarvest = false;
+
+
 
     public MobCageTE(boolean hopping) {
         super(CagedTE.MOB_CAGE.get());
@@ -36,11 +44,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void tick() {
-
-        System.out.println("[" + this.currentGrowTicks + "/" + this.getTotalGrowTicks() + "]");
-
         //Tick only when env and mob is inside
-        if(this.hasEntity() && !waitingForHarvest) {
+        if(this.hasEnvAndEntity() && !waitingForHarvest) {
             // Check if ready to harvest
             if(this.currentGrowTicks >= this.getTotalGrowTicks()) {
                 this.attemptHarvest();
@@ -57,10 +62,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
 
     public int getTotalGrowTicks() {
-        if(this.hasEntity()) {
-            return this.entity.getTotalGrowTicks();
-        }
-        return 0;
+        return this.totalGrowTicks;
     }
 
     public int getCurrentGrowTicks() {
@@ -72,13 +74,24 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     }
 
 
+    public EntityType<?> getEntityType() {
+        return entityType;
+    }
+
+    public ItemStack getEnvItem() {
+        return envItem;
+    }
 
 ///// ENVIRONMENT /////
 
     public void setEnvironment(ItemStack stack) {
-        // TODO
+        EnvironmentData env = getEnvironmentFromItemStack(stack);
+        this.environment = env;
+        // Set the env item
+        ItemStack itemstack = stack.copy();
+        itemstack.setCount(1);
+        this.envItem = itemstack;
     }
-
     public EnvironmentData getEnvironment() {
         return environment;
     }
@@ -87,11 +100,40 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         return environment != null;
     }
 
+    private static EnvironmentData getEnvironmentFromItemStack(ItemStack stack){
+        EnvironmentData finalEnvData = null;
+        for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ENV_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof EnvironmentData) {
+                final EnvironmentData envData = (EnvironmentData) recipe;
+                if(envData.getInputItem().test(stack)) {
+                    finalEnvData = envData;
+                    break;
+                }
+            }
+        }
+        return finalEnvData;
+    }
+
+    public static boolean existsEnvironmentFromItemStack(ItemStack stack){
+        for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ENV_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof EnvironmentData) {
+                final EnvironmentData envData = (EnvironmentData) recipe;
+                if(envData.getInputItem().test(stack)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public void onEnvironmentRemoval() {
+        this.totalGrowTicks = 0;
         this.currentGrowTicks = 0;
         this.waitingForHarvest = false;
         this.environment = null;
+        this.envItem = ItemStack.EMPTY;
+        this.entity = null;
+        this.entityType = null;
     }
 
 
@@ -107,11 +149,21 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     public void setEntityFromType(EntityType<?> type) {
         MobData mobData = getMobDataFromType(type);
-        setEntity(mobData);
+        this.entity = mobData;
+        this.entityType = type;
+        this.totalGrowTicks = mobData.getTotalGrowTicks();
     }
 
-    private void setEntity(MobData entity) {
-        this.entity = entity;
+    public static boolean existsEntityFromType(EntityType<?> entityType) {
+        for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof MobData) {
+                final MobData mobData = (MobData) recipe;
+                if(mobData.getEntityType().equals(entityType)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private MobData getMobDataFromType(EntityType<?> type){
@@ -129,9 +181,12 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     }
 
     public void onEntityRemoval() {
-        this.currentGrowTicks = 0;
-        this.waitingForHarvest = false;
         this.entity = null;
+        this.entityType = null;
+
+        this.currentGrowTicks = 0;
+        this.totalGrowTicks = 0;
+        this.waitingForHarvest = false;
     }
 
 
@@ -194,7 +249,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     }
 
     // Creates an item entity
-    private void dropItem(ItemStack item) {
+    public void dropItem(ItemStack item) {
         if(!this.world.isRemote) {
             final double offsetX = (double) (world.rand.nextFloat() * 0.7F) + (double) 0.15F;
             final double offsetY = (double) (world.rand.nextFloat() * 0.7F) + (double) 0.060000002F + 0.6D;
@@ -235,5 +290,4 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         }
         return super.write(dataTag);
     }
-
 }

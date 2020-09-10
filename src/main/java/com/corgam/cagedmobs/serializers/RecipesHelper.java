@@ -31,7 +31,6 @@ public class RecipesHelper {
     public static final IRecipeType<MobData> MOB_RECIPE = new RecipeTypeMobData();
     public static final IRecipeType<EnvironmentData> ENV_RECIPE = new RecipeTypeEnvData();
 
-
     // Some helper functions
 
     public static Map<ResourceLocation, IRecipe<?>> getRecipes (IRecipeType<?> recipeType, RecipeManager manager) {
