@@ -1,6 +1,9 @@
 package com.corgam.cagedmobs;
 
 import com.corgam.cagedmobs.items.DnaSamplerItem;
+import com.corgam.cagedmobs.serializers.RecipesHelper;
+import com.corgam.cagedmobs.serializers.env.EnvironmentData;
+import com.corgam.cagedmobs.serializers.env.RecipeTypeEnvData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.serializers.mob.RecipeTypeMobData;
 import com.corgam.cagedmobs.setup.*;
@@ -17,6 +20,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.corgam.cagedmobs.serializers.RecipesHelper.ENV_RECIPE;
+import static com.corgam.cagedmobs.serializers.RecipesHelper.MOB_RECIPE;
+
 @Mod(Constants.MOD_ID)
 public class CagedMobs
 {
@@ -24,12 +30,10 @@ public class CagedMobs
     private static final Logger LOGGER = LogManager.getLogger();
     final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-    public static final IRecipeType<MobData> MOB_RECIPE = new RecipeTypeMobData();
-
     public CagedMobs() {
         // Client
         eventBus.addListener(this::onClientSetup);
-        // Recipies
+        // Recipes
         eventBus.addGenericListener(IRecipeSerializer.class, this::registerRecipeSerializers);
         // Registries
         CagedBlocks.BLOCKS_REG.register(eventBus);
@@ -39,9 +43,11 @@ public class CagedMobs
     }
 
     private void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event) {
-        // Register new recipies
-        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(MOB_RECIPE.toString()), MOB_RECIPE);
+        // Register new recipes
+        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(RecipesHelper.MOB_RECIPE.toString()), RecipesHelper.MOB_RECIPE);
+        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(RecipesHelper.ENV_RECIPE.toString()), RecipesHelper.ENV_RECIPE);
         // Register recipe serializers
+        event.getRegistry().register(EnvironmentData.SERIALIZER);
         event.getRegistry().register(MobData.SERIALIZER);
     }
 

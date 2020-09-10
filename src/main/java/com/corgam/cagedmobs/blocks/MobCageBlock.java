@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.blocks;
 
-import com.corgam.cagedmobs.TE.MobCageTE;
+import com.corgam.cagedmobs.TileEntities.MobCageTE;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;

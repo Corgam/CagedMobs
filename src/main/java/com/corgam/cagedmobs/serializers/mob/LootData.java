@@ -46,7 +46,7 @@ public class LootData {
         return new LootData(item, chance, min, max);
     }
 
-    public static void serialize (PacketBuffer buffer, LootData info) {
+    public static void serializeBuffer(PacketBuffer buffer, LootData info) {
         buffer.writeFloat(info.getChance());
         buffer.writeItemStack(info.getItem());
         buffer.writeInt(info.getMinAmount());

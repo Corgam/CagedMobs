@@ -1,0 +1,25 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "horse",
+	"environments": ["overworld"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "minecraft:feather"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:chicken"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

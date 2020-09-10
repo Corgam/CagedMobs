@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.serializers.mob;
 
+import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
@@ -17,13 +18,19 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
         this.setRegistryName(new ResourceLocation("cagedmobs","mob_data"));
     }
 
+    // Used to serialize all MobData recipes from JSON files
     @Override
     public MobData read(ResourceLocation id, JsonObject json) {
-        final EntityType<?> entityType = deserializeEntityType(id, json);
+        // Entity
+        final EntityType<?> entityType = RecipesHelper.deserializeEntityType(id, json);
+        // Envs
         final Set<String> validEnvs = deserializeEnvsData(id, json);
+        // Total grow ticks
         final int growTicks = JSONUtils.getInt(json, "growTicks");
+        // Loot Data
         final List<LootData> results = deserializeLootData(id, json);
 
+        //Error checks
         if (growTicks <= 0){
             throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid growth tick rate. It must use a positive integer.");
         }
@@ -34,17 +41,20 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
     @Override
     public MobData read(ResourceLocation id, PacketBuffer buffer) {
         try {
-            //final Ingredient entityType = Ingredient.read(buffer);
-            final EntityType<?> entityType = null;
+            // Entity
+            final EntityType<?> entityType = RecipesHelper.deserializeEntityType(id, buffer);
+            // Envs
             final Set<String> validEnvs = new HashSet<>();
-            //PacketUtils.deserializeStringCollection(buffer, validEnvs);
+            RecipesHelper.deserializeStringCollection(buffer, validEnvs);
+            // Total grow ticks
             final int growTicks = buffer.readInt();
+            // Loot data
             final List<LootData> results = new ArrayList<>();
+            final int length = buffer.readInt();
+            for (int i = 0; i < length; i++) {
+                results.add(LootData.deserializeBuffer(buffer));
+            }
 
-            //final int length = buffer.readInt();
-            //for (int i = 0; i < length; i++) {
-            //    results.add(LootData.deserializeBuffer(buffer));
-            //}
             return new MobData(id, entityType, validEnvs, growTicks, results);
 
         }catch(final Exception e){
@@ -53,30 +63,24 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
     }
 
     @Override
-    public void write(PacketBuffer buf, MobData recipe) {
+    public void write(PacketBuffer buffer, MobData recipe) {
         try {
-            //recipe.getEntityType().write(buf);
-            buf.writeInt(recipe.getTotalGrowTicks());
-            //buf.writeInt(LootData.getResults().size());
-            //for (LootData entry : MobDataRecipe.getResults()) {
-
-            //LootData.serialize(buf, entry);
-            //}
+            // Entity
+            RecipesHelper.serializeEntityType(buffer, recipe.getEntityType());
+            // Envs
+            RecipesHelper.serializeStringCollection(buffer, recipe.getValidEnvs());
+            // Total  Grow Ticks
+            buffer.writeInt(recipe.getTotalGrowTicks());
+            // Loot data
+            buffer.writeInt(recipe.getResults().size());
+            for( final LootData data : recipe.getResults()){
+                LootData.serializeBuffer(buffer, data);
+            }
 
         }catch (final Exception e) {
             throw new IllegalStateException("Failed to write crop to the packet buffer.");
         }
 
-    }
-    // Deserializes entity type
-    private static EntityType<?> deserializeEntityType(ResourceLocation id, JsonObject json){
-        final String entityTypeString= json.getAsJsonPrimitive("entity").getAsString();
-        Optional<EntityType<?>> entityType = EntityType.byKey(entityTypeString);
-        if(entityType.isPresent()) {
-            return entityType.get();
-        }else {
-            throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid entity key. No entity with given key exists.");
-        }
     }
 
     // Deserializes environments

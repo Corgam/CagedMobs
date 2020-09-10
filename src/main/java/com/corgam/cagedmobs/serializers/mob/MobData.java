@@ -1,9 +1,8 @@
 package com.corgam.cagedmobs.serializers.mob;
 
 import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.setup.CagedItems;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -11,11 +10,8 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.*;
 
@@ -24,10 +20,10 @@ public class MobData implements IRecipe<IInventory> {
     public static final MobDataSerializer SERIALIZER = new MobDataSerializer();
 
     private final ResourceLocation id;
-    private EntityType<?> entityType;
-    private Set<String> environments;
-    private int growTicks;
-    private List<LootData> results;
+    private final EntityType<?> entityType;
+    private final Set<String> environments;
+    private final int growTicks;
+    private final List<LootData> results;
 
     MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, List<LootData> results){
         this.id = id;
@@ -78,7 +74,7 @@ public class MobData implements IRecipe<IInventory> {
 
     @Override
     public IRecipeType<?> getType() {
-        return CagedMobs.MOB_RECIPE;
+        return RecipesHelper.MOB_RECIPE;
     }
 
     @Override
@@ -109,5 +105,7 @@ public class MobData implements IRecipe<IInventory> {
         return nbt;
     }
 
-
+    public static MobData deserializeNBT(CompoundNBT nbt){
+        return null;
+    }
 }

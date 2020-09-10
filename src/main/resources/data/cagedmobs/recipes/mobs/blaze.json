@@ -1,0 +1,17 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "blaze",
+	"environments": ["nether"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.75,
+			"output": {
+				"item": "minecraft:blaze_rod"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+	
+}

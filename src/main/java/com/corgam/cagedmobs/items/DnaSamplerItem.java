@@ -49,7 +49,7 @@ public class DnaSamplerItem extends Item {
     // Check if entity can be cached based on the list of cachable entities
     private boolean canBeCached(Entity clickedEntity) {
         boolean contains = false;
-        for(final IRecipe<?> recipe : RecipesHelper.getRecipes(CagedMobs.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
                 if(mobData.getEntityType().equals(clickedEntity.getType())) {

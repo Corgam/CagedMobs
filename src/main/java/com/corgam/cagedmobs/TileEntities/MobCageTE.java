@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.TE;
+package com.corgam.cagedmobs.TileEntities;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
@@ -116,7 +116,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     private MobData getMobDataFromType(EntityType<?> type){
         MobData finalMobData = null;
-        for(final IRecipe<?> recipe : RecipesHelper.getRecipes(CagedMobs.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
                 if(mobData.getEntityType().equals(type)) {
@@ -213,6 +213,12 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         this.hopping = nbt.getBoolean("hopping");
         this.waitingForHarvest = nbt.getBoolean("waitingForHarvest");
         this.currentGrowTicks = nbt.getInt("currentGrowTicks");
+
+        CompoundNBT entityNBT = nbt.getCompound("mobData");
+        CompoundNBT envNBT = nbt.getCompound("env");
+
+        this.entity = MobData.deserializeNBT(entityNBT);
+        this.environment = EnvironmentData.deserializeNBT(envNBT);
     }
 
     // Serialize the block to save it on drive

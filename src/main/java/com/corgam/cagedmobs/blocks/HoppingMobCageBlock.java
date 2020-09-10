@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.blocks;
 
-import com.corgam.cagedmobs.TE.MobCageTE;
+import com.corgam.cagedmobs.TileEntities.MobCageTE;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 

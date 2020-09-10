@@ -1,0 +1,14 @@
+{
+
+	"itemGroup.cagedmobstab": "Caged Mobs",
+	
+	"item.cagedmobs.dnasampler": "DNA Sampler",
+	"item.cagedmobs.dnasampler.empty": "Right click entity to store its DNA sample",
+	"item.cagedmobs.dnasampler.usedFor": "Can be used on Mob Cage",
+	"item.cagedmobs.dnasampler.makeEmpty": "Shift-right click to clear stored DNA sample",
+	"item.cagedmobs.dnasampler.not_cachable": "This type of entity cannot be sampled",
+	
+	
+	"block.cagedmobs.mobcage": "Mob Cage",
+	"block.cagedmobs.hoppingmobcage": "Hopping Mob Cage"
+}
