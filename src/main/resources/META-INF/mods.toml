@@ -3,13 +3,13 @@ loaderVersion="[33,)" #mandatory
 license="All rights reserved" #mandatory
 #issueTrackerURL="http://my.issue.tracker/" #optional
 [[mods]] #mandatory
-modId="examplemod" #mandatory
+modId="cagedmobs" #mandatory
 version="${file.jarVersion}" #mandatory
-displayName="Example Mod" #mandatory
+displayName="Caged Mobs" #mandatory
 #updateJSONURL="http://myurl.me/" #optional
 #displayURL="http://example.com/" #optional
-logoFile="examplemod.png" #optional
-credits="Thanks!" #optional
+logoFile="cagedmobs.png" #optional
+#credits="Thanks!" #optional
 authors="Corgam" #optional
 #Description #mandatory
 description='''
