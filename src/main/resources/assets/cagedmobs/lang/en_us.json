@@ -3,10 +3,16 @@
 	"itemGroup.cagedmobstab": "Caged Mobs",
 	
 	"item.cagedmobs.dnasampler": "DNA Sampler",
+	"item.cagedmobs.dnasamplerdiamond": "Diamond DNA Sampler",
+	"item.cagedmobs.dnasamplernetherite": "Netherite DNA Sampler",
+
 	"item.cagedmobs.dnasampler.empty": "Right click entity to store its DNA sample",
-	"item.cagedmobs.dnasampler.usedFor": "Can be used on Mob Cage",
+	"item.cagedmobs.dnasampler.tier1Info": "Can be used on basic entities",
+	"item.cagedmobs.dnasampler.tier2Info": "Can be used on harder entities",
+	"item.cagedmobs.dnasampler.tier3Info": "Can be used on bosses",
 	"item.cagedmobs.dnasampler.makeEmpty": "Shift-right click to clear stored DNA sample",
 	"item.cagedmobs.dnasampler.not_cachable": "This type of entity cannot be sampled",
+	"item.cagedmobs.dnasampler.not_sufficient": "This DNA sampler is not strong enough to sample this entity",
 	
 	
 	"block.cagedmobs.mobcage": "Mob Cage",

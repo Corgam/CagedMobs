@@ -31,7 +31,7 @@ public class EnvironmentData implements IRecipe<IInventory> {
         this.renderState = renderState;
         this.growModifier = growModifier;
         this.categories = categories;
-        CagedMobs.LOGGER.info("Loaded EnvironmentData recipe for: " + this.inputItem.toString());
+        CagedMobs.LOGGER.info("Loaded EnvironmentData recipe for: " + this.categories.toString());
     }
 
     @Override

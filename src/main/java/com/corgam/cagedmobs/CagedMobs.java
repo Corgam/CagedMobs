@@ -1,6 +1,8 @@
 package com.corgam.cagedmobs;
 
+import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
+import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
 import com.corgam.cagedmobs.serializers.env.RecipeTypeEnvData;
@@ -55,6 +57,12 @@ public class CagedMobs
     private void addPropertiesToItems(final FMLClientSetupEvent event) {
         ItemModelsProperties.func_239418_a_(CagedItems.DNA_SAMPLER.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
             return DnaSamplerItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
+        });
+        ItemModelsProperties.func_239418_a_(CagedItems.DNA_SAMPLER_DIAMOND.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
+            return DnaSamplerDiamondItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
+        });
+        ItemModelsProperties.func_239418_a_(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
+            return DnaSamplerNetheriteItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
         });
     }
     // Set the render type of blocks

@@ -1,6 +1,7 @@
 {
 	"type": "cagedmobs:mob_data",
 	"entity": "chicken",
+	"samplerTier": 1,
 	"environments": ["overworld"],
 	"growTicks": 1100,
 	"results": [

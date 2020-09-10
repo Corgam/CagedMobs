@@ -1,6 +1,8 @@
 package com.corgam.cagedmobs.setup;
 
+import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
+import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -16,5 +18,7 @@ public class CagedItems {
     public final static RegistryObject<Item> HOPPING_MOB_CAGE = ITEMS_REG.register("hoppingmobcage", () -> new BlockItem(CagedBlocks.HOPPING_MOB_CAGE.get(), new Item.Properties().group(CagedItemGroup.CAGED_MAIN)));
 
     // PICKER
-    public final static RegistryObject<Item> DNA_SAMPLER = ITEMS_REG.register("dnasampler", () -> new DnaSamplerItem(new Item.Properties().group(CagedItemGroup.CAGED_MAIN)));
+    public final static RegistryObject<Item> DNA_SAMPLER = ITEMS_REG.register("dnasampler", () -> new DnaSamplerItem(new Item.Properties().maxStackSize(1).group(CagedItemGroup.CAGED_MAIN)));
+    public final static RegistryObject<Item> DNA_SAMPLER_DIAMOND = ITEMS_REG.register("dnasamplerdiamond", () -> new DnaSamplerDiamondItem(new Item.Properties().maxStackSize(1).group(CagedItemGroup.CAGED_MAIN)));
+    public final static RegistryObject<Item> DNA_SAMPLER_NETHERITE = ITEMS_REG.register("dnasamplernetherite", () -> new DnaSamplerNetheriteItem(new Item.Properties().maxStackSize(1).group(CagedItemGroup.CAGED_MAIN)));
 }

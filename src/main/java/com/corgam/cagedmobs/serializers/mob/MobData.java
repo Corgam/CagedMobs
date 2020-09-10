@@ -24,13 +24,15 @@ public class MobData implements IRecipe<IInventory> {
     private final Set<String> environments;
     private final int growTicks;
     private final List<LootData> results;
+    private final int samplerTier;
 
-    MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, List<LootData> results){
+    MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, List<LootData> results, int tier){
         this.id = id;
         this.environments = environments;
         this.entityType = entityType;
         this.growTicks = growTicks;
         this.results = results;
+        this.samplerTier = tier;
         CagedMobs.LOGGER.info("Loaded MobData recipe for: " + this.entityType.toString());
     }
 
@@ -90,6 +92,10 @@ public class MobData implements IRecipe<IInventory> {
         return this.results;
     }
 
+    public int getSamplerTier() {
+        return samplerTier;
+    }
+
     public CompoundNBT serializeNBT() {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("id", this.id.toString());
@@ -108,4 +114,6 @@ public class MobData implements IRecipe<IInventory> {
     public static MobData deserializeNBT(CompoundNBT nbt){
         return null;
     }
+
+
 }

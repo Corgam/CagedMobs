@@ -35,15 +35,46 @@ public class DnaSamplerItem extends Item {
                                                      Hand hand) {
         if(target.getEntityWorld().isRemote) return ActionResultType.FAIL;
         if (target.isAlive() && canBeCached(target)) {
-            CompoundNBT nbt = new CompoundNBT();
-            nbt.putString("entity", EntityType.getKey(target.getType()).toString());
-            stack.setTag(nbt);
-            playerIn.swingArm(hand);
-            playerIn.setHeldItem(hand, stack);
-            return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+            if(samplerTierSufficient(target)) {
+                CompoundNBT nbt = new CompoundNBT();
+                nbt.putString("entity", EntityType.getKey(target.getType()).toString());
+                stack.setTag(nbt);
+                playerIn.swingArm(hand);
+                playerIn.setHeldItem(hand, stack);
+                return ActionResultType.func_233537_a_(playerIn.world.isRemote);
+            }else{
+                playerIn.sendStatusMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_sufficient"), true);
+                return ActionResultType.PASS;
+            }
+        }else{
+            playerIn.sendStatusMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_cachable"), true);
+            return ActionResultType.PASS;
         }
-        playerIn.sendStatusMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_cachable"), true);
-        return ActionResultType.PASS;
+    }
+
+    private boolean samplerTierSufficient(LivingEntity target) {
+        EntityType<?> type = target.getType();
+        boolean sufficient = false;
+        for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof MobData) {
+                final MobData mobData = (MobData) recipe;
+                if(mobData.getEntityType().equals(type) && mobData.getSamplerTier() <= getSamplerTierInt()) {
+                    sufficient = true;
+                    break;
+                }
+            }
+        }
+        return sufficient;
+    }
+
+    private int getSamplerTierInt() {
+        if(this instanceof DnaSamplerNetheriteItem){
+            return 3;
+        }else if(this instanceof DnaSamplerDiamondItem){
+            return 2;
+        }else{
+            return 1;
+        }
     }
 
     // Check if entity can be cached based on the list of cachable entities
@@ -78,8 +109,18 @@ public class DnaSamplerItem extends Item {
     public void addInformation (ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
         tooltip.add(getTooltip(stack));
-        tooltip.add(new TranslationTextComponent("item.cagedmobs.dnasampler.usedFor").func_240699_a_(TextFormatting.GRAY));
+        tooltip.add(getInformationForTier().func_240699_a_(TextFormatting.GRAY));
         tooltip.add(new TranslationTextComponent("item.cagedmobs.dnasampler.makeEmpty").func_240699_a_(TextFormatting.GRAY));
+    }
+
+    private TranslationTextComponent getInformationForTier(){
+        if(this instanceof DnaSamplerNetheriteItem){
+            return new TranslationTextComponent("item.cagedmobs.dnasampler.tier3Info");
+        }else if(this instanceof DnaSamplerDiamondItem){
+            return new TranslationTextComponent("item.cagedmobs.dnasampler.tier2Info");
+        }else{
+            return new TranslationTextComponent("item.cagedmobs.dnasampler.tier1Info");
+        }
     }
 
     private ITextComponent getTooltip(ItemStack stack) {

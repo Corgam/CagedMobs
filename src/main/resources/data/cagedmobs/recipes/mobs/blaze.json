@@ -1,6 +1,7 @@
 {
 	"type": "cagedmobs:mob_data",
 	"entity": "blaze",
+	"samplerTier": 2,
 	"environments": ["nether"],
 	"growTicks": 1100,
 	"results": [

@@ -29,13 +29,18 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
         final int growTicks = JSONUtils.getInt(json, "growTicks");
         // Loot Data
         final List<LootData> results = deserializeLootData(id, json);
+        // Sampler tier
+        final int samplerTier = JSONUtils.getInt(json, "samplerTier");
 
         //Error checks
         if (growTicks <= 0){
             throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid growth tick rate. It must use a positive integer.");
         }
+        if(samplerTier < 1 || samplerTier > 3){
+            throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid sampler tier. It must use tiers: 1,2 or 3.");
+        }
 
-        return new MobData(id, entityType, validEnvs, growTicks, results);
+        return new MobData(id, entityType, validEnvs, growTicks, results, samplerTier);
     }
 
     @Override
@@ -54,8 +59,10 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             for (int i = 0; i < length; i++) {
                 results.add(LootData.deserializeBuffer(buffer));
             }
+            // Sampler tier
+            final int tier = buffer.readInt();
 
-            return new MobData(id, entityType, validEnvs, growTicks, results);
+            return new MobData(id, entityType, validEnvs, growTicks, results, tier);
 
         }catch(final Exception e){
             throw new IllegalStateException("Failed to read mob data from packet buffer. This is really bad.");
@@ -76,6 +83,8 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             for( final LootData data : recipe.getResults()){
                 LootData.serializeBuffer(buffer, data);
             }
+            // Sampler Tier
+            buffer.writeInt(recipe.getSamplerTier());
 
         }catch (final Exception e) {
             throw new IllegalStateException("Failed to write crop to the packet buffer.");

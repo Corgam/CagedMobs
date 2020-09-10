@@ -12,6 +12,6 @@ public class CagedItemGroup extends ItemGroup {
 
     @Override
     public ItemStack createIcon() {
-        return new ItemStack(CagedItems.DNA_SAMPLER.get());
+        return new ItemStack(CagedItems.DNA_SAMPLER_NETHERITE.get());
     }
 }

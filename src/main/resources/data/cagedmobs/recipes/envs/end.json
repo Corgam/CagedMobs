@@ -1,0 +1,11 @@
+{
+	"type": "cagedmobs:env_data",
+	"input": {
+		"item": "minecraft:end_stone"
+	},
+	"render": {
+		"block": "minecraft_end_stone"
+	},
+	"categories": ["end"],
+	"growModifier": 1.0
+}
