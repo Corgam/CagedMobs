@@ -14,8 +14,8 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = '1.0'
-group = 'com.yourname.modid' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'modid'
+group = 'com.corgam.cagedmobs' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'cagedmobs'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -86,8 +86,25 @@ minecraft {
     }
 }
 
+repositories {
+    maven { // JEI
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
+    }
+}
+
+
 dependencies {
+    // Minecraft
     minecraft 'net.minecraftforge:forge:1.16.2-33.0.59'
+    // Other mods
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
