@@ -280,7 +280,9 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // Read ticks info
         this.waitingForHarvest = nbt.getBoolean("waitingForHarvest");
         this.currentGrowTicks = nbt.getInt("currentGrowTicks");
-        this.totalGrowTicks = this.entity.getTotalGrowTicks();
+        if(hasEntity()){
+            this.totalGrowTicks = this.entity.getTotalGrowTicks();
+        }
     }
 
     // Serialize the block to save it on drive
