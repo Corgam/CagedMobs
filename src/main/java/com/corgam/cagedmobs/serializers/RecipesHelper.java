@@ -13,11 +13,14 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.RecipeManager;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.util.Map;
@@ -39,15 +42,24 @@ public class RecipesHelper {
     }
 
     public static RecipeManager getRecipeManager(){
-        return Minecraft.getInstance().player.connection.getRecipeManager();
-        //return DistExecutor.safeRunForDist(() ->RecipesHelper::getRecipeManagerClient, () -> RecipesHelper::getRecipeManagerServer);
+        try{
+            if(EffectiveSide.get().isClient()){
+                return RecipesHelper.getRecipeManagerClient();
+            }else{
+                return RecipesHelper.getRecipeManagerServer();
+            }
+        }catch(final Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private static RecipeManager getRecipeManagerClient() {
-        return Minecraft.getInstance().player.connection.getRecipeManager();
+        if(Minecraft.getInstance().player != null){
+            return Minecraft.getInstance().player.connection.getRecipeManager();
+        }
+        return null;
     }
-    @OnlyIn(Dist.DEDICATED_SERVER)
+
     private static RecipeManager getRecipeManagerServer() {
         return ServerLifecycleHooks.getCurrentServer().getRecipeManager();
     }
@@ -83,6 +95,21 @@ public class RecipesHelper {
         //TODO
     }
 
+    public static CompoundNBT serializeEntityTypeNBT(CompoundNBT nbt, EntityType<?> entityType) {
+        nbt.putString("entity", EntityType.getKey(entityType).toString());
+        return nbt;
+    }
+
+
+    public static EntityType<?> deserializeEntityTypeNBT(CompoundNBT nbt) {
+        ResourceLocation res = new ResourceLocation(nbt.getString("entity"));
+        if(EntityType.byKey(res.getPath()).isPresent()) {
+            return EntityType.byKey(res.getPath()).get();
+        }else{
+            return null;
+        }
+    }
+
     public static EntityType<?> deserializeEntityType(ResourceLocation id, JsonObject json) {
         final String entityTypeString= json.getAsJsonPrimitive("entity").getAsString();
         Optional<EntityType<?>> entityType = EntityType.byKey(entityTypeString);
@@ -92,6 +119,4 @@ public class RecipesHelper {
             throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid entity key. No entity with given key exists.");
         }
     }
-
-
 }

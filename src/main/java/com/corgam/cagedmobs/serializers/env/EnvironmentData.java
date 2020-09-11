@@ -84,13 +84,4 @@ public class EnvironmentData implements IRecipe<IInventory> {
     public Set<String> getCategories() {
         return categories;
     }
-
-    // SERIALIZATION
-
-    public CompoundNBT serializeNBT(){
-        return null;
-    }
-    public static EnvironmentData deserializeNBT(CompoundNBT entityNBT) {
-        return null;
-    }
 }

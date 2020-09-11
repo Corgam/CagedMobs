@@ -31,7 +31,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     private int totalGrowTicks = 0;
     boolean waitingForHarvest = false;
 
-
+    // METHODS
 
     public MobCageTE(boolean hopping) {
         super(CagedTE.MOB_CAGE.get());
@@ -60,7 +60,6 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         return this.hasEntity() && this.hasEnvironment();
     }
 
-
     public int getTotalGrowTicks() {
         return this.totalGrowTicks;
     }
@@ -85,13 +84,14 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 ///// ENVIRONMENT /////
 
     public void setEnvironment(ItemStack stack) {
-        EnvironmentData env = getEnvironmentFromItemStack(stack);
-        this.environment = env;
+        this.markDirty();
+        this.environment = getEnvironmentFromItemStack(stack);
         // Set the env item
         ItemStack itemstack = stack.copy();
         itemstack.setCount(1);
         this.envItem = itemstack;
     }
+
     public EnvironmentData getEnvironment() {
         return environment;
     }
@@ -148,6 +148,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     }
 
     public void setEntityFromType(EntityType<?> type) {
+        this.markDirty();
         MobData mobData = getMobDataFromType(type);
         this.entity = mobData;
         this.entityType = type;
@@ -166,7 +167,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         return false;
     }
 
-    private MobData getMobDataFromType(EntityType<?> type){
+    private static MobData getMobDataFromType(EntityType<?> type){
         MobData finalMobData = null;
         for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
@@ -192,7 +193,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
 ////// HARVEST AND LOOT /////
 
-    // Attemp harvest (when hopping cage, then harvest, when not, lock for players interaction)
+    // Attempt harvest (when hopping cage, then harvest, when not, lock for players interaction)
     private void attemptHarvest() {
         if(this.hopping) {
             this.currentGrowTicks = 0;
@@ -205,7 +206,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Auto-harvests the cage
     private void autoHarvest() {
-
+        //TODO
     }
 
     // Check if locked and waiting for player interaction
@@ -222,6 +223,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             for( ItemStack item : drops) {
                 dropItem(item.copy());
             }
+            this.markDirty();
         }
     }
 
@@ -230,13 +232,13 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         return this.hasEnvAndEntity() && this.getTotalGrowTicks() > 0 && this.getCurrentGrowTicks() >= this.getTotalGrowTicks();
     }
 
-    // Gives back a list of items that harvest will yeld
+    // Gives back a list of items that harvest will yield
     private NonNullList<ItemStack> createDropsList(){
         NonNullList<ItemStack> drops = NonNullList.create();
         for(LootData loot : this.entity.getResults()) {
-            if(this.world.rand.nextFloat() <= loot.getChance()) {
+            if(this.world != null && this.world.rand.nextFloat() <= loot.getChance()) {
                 // Roll the amount of items
-                int amount = 2;
+                int amount = 2; //TODO
                 if(amount > 0) {
                     for(int i=0; i < amount ; i++) {
                         // Add copied itemstack to the drop list
@@ -250,7 +252,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Creates an item entity
     public void dropItem(ItemStack item) {
-        if(!this.world.isRemote) {
+        if(this.world != null && !this.world.isRemote) {
             final double offsetX = (double) (world.rand.nextFloat() * 0.7F) + (double) 0.15F;
             final double offsetY = (double) (world.rand.nextFloat() * 0.7F) + (double) 0.060000002F + 0.6D;
             final double offsetZ = (double) (world.rand.nextFloat() * 0.7F) + (double) 0.15F;
@@ -262,28 +264,39 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     /// SERIALIZATION ///
 
+    // Deserialize the block to read it from the drive
     @Override
     public void func_230337_a_(BlockState state, CompoundNBT nbt) {
+        // Call the parent
         super.func_230337_a_(state, nbt);
+        // Read hopping
         this.hopping = nbt.getBoolean("hopping");
+        // Read the env
+        this.envItem = ItemStack.read(nbt.getCompound("environmentItem"));
+        this.environment = MobCageTE.getEnvironmentFromItemStack(this.envItem);
+        // Read the mob data
+        this.entityType = RecipesHelper.deserializeEntityTypeNBT(nbt);
+        this.entity = MobCageTE.getMobDataFromType(this.entityType);
+        // Read ticks info
         this.waitingForHarvest = nbt.getBoolean("waitingForHarvest");
         this.currentGrowTicks = nbt.getInt("currentGrowTicks");
-
-        CompoundNBT entityNBT = nbt.getCompound("mobData");
-        CompoundNBT envNBT = nbt.getCompound("env");
-
-        this.entity = MobData.deserializeNBT(entityNBT);
-        this.environment = EnvironmentData.deserializeNBT(envNBT);
+        this.totalGrowTicks = this.entity.getTotalGrowTicks();
     }
 
     // Serialize the block to save it on drive
     @Override
     public CompoundNBT write(CompoundNBT dataTag) {
+        // Put hopping
         dataTag.putBoolean("hopping", this.hopping);
+        // If cage has env, then put env info and maybe entity info
         if(this.hasEnvironment()) {
-            //dataTag.put("environment", this.environment.serializeNBT());
+            // Put env info
+            dataTag.put("environmentItem", this.envItem.serializeNBT());
+            // If cage has entity, put entity info
             if(this.hasEntity()){
-                dataTag.put("mobData", this.entity.serializeNBT());
+                // Put entity type
+                RecipesHelper.serializeEntityTypeNBT(dataTag, this.entityType);
+                // Put ticks info
                 dataTag.putInt("currentGrowTicks", this.currentGrowTicks);
                 dataTag.putBoolean("waitingForHarvest", this.waitingForHarvest);
             }

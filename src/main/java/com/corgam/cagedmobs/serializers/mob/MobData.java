@@ -110,10 +110,4 @@ public class MobData implements IRecipe<IInventory> {
         }
         return nbt;
     }
-
-    public static MobData deserializeNBT(CompoundNBT nbt){
-        return null;
-    }
-
-
 }

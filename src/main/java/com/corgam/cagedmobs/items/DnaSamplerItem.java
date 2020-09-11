@@ -37,7 +37,7 @@ public class DnaSamplerItem extends Item {
         if (target.isAlive() && canBeCached(target)) {
             if(samplerTierSufficient(target)) {
                 CompoundNBT nbt = new CompoundNBT();
-                nbt.putString("entity", EntityType.getKey(target.getType()).toString());
+                RecipesHelper.serializeEntityTypeNBT(nbt, target.getType());
                 stack.setTag(nbt);
                 playerIn.swingArm(hand);
                 playerIn.setHeldItem(hand, stack);
@@ -144,12 +144,8 @@ public class DnaSamplerItem extends Item {
     }
 
     public EntityType<?> getEntityType(ItemStack stack) {
-        if(stack.hasTag()) {
-            ResourceLocation res = new ResourceLocation(stack.getTag().getString("entity"));
-            //String typeString = stack.getTag().getString("entity");
-            //ResourceLocation resourceLocation = ResourceLocation.tryCreate(typeString);
-            System.out.println(res.getPath());
-            return EntityType.byKey(res.getPath()).get();
+        if(stack.hasTag() && stack.getTag() != null) {
+            return RecipesHelper.deserializeEntityTypeNBT(stack.getTag());
         }else {
             return null;
         }
