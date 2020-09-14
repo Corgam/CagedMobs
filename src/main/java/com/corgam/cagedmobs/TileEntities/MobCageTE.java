@@ -9,12 +9,22 @@ import com.corgam.cagedmobs.setup.CagedTE;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.ISidedInventoryProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.EmptyHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import java.util.List;
 
@@ -30,7 +40,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     // Ticks
     private int currentGrowTicks = 0;
     private int totalGrowTicks = 0;
-    boolean waitingForHarvest = false;
+    private boolean waitingForHarvest = false;
+    private boolean didAutoHarvest = false;
 
     // METHODS
 
@@ -194,20 +205,61 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
 ////// HARVEST AND LOOT /////
 
-    // Attempt harvest (when hopping cage, then harvest, when not, lock for players interaction)
+    // Attempt harvest (when hopping cage and there is a inv bellow, then harvest, when not hopping, lock and wait for players interaction)
     private void attemptHarvest() {
         if(this.hopping) {
-            this.currentGrowTicks = 0;
-            this.autoHarvest();
+            // Try to auto harvest
+            if(this.autoHarvest()){
+                this.currentGrowTicks = 0;
+            }else{
+                this.currentGrowTicks = this.getTotalGrowTicks();
+            }
         }else {
+            // Lock
             waitingForHarvest = true;
             this.currentGrowTicks = this.getTotalGrowTicks();
         }
     }
 
-    // Auto-harvests the cage
-    private void autoHarvest() {
-        //TODO
+    // Auto-harvests the cage, when there is a valid inv bellow
+    private boolean autoHarvest() {
+        final IItemHandler inventory = getInv(this.world, this.pos.down(), Direction.UP);
+        if(inventory != EmptyHandler.INSTANCE && !this.world.isRemote){
+            // For every item in drop list
+           for(final ItemStack item : this.createDropsList()){
+               // For every slot in inv
+               for(int slot = 0; slot < inventory.getSlots(); slot++){
+                   // Simulate the insert
+                   if(inventory.isItemValid(slot, item) && inventory.insertItem(slot,item,true).getCount() != item.getCount()){
+                    // Actual insert
+                       inventory.insertItem(slot, item, false);
+                       return true;
+                   }
+               }
+           }
+        }
+        return false;
+    }
+
+    // Gets the ItemHandler from block
+    private IItemHandler getInv(World world, BlockPos pos, Direction side){
+        final TileEntity te = world.getTileEntity(pos);
+        // Capability system
+        if(te != null){
+            final LazyOptional<IItemHandler> invCap = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+            return invCap.orElse(EmptyHandler.INSTANCE);
+        }else{
+            // When block doesn't use capability system
+            final BlockState state = world.getBlockState(pos);
+            if(state.getBlock() instanceof ISidedInventoryProvider){
+                final ISidedInventoryProvider invProvider = (ISidedInventoryProvider) state.getBlock();
+                final ISidedInventory inv = invProvider.createInventory(state, world, pos);
+                if(inv != null){
+                    return new SidedInvWrapper(inv, side);
+                }
+            }
+        }
+        return EmptyHandler.INSTANCE;
     }
 
     // Check if locked and waiting for player interaction
@@ -244,7 +296,9 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                 if(amount > 0) {
                     for(int i=0; i < amount ; i++) {
                         // Add copied item stack to the drop list
-                        drops.add(loot.getItem().copy());
+                        ItemStack stack = loot.getItem().copy();
+                        // TODO Set count
+                        drops.add(stack);
                     }
                 }
             }
