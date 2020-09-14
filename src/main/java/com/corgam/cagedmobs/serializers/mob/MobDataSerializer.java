@@ -1,6 +1,7 @@
 package com.corgam.cagedmobs.serializers.mob;
 
 import com.corgam.cagedmobs.serializers.RecipesHelper;
+import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
@@ -22,7 +23,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
     @Override
     public MobData read(ResourceLocation id, JsonObject json) {
         // Entity
-        final EntityType<?> entityType = RecipesHelper.deserializeEntityType(id, json);
+        final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
         // Envs
         final Set<String> validEnvs = deserializeEnvsData(id, json);
         // Total grow ticks
@@ -47,10 +48,10 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
     public MobData read(ResourceLocation id, PacketBuffer buffer) {
         try {
             // Entity
-            final EntityType<?> entityType = RecipesHelper.deserializeEntityType(id, buffer);
+            final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, buffer);
             // Envs
             final Set<String> validEnvs = new HashSet<>();
-            RecipesHelper.deserializeStringCollection(buffer, validEnvs);
+            SerializationHelper.deserializeStringCollection(buffer, validEnvs);
             // Total grow ticks
             final int growTicks = buffer.readInt();
             // Loot data
@@ -73,9 +74,9 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
     public void write(PacketBuffer buffer, MobData recipe) {
         try {
             // Entity
-            RecipesHelper.serializeEntityType(buffer, recipe.getEntityType());
+            SerializationHelper.serializeEntityType(buffer, recipe.getEntityType());
             // Envs
-            RecipesHelper.serializeStringCollection(buffer, recipe.getValidEnvs());
+            SerializationHelper.serializeStringCollection(buffer, recipe.getValidEnvs());
             // Total  Grow Ticks
             buffer.writeInt(recipe.getTotalGrowTicks());
             // Loot data

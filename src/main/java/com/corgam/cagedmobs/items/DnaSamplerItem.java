@@ -2,6 +2,7 @@ package com.corgam.cagedmobs.items;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
+import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -10,6 +11,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShootableItem;
+import net.minecraft.item.UseAction;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
@@ -25,6 +28,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class DnaSamplerItem extends Item {
     public DnaSamplerItem(Properties properties) {
@@ -37,8 +41,9 @@ public class DnaSamplerItem extends Item {
         if (target.isAlive() && canBeCached(target)) {
             if(samplerTierSufficient(target)) {
                 CompoundNBT nbt = new CompoundNBT();
-                RecipesHelper.serializeEntityTypeNBT(nbt, target.getType());
+                SerializationHelper.serializeEntityTypeNBT(nbt, target.getType());
                 stack.setTag(nbt);
+                playerIn.setActiveHand(hand);
                 playerIn.swingArm(hand);
                 playerIn.setHeldItem(hand, stack);
                 return ActionResultType.func_233537_a_(playerIn.world.isRemote);
@@ -102,7 +107,15 @@ public class DnaSamplerItem extends Item {
         return ActionResult.resultFail(itemstack);
     }
 
+    @Override
+    public int getUseDuration(ItemStack stack) {
+        return 72000;
+    }
 
+    @Override
+    public UseAction getUseAction(ItemStack stack) {
+        return UseAction.BOW;
+    }
 
     @Override
     @OnlyIn(Dist.CLIENT)
@@ -145,7 +158,7 @@ public class DnaSamplerItem extends Item {
 
     public EntityType<?> getEntityType(ItemStack stack) {
         if(stack.hasTag() && stack.getTag() != null) {
-            return RecipesHelper.deserializeEntityTypeNBT(stack.getTag());
+            return SerializationHelper.deserializeEntityTypeNBT(stack.getTag());
         }else {
             return null;
         }

@@ -3,10 +3,10 @@
 	"entity": "chicken",
 	"samplerTier": 1,
 	"environments": ["overworld"],
-	"growTicks": 1100,
+	"growTicks": 300,
 	"results": [
 		{
-			"chance": 0.7,
+			"chance": 0.5,
 			"output": {
 				"item": "minecraft:feather"
 			},

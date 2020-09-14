@@ -1,6 +1,7 @@
 package com.corgam.cagedmobs.serializers.env;
 
 import com.corgam.cagedmobs.serializers.RecipesHelper;
+import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -29,7 +30,7 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
         // Input item
         final Ingredient inputItem = Ingredient.deserialize(json.getAsJsonObject("input"));
         // Block to render
-        final BlockState renderState = RecipesHelper.deserializeBlockState(json.getAsJsonObject("render"));
+        final BlockState renderState = SerializationHelper.deserializeBlockState(json.getAsJsonPrimitive("render"));
         // Grow modifier
         final float growModifier = JSONUtils.getFloat(json, "growModifier");
         // Categories
@@ -51,12 +52,12 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
         // Input item
         final Ingredient inputItem = Ingredient.read(buffer);
         // Block to render
-        final BlockState renderState = RecipesHelper.deserializeBlockState(buffer);
+        final BlockState renderState = SerializationHelper.deserializeBlockState(buffer);
         // Grow modifier
         final float growModifier = buffer.readFloat();
         // Categories
         final Set<String> categories = new HashSet<>();
-        RecipesHelper.deserializeStringCollection(buffer, categories);
+        SerializationHelper.deserializeStringCollection(buffer, categories);
 
         return new EnvironmentData(recipeId, inputItem, renderState, growModifier, categories);
     }
@@ -66,10 +67,10 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
         // Input item
         recipe.getInputItem().write(buffer);
         // Block to render
-        RecipesHelper.serializeBlockState(buffer, recipe.getRenderState());
+        SerializationHelper.serializeBlockState(buffer, recipe.getRenderState());
         // Grow modifier
         buffer.writeFloat(recipe.getGrowModifier());
         // Categories
-        RecipesHelper.serializeStringCollection(buffer, recipe.getCategories());
+        SerializationHelper.serializeStringCollection(buffer, recipe.getCategories());
     }
 }

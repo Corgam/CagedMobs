@@ -3,9 +3,7 @@
 	"input": {
 		"item": "minecraft:magma_block"
 	},
-	"render": {
-		"block": "minecraft_magma_block"
-	},
+	"render": "minecraft:magma_block",
 	"categories": ["nether"],
 	"growModifier": 1.0
 }
