@@ -3,7 +3,7 @@
 	"entity": "chicken",
 	"samplerTier": 1,
 	"environments": ["overworld"],
-	"growTicks": 300,
+	"growTicks": 10,
 	"results": [
 		{
 			"chance": 0.5,

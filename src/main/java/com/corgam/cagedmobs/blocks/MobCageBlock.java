@@ -19,7 +19,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 public class MobCageBlock extends ContainerBlock {
-    private static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
+    private static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 15.0D, 14.0D);
 
     public MobCageBlock(Properties properties) {
         super(properties);
