@@ -1,6 +1,7 @@
 package com.corgam.cagedmobs.TileEntities;
 
 import com.corgam.cagedmobs.serializers.RecipesHelper;
+import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
 import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
@@ -238,10 +239,11 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         for(LootData loot : this.entity.getResults()) {
             if(this.world != null && this.world.rand.nextFloat() <= loot.getChance()) {
                 // Roll the amount of items
-                int amount = 2; //TODO
+                int range = loot.getMaxAmount() - loot.getMinAmount() + 1;
+                int amount = this.world.rand.nextInt(range) + loot.getMinAmount();
                 if(amount > 0) {
                     for(int i=0; i < amount ; i++) {
-                        // Add copied itemstack to the drop list
+                        // Add copied item stack to the drop list
                         drops.add(loot.getItem().copy());
                     }
                 }
@@ -275,7 +277,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         this.envItem = ItemStack.read(nbt.getCompound("environmentItem"));
         this.environment = MobCageTE.getEnvironmentFromItemStack(this.envItem);
         // Read the mob data
-        this.entityType = RecipesHelper.deserializeEntityTypeNBT(nbt);
+        this.entityType = SerializationHelper.deserializeEntityTypeNBT(nbt);
         this.entity = MobCageTE.getMobDataFromType(this.entityType);
         // Read ticks info
         this.waitingForHarvest = nbt.getBoolean("waitingForHarvest");
@@ -297,7 +299,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             // If cage has entity, put entity info
             if(this.hasEntity()){
                 // Put entity type
-                RecipesHelper.serializeEntityTypeNBT(dataTag, this.entityType);
+                SerializationHelper.serializeEntityTypeNBT(dataTag, this.entityType);
                 // Put ticks info
                 dataTag.putInt("currentGrowTicks", this.currentGrowTicks);
                 dataTag.putBoolean("waitingForHarvest", this.waitingForHarvest);
