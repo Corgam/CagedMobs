@@ -34,7 +34,7 @@ public class CagedMobs
 
     public CagedMobs() {
         // Client
-        eventBus.addListener(this::onClientSetup);
+        eventBus.addListener(ClientSetup::renderLayerSetup);
         // Recipes
         eventBus.addGenericListener(IRecipeSerializer.class, this::registerRecipeSerializers);
         // Registries
@@ -64,9 +64,5 @@ public class CagedMobs
         ItemModelsProperties.func_239418_a_(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
             return DnaSamplerNetheriteItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
         });
-    }
-    // Set the render type of blocks
-    private void onClientSetup(FMLClientSetupEvent event) {
-        ClientSetup.renderLayerSetup();
     }
 }

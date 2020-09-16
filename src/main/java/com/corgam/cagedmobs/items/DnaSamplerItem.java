@@ -5,20 +5,18 @@ import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShootableItem;
-import net.minecraft.item.UseAction;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.*;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -43,7 +41,6 @@ public class DnaSamplerItem extends Item {
                 CompoundNBT nbt = new CompoundNBT();
                 SerializationHelper.serializeEntityTypeNBT(nbt, target.getType());
                 stack.setTag(nbt);
-                playerIn.setActiveHand(hand);
                 playerIn.swingArm(hand);
                 playerIn.setHeldItem(hand, stack);
                 return ActionResultType.func_233537_a_(playerIn.world.isRemote);
@@ -109,7 +106,7 @@ public class DnaSamplerItem extends Item {
 
     @Override
     public int getUseDuration(ItemStack stack) {
-        return 72000;
+        return 100;
     }
 
     @Override

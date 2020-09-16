@@ -14,12 +14,16 @@ import net.minecraft.inventory.ISidedInventoryProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -102,7 +106,38 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         ItemStack itemstack = stack.copy();
         itemstack.setCount(1);
         this.envItem = itemstack;
+
+        if (!this.world.isRemote) {
+            this.sync();
+        }
     }
+
+    public void sync () {
+
+        if (this.world instanceof ServerWorld) {
+
+            final IPacket<?> packet = new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
+            sendToTracking((ServerWorld) this.world, this.getChunkPos(), this.pos, packet, false);
+        }
+    }
+
+    private ChunkPos chunkPos;
+
+    public ChunkPos getChunkPos () {
+
+        if (this.chunkPos == null) {
+
+            this.chunkPos = new ChunkPos(this.pos);
+        }
+
+        return this.chunkPos;
+    }
+
+    public static void sendToTracking (ServerWorld world, ChunkPos chunkPos, BlockPos blockPos, IPacket<?> packet, boolean boundaryOnly) {
+
+        world.getChunkProvider().chunkManager.getTrackingPlayers(chunkPos, boundaryOnly).forEach(p -> p.connection.sendPacket(packet));
+    }
+
 
     public EnvironmentData getEnvironment() {
         return environment;
@@ -297,7 +332,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                     for(int i=0; i < amount ; i++) {
                         // Add copied item stack to the drop list
                         ItemStack stack = loot.getItem().copy();
-                        // TODO Set count
+                        stack.setCount(amount);
                         drops.add(stack);
                     }
                 }

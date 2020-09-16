@@ -18,6 +18,9 @@
 				"output": {
 					"item": "minecraft:chicken"
 				},
+				"output_cooked": {
+					"item": "minecraft:cooked_chicken"
+				},
 				"minAmount": 1,
 				"maxAmount": 1
 		}
