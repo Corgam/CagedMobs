@@ -105,16 +105,6 @@ public class DnaSamplerItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack) {
-        return 100;
-    }
-
-    @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.BOW;
-    }
-
-    @Override
     @OnlyIn(Dist.CLIENT)
     public void addInformation (ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);

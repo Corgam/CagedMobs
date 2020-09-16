@@ -14,23 +14,26 @@ import net.minecraft.inventory.ISidedInventoryProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.client.model.ModelDataManager;
+import net.minecraftforge.client.model.data.ModelProperty;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.EmptyHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
+import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 public class MobCageTE extends TileEntity implements ITickableTileEntity {
     // Hopping
@@ -45,7 +48,6 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     private int currentGrowTicks = 0;
     private int totalGrowTicks = 0;
     private boolean waitingForHarvest = false;
-    private boolean didAutoHarvest = false;
 
     // METHODS
 
@@ -106,38 +108,9 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         ItemStack itemstack = stack.copy();
         itemstack.setCount(1);
         this.envItem = itemstack;
-
-        if (!this.world.isRemote) {
-            this.sync();
-        }
+        // Sync with client
+        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
     }
-
-    public void sync () {
-
-        if (this.world instanceof ServerWorld) {
-
-            final IPacket<?> packet = new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
-            sendToTracking((ServerWorld) this.world, this.getChunkPos(), this.pos, packet, false);
-        }
-    }
-
-    private ChunkPos chunkPos;
-
-    public ChunkPos getChunkPos () {
-
-        if (this.chunkPos == null) {
-
-            this.chunkPos = new ChunkPos(this.pos);
-        }
-
-        return this.chunkPos;
-    }
-
-    public static void sendToTracking (ServerWorld world, ChunkPos chunkPos, BlockPos blockPos, IPacket<?> packet, boolean boundaryOnly) {
-
-        world.getChunkProvider().chunkManager.getTrackingPlayers(chunkPos, boundaryOnly).forEach(p -> p.connection.sendPacket(packet));
-    }
-
 
     public EnvironmentData getEnvironment() {
         return environment;
@@ -181,6 +154,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         this.envItem = ItemStack.EMPTY;
         this.entity = null;
         this.entityType = null;
+        // Sync with client
+        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
     }
 
 
@@ -200,6 +175,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         this.entity = mobData;
         this.entityType = type;
         this.totalGrowTicks = mobData.getTotalGrowTicks();
+        // Sync with client
+        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
     }
 
     public static boolean existsEntityFromType(EntityType<?> entityType) {
@@ -235,6 +212,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         this.currentGrowTicks = 0;
         this.totalGrowTicks = 0;
         this.waitingForHarvest = false;
+        // Sync with client
+        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
     }
 
 
@@ -268,10 +247,14 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                    if(inventory.isItemValid(slot, item) && inventory.insertItem(slot,item,true).getCount() != item.getCount()){
                     // Actual insert
                        inventory.insertItem(slot, item, false);
-                       return true;
+                       break;
+                       //TODO Adds 4 items?
                    }
                }
            }
+            // Sync with client
+            this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+           return true;
         }
         return false;
     }
@@ -312,6 +295,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                 dropItem(item.copy());
             }
             this.markDirty();
+            // Sync with client
+            this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
         }
     }
 
@@ -350,6 +335,59 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             final ItemEntity itemEntity = new ItemEntity(this.world, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, item);
             itemEntity.setDefaultPickupDelay();
             this.world.addEntity(itemEntity);
+        }
+    }
+
+    // NETWORKING
+
+    @Override
+    public CompoundNBT getUpdateTag(){
+        CompoundNBT tag = super.getUpdateTag();
+        if(this.hasEnvironment()) {
+            // Put env info
+            tag.put("environmentItem", this.envItem.serializeNBT());
+            // If cage has entity, put entity info
+            if(this.hasEntity()){
+                // Put entity type
+                SerializationHelper.serializeEntityTypeNBT(tag, this.entityType);
+                // Put ticks info
+                tag.putInt("currentGrowTicks", this.currentGrowTicks);
+                tag.putBoolean("waitingForHarvest", this.waitingForHarvest);
+            }
+        }
+        return tag;
+    }
+
+    @Nullable
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket(){
+        return new SUpdateTileEntityPacket(pos, 1, getUpdateTag());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet){
+        CompoundNBT tag = packet.getNbtCompound();
+        // Store old env and entity type
+        ItemStack oldEnv = this.envItem;
+        EntityType<?> oldEntityType = this.entityType;
+
+        // Read the env
+        this.envItem = ItemStack.read(tag.getCompound("environmentItem"));
+        this.environment = MobCageTE.getEnvironmentFromItemStack(this.envItem);
+        // Read the mob data
+        this.entityType = SerializationHelper.deserializeEntityTypeNBT(tag);
+        this.entity = MobCageTE.getMobDataFromType(this.entityType);
+
+        // Read ticks info
+        this.waitingForHarvest = tag.getBoolean("waitingForHarvest");
+        this.currentGrowTicks = tag.getInt("currentGrowTicks");
+        if(hasEntity()){
+            this.totalGrowTicks = this.entity.getTotalGrowTicks();
+        }
+        // If env or entity changed, refresh model data
+        if(!Objects.equals(oldEnv, this.envItem) || !Objects.equals(oldEntityType,this.entityType)){
+            ModelDataManager.requestModelDataRefresh(this);
+            world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
         }
     }
 

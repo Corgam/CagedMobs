@@ -36,9 +36,9 @@ public class MobCageBlock extends ContainerBlock {
 
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         // If on client leave the functionality for the server only
-        //if(worldIn.isRemote) {
-            //return ActionResultType.SUCCESS;
-        //}
+        if(worldIn.isRemote) {
+            return ActionResultType.SUCCESS;
+        }
         // Error check for tile entity
         final TileEntity tile = worldIn.getTileEntity(pos);
         if( tile instanceof MobCageTE) {
