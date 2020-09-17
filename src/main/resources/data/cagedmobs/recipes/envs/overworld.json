@@ -1,9 +1,0 @@
-{
-	"type": "cagedmobs:env_data",
-	"input": {
-		"item": "minecraft:grass_block"
-	},
-	"render": "minecraft:grass_block",
-	"categories": ["overworld"],
-	"growModifier": 1.0
-}

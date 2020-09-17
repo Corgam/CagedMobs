@@ -1,0 +1,9 @@
+{
+	"type": "cagedmobs:env_data",
+	"input": {
+		"item": "minecraft:hay_block"
+	},
+	"render": "minecraft:hay_block",
+	"categories": ["farm"],
+	"growModifier": 1.0
+}

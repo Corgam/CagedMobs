@@ -1,0 +1,9 @@
+{
+	"type": "cagedmobs:env_data",
+	"input": {
+		"item": "minecraft:stone"
+	},
+	"render": "minecraft:stone",
+	"categories": ["cave"],
+	"growModifier": 1.0
+}
