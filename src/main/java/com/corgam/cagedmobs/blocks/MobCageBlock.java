@@ -76,8 +76,8 @@ public class MobCageBlock extends ContainerBlock {
                 // Check if player holds DNA Sampler
                 if(heldItem.getItem() instanceof DnaSamplerItem) {
                     DnaSamplerItem sampler = (DnaSamplerItem) heldItem.getItem();
-                    // Check if there exists a recipe with given entity type
-                    if(MobCageTE.existsEntityFromType(sampler.getEntityType(heldItem))){
+                    // Check if there exists a recipe with given entity type and if the env suits the entity
+                    if(MobCageTE.existsEntityFromType(sampler.getEntityType(heldItem)) && cage.isEnvSuitable(player, sampler.getEntityType(heldItem))){
                         cage.setEntityFromType(sampler.getEntityType(heldItem));
                         // Clear the sampler's mob type if not in creative
                         if(!player.isCreative()) {

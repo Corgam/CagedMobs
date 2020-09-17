@@ -9,7 +9,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -23,15 +22,15 @@ public class EnvironmentData implements IRecipe<IInventory> {
     private final Ingredient inputItem;
     private final BlockState renderState;
     private final float growModifier;
-    private final Set<String> categories;
+    private final Set<String> environments;
 
     EnvironmentData(ResourceLocation id, Ingredient item, BlockState renderState, float growModifier, Set<String> categories){
         this.id = id;
         this.inputItem = item;
         this.renderState = renderState;
         this.growModifier = growModifier;
-        this.categories = categories;
-        CagedMobs.LOGGER.info("Loaded EnvironmentData recipe for: " + this.categories.toString());
+        this.environments = categories;
+        CagedMobs.LOGGER.info("Loaded EnvironmentData recipe for: " + this.environments.toString());
     }
 
     @Override
@@ -81,7 +80,7 @@ public class EnvironmentData implements IRecipe<IInventory> {
         return growModifier;
     }
 
-    public Set<String> getCategories() {
-        return categories;
+    public Set<String> getEnvironments() {
+        return environments;
     }
 }

@@ -16,5 +16,6 @@
 	
 	
 	"block.cagedmobs.mobcage": "Mob Cage",
-	"block.cagedmobs.hoppingmobcage": "Hopping Mob Cage"
+	"block.cagedmobs.hoppingmobcage": "Hopping Mob Cage",
+	"block.cagedmobs.mobcage.envNotSuitable": "The environment inside the cage is not suitable for this entity."
 }

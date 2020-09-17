@@ -7,8 +7,10 @@ import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.setup.CagedTE;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ISidedInventoryProvider;
 import net.minecraft.item.ItemStack;
@@ -20,10 +22,14 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.WeightedSpawnerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.ModelDataManager;
-import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -34,6 +40,7 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 public class MobCageTE extends TileEntity implements ITickableTileEntity {
     // Hopping
@@ -48,6 +55,25 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     private int currentGrowTicks = 0;
     private int totalGrowTicks = 0;
     private boolean waitingForHarvest = false;
+
+
+    private Entity cachedEntity;
+    private WeightedSpawnerEntity renderedEntity;
+
+    // Used to get Entity for rendering inside the cage, if cachedEntity is null, then get it from the stored EntityType
+    @Nullable
+    @OnlyIn(Dist.CLIENT)
+    public Entity getCachedEntity() {
+        if (this.cachedEntity == null) {
+            if(this.renderedEntity == null){
+                CompoundNBT nbt = new CompoundNBT();
+                nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.entityType).toString());
+                this.renderedEntity = new WeightedSpawnerEntity(1, nbt);
+            }
+            this.cachedEntity = EntityType.func_220335_a(this.renderedEntity.getNbt(), this.getWorld(), Function.identity());
+        }
+        return this.cachedEntity;
+    }
 
     // METHODS
 
@@ -146,16 +172,22 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         return false;
     }
 
+
+    public boolean isEnvSuitable(PlayerEntity player, EntityType<?> entityType) {
+        MobData recipe = getMobDataFromType(entityType);
+        for(String env : this.environment.getEnvironments()){
+            if(recipe.getValidEnvs().contains(env)){
+                return true;
+            }
+        }
+        player.sendStatusMessage(new TranslationTextComponent("block.cagedmobs.mobcage.envNotSuitable"), true);
+        return false;
+    }
+
     public void onEnvironmentRemoval() {
-        this.totalGrowTicks = 0;
-        this.currentGrowTicks = 0;
-        this.waitingForHarvest = false;
+        this.onEntityRemoval();
         this.environment = null;
         this.envItem = ItemStack.EMPTY;
-        this.entity = null;
-        this.entityType = null;
-        // Sync with client
-        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
     }
 
 
@@ -206,9 +238,13 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     }
 
     public void onEntityRemoval() {
+        // Entity
         this.entity = null;
         this.entityType = null;
-
+        // Entity render
+        this.cachedEntity = null;
+        this.renderedEntity = null;
+        // Ticks
         this.currentGrowTicks = 0;
         this.totalGrowTicks = 0;
         this.waitingForHarvest = false;
@@ -377,6 +413,10 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // Read the mob data
         this.entityType = SerializationHelper.deserializeEntityTypeNBT(tag);
         this.entity = MobCageTE.getMobDataFromType(this.entityType);
+        if(this.entityType == null){
+            this.renderedEntity = null;
+            this.cachedEntity = null;
+        }
 
         // Read ticks info
         this.waitingForHarvest = tag.getBoolean("waitingForHarvest");

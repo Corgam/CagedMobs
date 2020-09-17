@@ -3,31 +3,22 @@ package com.corgam.cagedmobs.TileEntities;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockDisplayReader;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
+import net.minecraft.world.spawner.AbstractSpawner;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
-
-import java.util.BitSet;
-import java.util.List;
-import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
@@ -51,12 +42,33 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
 
             final IBakedModel model = dispatcher.getModelForState(tile.getEnvironment().getRenderState());
             //final IBakedModel mod = new IBakedModel();
-            final IModelData modelData = model.getModelData(tile.getWorld(), tile.getPos(), tile.getEnvironment().getRenderState(), EmptyModelData.INSTANCE);
+            //final IModelData modelData = model.getModelData(tile.getWorld(), tile.getPos(), tile.getEnvironment().getRenderState(), EmptyModelData.INSTANCE);
 
 
-            dispatcher.renderBlock(tile.getEnvironment().getRenderState(),matrix,buffer,combinedLightIn,combinedOverlayIn,modelData);
+            dispatcher.renderBlock(tile.getEnvironment().getRenderState(),matrix,buffer,combinedLightIn,combinedOverlayIn,EmptyModelData.INSTANCE);
 
 
+
+            matrix.pop();
+        }
+        if(tile.hasEntity()){
+            matrix.push();
+            matrix.translate(0.5D, 0.0D, 0.5D);
+            Entity entity = tile.getCachedEntity();
+            if (entity != null) {
+                float f = 0.53125F;
+                float f1 = Math.max(entity.getWidth(), entity.getHeight());
+                if ((double)f1 > 1.0D) {
+                    f /= f1;
+                }
+
+                matrix.translate(0.0D, (double)0.4F, 0.0D);
+                matrix.rotate(Vector3f.YP.rotationDegrees((float) MathHelper.lerp((double)partialTicks, 180.D, 180.D) * 10.0F));
+                matrix.translate(0.0D, (double)-0.2F, 0.0D);
+                matrix.rotate(Vector3f.XP.rotationDegrees(-30.0F));
+                matrix.scale(f, f, f);
+                Minecraft.getInstance().getRenderManager().renderEntityStatic(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, matrix, buffer, combinedLightIn);
+            }
 
             matrix.pop();
         }

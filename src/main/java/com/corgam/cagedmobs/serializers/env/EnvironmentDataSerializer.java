@@ -1,12 +1,9 @@
 package com.corgam.cagedmobs.serializers.env;
 
-import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
-import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
@@ -14,7 +11,6 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,6 +67,6 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
         // Grow modifier
         buffer.writeFloat(recipe.getGrowModifier());
         // Categories
-        SerializationHelper.serializeStringCollection(buffer, recipe.getCategories());
+        SerializationHelper.serializeStringCollection(buffer, recipe.getEnvironments());
     }
 }
