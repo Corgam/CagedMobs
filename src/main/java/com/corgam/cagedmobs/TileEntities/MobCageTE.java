@@ -43,8 +43,10 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class MobCageTE extends TileEntity implements ITickableTileEntity {
-    // Hopping
-    boolean hopping = false;
+    // Hopping and upgrades
+    private boolean hopping = false;
+    private boolean cooking = false;
+    private boolean lightning = false;
     // Env
     private EnvironmentData environment = null;
     private ItemStack envItem = ItemStack.EMPTY;
@@ -269,6 +271,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             waitingForHarvest = true;
             this.currentGrowTicks = this.getTotalGrowTicks();
         }
+        // Sync with client
+        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
     }
 
     // Auto-harvests the cage, when there is a valid inv bellow
@@ -276,7 +280,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         final IItemHandler inventory = getInv(this.world, this.pos.down(), Direction.UP);
         if(inventory != EmptyHandler.INSTANCE && !this.world.isRemote){
             // For every item in drop list
-           for(final ItemStack item : this.createDropsList()){
+            NonNullList<ItemStack> drops =this.createDropsList();
+            for(final ItemStack item : drops){
                // For every slot in inv
                for(int slot = 0; slot < inventory.getSlots(); slot++){
                    // Simulate the insert
@@ -284,12 +289,9 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                     // Actual insert
                        inventory.insertItem(slot, item, false);
                        break;
-                       //TODO Adds 4 items?
                    }
                }
            }
-            // Sync with client
-            this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
            return true;
         }
         return false;
@@ -345,17 +347,22 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     private NonNullList<ItemStack> createDropsList(){
         NonNullList<ItemStack> drops = NonNullList.create();
         for(LootData loot : this.entity.getResults()) {
+            if(!this.isLightning() && loot.isLighting()){
+                continue;
+            }
             if(this.world != null && this.world.rand.nextFloat() <= loot.getChance()) {
                 // Roll the amount of items
                 int range = loot.getMaxAmount() - loot.getMinAmount() + 1;
                 int amount = this.world.rand.nextInt(range) + loot.getMinAmount();
                 if(amount > 0) {
-                    for(int i=0; i < amount ; i++) {
-                        // Add copied item stack to the drop list
-                        ItemStack stack = loot.getItem().copy();
-                        stack.setCount(amount);
-                        drops.add(stack);
+                    // Add copied item stack to the drop list
+                    ItemStack stack = loot.getItem().copy();
+                    // Replace the item if there is a cooking upgrade
+                    if(this.isCooking() && loot.isCooking()){
+                        stack = loot.getCookedItem().copy();
                     }
+                    stack.setCount(amount);
+                    drops.add(stack);
                 }
             }
         }
@@ -379,6 +386,9 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     @Override
     public CompoundNBT getUpdateTag(){
         CompoundNBT tag = super.getUpdateTag();
+        // Put upgrades
+        tag.putBoolean("cooking",this.cooking);
+        tag.putBoolean("lightning", this.lightning);
         if(this.hasEnvironment()) {
             // Put env info
             tag.put("environmentItem", this.envItem.serializeNBT());
@@ -406,7 +416,9 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // Store old env and entity type
         ItemStack oldEnv = this.envItem;
         EntityType<?> oldEntityType = this.entityType;
-
+        // Get upgrades
+        this.cooking = tag.getBoolean("cooking");
+        this.lightning = tag.getBoolean("lightning");
         // Read the env
         this.envItem = ItemStack.read(tag.getCompound("environmentItem"));
         this.environment = MobCageTE.getEnvironmentFromItemStack(this.envItem);
@@ -417,7 +429,6 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             this.renderedEntity = null;
             this.cachedEntity = null;
         }
-
         // Read ticks info
         this.waitingForHarvest = tag.getBoolean("waitingForHarvest");
         this.currentGrowTicks = tag.getInt("currentGrowTicks");
@@ -438,8 +449,10 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     public void func_230337_a_(BlockState state, CompoundNBT nbt) {
         // Call the parent
         super.func_230337_a_(state, nbt);
-        // Read hopping
+        // Read hopping and upgrades
         this.hopping = nbt.getBoolean("hopping");
+        this.cooking = nbt.getBoolean("cooking");
+        this.lightning = nbt.getBoolean("lightning");
         // Read the env
         this.envItem = ItemStack.read(nbt.getCompound("environmentItem"));
         this.environment = MobCageTE.getEnvironmentFromItemStack(this.envItem);
@@ -457,8 +470,10 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     // Serialize the block to save it on drive
     @Override
     public CompoundNBT write(CompoundNBT dataTag) {
-        // Put hopping
+        // Put hopping and upgrades
         dataTag.putBoolean("hopping", this.hopping);
+        dataTag.putBoolean("cooking", this.cooking);
+        dataTag.putBoolean("lightning", this.lightning);
         // If cage has env, then put env info and maybe entity info
         if(this.hasEnvironment()) {
             // Put env info
@@ -473,5 +488,25 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             }
         }
         return super.write(dataTag);
+    }
+
+    public boolean isCooking() {
+        return cooking;
+    }
+
+    public void setCooking(boolean cooking) {
+        this.cooking = cooking;
+        // Sync with client
+        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+    }
+
+    public boolean isLightning() {
+        return lightning;
+    }
+
+    public void setLightning(boolean lightning) {
+        this.lightning = lightning;
+        // Sync with client
+        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
     }
 }

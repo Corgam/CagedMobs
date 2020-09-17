@@ -1,13 +1,19 @@
 package com.corgam.cagedmobs.blocks;
 
 import com.corgam.cagedmobs.TileEntities.MobCageTE;
+import com.corgam.cagedmobs.items.CookingUpgradeItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
+import com.corgam.cagedmobs.items.LightningUpgradeItem;
+import com.corgam.cagedmobs.items.UpgradeItem;
+import com.corgam.cagedmobs.setup.CagedItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -17,6 +23,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
 public class MobCageBlock extends ContainerBlock {
     private static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 15.0D, 14.0D);
@@ -44,9 +51,19 @@ public class MobCageBlock extends ContainerBlock {
         if( tile instanceof MobCageTE) {
             final MobCageTE cage = (MobCageTE) tile;
             final ItemStack heldItem = player.getHeldItem(handIn);
-
-            // Try to remove env or mob
+            // Try to remove upgrade, env or mob
             if(player.isSneaking()) {
+                if(cage.isCooking() || cage.isLightning()){
+                    if(cage.isCooking()){
+                        cage.setCooking(false);
+                        cage.dropItem(new ItemStack(CagedItems.COOKING_UPGRADE.get(),1));
+                        return ActionResultType.SUCCESS;
+                    }else if(cage.isLightning()){
+                        cage.setLightning(false);
+                        cage.dropItem(new ItemStack(CagedItems.LIGHTNING_UPGRADE.get(),1));
+                        return ActionResultType.SUCCESS;
+                    }
+                }
                 if(cage.hasEntity()) {
                     cage.onEntityRemoval();
                     return ActionResultType.SUCCESS;
@@ -56,6 +73,24 @@ public class MobCageBlock extends ContainerBlock {
                     }
                     cage.onEnvironmentRemoval();
                     return ActionResultType.SUCCESS;
+                }
+            }
+            //Try to add an upgrade
+            if(!cage.isCooking() || !cage.isLightning()){
+                if(heldItem.getItem() instanceof UpgradeItem) {
+                    if(heldItem.getItem() instanceof CookingUpgradeItem && !cage.isCooking()){
+                        cage.setCooking(true);
+                        if(!player.isCreative()) {
+                            heldItem.shrink(1);
+                        }
+                        return ActionResultType.SUCCESS;
+                    }else if(heldItem.getItem() instanceof LightningUpgradeItem && !cage.isLightning()){
+                        cage.setLightning(true);
+                        if(!player.isCreative()) {
+                            heldItem.shrink(1);
+                        }
+                        return ActionResultType.SUCCESS;
+                    }
                 }
             }
             // Try to add env
@@ -124,6 +159,12 @@ public class MobCageBlock extends ContainerBlock {
                 final MobCageTE tile = (MobCageTE) tileEntity;
                 if(tile.hasEnvironment()){
                     tile.dropItem(tile.getEnvItem().copy());
+                }
+                if(tile.isCooking()){
+                    tile.dropItem(new ItemStack(CagedItems.COOKING_UPGRADE.get(),1));
+                }
+                if(tile.isLightning()){
+                    tile.dropItem(new ItemStack(CagedItems.LIGHTNING_UPGRADE.get(),1));
                 }
             }
         }

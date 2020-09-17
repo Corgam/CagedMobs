@@ -96,18 +96,4 @@ public class MobData implements IRecipe<IInventory> {
         return samplerTier;
     }
 
-    public CompoundNBT serializeNBT() {
-        CompoundNBT nbt = new CompoundNBT();
-        nbt.putString("id", this.id.toString());
-        nbt.putString("entityType", this.entityType.toString());
-        nbt.putString("environments", this.environments.toString());
-        nbt.putInt("growTicks", this.growTicks);
-        nbt.putInt("resultsSize", this.results.size());
-        int i = 0;
-        for(LootData data : this.results) {
-            nbt.put("data" + i, data.serializeNBT());
-            i++;
-        }
-        return nbt;
-    }
 }
