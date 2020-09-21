@@ -2,15 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " X ",
-    "cBc",
+    "rBb",
     "bQb"
   ],
   "key": {
     "X": {
       "item": "minecraft:campfire"
     },
-    "c": {
-      "tag": "forge:ores/coal"
+    "r": {
+      "tag": "forge:dusts/redstone"
     },
     "B": {
       "tag": "forge:storage_blocks/coal"

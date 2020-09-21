@@ -14,6 +14,8 @@
 	"item.cagedmobs.dnasampler.not_cachable": "This type of entity cannot be sampled",
 	"item.cagedmobs.dnasampler.not_sufficient": "This DNA sampler is not strong enough to sample this entity",
 
+	"item.cagedmobs.cookingupgrade": "Cooking Cage Upgrade",
+	"item.cagedmobs.lightningupgrade": "Lightning Cage Upgrade",
 	"item.cagedmobs.cookingupgrade.info": "Automatically cooks cookable entity drops",
 	"item.cagedmobs.lightningupgrade.info": "Kills entities inside the cage with lightning",
 
