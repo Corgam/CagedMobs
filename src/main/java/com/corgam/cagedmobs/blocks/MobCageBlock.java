@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -21,9 +22,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class MobCageBlock extends ContainerBlock {
     private static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 15.0D, 14.0D);
@@ -171,6 +180,13 @@ public class MobCageBlock extends ContainerBlock {
         super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation (ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.mainInfo").func_240699_a_(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.envInfo").func_240699_a_(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.upgrading").func_240699_a_(TextFormatting.GRAY));
+    }
 
     /// SHAPE ///
 

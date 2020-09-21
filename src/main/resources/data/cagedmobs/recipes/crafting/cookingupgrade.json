@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    "cBc",
+    "bQb"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:campfire"
+    },
+    "c": {
+      "tag": "forge:ores/coal"
+    },
+    "B": {
+      "tag": "forge:storage_blocks/coal"
+    },
+    "b": {
+      "item": "minecraft:blackstone"
+    },
+    "Q": {
+      "tag": "forge:storage_blocks/quartz"
+    }
+  },
+  "result": {
+    "item": "cagedmobs:cookingupgrade"
+  }
+}
