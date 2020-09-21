@@ -20,6 +20,10 @@
 	"item.cagedmobs.lightningupgrade.info": "Kills entities inside the cage with lightning",
 
 	"item.cagedmobs.upgrades.attach": "Can be attached to Mob Cage",
+
+	"item.cagedmobs.dragon_scale": "Dragon Scale",
+	"item.cagedmobs.sponge_fragment": "Sponge Fragment",
+	"item.cagedmobs.nether_star_fragment": "Nether Star Fragment",
 	
 	"block.cagedmobs.mobcage": "Mob Cage",
 	"block.cagedmobs.hoppingmobcage": "Hopping Mob Cage",
