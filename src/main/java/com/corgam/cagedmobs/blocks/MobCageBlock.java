@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.blocks;
 
-import com.corgam.cagedmobs.TileEntities.MobCageTE;
+import com.corgam.cagedmobs.tileEntities.MobCageTE;
 import com.corgam.cagedmobs.items.CookingUpgradeItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
 import com.corgam.cagedmobs.items.LightningUpgradeItem;
@@ -13,8 +13,6 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -29,7 +27,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nullable;
 import java.util.List;

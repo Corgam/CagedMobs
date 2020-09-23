@@ -1,5 +1,6 @@
-package com.corgam.cagedmobs.TileEntities;
+package com.corgam.cagedmobs.tileEntities;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.BlockState;
@@ -11,10 +12,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
-import net.minecraft.world.spawner.AbstractSpawner;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
@@ -30,7 +28,7 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
     @Override
     public void render(MobCageTE tile, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLightIn, int combinedOverlayIn) {
 
-        if(tile.getEnvironment() != null){
+        if(tile.getEnvironment() != null && CagedMobs.CLIENT_CONFIG.shouldEnvsRender()){
             matrix.push();
 
             matrix.scale(0.74f,0.015f,0.74f);
@@ -51,22 +49,22 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
 
             matrix.pop();
         }
-        if(tile.hasEntity()){
+        if(tile.hasEntity() && CagedMobs.CLIENT_CONFIG.shouldEntitiesRender()){
             matrix.push();
             matrix.translate(0.5D, 0.0D, 0.5D);
             Entity entity = tile.getCachedEntity();
             if (entity != null) {
-                float f = 0.53125F;
-                float f1 = Math.max(entity.getWidth(), entity.getHeight());
-                if ((double)f1 > 1.0D) {
-                    f /= f1;
+                float maxSize = 0.42F;
+                float maxEntityDimension = Math.max(entity.getWidth(), entity.getHeight());
+                // If entity is bigger then 1.0D, scale it down.
+                if ((double)maxEntityDimension > 1.0D) {
+                    maxSize /= maxEntityDimension;
                 }
-
-                matrix.translate(0.0D, (double)0.4F, 0.0D);
-                matrix.rotate(Vector3f.YP.rotationDegrees((float) MathHelper.lerp((double)partialTicks, 180.D, 180.D) * 10.0F));
-                matrix.translate(0.0D, (double)-0.2F, 0.0D);
-                matrix.rotate(Vector3f.XP.rotationDegrees(-30.0F));
-                matrix.scale(f, f, f);
+                matrix.translate(0.0D, (double)0.1F, 0.0D);
+                //matrix.rotate(Vector3f.YP.rotationDegrees((float) MathHelper.lerp((double)partialTicks, 180.D, 180.D) * 10.0F));
+                //matrix.translate(0.0D, (double)-0.2F, 0.0D);
+                //matrix.rotate(Vector3f.XP.rotationDegrees(-30.0F));
+                matrix.scale(maxSize, maxSize, maxSize);
                 Minecraft.getInstance().getRenderManager().renderEntityStatic(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, matrix, buffer, combinedLightIn);
             }
 

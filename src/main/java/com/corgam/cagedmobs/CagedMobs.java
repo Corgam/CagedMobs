@@ -1,5 +1,7 @@
 package com.corgam.cagedmobs;
 
+import com.corgam.cagedmobs.configs.ClientConfig;
+import com.corgam.cagedmobs.configs.ServerConfig;
 import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
 import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
@@ -16,11 +18,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import static com.corgam.cagedmobs.serializers.RecipesHelper.ENV_RECIPE;
 import static com.corgam.cagedmobs.serializers.RecipesHelper.MOB_RECIPE;
@@ -31,10 +36,15 @@ public class CagedMobs
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public static final ClientConfig CLIENT_CONFIG = new ClientConfig();
+    public static final ServerConfig SERVER_CONFIG = new ServerConfig();
 
     public CagedMobs() {
         // Client
         eventBus.addListener(ClientSetup::renderLayerSetup);
+        // Configs
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG.getForgeConfigSpec());
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG.getForgeConfigSpec());
         // Recipes
         eventBus.addGenericListener(IRecipeSerializer.class, this::registerRecipeSerializers);
         // Registries

@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.setup;
 
-import com.corgam.cagedmobs.TileEntities.MobCageTE;
+import com.corgam.cagedmobs.tileEntities.MobCageTE;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

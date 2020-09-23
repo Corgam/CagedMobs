@@ -1,5 +1,6 @@
-package com.corgam.cagedmobs.TileEntities;
+package com.corgam.cagedmobs.tileEntities;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
@@ -18,6 +19,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -27,6 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.ModelDataManager;
@@ -40,6 +43,7 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.function.Function;
 
 public class MobCageTE extends TileEntity implements ITickableTileEntity {
@@ -98,6 +102,34 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             }else {
                 // Add one tick
                 this.currentGrowTicks++;
+            }
+        }
+        // If has cooking upgrade add particles
+        if(this.isCooking() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
+            Random rand = new Random();
+            if (!(world instanceof ServerWorld)) {
+                    if (rand.nextInt(10) == 0) {
+                        World world = this.getWorld();
+                        BlockPos blockpos = this.getPos();
+                        double d3 = (double) blockpos.getX() + world.rand.nextDouble();
+                        double d4 = (double) blockpos.getY() + (world.rand.nextDouble()/3);
+                        double d5 = (double) blockpos.getZ() + world.rand.nextDouble();
+                        world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                        world.addParticle(ParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                }
+            }
+        }
+        if(this.isLightning() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
+            Random rand = new Random();
+            if (!(world instanceof ServerWorld)) {
+                if (rand.nextInt(30) == 0) {
+                    World world = this.getWorld();
+                    BlockPos blockpos = this.getPos();
+                    double d3 = (double) blockpos.getX() + 0.4 + (world.rand.nextDouble()/5);
+                    double d4 = (double) blockpos.getY() + 0.8;
+                    double d5 = (double) blockpos.getZ() +  0.4 + (world.rand.nextDouble()/5);
+                    world.addParticle(ParticleTypes.END_ROD, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.blocks;
 
-import com.corgam.cagedmobs.TileEntities.MobCageTE;
+import com.corgam.cagedmobs.tileEntities.MobCageTE;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

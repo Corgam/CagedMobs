@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.setup;
 
-import com.corgam.cagedmobs.TileEntities.MobCageRenderer;
+import com.corgam.cagedmobs.tileEntities.MobCageRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
