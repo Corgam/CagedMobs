@@ -31,5 +31,12 @@
 	"block.cagedmobs.mobcage.mainInfo": "Can replicate entities' drops from stored DNA Sample",
 	"block.cagedmobs.mobcage.envInfo": "Needs to have suitable environment for entity",
 	"block.cagedmobs.mobcage.hoppingInfo": "Puts produced drops into inventory below",
-	"block.cagedmobs.mobcage.upgrading": "Can be upgraded"
+	"block.cagedmobs.mobcage.upgrading": "Can be upgraded",
+
+	"jei.category.cagedmobs.entity": "Caged Entities Drops",
+	"jei.tooltip.cagedmobs.entity.chance": "Chance: %d%%",
+	"jei.tooltip.cagedmobs.entity.amountEqual": "Amount: %d",
+	"jei.tooltip.cagedmobs.entity.amount": "Amount: %d - %d",
+	"jei.tooltip.cagedmobs.entity.cooking_upgrade": "Requires Cooking Upgrade",
+	"jei.tooltip.cagedmobs.entity.lightning_upgrade": "Requires Lightning Upgrade"
 }

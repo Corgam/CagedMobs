@@ -23,9 +23,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class RecipesHelper {
 
@@ -39,6 +37,24 @@ public class RecipesHelper {
     public static Map<ResourceLocation, IRecipe<?>> getRecipes (IRecipeType<?> recipeType, RecipeManager manager) {
         final Map<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>> recipesMap = ObfuscationReflectionHelper.getPrivateValue(RecipeManager.class, manager, "field_199522_d");
         return recipesMap.get(recipeType);
+    }
+
+    public static List<MobData> getEntitiesRecipesList (RecipeManager manager) {
+
+        if (manager != null) {
+            return manager.func_241447_a_(RecipesHelper.MOB_RECIPE);
+        }
+
+        return Collections.emptyList();
+    }
+
+    public static List<EnvironmentData> getEnvsRecipesList (RecipeManager manager) {
+
+        if (manager != null) {
+            return manager.func_241447_a_(RecipesHelper.ENV_RECIPE);
+        }
+
+        return Collections.emptyList();
     }
 
     public static RecipeManager getRecipeManager(){
@@ -62,5 +78,16 @@ public class RecipesHelper {
 
     private static RecipeManager getRecipeManagerServer() {
         return ServerLifecycleHooks.getCurrentServer().getRecipeManager();
+    }
+
+    public static boolean isEnvValidForEntity(MobData entity, EnvironmentData env) {
+        for(String s : entity.getValidEnvs()){
+            for(String s2 : env.getEnvironments()){
+                if(s.matches(s2)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
