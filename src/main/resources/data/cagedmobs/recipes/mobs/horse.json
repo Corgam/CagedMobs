@@ -8,19 +8,12 @@
 		{
 			"chance": 0.7,
 			"output": {
-				"item": "minecraft:feather"
+				"item": "minecraft:leather"
 			},
 			"minAmount": 1,
 			"maxAmount": 2
-		},
-		{
-			"chance": 0.8,
-				"output": {
-					"item": "minecraft:chicken"
-				},
-				"minAmount": 1,
-				"maxAmount": 1
 		}
+
 	]
 	
 }

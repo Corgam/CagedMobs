@@ -1,18 +1,19 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "blaze",
-	"samplerTier": 2,
-	"environments": ["nether"],
+	"entity": "donkey",
+	"samplerTier": 1,
+	"environments": ["farm"],
 	"growTicks": 1100,
 	"results": [
 		{
 			"chance": 0.7,
 			"output": {
-				"item": "minecraft:blaze_rod"
+				"item": "minecraft:leather"
 			},
 			"minAmount": 1,
 			"maxAmount": 2
 		}
+
 	]
 	
 }

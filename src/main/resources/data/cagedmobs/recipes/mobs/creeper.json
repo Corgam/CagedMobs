@@ -1,25 +1,23 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "chicken",
+	"entity": "creeper",
 	"samplerTier": 1,
-	"environments": ["farm"],
+	"environments": ["cave"],
 	"growTicks": 1100,
 	"results": [
 		{
-			"chance": 0.5,
+			"chance": 0.75,
 			"output": {
-				"item": "minecraft:feather"
+				"item": "minecraft:gunpowder"
 			},
 			"minAmount": 1,
 			"maxAmount": 2
 		},
 		{
-			"chance": 0.8,
+			"lightning": true,
+			"chance": 0.005,
 				"output": {
-					"item": "minecraft:chicken"
-				},
-				"output_cooked": {
-					"item": "minecraft:cooked_chicken"
+					"item": "minecraft:creeper_head"
 				},
 				"minAmount": 1,
 				"maxAmount": 1

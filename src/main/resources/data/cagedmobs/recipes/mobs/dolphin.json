@@ -1,0 +1,21 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "dolphin",
+	"samplerTier": 1,
+	"environments": ["water"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:cod"
+				},
+				"output_cooked": {
+					"item": "minecraft:cooked_cod"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

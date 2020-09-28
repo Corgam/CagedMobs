@@ -1,0 +1,21 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "pig",
+	"samplerTier": 1,
+	"environments": ["farm"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:porkchop"
+				},
+				"output_cooked": {
+					"item": "minecraft:cooked_porkchop"
+				},
+				"minAmount": 1,
+				"maxAmount": 3
+		}
+	]
+	
+}
