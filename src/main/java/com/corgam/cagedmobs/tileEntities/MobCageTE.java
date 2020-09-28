@@ -8,6 +8,7 @@ import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.setup.CagedTE;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
@@ -20,10 +21,12 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.WeightedSpawnerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -35,6 +38,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.ModelDataManager;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.EmptyHandler;
@@ -76,7 +80,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                 nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.entityType).toString());
                 this.renderedEntity = new WeightedSpawnerEntity(1, nbt);
             }
-            this.cachedEntity = EntityType.func_220335_a(this.renderedEntity.getNbt(), this.getWorld(), Function.identity());
+            this.cachedEntity = EntityType.func_220335_a(this.renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
         }
         return this.cachedEntity;
     }

@@ -16,6 +16,7 @@ import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
@@ -68,6 +69,18 @@ public class RecipesHelper {
             throw new RuntimeException(e);
         }
     }
+
+//    public static World getWorld(){
+//        try{
+//            if(EffectiveSide.get().isClient()){
+//                return RecipesHelper.getRecipeManagerClient();
+//            }else{
+//                return RecipesHelper.getRecipeManagerServer();
+//            }
+//        }catch(final Exception e){
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     private static RecipeManager getRecipeManagerClient() {
         if(Minecraft.getInstance().player != null){
