@@ -1,0 +1,18 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "snow_golem",
+	"samplerTier": 1,
+	"environments": ["snow"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:snowball"
+				},
+				"minAmount": 1,
+				"maxAmount": 15
+		}
+	]
+	
+}

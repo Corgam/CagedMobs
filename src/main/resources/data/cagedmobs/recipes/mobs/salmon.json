@@ -1,0 +1,21 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "salmon",
+	"samplerTier": 1,
+	"environments": ["water"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:salmon"
+				},
+				"output_cooked": {
+					"item": "minecraft:cooked_salmon"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

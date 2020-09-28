@@ -1,0 +1,29 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "rabbit",
+	"samplerTier": 1,
+	"environments": ["farm"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:rabbit_hide"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:rabbit"
+				},
+				"output_cooked": {
+					"item": "minecraft:cooked_rabbit"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

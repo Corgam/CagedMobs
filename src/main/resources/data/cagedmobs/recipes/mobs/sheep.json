@@ -1,0 +1,29 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "sheep",
+	"samplerTier": 1,
+	"environments": ["farm"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:white_wool"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		},
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:mutton"
+				},
+				"output_cooked": {
+					"item": "minecraft:cooked_mutton"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
+		}
+	]
+	
+}

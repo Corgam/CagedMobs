@@ -1,0 +1,27 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "turtle",
+	"samplerTier": 1,
+	"environments": ["water"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:seagrass"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
+		},
+		{
+			"lightning": true,
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:bowl"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

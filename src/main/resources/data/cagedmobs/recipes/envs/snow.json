@@ -1,0 +1,9 @@
+{
+	"type": "cagedmobs:env_data",
+	"input": {
+		"item": "minecraft:snow_block"
+	},
+	"render": "minecraft:snow_block",
+	"categories": ["snow"],
+	"growModifier": 1.0
+}

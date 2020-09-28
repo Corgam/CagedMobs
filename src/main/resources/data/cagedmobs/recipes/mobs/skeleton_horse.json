@@ -1,0 +1,18 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "skeleton_horse",
+	"samplerTier": 1,
+	"environments": ["cave"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:bone"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
+		}
+	]
+	
+}

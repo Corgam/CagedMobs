@@ -1,0 +1,18 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "squid",
+	"samplerTier": 1,
+	"environments": ["water"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:ink_sac"
+				},
+				"minAmount": 1,
+				"maxAmount": 3
+		}
+	]
+	
+}

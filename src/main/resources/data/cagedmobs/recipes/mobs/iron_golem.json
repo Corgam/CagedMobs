@@ -1,0 +1,26 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "iron_golem",
+	"samplerTier": 1,
+	"environments": ["farm"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:iron_ingot"
+				},
+				"minAmount": 3,
+				"maxAmount": 5
+		},
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:poppy"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
+		}
+	]
+	
+}

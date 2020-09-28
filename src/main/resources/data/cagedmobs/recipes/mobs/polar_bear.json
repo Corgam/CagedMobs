@@ -2,7 +2,7 @@
 	"type": "cagedmobs:mob_data",
 	"entity": "polar_bear",
 	"samplerTier": 1,
-	"environments": ["cave", "water"],
+	"environments": ["snow"],
 	"growTicks": 1100,
 	"results": [
 		{
