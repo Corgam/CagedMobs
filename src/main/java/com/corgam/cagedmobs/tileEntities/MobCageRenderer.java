@@ -61,63 +61,16 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
                     maxSize /= maxEntityDimension;
                 }
                 matrix.translate(0.0D, (double)0.1F, 0.0D);
-                //matrix.rotate(Vector3f.YP.rotationDegrees((float) MathHelper.lerp((double)partialTicks, 180.D, 180.D) * 10.0F));
-                //matrix.translate(0.0D, (double)-0.2F, 0.0D);
-                //matrix.rotate(Vector3f.XP.rotationDegrees(-30.0F));
-                matrix.scale(maxSize, maxSize, maxSize);
+                if(CagedMobs.CLIENT_CONFIG.shouldGrowthRender()){
+                    float growthPercentage = tile.getGrowthPercentage() * maxSize;
+                    matrix.scale(growthPercentage,growthPercentage,growthPercentage);
+                }else{
+                    matrix.scale(maxSize, maxSize, maxSize);
+                }
                 Minecraft.getInstance().getRenderManager().renderEntityStatic(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, matrix, buffer, combinedLightIn);
             }
 
             matrix.pop();
         }
     }
-
-    private void renderBlock (BlockState state, World world, BlockPos pos, MatrixStack matrix, IRenderTypeBuffer buffer, Direction[] sides) {
-
-        final BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRendererDispatcher();
-        final IBakedModel model = dispatcher.getModelForState(state);
-
-        // Find render type
-        RenderType type = RenderTypeLookup.func_239221_b_(state);
-        for (final RenderType blockType : RenderType.getBlockRenderTypes()) {
-            if (RenderTypeLookup.canRenderInLayer(state, blockType)) {
-                type = blockType;
-            }
-        }
-
-        ForgeHooksClient.setRenderLayer(type);
-
-        final IVertexBuilder builder = buffer.getBuffer(type);
-        //this.renderModel(dispatcher.getBlockModelRenderer(), world, model, state, pos, matrix, builder, sides);
-        dispatcher.renderBlock(state,matrix,buffer,0,0,EmptyModelData.INSTANCE);
-
-        ForgeHooksClient.setRenderLayer(null);
-    }
-
-//    public static void renderModel (BlockModelRenderer renderer, IBlockDisplayReader world, IBakedModel model, BlockState state, BlockPos pos, MatrixStack matrix, IVertexBuilder buffer, Direction[] sides) {
-//
-//        final IModelData modelData = model.getModelData(world, pos, state, EmptyModelData.INSTANCE);
-//
-//        // Renders only the sided model quads.
-//        for (final Direction side : sides) {
-//
-//            RANDOM.setSeed(0L);
-//            final List<BakedQuad> sidedQuads = model.getQuads(state, side, RANDOM, modelData);
-//
-//            if (!sidedQuads.isEmpty()) {
-//
-//                final int lightForSide = WorldRenderer.getPackedLightmapCoords(world, state, pos.offset(side));
-//                renderer.renderQuadsFlat(world, state, pos, lightForSide, OverlayTexture.NO_OVERLAY, false, matrix, buffer, sidedQuads, BITS);
-//            }
-//        }
-//
-//        // Renders the non-sided model quads.
-//        RANDOM.setSeed(0L);
-//        final List<BakedQuad> unsidedQuads = model.getQuads(state, null, RANDOM, modelData);
-//
-//        if (!unsidedQuads.isEmpty()) {
-//
-//            renderer.renderQuadsFlat(world, state, pos, -1, OverlayTexture.NO_OVERLAY, true, matrix, buffer, unsidedQuads, BITS);
-//        }
-//    }
 }

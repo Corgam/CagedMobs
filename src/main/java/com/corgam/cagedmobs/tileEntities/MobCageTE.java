@@ -104,7 +104,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                 this.currentGrowTicks++;
             }
         }
-        // If has cooking upgrade add particles
+        // If has cooking upgrade spawn particles
         if(this.isCooking() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
             if (!(world instanceof ServerWorld)) {
@@ -119,6 +119,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                 }
             }
         }
+        // If has lightning upgrade spawn particles
         if(this.isLightning() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
             if (!(world instanceof ServerWorld)) {
@@ -144,6 +145,14 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     public int getCurrentGrowTicks() {
         return currentGrowTicks;
+    }
+
+    public float getGrowthPercentage(){
+        if(this.totalGrowTicks != 0) {
+            return (float) this.currentGrowTicks / this.totalGrowTicks;
+        }else{
+            return 0;
+        }
     }
 
     public boolean isHopping() {
