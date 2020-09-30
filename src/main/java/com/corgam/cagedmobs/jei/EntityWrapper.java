@@ -12,27 +12,21 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
+import net.minecraft.entity.passive.SquidEntity;
+import net.minecraft.entity.passive.fish.*;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.WeightedSpawnerEntity;
-import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.lwjgl.BufferUtils;
 
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +39,8 @@ public class EntityWrapper implements IRecipeCategoryExtension {
     private final List<LootData> drops = NonNullList.create();
     private final List<ItemStack> samplers = NonNullList.create();
     private final List<Integer> cookedIDs = new ArrayList<Integer>();
+
+    private static double yaw = 0;
 
     public EntityWrapper(MobData entity){
         this.entity = entity;
@@ -76,17 +72,19 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.getEntity().getEntityType()).toString());
         WeightedSpawnerEntity renderedEntity = new WeightedSpawnerEntity(1, nbt);
-        LivingEntity e = (LivingEntity) EntityType.func_220335_a(renderedEntity.getNbt(), Minecraft.getInstance().world, Function.identity());
+        LivingEntity entity = (LivingEntity) EntityType.func_220335_a(renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
 
         float scale = 20.0F;
-        int offsetY = 0;//getOffsetY(this.mob.getEntity());
+        int offsetY = getOffsetForEntityType(entity);
         renderEntity(
                 matrixStack,
-                37, 105 - offsetY, scale,
-                38 - mouseX,
-                70 - offsetY - mouseY,
-                e
+                40, 105 - offsetY, scale,
+                38 - yaw,
+                70 - offsetY,
+                entity
         );
+        // Update yaw
+        yaw = (yaw + 1.5) % 720.0F;
     }
 
     public static void renderEntity(MatrixStack matrixStack, int x, int y, double scale, double yaw, double pitch, LivingEntity livingEntity) {
@@ -96,17 +94,12 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         RenderSystem.translatef(x, y, 50.0F);
         RenderSystem.scalef((float) -scale, (float) scale, (float) scale);
         MatrixStack mobMatrix = new MatrixStack();
+        // Flip entity
         mobMatrix.rotate(Vector3f.ZP.rotationDegrees(180.0F));
-        //IMobRenderHook.RenderInfo renderInfo = MobRegistryImpl.applyRenderHooks(livingEntity, new IMobRenderHook.RenderInfo(x, y, scale, yaw, pitch));
-        //x = renderInfo.x;
-       //y = renderInfo.y;
-        //scale = renderInfo.scale;
-        //yaw = renderInfo.yaw;
-        //pitch = renderInfo.pitch;
-        RenderSystem.rotatef(((float) Math.atan((pitch / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
-        livingEntity.renderYawOffset = (float) Math.atan(yaw / 40.0F) * 20.0F;
-        livingEntity.rotationYaw = (float) Math.atan(yaw / 40.0F) * 40.0F;
-        livingEntity.rotationPitch = -((float) Math.atan(pitch / 40.0F)) * 20.0F;
+        // Rotate entity
+        RenderSystem.rotatef(((float) Math.atan((-40 / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
+        livingEntity.renderYawOffset = (float) (yaw/40.F) * 20.0F;
+        livingEntity.rotationYaw = (float) (yaw/40.F) * 20.0F;
         livingEntity.rotationYawHead = livingEntity.rotationYaw;
         livingEntity.prevRotationYawHead = livingEntity.rotationYaw;
         mobMatrix.translate(0.0F, livingEntity.getYOffset(), 0.0F);
@@ -120,6 +113,18 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         entityrenderermanager.setRenderShadow(true);
         RenderSystem.popMatrix();
     }
+
+    private int getOffsetForEntityType(LivingEntity entity){
+        if(entity instanceof SquidEntity){
+            return 70;
+        }else if(entity instanceof AbstractGroupFishEntity){
+            return 60;
+        }
+        else{
+            return 50;
+        }
+    }
+
 
     @Override
     public void setIngredients(IIngredients iIngredients) {

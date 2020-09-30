@@ -30,18 +30,12 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
 
         if(tile.getEnvironment() != null && CagedMobs.CLIENT_CONFIG.shouldEnvsRender()){
             matrix.push();
-
             matrix.scale(0.74f,0.015f,0.74f);
             matrix.translate(0.17, 5, 0.17);
 
-            //Direction[] dir = new Direction[] { Direction.UP };
-
             final BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRendererDispatcher();
 
-            final IBakedModel model = dispatcher.getModelForState(tile.getEnvironment().getRenderState());
-            //final IBakedModel mod = new IBakedModel();
-            //final IModelData modelData = model.getModelData(tile.getWorld(), tile.getPos(), tile.getEnvironment().getRenderState(), EmptyModelData.INSTANCE);
-
+            //final IBakedModel model = dispatcher.getModelForState(tile.getEnvironment().getRenderState());
 
             dispatcher.renderBlock(tile.getEnvironment().getRenderState(),matrix,buffer,combinedLightIn,combinedOverlayIn,EmptyModelData.INSTANCE);
 
