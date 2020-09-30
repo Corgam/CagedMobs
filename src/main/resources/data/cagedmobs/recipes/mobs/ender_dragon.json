@@ -1,0 +1,18 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "ender_dragon",
+	"samplerTier": 3,
+	"environments": ["end"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.1,
+				"output": {
+					"item": "cagedmobs:dragon_scale"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

@@ -23,6 +23,14 @@
 				},
 				"minAmount": 1,
 				"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+				"output": {
+					"item": "minecraft:rabbit_foot"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
 		}
 	]
 	

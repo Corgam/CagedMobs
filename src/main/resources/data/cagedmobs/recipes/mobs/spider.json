@@ -1,0 +1,26 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "spider",
+	"samplerTier": 1,
+	"environments": ["cave"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.75,
+			"output": {
+				"item": "minecraft:string"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.4,
+				"output": {
+					"item": "minecraft:spider_eye"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

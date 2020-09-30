@@ -15,6 +15,14 @@
 				},
 				"minAmount": 1,
 				"maxAmount": 1
+		},
+		{
+			"chance": 0.05,
+				"output": {
+					"item": "minecraft:bone_meal"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
 		}
 	]
 	
