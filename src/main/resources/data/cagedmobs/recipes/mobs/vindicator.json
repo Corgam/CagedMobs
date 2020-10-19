@@ -1,0 +1,26 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "vindicator",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.7,
+				"output": {
+					"item": "minecraft:emerald"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+				"output": {
+					"item": "minecraft:iron_axe"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

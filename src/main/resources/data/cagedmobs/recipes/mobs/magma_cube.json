@@ -1,0 +1,18 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "magma_cube",
+	"samplerTier": 2,
+	"environments": ["nether"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.7,
+				"output": {
+					"item": "minecraft:magma_cream"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

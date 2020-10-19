@@ -1,0 +1,18 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "phantom",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.7,
+				"output": {
+					"item": "minecraft:phantom_membrane"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

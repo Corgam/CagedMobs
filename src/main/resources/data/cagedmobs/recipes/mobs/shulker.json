@@ -1,0 +1,18 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "shulker",
+	"samplerTier": 2,
+	"environments": ["end"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.5,
+				"output": {
+					"item": "minecraft:shulker_shell"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

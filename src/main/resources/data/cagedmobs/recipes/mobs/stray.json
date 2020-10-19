@@ -1,0 +1,54 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "stray",
+	"samplerTier": 1,
+	"environments": ["cave"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.75,
+			"output": {
+				"item": "minecraft:arrow"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.75,
+				"output": {
+					"item": "minecraft:bone"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
+		},
+		{
+			"chance": 0.3,
+				"output": {
+					"item": "minecraft:bow"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.7,
+				"output": {
+					"item": "minecraft:tipped_arrow"
+				},
+              	"function": "minecraft:set_nbt",
+              	"nbtName": "Potion",
+				"nbtData": "minecraft:slowness",
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"lightning": true,
+			"chance": 0.5,
+				"output": {
+					"item": "minecraft:skeleton_skull"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

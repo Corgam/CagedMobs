@@ -1,0 +1,34 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "zombified_piglin",
+	"samplerTier": 2,
+	"environments": ["nether"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.7,
+				"output": {
+					"item": "minecraft:rotten_flesh"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.4,
+				"output": {
+					"item": "minecraft:gold_nugget"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.025,
+				"output": {
+					"item": "minecraft:gold_ingot"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

@@ -1,0 +1,26 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "pillager",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.4,
+				"output": {
+					"item": "minecraft:crossbow"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.7,
+				"output": {
+					"item": "minecraft:arrow"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
+		}
+	]
+	
+}

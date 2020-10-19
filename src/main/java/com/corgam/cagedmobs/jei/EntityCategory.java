@@ -65,12 +65,12 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
     public void setRecipe(IRecipeLayout iRecipeLayout, EntityWrapper entityWrapper, IIngredients iIngredients) {
         final IGuiItemStackGroup stacks = iRecipeLayout.getItemStacks();
 
-        // Entity spawn egg
-        stacks.init(0, true, 0, 19 * 0);
+        // DNA Samplers
+        stacks.init(0, true, 19, 62+19);
         stacks.set(0, entityWrapper.getSamplers());
 
         // Soil Inputs
-        stacks.init(1, true, 32, 45 + 19 * 1);
+        stacks.init(1, true, 19 + 20, 62 + 19);
         stacks.set(1, entityWrapper.getEnvsItems());
 
         int nextSlotId = 2;
@@ -93,8 +93,8 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
     @Override
     public void draw (EntityWrapper recipe, MatrixStack matrix, double mouseX, double mouseY) {
         // Draw Seed & Soil
-        this.slotDrawable.draw(matrix, 0, 19 * 0);
-        this.slotDrawable.draw(matrix, 32, 45 + 19 * 1);
+        this.slotDrawable.draw(matrix, 19, 62+19);
+        this.slotDrawable.draw(matrix, 19+20, 62 + 19);
         // Draw Drops
         for (int nextSlotId = 2; nextSlotId < 18; nextSlotId++) {
 

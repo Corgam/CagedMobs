@@ -1,0 +1,20 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "wandering_trader",
+	"samplerTier": 1,
+	"environments": ["farm"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.085,
+			"output": {
+				"item": "minecraft:potion"
+			},
+			"nbtName": "Potion",
+			"nbtData": "minecraft:invisibility",
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}

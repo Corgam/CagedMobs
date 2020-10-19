@@ -1,0 +1,26 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "ghast",
+	"samplerTier": 2,
+	"environments": ["nether"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "minecraft:gunpowder"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.5,
+				"output": {
+					"item": "minecraft:ghast_tear"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

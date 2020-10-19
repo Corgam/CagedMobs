@@ -1,0 +1,26 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "evoker",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "minecraft:totem_of_undying"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+				"output": {
+					"item": "minecraft:emerald"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

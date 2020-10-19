@@ -1,0 +1,18 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "zoglin",
+	"samplerTier": 2,
+	"environments": ["nether"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.7,
+				"output": {
+					"item": "minecraft:rotten_flesh"
+				},
+				"minAmount": 1,
+				"maxAmount": 3
+		}
+	]
+	
+}

@@ -1,0 +1,18 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "wither",
+	"samplerTier": 3,
+	"environments": ["cave"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.5,
+				"output": {
+					"item": "cagedmobs:nether_star_fragment"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

@@ -6,7 +6,7 @@
 	"item.cagedmobs.dnasamplerdiamond": "Diamond DNA Sampler",
 	"item.cagedmobs.dnasamplernetherite": "Netherite DNA Sampler",
 
-	"item.cagedmobs.dnasampler.empty": "Right click entity to store its DNA sample",
+	"item.cagedmobs.dnasampler.empty": "Hit entity to extract its DNA sample",
 	"item.cagedmobs.dnasampler.tier1Info": "Can be used on basic entities",
 	"item.cagedmobs.dnasampler.tier2Info": "Can be used on stronger entities",
 	"item.cagedmobs.dnasampler.tier3Info": "Can be used on bosses",
