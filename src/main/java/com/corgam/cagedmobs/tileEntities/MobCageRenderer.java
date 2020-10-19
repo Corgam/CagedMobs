@@ -10,6 +10,11 @@ import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.monster.*;
+import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -48,7 +53,7 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
             matrix.translate(0.5D, 0.0D, 0.5D);
             Entity entity = tile.getCachedEntity();
             if (entity != null) {
-                float maxSize = 0.42F;
+                float maxSize = getEntitySize(entity);
                 float maxEntityDimension = Math.max(entity.getWidth(), entity.getHeight());
                 // If entity is bigger then 1.0D, scale it down.
                 if ((double)maxEntityDimension > 1.0D) {
@@ -61,10 +66,53 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
                 }else{
                     matrix.scale(maxSize, maxSize, maxSize);
                 }
-                Minecraft.getInstance().getRenderManager().renderEntityStatic(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, matrix, buffer, combinedLightIn);
+                Minecraft.getInstance().getRenderManager().renderEntityStatic(entity,0.0D , 0.0D, getEntityZ(entity), 0.0F, partialTicks, matrix, buffer, combinedLightIn);
             }
 
             matrix.pop();
         }
     }
+
+    private double getEntityZ(Entity entity){
+        if(entity instanceof DolphinEntity){
+            return 0.25D;
+        }
+        if(entity instanceof ElderGuardianEntity){
+            return 1.2D;
+        }
+        if( entity instanceof GuardianEntity){
+            return 0.7D;
+        }
+        if( entity instanceof HoglinEntity || entity instanceof ZoglinEntity){
+            return -0.3F;
+        }
+        return 0.0D;
+    }
+
+    private float getEntitySize(Entity entity){
+        if(entity instanceof DolphinEntity ||
+                entity instanceof PandaEntity ||
+                entity instanceof PigEntity ||
+                entity instanceof PolarBearEntity ||
+                entity instanceof SquidEntity ||
+                entity instanceof TurtleEntity ||
+                entity instanceof HoglinEntity ||
+                entity instanceof RavagerEntity ||
+                entity instanceof ShulkerEntity ||
+                entity instanceof ZoglinEntity
+        ){
+            return 0.32F;
+        }
+        if(entity instanceof AbstractHorseEntity){
+            return 0.4F;
+        }
+        if(entity instanceof GuardianEntity || entity instanceof PhantomEntity){
+            return 0.25F;
+        }
+        if(entity instanceof EnderDragonEntity){
+            return 0.8F;
+        }
+        return 0.5F;
+    }
+
 }
