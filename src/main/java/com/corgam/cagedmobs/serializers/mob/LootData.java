@@ -9,7 +9,7 @@ import net.minecraft.util.JSONUtils;
 public class LootData {
 
     private final float chance;
-    private final ItemStack item;
+    private ItemStack item;
     private final ItemStack cookedItem;
     private final int minAmount;
     private final int maxAmount;
@@ -81,6 +81,10 @@ public class LootData {
 
     public ItemStack getItem() {
         return this.item;
+    }
+
+    public void setItem(ItemStack item) {
+        this.item = item;
     }
 
     public ItemStack getCookedItem() {

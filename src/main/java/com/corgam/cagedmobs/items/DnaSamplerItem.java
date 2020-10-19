@@ -44,7 +44,6 @@ public class DnaSamplerItem extends Item {
                 CompoundNBT nbt = new CompoundNBT();
                 SerializationHelper.serializeEntityTypeNBT(nbt, target.getType());
                 stack.setTag(nbt);
-                player.swingArm(hand);
                 player.setHeldItem(hand, stack);
                 return true;
             }else{

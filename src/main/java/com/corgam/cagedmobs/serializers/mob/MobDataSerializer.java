@@ -5,7 +5,11 @@ import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.monster.StrayEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
@@ -29,7 +33,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
         // Total grow ticks
         final int growTicks = JSONUtils.getInt(json, "growTicks");
         // Loot Data
-        final List<LootData> results = deserializeLootData(id, json);
+        final List<LootData> results = deserializeLootData(id, json, entityType);
         // Sampler tier
         final int samplerTier = JSONUtils.getInt(json, "samplerTier");
 
@@ -103,15 +107,27 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
     }
 
     // Deserializes loot data
-    private static List<LootData> deserializeLootData (ResourceLocation ownerId, JsonObject json) {
+    private static List<LootData> deserializeLootData (ResourceLocation ownerId, JsonObject json, EntityType<?> entityType) {
         final List<LootData> loots = new ArrayList<>();
         for (final JsonElement elem : json.getAsJsonArray("results")) {
             if (elem.isJsonObject()) {
                 final LootData lootData = LootData.deserialize(elem.getAsJsonObject());
+                // Check for NBT data for item
+                if(elem.getAsJsonObject().has("nbtName") && elem.getAsJsonObject().has("nbtData")){
+                    ItemStack newItem = writeNBTtoItem(elem.getAsJsonObject().getAsJsonPrimitive("nbtName").getAsString(), elem.getAsJsonObject().getAsJsonPrimitive("nbtData").getAsString(), lootData.getItem());
+                    lootData.setItem(newItem);
+                }
                 loots.add(lootData);
             }
         }
         return loots;
+    }
+
+    private static ItemStack writeNBTtoItem(String nbtName, String nbtData, ItemStack stack){
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.putString(nbtName,nbtData);
+        stack.setTag(nbt);
+        return stack;
     }
 
 }
