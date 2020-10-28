@@ -232,7 +232,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         if(!ingredient.isEmpty()){
             if(slotIndex != 0 && slotIndex != 1){
                  LootData loot = this.drops.get(slotIndex-2);
-                 tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.chance",Math.floor(loot.getChance()*100)));
+                 tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.chance", (double) Math.round(loot.getChance() * 100)));
                  if(loot.getMinAmount() == loot.getMaxAmount()){
                      tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.amountEqual",loot.getMinAmount()));
                  }else{

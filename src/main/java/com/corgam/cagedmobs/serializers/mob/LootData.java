@@ -14,14 +14,16 @@ public class LootData {
     private final int minAmount;
     private final int maxAmount;
     private final boolean lighting;
+    private int color = -1;
 
-    LootData(ItemStack item, ItemStack cookedItem, float chance, int min, int max, boolean lighting){
+    LootData(ItemStack item, ItemStack cookedItem, float chance, int min, int max, boolean lighting, int color){
         this.chance = chance;
         this.item = item;
         this.cookedItem = cookedItem;
         this.minAmount = min;
         this.maxAmount = max;
         this.lighting = lighting;
+        this.color = color;
 
         if (min < 0 || max < 0) {
             throw new IllegalArgumentException("Amounts must not be negative!");
@@ -47,7 +49,12 @@ public class LootData {
             isLighting = JSONUtils.getBoolean(json, "lightning");
         }
 
-        return new LootData(item, cookedItem, chance, min, max, isLighting);
+        int color = -1;
+        if(json.has("color")){
+            color = JSONUtils.getInt(json, "color");
+        }
+
+        return new LootData(item, cookedItem, chance, min, max, isLighting, color);
     }
 
     public static LootData deserializeBuffer(PacketBuffer buffer) {
@@ -57,8 +64,9 @@ public class LootData {
         final int max = buffer.readInt();
         final boolean isLightning = buffer.readBoolean();
         final ItemStack cookedItem = buffer.readItemStack();
+        final int color = buffer.readInt();
 
-        return new LootData(item, cookedItem, chance, min, max, isLightning);
+        return new LootData(item, cookedItem, chance, min, max, isLightning, color);
     }
 
     public static void serializeBuffer(PacketBuffer buffer, LootData info) {
@@ -68,6 +76,7 @@ public class LootData {
         buffer.writeInt(info.getMaxAmount());
         buffer.writeBoolean(info.isLighting());
         buffer.writeItemStack(info.getCookedItem());
+        buffer.writeInt(info.getColor());
     }
 
     @Override
@@ -104,5 +113,9 @@ public class LootData {
     }
     public boolean isCooking(){
         return !this.cookedItem.isEmpty();
+    }
+
+    public int getColor(){
+        return this.color;
     }
 }

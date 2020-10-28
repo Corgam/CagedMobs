@@ -15,6 +15,8 @@ import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.passive.horse.HorseEntity;
+import net.minecraft.item.DyeColor;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -65,6 +67,9 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
                     matrix.scale(growthPercentage,growthPercentage,growthPercentage);
                 }else{
                     matrix.scale(maxSize, maxSize, maxSize);
+                }
+                if(entity instanceof SheepEntity){
+                    ((SheepEntity) entity).setFleeceColor(DyeColor.byId(tile.getColor()));
                 }
                 Minecraft.getInstance().getRenderManager().renderEntityStatic(entity,0.0D , 0.0D, getEntityZ(entity), 0.0F, partialTicks, matrix, buffer, combinedLightIn);
             }

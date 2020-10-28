@@ -21,13 +21,9 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.WeightedSpawnerEntity;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -38,7 +34,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.ModelDataManager;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.EmptyHandler;
@@ -65,7 +60,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     private int currentGrowTicks = 0;
     private int totalGrowTicks = 0;
     private boolean waitingForHarvest = false;
-
+    // Color of entity
+    private int color = 0;
 
     private Entity cachedEntity;
     private WeightedSpawnerEntity renderedEntity;
@@ -248,8 +244,16 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         return entity != null;
     }
 
-    public void setEntityFromType(EntityType<?> type) {
+    public void setEntityFromType(EntityType<?> type, ItemStack sampler) {
         this.markDirty();
+        // Lookup the entity color
+        if(type.getRegistryName().equals(ResourceLocation.tryCreate("sheep"))){
+            if(sampler.hasTag() && sampler.getTag() != null){
+                this.color = sampler.getTag().getInt("Color");
+            }
+
+        }
+        // Load the mob data
         MobData mobData = getMobDataFromType(type);
         this.entity = mobData;
         this.entityType = type;
@@ -392,6 +396,13 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     private NonNullList<ItemStack> createDropsList(){
         NonNullList<ItemStack> drops = NonNullList.create();
         for(LootData loot : this.entity.getResults()) {
+            // Choose a loot type for entity's color
+            if(loot.getColor() != -1){
+                if(loot.getColor() != this.color){
+                    continue;
+                }
+            }
+            // Skip if loot needs lightning upgrade, but it's not present in the cage.
             if(!this.isLightning() && loot.isLighting()){
                 continue;
             }
@@ -441,6 +452,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             if(this.hasEntity()){
                 // Put entity type
                 SerializationHelper.serializeEntityTypeNBT(tag, this.entityType);
+                // Put color
+                tag.putInt("color",this.color);
                 // Put ticks info
                 tag.putInt("currentGrowTicks", this.currentGrowTicks);
                 tag.putBoolean("waitingForHarvest", this.waitingForHarvest);
@@ -474,6 +487,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             this.renderedEntity = null;
             this.cachedEntity = null;
         }
+        // Read color
+        this.color = tag.getInt("color");
         // Read ticks info
         this.waitingForHarvest = tag.getBoolean("waitingForHarvest");
         this.currentGrowTicks = tag.getInt("currentGrowTicks");
@@ -504,6 +519,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // Read the mob data
         this.entityType = SerializationHelper.deserializeEntityTypeNBT(nbt);
         this.entity = MobCageTE.getMobDataFromType(this.entityType);
+        // Read color
+        this.color = nbt.getInt("color");
         // Read ticks info
         this.waitingForHarvest = nbt.getBoolean("waitingForHarvest");
         this.currentGrowTicks = nbt.getInt("currentGrowTicks");
@@ -527,6 +544,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             if(this.hasEntity()){
                 // Put entity type
                 SerializationHelper.serializeEntityTypeNBT(dataTag, this.entityType);
+                // Put color
+                dataTag.putInt("color", this.color);
                 // Put ticks info
                 dataTag.putInt("currentGrowTicks", this.currentGrowTicks);
                 dataTag.putBoolean("waitingForHarvest", this.waitingForHarvest);
@@ -547,6 +566,10 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     public boolean isLightning() {
         return lightning;
+    }
+
+    public int getColor(){
+        return this.color;
     }
 
     public void setLightning(boolean lightning) {

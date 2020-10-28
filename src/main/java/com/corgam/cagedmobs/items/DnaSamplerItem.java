@@ -10,6 +10,7 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.*;
@@ -43,6 +44,12 @@ public class DnaSamplerItem extends Item {
             if(samplerTierSufficient(stack, target)) {
                 CompoundNBT nbt = new CompoundNBT();
                 SerializationHelper.serializeEntityTypeNBT(nbt, target.getType());
+                // If sheep add it's color to nbt
+                if(target instanceof SheepEntity){
+                    SheepEntity sheep = (SheepEntity) target;
+                    DyeColor color = sheep.getFleeceColor();
+                    nbt.putInt("Color",color.getId());
+                }
                 stack.setTag(nbt);
                 player.setHeldItem(hand, stack);
                 return true;
@@ -131,7 +138,6 @@ public class DnaSamplerItem extends Item {
             return new TranslationTextComponent("item.cagedmobs.dnasampler.empty").func_240699_a_(TextFormatting.YELLOW);
         }else {
             // Debug only
-            // return new StringTextComponent(stack.getTag().getString("entity")).func_240699_a_(TextFormatting.YELLOW);
             ResourceLocation res = new ResourceLocation(stack.getTag().getString("entity"));
             EntityType<?> type = EntityType.byKey(res.getPath()).get();
             return new TranslationTextComponent(type.getTranslationKey()).func_240699_a_(TextFormatting.YELLOW);
