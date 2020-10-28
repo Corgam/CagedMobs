@@ -114,6 +114,9 @@ public class LootData {
     public boolean isCooking(){
         return !this.cookedItem.isEmpty();
     }
+    public boolean hasColor(){
+        return this.getColor() != -1;
+    }
 
     public int getColor(){
         return this.color;

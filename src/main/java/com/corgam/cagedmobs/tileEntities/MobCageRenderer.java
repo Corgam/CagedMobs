@@ -4,6 +4,7 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.model.IBakedModel;
@@ -41,12 +42,7 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
             matrix.translate(0.17, 5, 0.17);
 
             final BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRendererDispatcher();
-
-            //final IBakedModel model = dispatcher.getModelForState(tile.getEnvironment().getRenderState());
-
-            dispatcher.renderBlock(tile.getEnvironment().getRenderState(),matrix,buffer,combinedLightIn,combinedOverlayIn,EmptyModelData.INSTANCE);
-
-
+            dispatcher.renderBlock(tile.getEnvironment().getRenderState(), matrix, buffer, combinedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
 
             matrix.pop();
         }

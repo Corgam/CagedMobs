@@ -38,5 +38,6 @@
 	"jei.tooltip.cagedmobs.entity.amountEqual": "Amount: %d",
 	"jei.tooltip.cagedmobs.entity.amount": "Amount: %d - %d",
 	"jei.tooltip.cagedmobs.entity.cooking_upgrade": "Requires Cooking Upgrade",
-	"jei.tooltip.cagedmobs.entity.lightning_upgrade": "Requires Lightning Upgrade"
+	"jei.tooltip.cagedmobs.entity.lightning_upgrade": "Requires Lightning Upgrade",
+	"jei.tooltip.cagedmobs.entity.colorItem": "Drops only from dyed entities"
 }

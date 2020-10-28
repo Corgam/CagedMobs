@@ -78,7 +78,7 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
         for (final LootData entry : entityWrapper.getDrops()) {
 
             int relativeSlotId = nextSlotId - 2;
-            stacks.init(nextSlotId, false, 100 + 19 * (relativeSlotId % 4), 15 + 19 * (relativeSlotId / 4));
+            stacks.init(nextSlotId, false, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
             if(entry.isCooking() && entityWrapper.getCookedIDs().contains(relativeSlotId)){
                 stacks.set(nextSlotId, entry.getCookedItem());
             }else{
@@ -96,10 +96,10 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
         this.slotDrawable.draw(matrix, 19, 62+19);
         this.slotDrawable.draw(matrix, 19+20, 62 + 19);
         // Draw Drops
-        for (int nextSlotId = 2; nextSlotId < 18; nextSlotId++) {
+        for (int nextSlotId = 2; nextSlotId < 22; nextSlotId++) {
 
             final int relativeSlotId = nextSlotId - 2;
-            this.slotDrawable.draw(matrix, 100 + 19 * (relativeSlotId % 4), 15 + 19 * (relativeSlotId / 4));
+            this.slotDrawable.draw(matrix, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
         }
         // Draw entity
         recipe.drawInfo(getBackground().getWidth(), getBackground().getHeight(), matrix, mouseX, mouseY);

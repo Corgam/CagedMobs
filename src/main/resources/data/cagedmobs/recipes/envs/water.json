@@ -3,6 +3,6 @@
 	"input": {
 		"item": "minecraft:water_bucket"
 	},
-	"render": "minecraft:blue_concrete_powder",
+	"render": "minecraft:blue_concrete",
 	"categories": ["water"]
 }
