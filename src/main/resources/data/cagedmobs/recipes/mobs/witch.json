@@ -14,7 +14,7 @@
 				"maxAmount": 6
 		},
 		{
-			"chance": 0.5,
+			"chance": 0.4,
 				"output": {
 					"item": "minecraft:glowstone_dust"
 				},
@@ -22,7 +22,7 @@
 				"maxAmount": 6
 		},
 		{
-			"chance": 0.5,
+			"chance": 0.4,
 				"output": {
 					"item": "minecraft:redstone"
 				},
@@ -30,7 +30,7 @@
 				"maxAmount": 6
 		},
 		{
-			"chance": 0.5,
+			"chance": 0.3,
 				"output": {
 					"item": "minecraft:gunpowder"
 				},
@@ -38,7 +38,7 @@
 				"maxAmount": 6
 		},
 		{
-			"chance": 0.5,
+			"chance": 0.4,
 				"output": {
 					"item": "minecraft:spider_eye"
 				},
@@ -46,7 +46,7 @@
 				"maxAmount": 6
 		},
 		{
-			"chance": 0.5,
+			"chance": 0.6,
 				"output": {
 					"item": "minecraft:stick"
 				},
@@ -62,7 +62,7 @@
 				"maxAmount": 6
 		},
 		{
-			"chance": 0.085,
+			"chance": 0.08,
 			"output": {
 				"item": "minecraft:potion"
 			},
@@ -72,7 +72,7 @@
 			"maxAmount": 1
 		},
 		{
-			"chance": 0.085,
+			"chance": 0.08,
 			"output": {
 				"item": "minecraft:potion"
 			},
@@ -82,7 +82,7 @@
 			"maxAmount": 1
 		},
 		{
-			"chance": 0.085,
+			"chance": 0.08,
 			"output": {
 				"item": "minecraft:potion"
 			},
@@ -92,7 +92,7 @@
 			"maxAmount": 1
 		},
 		{
-			"chance": 0.085,
+			"chance": 0.08,
 			"output": {
 				"item": "minecraft:potion"
 			},

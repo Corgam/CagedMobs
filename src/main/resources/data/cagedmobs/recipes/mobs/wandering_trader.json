@@ -6,7 +6,7 @@
 	"growTicks": 1100,
 	"results": [
 		{
-			"chance": 0.085,
+			"chance": 0.08,
 			"output": {
 				"item": "minecraft:potion"
 			},

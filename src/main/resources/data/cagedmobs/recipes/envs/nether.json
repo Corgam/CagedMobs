@@ -4,6 +4,5 @@
 		"item": "minecraft:magma_block"
 	},
 	"render": "minecraft:magma_block",
-	"categories": ["nether"],
-	"growModifier": 1.0
+	"categories": ["nether"]
 }

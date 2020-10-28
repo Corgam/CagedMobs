@@ -15,7 +15,7 @@
 		},
 		{
 			"lightning": true,
-			"chance": 0.005,
+			"chance": 0.05,
 				"output": {
 					"item": "minecraft:creeper_head"
 				},

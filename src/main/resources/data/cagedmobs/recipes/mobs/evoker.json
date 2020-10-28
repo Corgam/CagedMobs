@@ -6,7 +6,7 @@
 	"growTicks": 1100,
 	"results": [
 		{
-			"chance": 0.2,
+			"chance": 0.1,
 			"output": {
 				"item": "minecraft:totem_of_undying"
 			},

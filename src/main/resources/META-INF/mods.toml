@@ -8,7 +8,7 @@ version="${file.jarVersion}" #mandatory
 displayName="Caged Mobs" #mandatory
 #updateJSONURL="http://myurl.me/" #optional
 #displayURL="http://example.com/" #optional
-logoFile="cagedmobs_logo.png" #optional
+logoFile="cagedmobs.png" #optional
 #credits="Thanks!" #optional
 authors="Corgam" #optional
 #Description #mandatory

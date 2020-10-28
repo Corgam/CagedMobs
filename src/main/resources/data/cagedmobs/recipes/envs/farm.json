@@ -4,6 +4,5 @@
 		"item": "minecraft:hay_block"
 	},
 	"render": "minecraft:hay_block",
-	"categories": ["farm"],
-	"growModifier": 1.0
+	"categories": ["farm"]
 }

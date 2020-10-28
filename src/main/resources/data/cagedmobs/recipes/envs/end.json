@@ -4,6 +4,5 @@
 		"item": "minecraft:end_stone"
 	},
 	"render": "minecraft:end_stone",
-	"categories": ["end"],
-	"growModifier": 1.0
+	"categories": ["end"]
 }
