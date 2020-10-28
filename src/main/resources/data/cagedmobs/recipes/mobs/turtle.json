@@ -21,6 +21,22 @@
 				},
 				"minAmount": 1,
 				"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "minecraft:scute"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "minecraft:turtle_egg"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

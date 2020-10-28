@@ -1,7 +1,7 @@
 {
 	"type": "cagedmobs:mob_data",
 	"entity": "slime",
-	"samplerTier": 1,
+	"samplerTier": 2,
 	"environments": ["cave"],
 	"growTicks": 1100,
 	"results": [

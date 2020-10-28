@@ -1,7 +1,7 @@
 {
 	"type": "cagedmobs:mob_data",
 	"entity": "iron_golem",
-	"samplerTier": 1,
+	"samplerTier": 2,
 	"environments": ["farm"],
 	"growTicks": 1100,
 	"results": [
