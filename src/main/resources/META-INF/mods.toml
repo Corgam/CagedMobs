@@ -13,6 +13,8 @@ logoFile="cagedmobs.png" #optional
 authors="Corgam" #optional
 #Description #mandatory
 description='''
+This mod adds the Mob Cage in which you can now imprison all entities add kill them over and over,
+while collecting their drops! Sounds like fun, right?
 '''
 [[dependencies.examplemod]] #optional
     modId="forge" #mandatory
