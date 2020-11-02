@@ -231,6 +231,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         this.onEntityRemoval();
         this.environment = null;
         this.envItem = ItemStack.EMPTY;
+        this.color = 0;
     }
 
 
@@ -299,6 +300,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         this.currentGrowTicks = 0;
         this.totalGrowTicks = 0;
         this.waitingForHarvest = false;
+        // Color
+        this.color = 0;
         // Sync with client
         this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
     }
