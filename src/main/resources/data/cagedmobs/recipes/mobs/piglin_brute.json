@@ -1,0 +1,19 @@
+{
+	"type": "cagedmobs:mob_data",
+	"entity": "piglin_brute",
+	"samplerTier": 2,
+	"environments": ["nether"],
+	"growTicks": 2000,
+	"results": [
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "minecraft:golden_axe"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+
+	]
+	
+}
