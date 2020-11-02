@@ -43,7 +43,7 @@ public class RecipesHelper {
     public static List<MobData> getEntitiesRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.func_241447_a_(RecipesHelper.MOB_RECIPE);
+            return manager.getRecipesForType(RecipesHelper.MOB_RECIPE);
         }
 
         return Collections.emptyList();
@@ -52,7 +52,7 @@ public class RecipesHelper {
     public static List<EnvironmentData> getEnvsRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.func_241447_a_(RecipesHelper.ENV_RECIPE);
+            return manager.getRecipesForType(RecipesHelper.ENV_RECIPE);
         }
 
         return Collections.emptyList();

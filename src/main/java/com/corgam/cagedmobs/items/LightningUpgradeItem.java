@@ -21,7 +21,7 @@ public class LightningUpgradeItem extends UpgradeItem{
     @OnlyIn(Dist.CLIENT)
     public void addInformation (ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("item.cagedmobs.lightningupgrade.info").func_240699_a_(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("item.cagedmobs.upgrades.attach").func_240699_a_(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.lightningupgrade.info").mergeStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.upgrades.attach").mergeStyle(TextFormatting.GRAY));
     }
 }

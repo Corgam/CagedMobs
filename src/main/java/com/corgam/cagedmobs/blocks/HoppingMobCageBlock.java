@@ -27,9 +27,9 @@ public class HoppingMobCageBlock extends MobCageBlock{
     @Override
     @OnlyIn(Dist.CLIENT)
     public void addInformation (ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.mainInfo").func_240699_a_(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.hoppingInfo").func_240699_a_(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.envInfo").func_240699_a_(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.upgrading").func_240699_a_(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.mainInfo").mergeStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.hoppingInfo").mergeStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.envInfo").mergeStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.upgrading").mergeStyle(TextFormatting.GRAY));
     }
 }

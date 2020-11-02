@@ -65,13 +65,13 @@ public class CagedMobs
 
     // Adding properties to items with NBT to allow different textures based on nbt
     private void addPropertiesToItems(final FMLClientSetupEvent event) {
-        ItemModelsProperties.func_239418_a_(CagedItems.DNA_SAMPLER.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
+        ItemModelsProperties.registerProperty(CagedItems.DNA_SAMPLER.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
             return DnaSamplerItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
         });
-        ItemModelsProperties.func_239418_a_(CagedItems.DNA_SAMPLER_DIAMOND.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
+        ItemModelsProperties.registerProperty(CagedItems.DNA_SAMPLER_DIAMOND.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
             return DnaSamplerDiamondItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
         });
-        ItemModelsProperties.func_239418_a_(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
+        ItemModelsProperties.registerProperty(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
             return DnaSamplerNetheriteItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
         });
     }

@@ -18,6 +18,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.monster.*;
+import net.minecraft.entity.monster.piglin.PiglinBruteEntity;
 import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.passive.fish.*;
@@ -86,7 +87,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.getEntity().getEntityType()).toString());
         WeightedSpawnerEntity renderedEntity = new WeightedSpawnerEntity(1, nbt);
-        LivingEntity entity = (LivingEntity) EntityType.func_220335_a(renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
+        LivingEntity entity = (LivingEntity) EntityType.loadEntityAndExecute(renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
         float scale = getScaleForEntityType(entity);
         int offsetY = getOffsetForEntityType(entity);
         renderEntity(
@@ -176,7 +177,8 @@ public class EntityWrapper implements IRecipeCategoryExtension {
                 entity instanceof GuardianEntity ||
                 entity instanceof RavagerEntity ||
                 entity instanceof EnderDragonEntity ||
-                entity instanceof WitchEntity
+                entity instanceof WitchEntity ||
+                entity instanceof PiglinBruteEntity
         ){
             return 60;
         }else if(entity instanceof GhastEntity) {
@@ -239,13 +241,13 @@ public class EntityWrapper implements IRecipeCategoryExtension {
                      tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.amount",loot.getMinAmount(), loot.getMaxAmount()));
                  }
                  if(loot.isLighting()){
-                     tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.lightning_upgrade").func_240699_a_(TextFormatting.YELLOW));
+                     tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.lightning_upgrade").mergeStyle(TextFormatting.YELLOW));
                  }
                  if(loot.isCooking() && ingredient.getItem().equals(loot.getCookedItem().getItem())){
-                     tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.cooking_upgrade").func_240699_a_(TextFormatting.YELLOW));
+                     tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.cooking_upgrade").mergeStyle(TextFormatting.YELLOW));
                  }
                  if(loot.hasColor()){
-                     tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.colorItem").func_240699_a_(TextFormatting.YELLOW));
+                     tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.colorItem").mergeStyle(TextFormatting.YELLOW));
                  }
             }
         }

@@ -119,8 +119,8 @@ public class DnaSamplerItem extends Item {
     public void addInformation (ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
         tooltip.add(getTooltip(stack));
-        tooltip.add(getInformationForTier().func_240699_a_(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("item.cagedmobs.dnasampler.makeEmpty").func_240699_a_(TextFormatting.GRAY));
+        tooltip.add(getInformationForTier().mergeStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.dnasampler.makeEmpty").mergeStyle(TextFormatting.GRAY));
     }
 
     private TranslationTextComponent getInformationForTier(){
@@ -135,12 +135,12 @@ public class DnaSamplerItem extends Item {
 
     private ITextComponent getTooltip(ItemStack stack) {
         if(!DnaSamplerItem.containsEntityType(stack)) {
-            return new TranslationTextComponent("item.cagedmobs.dnasampler.empty").func_240699_a_(TextFormatting.YELLOW);
+            return new TranslationTextComponent("item.cagedmobs.dnasampler.empty").mergeStyle(TextFormatting.YELLOW);
         }else {
             // Debug only
             ResourceLocation res = new ResourceLocation(stack.getTag().getString("entity"));
             EntityType<?> type = EntityType.byKey(res.getPath()).get();
-            return new TranslationTextComponent(type.getTranslationKey()).func_240699_a_(TextFormatting.YELLOW);
+            return new TranslationTextComponent(type.getTranslationKey()).mergeStyle(TextFormatting.YELLOW);
         }
     }
 

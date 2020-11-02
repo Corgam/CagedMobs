@@ -106,7 +106,7 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
         // Draw entity name
         matrix.push();
         matrix.translate(5, 2, 0);
-        Minecraft.getInstance().fontRenderer.func_238421_b_(matrix, new TranslationTextComponent(recipe.getEntity().getEntityType().getTranslationKey()).getString(), 0, 0, 8);
+        Minecraft.getInstance().fontRenderer.drawString(matrix, new TranslationTextComponent(recipe.getEntity().getEntityType().getTranslationKey()).getString(), 0, 0, 8);
         matrix.pop();
     }
 }

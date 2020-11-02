@@ -76,7 +76,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                 nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.entityType).toString());
                 this.renderedEntity = new WeightedSpawnerEntity(1, nbt);
             }
-            this.cachedEntity = EntityType.func_220335_a(this.renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
+            this.cachedEntity = EntityType.loadEntityAndExecute(this.renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
         }
         return this.cachedEntity;
     }
@@ -509,9 +509,9 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Deserialize the block to read it from the drive
     @Override
-    public void func_230337_a_(BlockState state, CompoundNBT nbt) {
+    public void read(BlockState state, CompoundNBT nbt) {
         // Call the parent
-        super.func_230337_a_(state, nbt);
+        super.read(state, nbt);
         // Read hopping and upgrades
         this.hopping = nbt.getBoolean("hopping");
         this.cooking = nbt.getBoolean("cooking");
