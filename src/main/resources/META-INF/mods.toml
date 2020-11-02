@@ -1,6 +1,6 @@
 modLoader="javafml" #mandatory
 loaderVersion="[33,)" #mandatory
-license="All rights reserved" #mandatory
+license="LGPL-2.1 License" #mandatory
 #issueTrackerURL="http://my.issue.tracker/" #optional
 [[mods]] #mandatory
 modId="cagedmobs" #mandatory
