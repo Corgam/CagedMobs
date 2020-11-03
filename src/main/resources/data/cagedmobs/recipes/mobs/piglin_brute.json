@@ -6,7 +6,7 @@
 	"growTicks": 2000,
 	"results": [
 		{
-			"chance": 0.01,
+			"chance": 0.1,
 			"output": {
 				"item": "minecraft:golden_axe"
 			},
