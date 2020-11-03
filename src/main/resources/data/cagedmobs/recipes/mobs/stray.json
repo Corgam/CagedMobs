@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "stray",
+	"entity": "minecraft:stray",
 	"samplerTier": 2,
 	"environments": ["cave"],
 	"growTicks": 1100,

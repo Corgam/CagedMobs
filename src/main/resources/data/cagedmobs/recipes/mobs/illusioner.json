@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "illusioner",
+	"entity": "minecraft:illusioner",
 	"samplerTier": 2,
 	"environments": ["cave"],
 	"growTicks": 1100,

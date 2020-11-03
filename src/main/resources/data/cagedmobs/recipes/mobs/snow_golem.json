@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "snow_golem",
+	"entity": "minecraft:snow_golem",
 	"samplerTier": 1,
 	"environments": ["snow"],
 	"growTicks": 1100,

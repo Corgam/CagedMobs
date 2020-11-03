@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "phantom",
+	"entity": "minecraft:phantom",
 	"samplerTier": 2,
 	"environments": ["cave"],
 	"growTicks": 1100,

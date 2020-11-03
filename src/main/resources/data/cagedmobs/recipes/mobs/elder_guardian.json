@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "elder_guardian",
+	"entity": "minecraft:elder_guardian",
 	"samplerTier": 3,
 	"environments": ["water"],
 	"growTicks": 1100,

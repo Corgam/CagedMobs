@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "ender_dragon",
+	"entity": "minecraft:ender_dragon",
 	"samplerTier": 3,
 	"environments": ["end"],
 	"growTicks": 1100,

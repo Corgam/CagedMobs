@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "zombified_piglin",
+	"entity": "minecraft:zombified_piglin",
 	"samplerTier": 2,
 	"environments": ["nether"],
 	"growTicks": 1100,

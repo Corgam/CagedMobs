@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "strider",
+	"entity": "minecraft:strider",
 	"samplerTier": 2,
 	"environments": ["nether"],
 	"growTicks": 1100,

@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "wandering_trader",
+	"entity": "minecraft:wandering_trader",
 	"samplerTier": 2,
 	"environments": ["farm"],
 	"growTicks": 1100,

@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "horse",
+	"entity": "minecraft:horse",
 	"samplerTier": 1,
 	"environments": ["farm"],
 	"growTicks": 1100,

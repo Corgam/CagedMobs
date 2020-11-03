@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "cod",
+	"entity": "minecraft:cod",
 	"samplerTier": 1,
 	"environments": ["water"],
 	"growTicks": 1100,

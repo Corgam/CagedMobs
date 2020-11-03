@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "squid",
+	"entity": "minecraft:squid",
 	"samplerTier": 1,
 	"environments": ["water"],
 	"growTicks": 1100,

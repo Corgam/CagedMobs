@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "wither",
+	"entity": "minecraft:wither",
 	"samplerTier": 3,
 	"environments": ["cave"],
 	"growTicks": 1100,

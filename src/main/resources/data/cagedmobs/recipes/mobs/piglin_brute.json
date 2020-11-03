@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "piglin_brute",
+	"entity": "minecraft:piglin_brute",
 	"samplerTier": 2,
 	"environments": ["nether"],
 	"growTicks": 2000,

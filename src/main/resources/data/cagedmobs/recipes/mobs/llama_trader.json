@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "trader_llama",
+	"entity": "minecraft:trader_llama",
 	"samplerTier": 1,
 	"environments": ["farm"],
 	"growTicks": 1100,

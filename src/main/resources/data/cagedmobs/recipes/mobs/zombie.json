@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "zombie",
+	"entity": "minecraft:zombie",
 	"samplerTier": 1,
 	"environments": ["cave"],
 	"growTicks": 1100,

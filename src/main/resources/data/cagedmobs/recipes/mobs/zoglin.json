@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "zoglin",
+	"entity": "minecraft:zoglin",
 	"samplerTier": 2,
 	"environments": ["nether"],
 	"growTicks": 1100,

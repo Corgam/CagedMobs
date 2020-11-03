@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "panda",
+	"entity": "minecraft:panda",
 	"samplerTier": 1,
 	"environments": ["farm"],
 	"growTicks": 1100,

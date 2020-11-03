@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "ghast",
+	"entity": "minecraft:ghast",
 	"samplerTier": 2,
 	"environments": ["nether"],
 	"growTicks": 1100,

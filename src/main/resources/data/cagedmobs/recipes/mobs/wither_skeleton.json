@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "wither_skeleton",
+	"entity": "minecraft:wither_skeleton",
 	"samplerTier": 2,
 	"environments": ["nether"],
 	"growTicks": 1100,

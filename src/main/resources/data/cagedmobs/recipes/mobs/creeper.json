@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "creeper",
+	"entity": "minecraft:creeper",
 	"samplerTier": 2,
 	"environments": ["cave"],
 	"growTicks": 1100,

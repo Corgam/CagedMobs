@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "pufferfish",
+	"entity": "minecraft:pufferfish",
 	"samplerTier": 1,
 	"environments": ["water"],
 	"growTicks": 1100,

@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "cave_spider",
+	"entity": "minecraft:cave_spider",
 	"samplerTier": 1,
 	"environments": ["cave"],
 	"growTicks": 1100,

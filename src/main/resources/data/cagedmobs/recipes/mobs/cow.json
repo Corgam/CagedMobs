@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "cow",
+	"entity": "minecraft:cow",
 	"samplerTier": 1,
 	"environments": ["farm"],
 	"growTicks": 1100,

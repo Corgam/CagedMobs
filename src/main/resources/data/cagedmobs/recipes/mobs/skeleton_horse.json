@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "skeleton_horse",
+	"entity": "minecraft:skeleton_horse",
 	"samplerTier": 1,
 	"environments": ["cave"],
 	"growTicks": 1100,

@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "hoglin",
+	"entity": "minecraft:hoglin",
 	"samplerTier": 2,
 	"environments": ["nether"],
 	"growTicks": 1100,

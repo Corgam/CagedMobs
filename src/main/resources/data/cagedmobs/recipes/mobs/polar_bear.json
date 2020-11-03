@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "polar_bear",
+	"entity": "minecraft:polar_bear",
 	"samplerTier": 1,
 	"environments": ["snow"],
 	"growTicks": 1100,

@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "magma_cube",
+	"entity": "minecraft:magma_cube",
 	"samplerTier": 2,
 	"environments": ["nether"],
 	"growTicks": 1100,

@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "sheep",
+	"entity": "minecraft:sheep",
 	"samplerTier": 1,
 	"environments": ["farm"],
 	"growTicks": 1100,

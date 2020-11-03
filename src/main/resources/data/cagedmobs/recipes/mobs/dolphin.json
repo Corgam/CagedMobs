@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "dolphin",
+	"entity": "minecraft:dolphin",
 	"samplerTier": 1,
 	"environments": ["water"],
 	"growTicks": 1100,

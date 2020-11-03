@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "drowned",
+	"entity": "minecraft:drowned",
 	"samplerTier": 2,
 	"environments": ["water"],
 	"growTicks": 1100,

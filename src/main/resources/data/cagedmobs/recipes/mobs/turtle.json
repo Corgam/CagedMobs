@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "turtle",
+	"entity": "minecraft:turtle",
 	"samplerTier": 1,
 	"environments": ["water"],
 	"growTicks": 1100,

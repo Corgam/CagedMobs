@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "salmon",
+	"entity": "minecraft:salmon",
 	"samplerTier": 1,
 	"environments": ["water"],
 	"growTicks": 1100,

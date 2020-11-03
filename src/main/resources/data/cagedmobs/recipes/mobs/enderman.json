@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "enderman",
+	"entity": "minecraft:enderman",
 	"samplerTier": 2,
 	"environments": ["end"],
 	"growTicks": 1100,

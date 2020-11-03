@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:mob_data",
-	"entity": "guardian",
+	"entity": "minecraft:guardian",
 	"samplerTier": 2,
 	"environments": ["water"],
 	"growTicks": 1100,
