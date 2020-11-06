@@ -139,13 +139,17 @@ public class DnaSamplerItem extends Item {
         }else {
             // Debug only
             ResourceLocation res = new ResourceLocation(stack.getTag().getString("entity"));
-            EntityType<?> type = EntityType.byKey(res.getPath()).get();
-            return new TranslationTextComponent(type.getTranslationKey()).mergeStyle(TextFormatting.YELLOW);
+            if(EntityType.byKey(res.getPath()).isPresent()){
+                EntityType<?> type = EntityType.byKey(res.getPath()).get();
+                return new TranslationTextComponent(type.getTranslationKey()).mergeStyle(TextFormatting.YELLOW);
+            }else{
+                return new TranslationTextComponent("item.cagedmobs.dnasampler.unknown_entity").mergeStyle(TextFormatting.YELLOW);
+            }
         }
     }
 
     public static boolean containsEntityType(ItemStack stack) {
-        return !stack.isEmpty() && stack.hasTag() && stack.getTag().contains("entity");
+        return !stack.isEmpty() && stack.hasTag() && stack.getTag() != null && stack.getTag().contains("entity");
     }
 
     public void removeEntityType(ItemStack stack) {

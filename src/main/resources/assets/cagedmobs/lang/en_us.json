@@ -13,6 +13,7 @@
 	"item.cagedmobs.dnasampler.makeEmpty": "Shift-right click to clear stored DNA sample",
 	"item.cagedmobs.dnasampler.not_cachable": "This type of entity cannot be sampled",
 	"item.cagedmobs.dnasampler.not_sufficient": "This DNA sampler is not strong enough to sample this entity",
+	"item.cagedmobs.dnasampler.unknown_entity": "Unknown entity",
 
 	"item.cagedmobs.cookingupgrade": "Cooking Cage Upgrade",
 	"item.cagedmobs.lightningupgrade": "Lightning Cage Upgrade",
