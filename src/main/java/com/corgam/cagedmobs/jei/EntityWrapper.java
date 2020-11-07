@@ -16,14 +16,12 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.monster.piglin.PiglinBruteEntity;
 import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.passive.fish.*;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.WeightedSpawnerEntity;
@@ -87,18 +85,31 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.getEntity().getEntityType()).toString());
         WeightedSpawnerEntity renderedEntity = new WeightedSpawnerEntity(1, nbt);
-        LivingEntity entity = (LivingEntity) EntityType.loadEntityAndExecute(renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
-        float scale = getScaleForEntityType(entity);
-        int offsetY = getOffsetForEntityType(entity);
-        renderEntity(
-                matrixStack,
-                38, 120 - offsetY, scale,
-                38 - yaw,
-                70 - offsetY,
-                entity
-        );
-        // Update yaw
-        yaw = (yaw + 1.5) % 720.0F;
+        // Get the world
+        if(Minecraft.getInstance().getIntegratedServer() != null){
+            LivingEntity livingEntity = null;
+            try{
+                livingEntity = (LivingEntity) EntityType.loadEntityAndExecute(renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
+            }catch (Exception ignored){}
+            if(livingEntity != null){
+                float scale = getScaleForEntityType(livingEntity);
+                int offsetY = getOffsetForEntityType(livingEntity);
+                renderEntity(
+                        matrixStack,
+                        38, 120 - offsetY, scale,
+                        38 - yaw,
+                        70 - offsetY,
+                        livingEntity
+                );
+                // Update yaw
+                yaw = (yaw + 1.5) % 720.0F;
+                return;
+            }
+            // If rendering is not working, render pig as a template
+            CompoundNBT pigNbt = new CompoundNBT();
+            nbt.putString("id", "pig");
+            WeightedSpawnerEntity pigRendered = new WeightedSpawnerEntity(1, pigNbt);
+        }
     }
 
     public static void renderEntity(MatrixStack matrixStack, int x, int y, double scale, double yaw, double pitch, LivingEntity livingEntity) {
@@ -234,7 +245,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         if(!ingredient.isEmpty()){
             if(slotIndex != 0 && slotIndex != 1){
                  LootData loot = this.drops.get(slotIndex-2);
-                 tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.chance", (double) Math.round(loot.getChance() * 100)));
+                 tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.chance",  loot.getChance() * 100));
                  if(loot.getMinAmount() == loot.getMaxAmount()){
                      tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.amountEqual",loot.getMinAmount()));
                  }else{
