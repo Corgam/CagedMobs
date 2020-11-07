@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.jei;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
 import com.corgam.cagedmobs.serializers.mob.LootData;
@@ -12,7 +13,6 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -82,16 +82,14 @@ public class EntityWrapper implements IRecipeCategoryExtension {
 
     @Override
     public void drawInfo(int recipeWidth, int recipeHeight, MatrixStack matrixStack, double mouseX, double mouseY) {
+        // Proper entity
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.getEntity().getEntityType()).toString());
         WeightedSpawnerEntity renderedEntity = new WeightedSpawnerEntity(1, nbt);
         // Get the world
         if(Minecraft.getInstance().getIntegratedServer() != null){
-            LivingEntity livingEntity = null;
-            try{
-                livingEntity = (LivingEntity) EntityType.loadEntityAndExecute(renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
-            }catch (Exception ignored){}
-            if(livingEntity != null){
+            LivingEntity livingEntity = (LivingEntity) EntityType.loadEntityAndExecute(renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
+            if (livingEntity != null) {
                 float scale = getScaleForEntityType(livingEntity);
                 int offsetY = getOffsetForEntityType(livingEntity);
                 renderEntity(
@@ -103,46 +101,43 @@ public class EntityWrapper implements IRecipeCategoryExtension {
                 );
                 // Update yaw
                 yaw = (yaw + 1.5) % 720.0F;
-                return;
             }
-            // If rendering is not working, render pig as a template
-            CompoundNBT pigNbt = new CompoundNBT();
-            nbt.putString("id", "pig");
-            WeightedSpawnerEntity pigRendered = new WeightedSpawnerEntity(1, pigNbt);
         }
     }
 
-    public static void renderEntity(MatrixStack matrixStack, int x, int y, double scale, double yaw, double pitch, LivingEntity livingEntity) {
-        if (livingEntity.world == null) livingEntity.world = Minecraft.getInstance().world;
-        RenderSystem.pushMatrix();
-        RenderSystem.multMatrix(matrixStack.getLast().getMatrix());
-        RenderSystem.translatef(x, y, 50.0F);
-        RenderSystem.scalef((float) -scale, (float) scale, (float) scale);
-        MatrixStack mobMatrix = new MatrixStack();
-        // Flip entity
-        mobMatrix.rotate(Vector3f.ZP.rotationDegrees(180.0F));
-        // Rotate entity
-        RenderSystem.rotatef(((float) Math.atan((-40 / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
+    public static int renderEntity(MatrixStack matrixStack, int x, int y, double scale, double yaw, double pitch, LivingEntity livingEntity) {
+            if (livingEntity.world == null) livingEntity.world = Minecraft.getInstance().world;
+            RenderSystem.pushMatrix();
+            RenderSystem.multMatrix(matrixStack.getLast().getMatrix());
+            RenderSystem.translatef(x, y, 50.0F);
+            RenderSystem.scalef((float) -scale, (float) scale, (float) scale);
+            MatrixStack mobMatrix = new MatrixStack();
+            // Flip entity
+            mobMatrix.rotate(Vector3f.ZP.rotationDegrees(180.0F));
+            // Rotate entity
+            RenderSystem.rotatef(((float) Math.atan((-40 / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
 
-        livingEntity.renderYawOffset = (float) (yaw/40.F) * 20.0F;
-        livingEntity.rotationYaw = (float) (yaw/40.F) * 20.0F;
-        livingEntity.rotationYawHead = livingEntity.rotationYaw;
-        livingEntity.prevRotationYawHead = livingEntity.rotationYaw;
-        if(livingEntity instanceof EnderDragonEntity){
-            EnderDragonEntity dragon = (EnderDragonEntity) livingEntity;
-            RenderSystem.rotatef(20.0F, 1.0F, 0.0F, 0.0F);
-            RenderSystem.rotatef((float) (float) (yaw/40.F) * 20.0F, 0.0F, 1.0F, 0.0F);
-        }
-        mobMatrix.translate(0.0F, livingEntity.getYOffset(), 0.0F);
-        EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
-        entityrenderermanager.setRenderShadow(false);
-        IRenderTypeBuffer.Impl renderTypeBuffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-        RenderSystem.runAsFancy(() -> {
-            entityrenderermanager.renderEntityStatic(livingEntity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, mobMatrix, renderTypeBuffer, 15728880);
-        });
-        renderTypeBuffer.finish();
-        entityrenderermanager.setRenderShadow(true);
-        RenderSystem.popMatrix();
+            livingEntity.renderYawOffset = (float) (yaw / 40.F) * 20.0F;
+            livingEntity.rotationYaw = (float) (yaw / 40.F) * 20.0F;
+            livingEntity.rotationYawHead = livingEntity.rotationYaw;
+            livingEntity.prevRotationYawHead = livingEntity.rotationYaw;
+            // Special case of EnderDragon
+            if (livingEntity instanceof EnderDragonEntity) {
+                EnderDragonEntity dragon = (EnderDragonEntity) livingEntity;
+                RenderSystem.rotatef(20.0F, 1.0F, 0.0F, 0.0F);
+                RenderSystem.rotatef((float) (float) (yaw / 40.F) * 20.0F, 0.0F, 1.0F, 0.0F);
+            }
+            mobMatrix.translate(0.0F, livingEntity.getYOffset(), 0.0F);
+            try {
+                IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+                Minecraft.getInstance().getRenderManager().renderEntityStatic(livingEntity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, mobMatrix, buffer, 15728880);
+                buffer.finish();
+            }catch (Exception e){
+                CagedMobs.LOGGER.error("Error rendering entity!",e );
+                return -1;
+            }
+            RenderSystem.popMatrix();
+            return 1;
     }
 
 
