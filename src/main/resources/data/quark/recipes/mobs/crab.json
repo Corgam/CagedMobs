@@ -3,26 +3,29 @@
 	"conditions": [
 		{
 			"type": "forge:mod_loaded",
-			"modid": "lava_monster"
+			"modid": "quark"
 		}
 	],
-	"entity": "lava_monster:lava_monster",
-	"samplerTier": 2,
-	"environments": ["cave"],
+	"entity": "quark:crab",
+	"samplerTier": 1,
+	"environments": ["water"],
 	"growTicks": 1100,
 	"results": [
 		{
 			"chance": 0.5,
 			"output": {
-				"item": "minecraft:fire_charge"
+				"item": "quark:crab_leg"
+			},
+			"output_cooked": {
+				"item": "quark:cooked_crab_leg"
 			},
 			"minAmount": 1,
-			"maxAmount": 3
+			"maxAmount": 1
 		},
 		{
 			"chance": 0.25,
 			"output": {
-				"item": "minecraft:coal"
+				"item": "quark:crab_shell"
 			},
 			"minAmount": 1,
 			"maxAmount": 1

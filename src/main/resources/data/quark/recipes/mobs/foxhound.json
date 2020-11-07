@@ -3,29 +3,29 @@
 	"conditions": [
 		{
 			"type": "forge:mod_loaded",
-			"modid": "lava_monster"
+			"modid": "quark"
 		}
 	],
-	"entity": "lava_monster:lava_monster",
+	"entity": "quark:foxhound",
 	"samplerTier": 2,
-	"environments": ["cave"],
+	"environments": ["nether"],
 	"growTicks": 1100,
 	"results": [
 		{
 			"chance": 0.5,
 			"output": {
-				"item": "minecraft:fire_charge"
-			},
-			"minAmount": 1,
-			"maxAmount": 3
-		},
-		{
-			"chance": 0.25,
-			"output": {
 				"item": "minecraft:coal"
 			},
 			"minAmount": 1,
-			"maxAmount": 1
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.3,
+			"output": {
+				"item": "minecraft:leather"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
 		}
 	]
 

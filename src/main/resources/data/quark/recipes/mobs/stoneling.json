@@ -1,0 +1,154 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "quark"
+		}
+	],
+	"entity": "quark:stoneling",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 2500,
+	"results": [
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "quark:diamond_heart"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:diamond"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "minecraft:emerald"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "minecraft:ender_pearl"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.015,
+			"output": {
+				"item": "minecraft:redstone"
+			},
+			"minAmount": 2,
+			"maxAmount": 4
+		},
+		{
+			"chance": 0.015,
+			"output": {
+				"item": "minecraft:gold_ingot"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.015,
+			"output": {
+				"item": "minecraft:iron_ingot"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.015,
+			"output": {
+				"item": "minecraft:coal"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "minecraft:lapis_lazuli"
+			},
+			"minAmount": 2,
+			"maxAmount": 6
+		},
+		{
+			"lightning": true,
+			"chance": 0.01,
+			"output": {
+				"item": "minecraft:zombie_head"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"lightning": true,
+			"chance": 0.01,
+			"output": {
+				"item": "minecraft:creeper_head"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.002,
+			"output": {
+				"item": "minecraft:saddle"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.002,
+			"output": {
+				"item": "minecraft:golden_apple"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.002,
+			"output": {
+				"item": "minecraft:iron_horse_armor"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.002,
+			"output": {
+				"item": "minecraft:golden_horse_armor"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.001,
+			"output": {
+				"item": "minecraft:diamond_horse_armor"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.001,
+			"output": {
+				"item": "minecraft:name_tag"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}

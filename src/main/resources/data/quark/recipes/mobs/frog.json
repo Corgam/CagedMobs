@@ -1,0 +1,27 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "quark"
+		}
+	],
+	"entity": "quark:frog",
+	"samplerTier": 1,
+	"environments": ["water"],
+	"growTicks": 1100,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "quark:frog_leg"
+			},
+			"output_cooked": {
+				"item": "quark:cooked_frog_leg"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}
