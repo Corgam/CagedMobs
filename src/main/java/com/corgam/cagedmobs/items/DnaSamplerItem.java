@@ -1,22 +1,17 @@
 package com.corgam.cagedmobs.items;
 
-import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.stats.Stats;
 import net.minecraft.util.*;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -27,7 +22,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class DnaSamplerItem extends Item {
     public DnaSamplerItem(Properties properties) {
@@ -137,12 +131,12 @@ public class DnaSamplerItem extends Item {
         if(!DnaSamplerItem.containsEntityType(stack)) {
             return new TranslationTextComponent("item.cagedmobs.dnasampler.empty").mergeStyle(TextFormatting.YELLOW);
         }else {
-            // Debug only
-            ResourceLocation res = new ResourceLocation(stack.getTag().getString("entity"));
-            if(EntityType.byKey(res.getPath()).isPresent()){
-                EntityType<?> type = EntityType.byKey(res.getPath()).get();
+            EntityType<?> type = SerializationHelper.deserializeEntityTypeNBT(stack.getTag());
+            // Add the text component
+            if(type != null){
                 return new TranslationTextComponent(type.getTranslationKey()).mergeStyle(TextFormatting.YELLOW);
             }else{
+                // If not found say Unknown entity for crash prevention
                 return new TranslationTextComponent("item.cagedmobs.dnasampler.unknown_entity").mergeStyle(TextFormatting.YELLOW);
             }
         }

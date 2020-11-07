@@ -91,12 +91,13 @@ public class SerializationHelper {
 
 
     public static EntityType<?> deserializeEntityTypeNBT(CompoundNBT nbt) {
-        ResourceLocation res = new ResourceLocation(nbt.getString("entity"));
-        if(EntityType.byKey(res.getPath()).isPresent()) {
-            return EntityType.byKey(res.getPath()).get();
-        }else{
-            return null;
-        }
+        // Prepare the resourceLocation
+        String resString = nbt.getString("entity");
+        if(resString.isEmpty()){return null;}
+        String[] splitted = resString.split(":");
+        ResourceLocation res = new ResourceLocation(splitted[0], splitted[1]);
+        // Search for the entity type in the registry and return it
+        return ForgeRegistries.ENTITIES.getValue(res);
     }
 
     public static EntityType<?> deserializeEntityType(ResourceLocation id, JsonObject json) {
