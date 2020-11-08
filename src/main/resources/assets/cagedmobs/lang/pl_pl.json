@@ -1,0 +1,43 @@
+{
+  "itemGroup.cagedmobstab": "Caged Mobs",
+
+  "item.cagedmobs.dnasampler": "Strzykawka do DNA",
+  "item.cagedmobs.dnasamplerdiamond": "Diamentowa Strzykawka do DNA",
+  "item.cagedmobs.dnasamplernetherite": "Netherytowa Strzykawka do DNA",
+
+  "item.cagedmobs.dnasampler.empty": "Uderz stworzenie, aby pobrać DNA",
+  "item.cagedmobs.dnasampler.tier1Info": "Może być użyta na prymitywnych stworzeniach",
+  "item.cagedmobs.dnasampler.tier2Info": "Może być użyta na silniejszych stworzeniach",
+  "item.cagedmobs.dnasampler.tier3Info": "Może być użyta na bossach",
+  "item.cagedmobs.dnasampler.makeEmpty": "Kliknij shift i prawy przycisk myszki, aby usunąć DNA",
+  "item.cagedmobs.dnasampler.not_cachable": "Nie można pobrać próbki DNA z tego typu stworzenia",
+  "item.cagedmobs.dnasampler.not_sufficient": "Ta strzykawka nie jest wystarczająco silna, aby pobrać próbkę DNA z tego stworzenia",
+  "item.cagedmobs.dnasampler.unknown_entity": "Nieznane stworzenie",
+
+  "item.cagedmobs.cookingupgrade": "Ulepszenie: opiekacz",
+  "item.cagedmobs.lightningupgrade": "Ulepszenie: pioruny",
+  "item.cagedmobs.cookingupgrade.info": "Automatycznie piecze przedmioty, które da się upiec",
+  "item.cagedmobs.lightningupgrade.info": "Zabija piorunami stworzenia znajdujące się w klatce",
+
+  "item.cagedmobs.upgrades.attach": "Może zostać zamontowane w klatce na stworzenia",
+
+  "item.cagedmobs.dragon_scale": "Łuska smoka",
+  "item.cagedmobs.sponge_fragment": "Fragment gąbki",
+  "item.cagedmobs.nether_star_fragment": "Fragment Netherowej gwiazdy",
+
+  "block.cagedmobs.mobcage": "Klatka na stworzenia",
+  "block.cagedmobs.hoppingmobcage": "Skacząca klatka na stworzenia",
+  "block.cagedmobs.mobcage.envNotSuitable": "Środowisko w klatce nie jest odpowiednie dla tego stworzenia.",
+  "block.cagedmobs.mobcage.mainInfo": "Zbiera łupy stworzeń z ich próbki DNA",
+  "block.cagedmobs.mobcage.envInfo": "Wymaga odpowiedniego środowiska dla stworzenia",
+  "block.cagedmobs.mobcage.hoppingInfo": "Umieszcza wyprodukowane łupy w bloku poniżej",
+  "block.cagedmobs.mobcage.upgrading": "Może zostać ulepszona",
+
+  "jei.category.cagedmobs.entity": "Łupy klatek na stworzenia",
+  "jei.tooltip.cagedmobs.entity.chance": "Szansa: %d%%",
+  "jei.tooltip.cagedmobs.entity.amountEqual": "Ilość: %d",
+  "jei.tooltip.cagedmobs.entity.amount": "Ilość: %d - %d",
+  "jei.tooltip.cagedmobs.entity.cooking_upgrade": "Wymaga ulepszenia: opiekacz",
+  "jei.tooltip.cagedmobs.entity.lightning_upgrade": "Wymaga ulepszenia: pioruny",
+  "jei.tooltip.cagedmobs.entity.colorItem": "Wypada jedynie z farbowanych stworzeń"
+}
