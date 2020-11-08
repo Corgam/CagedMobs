@@ -1,0 +1,43 @@
+{
+	"itemGroup.cagedmobstab": "Caged Mobs",
+	
+	"item.cagedmobs.dnasampler": "Amostrador de DNA",
+	"item.cagedmobs.dnasamplerdiamond": "Amostrador de DNA de Diamante",
+	"item.cagedmobs.dnasamplernetherite": "Amostrador de DNA de Netherite",
+
+	"item.cagedmobs.dnasampler.empty": "Bata uma entidade para extrair sua amostra de DNA",
+	"item.cagedmobs.dnasampler.tier1Info": "Pode ser usado em entidades básicas",
+	"item.cagedmobs.dnasampler.tier2Info": "Pode ser usado em entidades mais fortes",
+	"item.cagedmobs.dnasampler.tier3Info": "Pode ser usado em chefes",
+	"item.cagedmobs.dnasampler.makeEmpty": "Shift + Clique Direito para limpar a amostra de DNA armazenada",
+	"item.cagedmobs.dnasampler.not_cachable": "Não é possível tirar amostras deste tipo de entidade",
+	"item.cagedmobs.dnasampler.not_sufficient": "Este amostrador de DNA não é forte o suficiente para amostrar esta entidade",
+	"item.cagedmobs.dnasampler.unknown_entity": "Entidade desconhecida",
+
+	"item.cagedmobs.cookingupgrade": "Upgrade: Cozinhar",
+	"item.cagedmobs.lightningupgrade": "Upgrade: Relâmpago",
+	"item.cagedmobs.cookingupgrade.info": "Cozinha automaticamente drops de entidades que podem ser cozidos",
+	"item.cagedmobs.lightningupgrade.info": "Mata entidades dentro da jaula com um raio",
+
+	"item.cagedmobs.upgrades.attach": "Pode ser anexado ao Gaiola de Mob",
+
+	"item.cagedmobs.dragon_scale": "Escama de Dragão",
+	"item.cagedmobs.sponge_fragment": "Fragmento de Esponja",
+	"item.cagedmobs.nether_star_fragment": "Fragmento de Estrela Nether",
+	
+	"block.cagedmobs.mobcage": "Gaiola de Mob",
+	"block.cagedmobs.hoppingmobcage": "Gaiola de Mob Saltitante",
+	"block.cagedmobs.mobcage.envNotSuitable": "O ambiente dentro da gaiola não é adequado para esta entidade.",
+	"block.cagedmobs.mobcage.mainInfo": "Pode replicar drops da entidade da amostra de DNA armazenada",
+	"block.cagedmobs.mobcage.envInfo": "Precisa ter ambiente adequado para entidade",
+	"block.cagedmobs.mobcage.hoppingInfo": "Coloca os drops produzidos no estoque abaixo",
+	"block.cagedmobs.mobcage.upgrading": "Pode receber Upgrade",
+
+	"jei.category.cagedmobs.entity": "Drops de Entidades Enjauladas",
+	"jei.tooltip.cagedmobs.entity.chance": "Chance: %d%%",
+	"jei.tooltip.cagedmobs.entity.amountEqual": "Quantidade: %d",
+	"jei.tooltip.cagedmobs.entity.amount": "Quantidade: %d - %d",
+	"jei.tooltip.cagedmobs.entity.cooking_upgrade": "Requer o Upgrade: Cozinhar",
+	"jei.tooltip.cagedmobs.entity.lightning_upgrade": "Requer  o Upgrade: Relâmpago",
+	"jei.tooltip.cagedmobs.entity.colorItem": "Dropa apenas de entidades tingidas"
+}
