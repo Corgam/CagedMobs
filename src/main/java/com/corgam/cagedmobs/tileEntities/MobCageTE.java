@@ -76,7 +76,13 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                 nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.entityType).toString());
                 this.renderedEntity = new WeightedSpawnerEntity(1, nbt);
             }
-            this.cachedEntity = EntityType.loadEntityAndExecute(this.renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
+            if(Minecraft.getInstance().getIntegratedServer() != null) {
+                try{
+                    this.cachedEntity = EntityType.loadEntityAndExecute(this.renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
+                }catch(Exception e){
+                    CagedMobs.LOGGER.error("Error getting cached entity!");
+                }
+            }
         }
         return this.cachedEntity;
     }
