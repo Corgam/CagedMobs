@@ -3,7 +3,7 @@
 	"entity": "minecraft:enderman",
 	"samplerTier": 2,
 	"environments": ["end"],
-	"growTicks": 1100,
+	"growTicks": 1200,
 	"results": [
 		{
 			"chance": 0.7,

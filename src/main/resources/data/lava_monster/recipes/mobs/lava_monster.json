@@ -9,7 +9,7 @@
 	"entity": "lava_monster:lava_monster",
 	"samplerTier": 2,
 	"environments": ["cave"],
-	"growTicks": 1100,
+	"growTicks": 1200,
 	"results": [
 		{
 			"chance": 0.5,

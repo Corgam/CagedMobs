@@ -3,7 +3,7 @@
 	"entity": "minecraft:ghast",
 	"samplerTier": 2,
 	"environments": ["nether"],
-	"growTicks": 1100,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.7,

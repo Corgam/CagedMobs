@@ -3,7 +3,7 @@
 	"entity": "minecraft:wither",
 	"samplerTier": 3,
 	"environments": ["cave"],
-	"growTicks": 1100,
+	"growTicks": 2400,
 	"results": [
 		{
 			"chance": 0.5,

@@ -9,7 +9,7 @@
 	"entity": "thermal:blizz",
 	"samplerTier": 2,
 	"environments": ["snow"],
-	"growTicks": 1300,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.5,

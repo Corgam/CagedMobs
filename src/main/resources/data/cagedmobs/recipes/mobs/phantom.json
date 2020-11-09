@@ -3,7 +3,7 @@
 	"entity": "minecraft:phantom",
 	"samplerTier": 2,
 	"environments": ["cave"],
-	"growTicks": 1100,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.6,

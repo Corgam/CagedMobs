@@ -3,7 +3,7 @@
 	"entity": "minecraft:hoglin",
 	"samplerTier": 2,
 	"environments": ["nether"],
-	"growTicks": 1100,
+	"growTicks": 1200,
 	"results": [
 		{
 			"chance": 0.5,

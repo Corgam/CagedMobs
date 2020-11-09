@@ -9,7 +9,7 @@
 	"entity": "thermal:blitz",
 	"samplerTier": 2,
 	"environments": ["cave"],
-	"growTicks": 1300,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.5,

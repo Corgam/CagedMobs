@@ -3,7 +3,7 @@
 	"entity": "minecraft:piglin_brute",
 	"samplerTier": 2,
 	"environments": ["nether"],
-	"growTicks": 2000,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.1,

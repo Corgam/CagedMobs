@@ -3,7 +3,7 @@
 	"entity": "minecraft:shulker",
 	"samplerTier": 2,
 	"environments": ["end"],
-	"growTicks": 1100,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.5,

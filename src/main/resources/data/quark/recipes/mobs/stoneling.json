@@ -9,7 +9,7 @@
 	"entity": "quark:stoneling",
 	"samplerTier": 2,
 	"environments": ["cave"],
-	"growTicks": 2500,
+	"growTicks": 2400,
 	"results": [
 		{
 			"chance": 0.1,

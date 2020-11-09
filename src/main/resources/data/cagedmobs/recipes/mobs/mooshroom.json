@@ -3,7 +3,7 @@
 	"entity": "minecraft:mooshroom",
 	"samplerTier": 1,
 	"environments": ["farm"],
-	"growTicks": 1100,
+	"growTicks": 1200,
 	"results": [
 		{
 			"chance": 0.5,

@@ -3,7 +3,7 @@
 	"entity": "minecraft:creeper",
 	"samplerTier": 2,
 	"environments": ["cave"],
-	"growTicks": 1100,
+	"growTicks": 1200,
 	"results": [
 		{
 			"chance": 0.75,
