@@ -16,8 +16,10 @@
 
 	"item.cagedmobs.cookingupgrade": "Cooking Cage Upgrade",
 	"item.cagedmobs.lightningupgrade": "Lightning Cage Upgrade",
+	"item.cagedmobs.arrowupgrade": "Arrow Cage Upgrade",
 	"item.cagedmobs.cookingupgrade.info": "Automatically cooks cookable entity drops",
 	"item.cagedmobs.lightningupgrade.info": "Kills entities inside the cage with lightning",
+	"item.cagedmobs.arrowupgrade.info": "Kills entities inside the cage with arrows",
 
 	"item.cagedmobs.upgrades.attach": "Can be attached to Mob Cage",
 
@@ -39,5 +41,6 @@
 	"jei.tooltip.cagedmobs.entity.amount": "Amount: %d - %d",
 	"jei.tooltip.cagedmobs.entity.cooking_upgrade": "Requires Cooking Upgrade",
 	"jei.tooltip.cagedmobs.entity.lightning_upgrade": "Requires Lightning Upgrade",
+	"jei.tooltip.cagedmobs.entity.arrow_upgrade": "Requires Arrow Upgrade",
 	"jei.tooltip.cagedmobs.entity.colorItem": "Drops only from dyed entities"
 }

@@ -50,6 +50,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     private boolean hopping = false;
     private boolean cooking = false;
     private boolean lightning = false;
+    private boolean arrow = false;
     // Env
     private EnvironmentData environment = null;
     private ItemStack envItem = ItemStack.EMPTY;
@@ -136,6 +137,20 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                     double d4 = (double) blockpos.getY() + 0.8;
                     double d5 = (double) blockpos.getZ() +  0.4 + (world.rand.nextDouble()/5);
                     world.addParticle(ParticleTypes.END_ROD, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                }
+            }
+        }
+        // If has lightning upgrade spawn particles
+        if(this.isArrow() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
+            Random rand = new Random();
+            if (!(world instanceof ServerWorld)) {
+                if (rand.nextInt(30) == 0) {
+                    World world = this.getWorld();
+                    BlockPos blockpos = this.getPos();
+                    double d3 = (double) blockpos.getX() + 0.4 + (world.rand.nextDouble()/5);
+                    double d4 = (double) blockpos.getY() + 0.8;
+                    double d5 = (double) blockpos.getZ() +  0.4 + (world.rand.nextDouble()/5);
+                    world.addParticle(ParticleTypes.CRIT, d3, d4, d5, 0.0D, -0.5D, 0.0D);
                 }
             }
         }
@@ -415,6 +430,10 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             if(!this.isLightning() && loot.isLighting()){
                 continue;
             }
+            // Skip if loot needs arrow upgrade, but it's not present in the cage.
+            if(!this.isArrow() && loot.isArrow()){
+                continue;
+            }
             if(this.world != null && this.world.rand.nextFloat() <= loot.getChance()) {
                 // Roll the amount of items
                 int range = loot.getMaxAmount() - loot.getMinAmount() + 1;
@@ -454,6 +473,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // Put upgrades
         tag.putBoolean("cooking",this.cooking);
         tag.putBoolean("lightning", this.lightning);
+        tag.putBoolean("arrow",this.arrow);
         if(this.hasEnvironment()) {
             // Put env info
             tag.put("environmentItem", this.envItem.serializeNBT());
@@ -486,6 +506,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // Get upgrades
         this.cooking = tag.getBoolean("cooking");
         this.lightning = tag.getBoolean("lightning");
+        this.arrow = tag.getBoolean("arrow");
         // Read the env
         this.envItem = ItemStack.read(tag.getCompound("environmentItem"));
         this.environment = MobCageTE.getEnvironmentFromItemStack(this.envItem);
@@ -522,6 +543,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         this.hopping = nbt.getBoolean("hopping");
         this.cooking = nbt.getBoolean("cooking");
         this.lightning = nbt.getBoolean("lightning");
+        this.arrow = nbt.getBoolean("arrow");
         // Read the env
         this.envItem = ItemStack.read(nbt.getCompound("environmentItem"));
         this.environment = MobCageTE.getEnvironmentFromItemStack(this.envItem);
@@ -545,6 +567,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         dataTag.putBoolean("hopping", this.hopping);
         dataTag.putBoolean("cooking", this.cooking);
         dataTag.putBoolean("lightning", this.lightning);
+        dataTag.putBoolean("arrow", this.arrow);
         // If cage has env, then put env info and maybe entity info
         if(this.hasEnvironment()) {
             // Put env info
@@ -564,26 +587,42 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     }
 
     public boolean isCooking() {
-        return cooking;
-    }
-
-    public void setCooking(boolean cooking) {
-        this.cooking = cooking;
-        // Sync with client
-        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        return this.cooking;
     }
 
     public boolean isLightning() {
-        return lightning;
+        return this.lightning;
+    }
+
+    public boolean isArrow(){
+        return this.arrow;
     }
 
     public int getColor(){
         return this.color;
     }
 
+    public void setCooking(boolean cooking) {
+        this.cooking = cooking;
+        // Sync with client
+        if(this.world != null){
+            this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        }
+    }
+
     public void setLightning(boolean lightning) {
         this.lightning = lightning;
         // Sync with client
-        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        if(this.world != null){
+            this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        }
+    }
+
+    public void setArrow(boolean arrow){
+        this.arrow = arrow;
+        // Sync with client
+        if(this.world != null){
+            this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        }
     }
 }

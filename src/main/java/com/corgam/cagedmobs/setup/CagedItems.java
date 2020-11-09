@@ -25,6 +25,7 @@ public class CagedItems {
     // UPGRADES
     public final static RegistryObject<Item> COOKING_UPGRADE = ITEMS_REG.register("cookingupgrade", () -> new CookingUpgradeItem(new Item.Properties().group(CagedItemGroup.CAGED_MAIN)));
     public final static RegistryObject<Item> LIGHTNING_UPGRADE = ITEMS_REG.register("lightningupgrade", () -> new LightningUpgradeItem(new Item.Properties().group(CagedItemGroup.CAGED_MAIN)));
+    public final static RegistryObject<Item> ARROW_UPGRADE = ITEMS_REG.register("arrowupgrade", () -> new ArrowUpgradeItem(new Item.Properties().group(CagedItemGroup.CAGED_MAIN)));
 
     // MISC
     public final static RegistryObject<Item> DRAGON_SCALE = ITEMS_REG.register("dragon_scale", () -> new Item(new Item.Properties().rarity(Rarity.EPIC).group(CagedItemGroup.CAGED_MAIN)));

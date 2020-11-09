@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    "rBb",
+    "bQb"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:arrow"
+    },
+    "r": {
+      "tag": "forge:dusts/redstone"
+    },
+    "B": {
+      "item": "minecraft:dispenser"
+    },
+    "b": {
+      "item": "minecraft:blackstone"
+    },
+    "Q": {
+      "tag": "forge:storage_blocks/quartz"
+    }
+  },
+  "result": {
+    "item": "cagedmobs:arrowupgrade"
+  }
+}

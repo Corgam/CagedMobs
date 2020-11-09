@@ -21,6 +21,114 @@
 				},
 				"minAmount": 1,
 				"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_13"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_cat"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_blocks"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_chirp"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_far"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_mall"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_mellohi"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_stal"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_strad"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_ward"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_11"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"needsArrow": true,
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:music_disc_wait"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

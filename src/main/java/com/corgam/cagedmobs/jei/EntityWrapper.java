@@ -252,6 +252,9 @@ public class EntityWrapper implements IRecipeCategoryExtension {
                  if(loot.isCooking() && ingredient.getItem().equals(loot.getCookedItem().getItem())){
                      tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.cooking_upgrade").mergeStyle(TextFormatting.YELLOW));
                  }
+                 if(loot.isArrow()){
+                     tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.arrow_upgrade").mergeStyle(TextFormatting.YELLOW));
+                 }
                  if(loot.hasColor()){
                      tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.colorItem").mergeStyle(TextFormatting.YELLOW));
                  }
