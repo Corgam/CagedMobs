@@ -1,0 +1,24 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "thermal"
+		}
+	],
+	"entity": "thermal:blizz",
+	"samplerTier": 2,
+	"environments": ["snow"],
+	"growTicks": 1300,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "thermal:blizz_rod"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}
