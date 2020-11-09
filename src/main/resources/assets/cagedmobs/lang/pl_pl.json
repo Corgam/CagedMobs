@@ -16,8 +16,10 @@
 
   "item.cagedmobs.cookingupgrade": "Ulepszenie: opiekacz",
   "item.cagedmobs.lightningupgrade": "Ulepszenie: pioruny",
+  "item.cagedmobs.arrowupgrade": "Ulepszenie: strzały",
   "item.cagedmobs.cookingupgrade.info": "Automatycznie piecze przedmioty, które da się upiec",
-  "item.cagedmobs.lightningupgrade.info": "Zabija piorunami stworzenia znajdujące się w klatce",
+  "item.cagedmobs.lightningupgrade.info": "Zabija za pomocą piorunów stworzenia znajdujące się w klatce",
+  "item.cagedmobs.arrowupgrade.info": "Zabija za pomocą strzał stworzenia znajdujące się w klatce",
 
   "item.cagedmobs.upgrades.attach": "Może zostać zamontowane w klatce na stworzenia",
 
@@ -39,5 +41,6 @@
   "jei.tooltip.cagedmobs.entity.amount": "Ilość: %d - %d",
   "jei.tooltip.cagedmobs.entity.cooking_upgrade": "Wymaga ulepszenia: opiekacz",
   "jei.tooltip.cagedmobs.entity.lightning_upgrade": "Wymaga ulepszenia: pioruny",
+  "jei.tooltip.cagedmobs.entity.arrow_upgrade": "Wymaga ulepszenia: strzały",
   "jei.tooltip.cagedmobs.entity.colorItem": "Wypada jedynie z farbowanych stworzeń"
 }
