@@ -28,7 +28,7 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
         // Block to render
         final BlockState renderState = SerializationHelper.deserializeBlockState(json.getAsJsonPrimitive("render"));
         // Grow modifier
-        final float growModifier = 1.0F; // JSONUtils.getFloat(json, "growModifier");
+        final float growModifier = JSONUtils.getFloat(json, "growModifier");
         // Categories
         final Set<String> categories = new HashSet<>();
         for(final JsonElement e : json.getAsJsonArray("categories")){

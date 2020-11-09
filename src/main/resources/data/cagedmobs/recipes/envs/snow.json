@@ -4,5 +4,6 @@
 		"item": "minecraft:snow_block"
 	},
 	"render": "minecraft:snow_block",
+	"growModifier": 1.0,
 	"categories": ["snow"]
 }

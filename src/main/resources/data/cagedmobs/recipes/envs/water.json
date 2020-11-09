@@ -4,5 +4,6 @@
 		"item": "minecraft:water_bucket"
 	},
 	"render": "minecraft:blue_concrete",
+	"growModifier": 1.0,
 	"categories": ["water"]
 }

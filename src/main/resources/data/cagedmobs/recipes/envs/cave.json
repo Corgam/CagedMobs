@@ -4,5 +4,6 @@
 		"item": "minecraft:stone"
 	},
 	"render": "minecraft:stone",
+	"growModifier": 1.0,
 	"categories": ["cave"]
 }

@@ -279,7 +279,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         MobData mobData = getMobDataFromType(type);
         this.entity = mobData;
         this.entityType = type;
-        this.totalGrowTicks = mobData.getTotalGrowTicks();
+        // Calculate required ticks (take into account growthModifier from env)
+        this.totalGrowTicks = Math.round(mobData.getTotalGrowTicks()/this.environment.getGrowModifier());
         // Sync with client
         this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
     }
@@ -523,7 +524,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         this.waitingForHarvest = tag.getBoolean("waitingForHarvest");
         this.currentGrowTicks = tag.getInt("currentGrowTicks");
         if(hasEntity()){
-            this.totalGrowTicks = this.entity.getTotalGrowTicks();
+            this.totalGrowTicks = Math.round( this.entity.getTotalGrowTicks()/this.environment.getGrowModifier());
         }
         // If env or entity changed, refresh model data
         if(!Objects.equals(oldEnv, this.envItem) || !Objects.equals(oldEntityType,this.entityType)){
@@ -556,7 +557,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         this.waitingForHarvest = nbt.getBoolean("waitingForHarvest");
         this.currentGrowTicks = nbt.getInt("currentGrowTicks");
         if(hasEntity()){
-            this.totalGrowTicks = this.entity.getTotalGrowTicks();
+            this.totalGrowTicks = Math.round( this.entity.getTotalGrowTicks()/this.environment.getGrowModifier());
         }
     }
 
