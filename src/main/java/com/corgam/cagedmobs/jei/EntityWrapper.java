@@ -43,6 +43,8 @@ public class EntityWrapper implements IRecipeCategoryExtension {
     private final List<LootData> drops = NonNullList.create();
     private final List<ItemStack> samplers = NonNullList.create();
     private final List<Integer> cookedIDs = new ArrayList<Integer>();
+    private final int ticks;
+
 
     private static double yaw = 0;
 
@@ -78,6 +80,8 @@ public class EntityWrapper implements IRecipeCategoryExtension {
                 lootIndex++;
             }
         }
+        // Set up required ticks
+        this.ticks = entity.getTotalGrowTicks();
     }
 
     @Override
@@ -234,6 +238,14 @@ public class EntityWrapper implements IRecipeCategoryExtension {
 
     public List<Integer> getCookedIDs() {
         return this.cookedIDs;
+    }
+
+    public int getTicks(){
+        return this.ticks;
+    }
+
+    public int getSeconds(){
+        return this.ticks/20;
     }
 
     public void getTooltip (int slotIndex, boolean input, ItemStack ingredient, List<ITextComponent> tooltip) {

@@ -20,7 +20,7 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
 
     public static final ResourceLocation ID = new ResourceLocation(Constants.MOD_ID, "entity");
 
-    private static final BackgroundDrawable ENTITY_BG_DRAWABLE = new BackgroundDrawable("textures/gui/entity.png", 166, 93);
+    private static final BackgroundDrawable ENTITY_BG_DRAWABLE = new BackgroundDrawable("textures/gui/entity.png", 166, 101);
 
     private final IDrawable icon;
     private final IDrawableStatic slotDrawable;
@@ -107,6 +107,9 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
         matrix.push();
         matrix.translate(5, 2, 0);
         Minecraft.getInstance().fontRenderer.drawString(matrix, new TranslationTextComponent(recipe.getEntity().getEntityType().getTranslationKey()).getString(), 0, 0, 8);
+        // Draw required ticks
+        matrix.translate(5, 100, 0);
+        Minecraft.getInstance().fontRenderer.drawString(matrix, new TranslationTextComponent("jei.tooltip.cagedmobs.entity.ticks",recipe.getSeconds()).getString(), 0, 0, 8);
         matrix.pop();
     }
 }

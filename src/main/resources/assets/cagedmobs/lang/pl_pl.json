@@ -39,6 +39,7 @@
   "jei.tooltip.cagedmobs.entity.chance": "Szansa: %d%%",
   "jei.tooltip.cagedmobs.entity.amountEqual": "Ilość: %d",
   "jei.tooltip.cagedmobs.entity.amount": "Ilość: %d - %d",
+  "jei.tooltip.cagedmobs.entity.ticks": "%d sekund",
   "jei.tooltip.cagedmobs.entity.cooking_upgrade": "Wymaga ulepszenia: opiekacz",
   "jei.tooltip.cagedmobs.entity.lightning_upgrade": "Wymaga ulepszenia: pioruny",
   "jei.tooltip.cagedmobs.entity.arrow_upgrade": "Wymaga ulepszenia: strzały",
