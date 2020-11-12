@@ -1,0 +1,9 @@
+{
+	"type": "cagedmobs:env_data",
+	"input": {
+		"item": "minecraft:sand"
+	},
+	"render": "minecraft:sand",
+	"growModifier": 1.0,
+	"categories": ["desert"]
+}

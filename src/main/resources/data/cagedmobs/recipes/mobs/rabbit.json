@@ -2,7 +2,7 @@
 	"type": "cagedmobs:mob_data",
 	"entity": "minecraft:rabbit",
 	"samplerTier": 1,
-	"environments": ["farm"],
+	"environments": ["farm","desert"],
 	"growTicks": 1200,
 	"results": [
 		{
