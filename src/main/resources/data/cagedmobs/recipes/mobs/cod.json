@@ -6,7 +6,7 @@
 	"growTicks": 1200,
 	"results": [
 		{
-			"chance": 0.8,
+			"chance": 0.7,
 				"output": {
 					"item": "minecraft:cod"
 				},

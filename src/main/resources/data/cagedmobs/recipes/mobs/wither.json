@@ -6,7 +6,7 @@
 	"growTicks": 2400,
 	"results": [
 		{
-			"chance": 0.5,
+			"chance": 0.1,
 				"output": {
 					"item": "cagedmobs:nether_star_fragment"
 				},
