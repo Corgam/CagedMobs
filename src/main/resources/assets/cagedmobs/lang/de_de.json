@@ -1,0 +1,43 @@
+{
+	"itemGroup.cagedmobstab": "Caged Mobs",
+	
+	"item.cagedmobs.dnasampler": "DNA Probensammler",
+	"item.cagedmobs.dnasamplerdiamond": "Diamant DNA Probensammler",
+	"item.cagedmobs.dnasamplernetherite": "Netherit DNA Probensammler",
+
+	"item.cagedmobs.dnasampler.empty": "Schlage eine Kreatur um ihre DNA zu sammeln",
+	"item.cagedmobs.dnasampler.tier1Info": "Kann für normale Kreaturen verwendet werden",
+	"item.cagedmobs.dnasampler.tier2Info": "Kann für stärkere Kreaturen verwendet werden",
+	"item.cagedmobs.dnasampler.tier3Info": "Kann für Bosse verwendet werden",
+	"item.cagedmobs.dnasampler.makeEmpty": "Shift-rechtsklick um den Probensammler zu leeren",
+	"item.cagedmobs.dnasampler.not_cachable": "Von dieser Kreatur kann keine Probe genommen werden.",
+	"item.cagedmobs.dnasampler.not_sufficient": "Dieser Probensammler ist nicht stark genug, um eine Probe von dieser Kreatur zu nehmen.",
+	"item.cagedmobs.dnasampler.unknown_entity": "Unbekannte Kreatur",
+
+	"item.cagedmobs.cookingupgrade": "Koch-Käfigerweiterung",
+	"item.cagedmobs.lightningupgrade": "Blitz-Käfigerweiterung",
+	"item.cagedmobs.cookingupgrade.info": "Kocht automatisch die Drops der Kreaturen",
+	"item.cagedmobs.lightningupgrade.info": "Tötet die Kreatur im Käfig mit Blitzen",
+
+	"item.cagedmobs.upgrades.attach": "Kann an einem Kreaturenkäfig angebracht werden",
+
+	"item.cagedmobs.dragon_scale": "Drachenschuppe",
+	"item.cagedmobs.sponge_fragment": "Schwammfragment",
+	"item.cagedmobs.nether_star_fragment": "Nethersternfragment",
+	
+	"block.cagedmobs.mobcage": "Kreaturenkäfig",
+	"block.cagedmobs.hoppingmobcage": "Kreaturenkäfig mit Trichter",
+	"block.cagedmobs.mobcage.envNotSuitable": "Die Umgebung in diesem Käfig ist nicht angemessen für die Kreatur.",
+	"block.cagedmobs.mobcage.mainInfo": "Kann Drops von Kreaturen mit Hilfe einer DNA Probe repilizieren.",
+	"block.cagedmobs.mobcage.envInfo": "Benötigt eine angemessene Umgebung für Kreaturen",
+	"block.cagedmobs.mobcage.hoppingInfo": "Platziert generierte Drops in einem darunterliegenden Inventar",
+	"block.cagedmobs.mobcage.upgrading": "Kann erweitert werden",
+
+	"jei.category.cagedmobs.entity": "Drops der gefangenen Kreatur",
+	"jei.tooltip.cagedmobs.entity.chance": "Chance: %d%%",
+	"jei.tooltip.cagedmobs.entity.amountEqual": "Anzahl: %d",
+	"jei.tooltip.cagedmobs.entity.amount": "Anzahl: %d - %d",
+	"jei.tooltip.cagedmobs.entity.cooking_upgrade": "Benötigt eine Koch-Käfigerweiterung",
+	"jei.tooltip.cagedmobs.entity.lightning_upgrade": "Benötigt eine Blitz-Käfigerweiterung",
+	"jei.tooltip.cagedmobs.entity.colorItem": "Dropt nur von einer gefärbten Kreatur"
+}
