@@ -1,0 +1,57 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "betterdefaultbiomes"
+		}
+	],
+	"entity": "betterdefaultbiomes:lost_miner",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:torch"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.7,
+				"output": {
+					"item": "minecraft:bone"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
+		},
+		{
+			"chance": 0.01,
+				"output": {
+					"item": "minecraft:golden_helmet"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+				"output": {
+					"item": "minecraft:iron_pickaxe"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"lightning": true,
+			"chance": 0.05,
+				"output": {
+					"item": "minecraft:skeleton_skull"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

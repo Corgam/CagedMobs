@@ -1,0 +1,32 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "aquaculture"
+		}
+	],
+	"entity": "aquaculture:red_shrooma",
+	"samplerTier": 1,
+	"environments": ["water"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.7,
+				"output": {
+					"item": "aquaculture:red_shrooma"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.05,
+				"output": {
+					"item": "minecraft:bone_meal"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

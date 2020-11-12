@@ -1,0 +1,24 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "betterdefaultbiomes"
+		}
+	],
+	"entity": "betterdefaultbiomes:hunter",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.6,
+				"output": {
+					"item": "betterdefaultbiomes:hunter_arrow"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
+		}
+	]
+	
+}

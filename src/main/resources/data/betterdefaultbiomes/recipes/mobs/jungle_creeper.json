@@ -1,0 +1,33 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "betterdefaultbiomes"
+		}
+	],
+	"entity": "betterdefaultbiomes:jungle_creeper",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "minecraft:gunpowder"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		},
+		{
+			"lightning": true,
+			"chance": 0.05,
+				"output": {
+					"item": "minecraft:creeper_head"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}
