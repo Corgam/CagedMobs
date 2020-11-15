@@ -7,7 +7,6 @@ import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.setup.CagedItems;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
@@ -17,9 +16,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.monster.*;
-import net.minecraft.entity.monster.piglin.PiglinBruteEntity;
 import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.entity.passive.SquidEntity;
+import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.passive.fish.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -44,6 +43,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
     private final List<ItemStack> samplers = NonNullList.create();
     private final List<Integer> cookedIDs = new ArrayList<Integer>();
     private final int ticks;
+    public static float rotation = 0.0f;
 
 
     private static double yaw = 0;
@@ -96,6 +96,9 @@ public class EntityWrapper implements IRecipeCategoryExtension {
             if (livingEntity != null) {
                 float scale = getScaleForEntityType(livingEntity);
                 int offsetY = getOffsetForEntityType(livingEntity);
+                // Add rotation
+                rotation = (rotation+ 0.5f)% 360;
+                // Render the entity
                 renderEntity(
                         matrixStack,
                         38, 120 - offsetY, scale,
@@ -109,39 +112,32 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }
     }
 
-    public static int renderEntity(MatrixStack matrixStack, int x, int y, double scale, double yaw, double pitch, LivingEntity livingEntity) {
-            if (livingEntity.world == null) livingEntity.world = Minecraft.getInstance().world;
-            RenderSystem.pushMatrix();
-            RenderSystem.multMatrix(matrixStack.getLast().getMatrix());
-            RenderSystem.translatef(x, y, 50.0F);
-            RenderSystem.scalef((float) -scale, (float) scale, (float) scale);
-            MatrixStack mobMatrix = new MatrixStack();
-            // Flip entity
-            mobMatrix.rotate(Vector3f.ZP.rotationDegrees(180.0F));
-            // Rotate entity
-            RenderSystem.rotatef(((float) Math.atan((-40 / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
 
-            livingEntity.renderYawOffset = (float) (yaw / 40.F) * 20.0F;
-            livingEntity.rotationYaw = (float) (yaw / 40.F) * 20.0F;
-            livingEntity.rotationYawHead = livingEntity.rotationYaw;
-            livingEntity.prevRotationYawHead = livingEntity.rotationYaw;
-            // Special case of EnderDragon
-            if (livingEntity instanceof EnderDragonEntity) {
-                EnderDragonEntity dragon = (EnderDragonEntity) livingEntity;
-                RenderSystem.rotatef(20.0F, 1.0F, 0.0F, 0.0F);
-                RenderSystem.rotatef((float) (float) (yaw / 40.F) * 20.0F, 0.0F, 1.0F, 0.0F);
-            }
-            mobMatrix.translate(0.0F, livingEntity.getYOffset(), 0.0F);
-            try {
-                IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-                Minecraft.getInstance().getRenderManager().renderEntityStatic(livingEntity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, mobMatrix, buffer, 15728880);
-                buffer.finish();
-            }catch (Exception e){
-                CagedMobs.LOGGER.error("Error rendering entity!",e );
-                return -1;
-            }
-            RenderSystem.popMatrix();
-            return 1;
+
+    public static void renderEntity(MatrixStack matrixStack, int x, int y, float scale, double yaw, double pitch, LivingEntity entity) {
+        matrixStack.push();
+        // Translate the entity to right position
+        matrixStack.translate(x, y, 50F);
+        // Scale the entity
+        matrixStack.scale(-scale, scale, scale);
+        // Rotate the entity so it's not upside down
+        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
+        // Rotate the entity around
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(rotation));
+
+        // Render the entity
+        IRenderTypeBuffer.Impl buff = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+        try{
+            Minecraft.getInstance().getRenderManager().renderEntityStatic(entity,0.0D,0.0D,0.0D,0.0F,0.0F,matrixStack,buff,15728880);
+        }catch (Exception e){
+            matrixStack.translate(x, y, -50F);
+            matrixStack.scale(scale, -scale, -scale);
+            matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
+
+            CagedMobs.LOGGER.error("Error with rendering entity in JEI!(CagedMobs)", e);
+        }
+        buff.finish();
+        matrixStack.pop();
     }
 
 
@@ -174,39 +170,25 @@ public class EntityWrapper implements IRecipeCategoryExtension {
     }
 
     private int getOffsetForEntityType(LivingEntity entity){
-        if(entity instanceof SquidEntity){
-            return 70;
-        }else if(entity instanceof ElderGuardianEntity) {
-            return 54;
-        }else if(entity instanceof AbstractGroupFishEntity ||
-                entity instanceof AbstractSkeletonEntity ||
-                entity instanceof AbstractIllagerEntity ||
-                entity instanceof DolphinEntity ||
-                entity instanceof PhantomEntity ||
-                entity instanceof ZombieEntity ||
-                entity instanceof GuardianEntity ||
-                entity instanceof RavagerEntity ||
+        if(entity instanceof PhantomEntity||
+            entity instanceof AbstractGroupFishEntity ||
                 entity instanceof EnderDragonEntity ||
-                entity instanceof WitchEntity ||
-                entity instanceof PiglinBruteEntity
+                entity instanceof DolphinEntity ||
+                entity instanceof GuardianEntity ||
+                entity instanceof TurtleEntity
         ){
             return 60;
-        }else if(entity instanceof GhastEntity) {
-            return 66;
-        }else{
-            return 50;
+        }else if(entity instanceof GhastEntity || entity instanceof SquidEntity){
+            return 65;
         }
+        return 50;
     }
 
 
     @Override
     public void setIngredients(IIngredients iIngredients) {
-
         // Inputs
-        final List<ItemStack> inputs = new ArrayList<>();
-
-        inputs.addAll(this.envs);
-
+        final List<ItemStack> inputs = new ArrayList<>(this.envs);
         iIngredients.setInputs(VanillaTypes.ITEM, inputs);
 
         // Outputs
