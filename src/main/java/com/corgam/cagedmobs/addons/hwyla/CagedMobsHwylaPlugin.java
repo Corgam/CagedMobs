@@ -1,6 +1,5 @@
 package com.corgam.cagedmobs.addons.hwyla;
 
-import com.corgam.cagedmobs.blocks.HoppingMobCageBlock;
 import com.corgam.cagedmobs.blocks.MobCageBlock;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;

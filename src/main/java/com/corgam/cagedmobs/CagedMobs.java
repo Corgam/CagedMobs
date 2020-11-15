@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs;
 
+import com.corgam.cagedmobs.addons.theoneprobe.CagedMobsTOPSupport;
 import com.corgam.cagedmobs.configs.ClientConfig;
 import com.corgam.cagedmobs.configs.ServerConfig;
 import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
@@ -18,10 +19,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,7 +55,10 @@ public class CagedMobs
         CagedBlocks.BLOCKS_REG.register(eventBus);
         CagedItems.ITEMS_REG.register(eventBus);
         CagedTE.TE_REG.register(eventBus);
+        // Add properties to items
         eventBus.addListener(this::addPropertiesToItems);
+        // TheOneProbe support
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::initTOPSupport);
     }
 
     private void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event) {
@@ -74,5 +81,11 @@ public class CagedMobs
         ItemModelsProperties.registerProperty(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
             return DnaSamplerNetheriteItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
         });
+    }
+    // Initializes the TheOneProbe mod support
+    private void initTOPSupport(final InterModEnqueueEvent event){
+        if(ModList.get().isLoaded("theoneprobe")){
+            InterModComms.sendTo("theoneprobe","getTheOneProbe", CagedMobsTOPSupport::new);
+        }
     }
 }

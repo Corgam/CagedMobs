@@ -29,7 +29,7 @@ public class CagedMobsComponentProvider implements IComponentProvider {
         }
         // Add env
         if(tile.hasEnvironment()){
-            ItemStack representation = tile.getEnvironment().getInputItem().getMatchingStacks()[0];
+            ItemStack representation = tile.getEnvItem();
             if(representation != null){
                 tooltip.add(new StringTextComponent(
                         new TranslationTextComponent("HWYLA.tooltip.cagedmobs.cage.environment").getString() +
