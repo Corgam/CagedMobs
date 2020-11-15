@@ -43,5 +43,9 @@
 	"jei.tooltip.cagedmobs.entity.cooking_upgrade": "Requires Cooking Upgrade",
 	"jei.tooltip.cagedmobs.entity.lightning_upgrade": "Requires Lightning Upgrade",
 	"jei.tooltip.cagedmobs.entity.arrow_upgrade": "Requires Arrow Upgrade",
-	"jei.tooltip.cagedmobs.entity.colorItem": "Drops only from dyed entities"
+	"jei.tooltip.cagedmobs.entity.colorItem": "Drops only from dyed entities",
+
+	"HWYLA.tooltip.cagedmobs.cage.entity": "Entity: ",
+	"HWYLA.tooltip.cagedmobs.cage.environment": "Environment: ",
+	"HWYLA.tooltip.cagedmobs.cage.progress": "Progress: "
 }

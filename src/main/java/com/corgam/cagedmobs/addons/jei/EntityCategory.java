@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.jei;
+package com.corgam.cagedmobs.addons.jei;
 
 import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.setup.CagedItems;

@@ -599,6 +599,11 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         return this.arrow;
     }
 
+    public boolean hasUpgrade(){
+        return this.isArrow() || this.isCooking() || this.isLightning();
+    }
+
+
     public int getColor(){
         return this.color;
     }

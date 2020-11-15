@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.jei;
+package com.corgam.cagedmobs.addons.jei;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;

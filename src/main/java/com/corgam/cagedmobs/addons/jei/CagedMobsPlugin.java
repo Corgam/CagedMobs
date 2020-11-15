@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.jei;
+package com.corgam.cagedmobs.addons.jei;
 
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
@@ -12,7 +12,6 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.jei;
+package com.corgam.cagedmobs.addons.jei;
 
 import com.corgam.cagedmobs.setup.Constants;
 import com.mojang.blaze3d.matrix.MatrixStack;
