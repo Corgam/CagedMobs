@@ -1,5 +1,11 @@
 {
 	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+		}
+	],
 	"entity": "minecraft:creeper",
 	"samplerTier": 2,
 	"environments": ["cave"],
@@ -24,7 +30,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_13"
 			},
@@ -33,7 +39,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_cat"
 			},
@@ -42,7 +48,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_blocks"
 			},
@@ -51,7 +57,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_chirp"
 			},
@@ -60,7 +66,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_far"
 			},
@@ -69,7 +75,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_mall"
 			},
@@ -78,7 +84,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_mellohi"
 			},
@@ -87,7 +93,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_stal"
 			},
@@ -96,7 +102,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_strad"
 			},
@@ -105,7 +111,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_ward"
 			},
@@ -114,7 +120,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_11"
 			},
@@ -123,7 +129,7 @@
 		},
 		{
 			"needsArrow": true,
-			"chance": 0.005,
+			"chance": 0.002,
 			"output": {
 				"item": "minecraft:music_disc_wait"
 			},

@@ -21,14 +21,6 @@
 				},
 				"minAmount": 1,
 				"maxAmount": 3
-		},
-		{
-			"chance": 0.7,
-				"output": {
-					"item": "quark:tallow"
-				},
-				"minAmount": 1,
-				"maxAmount": 2
 		}
 	]
 	

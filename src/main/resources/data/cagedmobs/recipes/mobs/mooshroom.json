@@ -1,5 +1,11 @@
 {
 	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+		}
+	],
 	"entity": "minecraft:mooshroom",
 	"samplerTier": 1,
 	"environments": ["farm"],
