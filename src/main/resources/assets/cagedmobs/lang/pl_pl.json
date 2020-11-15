@@ -43,5 +43,9 @@
   "jei.tooltip.cagedmobs.entity.cooking_upgrade": "Wymaga ulepszenia: opiekacz",
   "jei.tooltip.cagedmobs.entity.lightning_upgrade": "Wymaga ulepszenia: pioruny",
   "jei.tooltip.cagedmobs.entity.arrow_upgrade": "Wymaga ulepszenia: strzały",
-  "jei.tooltip.cagedmobs.entity.colorItem": "Wypada jedynie z farbowanych stworzeń"
+  "jei.tooltip.cagedmobs.entity.colorItem": "Wypada jedynie z farbowanych stworzeń",
+
+  "HWYLA.tooltip.cagedmobs.cage.entity": "Byt: ",
+  "HWYLA.tooltip.cagedmobs.cage.environment": "Środowisko: ",
+  "HWYLA.tooltip.cagedmobs.cage.progress": "Postęp: "
 }
