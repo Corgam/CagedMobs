@@ -19,12 +19,12 @@ public class EnvironmentData implements IRecipe<IInventory> {
     public static final EnvironmentDataSerializer SERIALIZER = new EnvironmentDataSerializer();
 
     private final ResourceLocation id;
-    private final Ingredient inputItem;
-    private final BlockState renderState;
-    private final float growModifier;
+    private Ingredient inputItem;
+    private BlockState renderState;
+    private float growModifier;
     private final Set<String> environments;
 
-    EnvironmentData(ResourceLocation id, Ingredient item, BlockState renderState, float growModifier, Set<String> categories){
+    public EnvironmentData(ResourceLocation id, Ingredient item, BlockState renderState, float growModifier, Set<String> categories){
         this.id = id;
         this.inputItem = item;
         this.renderState = renderState;
@@ -82,5 +82,23 @@ public class EnvironmentData implements IRecipe<IInventory> {
 
     public Set<String> getEnvironments() {
         return environments;
+    }
+
+    @Override
+    public boolean isDynamic() {
+
+        return true;
+    }
+
+    public void setGrowthModifier(float modifier) {
+        this.growModifier = modifier;
+    }
+
+    public void setRenderState(BlockState state) {
+        this.renderState = state;
+    }
+
+    public void setInputItem(Ingredient item) {
+        this.inputItem = item;
     }
 }

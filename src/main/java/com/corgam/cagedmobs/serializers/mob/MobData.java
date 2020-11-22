@@ -20,13 +20,13 @@ public class MobData implements IRecipe<IInventory> {
     public static final MobDataSerializer SERIALIZER = new MobDataSerializer();
 
     private final ResourceLocation id;
-    private final EntityType<?> entityType;
+    private EntityType<?> entityType;
     private final Set<String> environments;
-    private final int growTicks;
+    private int growTicks;
     private final List<LootData> results;
-    private final int samplerTier;
+    private int samplerTier;
 
-    MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, List<LootData> results, int tier){
+    public MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, List<LootData> results, int tier){
         this.id = id;
         this.environments = environments;
         this.entityType = entityType;
@@ -38,6 +38,10 @@ public class MobData implements IRecipe<IInventory> {
 
     public EntityType<?> getEntityType(){
         return this.entityType;
+    }
+
+    public void setEntityType(EntityType<?> entityType){
+        this.entityType = entityType;
     }
 
     public Set<String> getValidEnvs(){
@@ -88,12 +92,26 @@ public class MobData implements IRecipe<IInventory> {
         return this.growTicks;
     }
 
+    public void setTotalGrowTicks(int newTicks){
+        this.growTicks = newTicks;
+    }
+
     public List<LootData> getResults () {
         return this.results;
     }
 
     public int getSamplerTier() {
         return samplerTier;
+    }
+
+    public void setSamplerTier(int tier){
+        this.samplerTier = tier;
+    }
+
+    @Override
+    public boolean isDynamic() {
+
+        return true;
     }
 
 }

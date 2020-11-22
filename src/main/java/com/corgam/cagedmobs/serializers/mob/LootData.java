@@ -17,7 +17,7 @@ public class LootData {
     private final boolean arrow;
     private int color = -1;
 
-    LootData(ItemStack item, ItemStack cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color){
+    public LootData(ItemStack item, ItemStack cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color){
         this.chance = chance;
         this.item = item;
         this.cookedItem = cookedItem;
@@ -132,4 +132,5 @@ public class LootData {
     public int getColor(){
         return this.color;
     }
+
 }
