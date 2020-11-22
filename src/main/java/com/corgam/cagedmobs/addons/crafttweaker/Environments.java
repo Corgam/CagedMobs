@@ -37,7 +37,7 @@ public class Environments implements IRecipeManager {
         if (recipe instanceof EnvironmentData) {
             return new CTEnvironment((EnvironmentData) recipe);
         }else{
-            throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker entityRecipe ID: " + id);
+            throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker environmentRecipe ID: " + id);
         }
     }
 
