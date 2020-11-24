@@ -72,6 +72,13 @@ public class CTEntity {
 
     @ZenCodeType.Method
     public CTEntity addLoot(IItemStack item, IItemStack cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color){
+        // To prevent adding the same item twice, look if it's already there
+        for(LootData loot : this.data.getResults()){
+            if(loot.getItem().equals(item.getInternal(),false)){
+                return this;
+            }
+        }
+        // If there is a cooked variant
         if(cookedItem == null || cookedItem.getInternal().getItem().equals(Items.AIR)){
             this.data.getResults().add(new LootData(item.getInternal(), ItemStack.EMPTY, chance, min, max, lighting, arrow, color));
         }else{
