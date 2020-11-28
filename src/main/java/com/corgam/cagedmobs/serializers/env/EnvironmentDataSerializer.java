@@ -23,50 +23,62 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
     // Used to serialize all EnvData recipes from JSON files
     @Override
     public EnvironmentData read(ResourceLocation recipeId, JsonObject json) {
-        // Input item
-        final Ingredient inputItem = Ingredient.deserialize(json.getAsJsonObject("input"));
-        // Block to render
-        final BlockState renderState = SerializationHelper.deserializeBlockState(json.getAsJsonPrimitive("render"));
-        // Grow modifier
-        final float growModifier = JSONUtils.getFloat(json, "growModifier");
-        // Categories
-        final Set<String> categories = new HashSet<>();
-        for(final JsonElement e : json.getAsJsonArray("categories")){
-            categories.add(e.getAsString().toLowerCase());
-        }
+        try {
+            // Input item
+            final Ingredient inputItem = Ingredient.deserialize(json.getAsJsonObject("input"));
+            // Block to render
+            final BlockState renderState = SerializationHelper.deserializeBlockState(json.getAsJsonPrimitive("render"));
+            // Grow modifier
+            final float growModifier = JSONUtils.getFloat(json, "growModifier");
+            // Categories
+            final Set<String> categories = new HashSet<>();
+            for(final JsonElement e : json.getAsJsonArray("categories")){
+                categories.add(e.getAsString().toLowerCase());
+            }
 
-        // Error checks
-        if (growModifier <= -1) {
-            throw new IllegalArgumentException("Environment " + recipeId + " has an invalid grow modifier. It must be greater than -1.");
-        }
+            // Error checks
+            if (growModifier <= -1) {
+                throw new IllegalArgumentException("Environment " + recipeId + " has an invalid grow modifier. It must be greater than -1.");
+            }
 
-        return new EnvironmentData(recipeId, inputItem, renderState, growModifier, categories);
+            return new EnvironmentData(recipeId, inputItem, renderState, growModifier, categories);
+        }catch(final Exception e){
+            throw new IllegalStateException("Failed to read environmentData from json.");
+        }
     }
 
     @Override
     public EnvironmentData read(ResourceLocation recipeId, PacketBuffer buffer) {
-        // Input item
-        final Ingredient inputItem = Ingredient.read(buffer);
-        // Block to render
-        final BlockState renderState = SerializationHelper.deserializeBlockState(buffer);
-        // Grow modifier
-        final float growModifier = buffer.readFloat();
-        // Categories
-        final Set<String> categories = new HashSet<>();
-        SerializationHelper.deserializeStringCollection(buffer, categories);
+        try {
+            // Input item
+            final Ingredient inputItem = Ingredient.read(buffer);
+            // Block to render
+            final BlockState renderState = SerializationHelper.deserializeBlockState(buffer);
+            // Grow modifier
+            final float growModifier = buffer.readFloat();
+            // Categories
+            final Set<String> categories = new HashSet<>();
+            SerializationHelper.deserializeStringCollection(buffer, categories);
 
-        return new EnvironmentData(recipeId, inputItem, renderState, growModifier, categories);
+            return new EnvironmentData(recipeId, inputItem, renderState, growModifier, categories);
+        }catch(final Exception e){
+            throw new IllegalStateException("Failed to read environmentData from packet buffer.");
+        }
     }
 
     @Override
     public void write(PacketBuffer buffer, EnvironmentData recipe) {
-        // Input item
-        recipe.getInputItem().write(buffer);
-        // Block to render
-        SerializationHelper.serializeBlockState(buffer, recipe.getRenderState());
-        // Grow modifier
-        buffer.writeFloat(recipe.getGrowModifier());
-        // Categories
-        SerializationHelper.serializeStringCollection(buffer, recipe.getEnvironments());
+        try{
+            // Input item
+            recipe.getInputItem().write(buffer);
+            // Block to render
+            SerializationHelper.serializeBlockState(buffer, recipe.getRenderState());
+            // Grow modifier
+            buffer.writeFloat(recipe.getGrowModifier());
+            // Categories
+            SerializationHelper.serializeStringCollection(buffer, recipe.getEnvironments());
+        }catch (final Exception e) {
+            throw new IllegalStateException("Failed to write environmentData to the packet buffer.");
+        }
     }
 }

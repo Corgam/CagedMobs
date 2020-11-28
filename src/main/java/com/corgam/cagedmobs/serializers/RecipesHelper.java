@@ -2,24 +2,15 @@ package com.corgam.cagedmobs.serializers;
 
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
 import com.corgam.cagedmobs.serializers.env.RecipeTypeEnvData;
+import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
+import com.corgam.cagedmobs.serializers.mob.RecipeAdditionalLoot;
 import com.corgam.cagedmobs.serializers.mob.RecipeTypeMobData;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -32,6 +23,7 @@ public class RecipesHelper {
 
     public static final IRecipeType<MobData> MOB_RECIPE = new RecipeTypeMobData();
     public static final IRecipeType<EnvironmentData> ENV_RECIPE = new RecipeTypeEnvData();
+    public static final IRecipeType<AdditionalLootData> ADDITIONAL_LOOT_RECIPE = new RecipeAdditionalLoot();
 
     // Some helper functions
 
@@ -58,6 +50,15 @@ public class RecipesHelper {
         return Collections.emptyList();
     }
 
+    public static List<AdditionalLootData> getAdditionalLootRecipesList (RecipeManager manager) {
+
+        if (manager != null) {
+            return manager.getRecipesForType(RecipesHelper.ADDITIONAL_LOOT_RECIPE);
+        }
+
+        return Collections.emptyList();
+    }
+
     public static RecipeManager getRecipeManager(){
         try{
             if(EffectiveSide.get().isClient()){
@@ -69,18 +70,6 @@ public class RecipesHelper {
             throw new RuntimeException(e);
         }
     }
-
-//    public static World getWorld(){
-//        try{
-//            if(EffectiveSide.get().isClient()){
-//                return RecipesHelper.getRecipeManagerClient();
-//            }else{
-//                return RecipesHelper.getRecipeManagerServer();
-//            }
-//        }catch(final Exception e){
-//            throw new RuntimeException(e);
-//        }
-//    }
 
     private static RecipeManager getRecipeManagerClient() {
         if(Minecraft.getInstance().player != null){

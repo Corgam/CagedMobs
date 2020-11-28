@@ -1,113 +1,71 @@
 package com.corgam.cagedmobs.serializers.mob;
 
-import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.StrayEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<MobData>{
+public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AdditionalLootData>{
 
-    MobDataSerializer(){
-        this.setRegistryName(new ResourceLocation("cagedmobs","mob_data"));
+    AdditionalLootDataSerializer(){
+        this.setRegistryName(new ResourceLocation("cagedmobs","additional_loot_data"));
     }
 
-    // Used to serialize all MobData recipes from JSON files
     @Override
-    public MobData read(ResourceLocation id, JsonObject json) {
+    public AdditionalLootData read(ResourceLocation id, JsonObject json) {
         try{
             // Entity
             final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
-            // Envs
-            final Set<String> validEnvs = deserializeEnvsData(id, json);
-            // Total grow ticks
-            final int growTicks = JSONUtils.getInt(json, "growTicks");
             // Loot Data
             final List<LootData> results = deserializeLootData(id, json, entityType);
-            // Sampler tier
-            final int samplerTier = JSONUtils.getInt(json, "samplerTier");
 
-            //Error checks
-            if (growTicks <= 0){
-                throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid growth tick rate. It must use a positive integer.");
-            }
-            if(samplerTier < 1 || samplerTier > 3){
-                throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid sampler tier. It must use tiers: 1,2 or 3.");
-            }
-
-            return new MobData(id, entityType, validEnvs, growTicks, results, samplerTier);
+            return new AdditionalLootData(id, entityType, results);
         }catch(final Exception e){
-            throw new IllegalStateException("Failed to read mobData from json.");
+            throw new IllegalStateException("Failed to read additonalLootData from json.");
         }
     }
 
     @Override
-    public MobData read(ResourceLocation id, PacketBuffer buffer) {
+    public AdditionalLootData read(ResourceLocation id, PacketBuffer buffer) {
         try {
             // Entity
             final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, buffer);
-            // Envs
-            final Set<String> validEnvs = new HashSet<>();
-            SerializationHelper.deserializeStringCollection(buffer, validEnvs);
-            // Total grow ticks
-            final int growTicks = buffer.readInt();
             // Loot data
             final List<LootData> results = new ArrayList<>();
             final int length = buffer.readInt();
             for (int i = 0; i < length; i++) {
                 results.add(LootData.deserializeBuffer(buffer));
             }
-            // Sampler tier
-            final int tier = buffer.readInt();
-
-            return new MobData(id, entityType, validEnvs, growTicks, results, tier);
-
+            return new AdditionalLootData(id, entityType, results);
         }catch(final Exception e){
-            throw new IllegalStateException("Failed to read mobData from packet buffer.");
+            throw new IllegalStateException("Failed to read additionalLootData from packet buffer.");
         }
     }
 
     @Override
-    public void write(PacketBuffer buffer, MobData recipe) {
+    public void write(PacketBuffer buffer, AdditionalLootData recipe) {
         try {
             // Entity
             SerializationHelper.serializeEntityType(buffer, recipe.getEntityType());
-            // Envs
-            SerializationHelper.serializeStringCollection(buffer, recipe.getValidEnvs());
-            // Total  Grow Ticks
-            buffer.writeInt(recipe.getTotalGrowTicks());
             // Loot data
             buffer.writeInt(recipe.getResults().size());
             for( final LootData data : recipe.getResults()){
                 LootData.serializeBuffer(buffer, data);
             }
-            // Sampler Tier
-            buffer.writeInt(recipe.getSamplerTier());
-
         }catch (final Exception e) {
-            throw new IllegalStateException("Failed to write mobData to the packet buffer.");
+            throw new IllegalStateException("Failed to write additionalLootData to the packet buffer.");
         }
     }
 
-    // Deserializes environments
-    private static Set<String> deserializeEnvsData (ResourceLocation ownerId, JsonObject json) {
-        final Set<String> categories = new HashSet<>();
-        for (final JsonElement elem : json.getAsJsonArray("environments")) {
-            categories.add(elem.getAsString().toLowerCase());
-        }
-        return categories;
-    }
 
     // Deserializes loot data
     private static List<LootData> deserializeLootData (ResourceLocation ownerId, JsonObject json, EntityType<?> entityType) {

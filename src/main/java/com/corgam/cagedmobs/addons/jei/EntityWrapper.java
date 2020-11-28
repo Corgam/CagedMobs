@@ -3,6 +3,7 @@ package com.corgam.cagedmobs.addons.jei;
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
+import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.setup.CagedItems;
@@ -21,6 +22,7 @@ import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.passive.fish.*;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.WeightedSpawnerEntity;
@@ -70,14 +72,37 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         // Add loot
         int lootIndex = 0;
         for(LootData data : entity.getResults()){
-            this.drops.add(data);
-            lootIndex++;
-            // If it has a cooked variant add one more LootData
-            if(data.isCooking()){
+            if(!this.drops.contains(data)) {
                 this.drops.add(data);
-                // If added cooked variant keep track of cooked IDs
-                this.cookedIDs.add(lootIndex);
                 lootIndex++;
+                // If it has a cooked variant add one more LootData
+                if (data.isCooking()) {
+                    this.drops.add(data);
+                    // If added cooked variant keep track of cooked IDs
+                    this.cookedIDs.add(lootIndex);
+                    lootIndex++;
+                }
+            }
+        }
+        // Add additional Loot
+        for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ADDITIONAL_LOOT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof AdditionalLootData) {
+                final AdditionalLootData additionalLootData = (AdditionalLootData) recipe;
+                if(this.entity.getEntityType().equals(additionalLootData.getEntityType())) {
+                    for(LootData data : additionalLootData.getResults()){
+                        if(!this.drops.contains(data)){
+                            this.drops.add(data);
+                            lootIndex++;
+                            // If it has a cooked variant add one more LootData
+                            if(data.isCooking()){
+                                this.drops.add(data);
+                                // If added cooked variant keep track of cooked IDs
+                                this.cookedIDs.add(lootIndex);
+                                lootIndex++;
+                            }
+                        }
+                    }
+                }
             }
         }
         // Set up required ticks

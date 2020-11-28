@@ -4,6 +4,7 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
+import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.setup.CagedTE;
@@ -297,14 +298,31 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         return false;
     }
 
+    // Used to get the MobData from entityType. Also adds all additional Loot to the entity.
     private static MobData getMobDataFromType(EntityType<?> type){
         MobData finalMobData = null;
+        // Get the mobData
         for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
                 if(mobData.getEntityType().equals(type)) {
                     finalMobData = mobData;
                     break;
+                }
+            }
+        }
+        // Add additional Loot
+        if(finalMobData != null){
+            for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ADDITIONAL_LOOT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+                if(recipe instanceof AdditionalLootData) {
+                    final AdditionalLootData additionalLootData = (AdditionalLootData) recipe;
+                    if(finalMobData.getEntityType().equals(additionalLootData.getEntityType())) {
+                        for(LootData data : additionalLootData.getResults()){
+                            if(!finalMobData.getResults().contains(data)){
+                                finalMobData.getResults().add(data);
+                            }
+                        }
+                    }
                 }
             }
         }
