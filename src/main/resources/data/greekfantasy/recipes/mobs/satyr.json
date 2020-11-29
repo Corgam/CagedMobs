@@ -1,0 +1,40 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:satyr",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "greekfantasy:panflute"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.3,
+				"output": {
+					"item": "greekfantasy:wild_rose"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.6,
+				"output": {
+					"item": "minecraft:sweet_berries"
+				},
+				"minAmount": 1,
+				"maxAmount": 3
+		}
+	]
+	
+}

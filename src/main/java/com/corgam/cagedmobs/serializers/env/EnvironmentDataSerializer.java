@@ -23,28 +23,23 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
     // Used to serialize all EnvData recipes from JSON files
     @Override
     public EnvironmentData read(ResourceLocation recipeId, JsonObject json) {
-        try {
-            // Input item
-            final Ingredient inputItem = Ingredient.deserialize(json.getAsJsonObject("input"));
-            // Block to render
-            final BlockState renderState = SerializationHelper.deserializeBlockState(json.getAsJsonPrimitive("render"));
-            // Grow modifier
-            final float growModifier = JSONUtils.getFloat(json, "growModifier");
-            // Categories
-            final Set<String> categories = new HashSet<>();
-            for(final JsonElement e : json.getAsJsonArray("categories")){
-                categories.add(e.getAsString().toLowerCase());
-            }
-
-            // Error checks
-            if (growModifier <= -1) {
-                throw new IllegalArgumentException("Environment " + recipeId + " has an invalid grow modifier. It must be greater than -1.");
-            }
-
-            return new EnvironmentData(recipeId, inputItem, renderState, growModifier, categories);
-        }catch(final Exception e){
-            throw new IllegalStateException("Failed to read environmentData from json.");
+        // Input item
+        final Ingredient inputItem = Ingredient.deserialize(json.getAsJsonObject("input"));
+        // Block to render
+        final BlockState renderState = SerializationHelper.deserializeBlockState(json.getAsJsonPrimitive("render"));
+        // Grow modifier
+        final float growModifier = JSONUtils.getFloat(json, "growModifier");
+        // Categories
+        final Set<String> categories = new HashSet<>();
+        for(final JsonElement e : json.getAsJsonArray("categories")){
+            categories.add(e.getAsString().toLowerCase());
         }
+
+        // Error checks
+        if (growModifier <= -1) {
+            throw new IllegalArgumentException("Environment " + recipeId + " has an invalid grow modifier. It must be greater than -1.");
+        }
+        return new EnvironmentData(recipeId, inputItem, renderState, growModifier, categories);
     }
 
     @Override

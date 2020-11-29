@@ -1,0 +1,24 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:gorgon",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "greekfantasy:snakeskin"
+			},
+			"minAmount": 1,
+			"maxAmount": 4
+		}
+	]
+
+}

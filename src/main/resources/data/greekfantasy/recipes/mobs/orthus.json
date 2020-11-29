@@ -1,0 +1,33 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:orthus",
+	"samplerTier": 2,
+	"environments": ["nether"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"lightning": true,
+			"chance": 0.35,
+			"output": {
+				"item": "greekfantasy:orthus_head"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+				"output": {
+					"item": "greekfantasy:dog_claw"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

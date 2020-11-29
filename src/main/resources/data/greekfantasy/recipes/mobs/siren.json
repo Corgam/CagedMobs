@@ -1,0 +1,40 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:siren",
+	"samplerTier": 2,
+	"environments": ["water"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "minecraft:prismarine_crystals"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.1,
+				"output": {
+					"item": "minecraft:nautilus_shell"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.6,
+				"output": {
+					"item": "minecraft:pufferfish"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

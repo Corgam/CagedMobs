@@ -1,0 +1,24 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:cerastes",
+	"samplerTier": 2,
+	"environments": ["desert"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "greekfantasy:horn"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}

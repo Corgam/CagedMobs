@@ -22,16 +22,12 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
 
     @Override
     public AdditionalLootData read(ResourceLocation id, JsonObject json) {
-        try{
-            // Entity
-            final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
-            // Loot Data
-            final List<LootData> results = deserializeLootData(id, json, entityType);
+        // Entity
+        final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
+        // Loot Data
+        final List<LootData> results = deserializeLootData(id, json, entityType);
 
             return new AdditionalLootData(id, entityType, results);
-        }catch(final Exception e){
-            throw new IllegalStateException("Failed to read additonalLootData from json.");
-        }
     }
 
     @Override

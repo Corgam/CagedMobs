@@ -1,0 +1,32 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:ara",
+	"samplerTier": 1,
+	"environments": ["cave"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:flint"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.075,
+			"output": {
+				"item": "greekfantasy:flint_knife"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}

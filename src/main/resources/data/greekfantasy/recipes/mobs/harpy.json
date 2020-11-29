@@ -1,0 +1,32 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:harpy",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "greekfantasy:magic_feather"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "minecraft:feather"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+
+}

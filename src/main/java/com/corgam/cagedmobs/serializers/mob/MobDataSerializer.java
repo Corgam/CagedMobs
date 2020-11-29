@@ -26,30 +26,26 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
     // Used to serialize all MobData recipes from JSON files
     @Override
     public MobData read(ResourceLocation id, JsonObject json) {
-        try{
-            // Entity
-            final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
-            // Envs
-            final Set<String> validEnvs = deserializeEnvsData(id, json);
-            // Total grow ticks
-            final int growTicks = JSONUtils.getInt(json, "growTicks");
-            // Loot Data
-            final List<LootData> results = deserializeLootData(id, json, entityType);
-            // Sampler tier
-            final int samplerTier = JSONUtils.getInt(json, "samplerTier");
+        // Entity
+        final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
+        // Envs
+        final Set<String> validEnvs = deserializeEnvsData(id, json);
+        // Total grow ticks
+        final int growTicks = JSONUtils.getInt(json, "growTicks");
+        // Loot Data
+        final List<LootData> results = deserializeLootData(id, json, entityType);
+        // Sampler tier
+        final int samplerTier = JSONUtils.getInt(json, "samplerTier");
 
-            //Error checks
-            if (growTicks <= 0){
-                throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid growth tick rate. It must use a positive integer.");
-            }
-            if(samplerTier < 1 || samplerTier > 3){
-                throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid sampler tier. It must use tiers: 1,2 or 3.");
-            }
-
-            return new MobData(id, entityType, validEnvs, growTicks, results, samplerTier);
-        }catch(final Exception e){
-            throw new IllegalStateException("Failed to read mobData from json.");
+        //Error checks
+        if (growTicks <= 0){
+            throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid growth tick rate. It must use a positive integer.");
         }
+        if(samplerTier < 1 || samplerTier > 3){
+            throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid sampler tier. It must use tiers: 1,2 or 3.");
+        }
+
+        return new MobData(id, entityType, validEnvs, growTicks, results, samplerTier);
     }
 
     @Override

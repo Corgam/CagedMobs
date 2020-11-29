@@ -1,0 +1,168 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:dryad",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:stick"
+			},
+			"minAmount": 1,
+			"maxAmount": 4
+		},
+		{
+			"chance": 0.2,
+				"output": {
+					"item": "minecraft:acacia_sapling"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+				"output": {
+					"item": "minecraft:acacia_leaves"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+				"output": {
+					"item": "minecraft:acacia_log"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "minecraft:birch_sapling"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "minecraft:birch_leaves"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "minecraft:birch_log"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "minecraft:dark_oak_sapling"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "minecraft:dark_oak_leaves"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "minecraft:dark_oak_log"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "minecraft:jungle_sapling"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "minecraft:jungle_leaves"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "minecraft:jungle_log"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "minecraft:oak_sapling"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "minecraft:oak_leaves"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "minecraft:oak_log"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "minecraft:spruce_sapling"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "minecraft:spruce_leaves"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "minecraft:spruce_log"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}
