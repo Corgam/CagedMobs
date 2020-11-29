@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.serializers.mob;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.IInventory;
@@ -24,6 +25,7 @@ public class AdditionalLootData implements IRecipe<IInventory> {
         this.id = id;
         this.entityType = entityType;
         this.results = results;
+        CagedMobs.LOGGER.info("Loaded AdditionalLootData recipe for: " + this.entityType.toString());
     }
 
     @Override
