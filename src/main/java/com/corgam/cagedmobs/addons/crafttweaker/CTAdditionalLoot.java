@@ -15,7 +15,7 @@ import org.openzen.zencode.java.ZenCodeType;
 import java.util.ArrayList;
 
 @ZenRegister
-@ZenCodeType.Name("mods.cagedmobs.CTAdditionalLoot")
+@ZenCodeType.Name("mods.cagedmobs.AdditionalLoot")
 public class CTAdditionalLoot {
 
     private final AdditionalLootData data;
