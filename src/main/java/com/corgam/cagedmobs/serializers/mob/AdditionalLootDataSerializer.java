@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.serializers.mob;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -43,7 +44,8 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
             }
             return new AdditionalLootData(id, entityType, results);
         }catch(final Exception e){
-            throw new IllegalStateException("Failed to read additionalLootData from packet buffer.");
+            CagedMobs.LOGGER.catching(e);
+            throw new IllegalStateException("Failed to read additionalLootData with id: " + id.toString() + "from packet buffer.");
         }
     }
 
@@ -58,7 +60,8 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
                 LootData.serializeBuffer(buffer, data);
             }
         }catch (final Exception e) {
-            throw new IllegalStateException("Failed to write additionalLootData to the packet buffer.");
+            CagedMobs.LOGGER.catching(e);
+            throw new IllegalStateException("Failed to write additionalLootData with id: " + recipe.getId().toString() + "to the packet buffer.");
         }
     }
 

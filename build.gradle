@@ -115,12 +115,12 @@ dependencies {
     runtimeOnly fg.deobf("mcp.mobius.waila:Hwyla:1.10.11-B78_1.16.2")
 
     // The One Probe
-    compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:1.16-3.0.3-beta-6") {
+    compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:1.16-3.0.6-8") {
         transitive = false
     }
 
     // CraftTweaker
-    compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.4:7.0.0.51")
+    compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.4:7.0.0.63")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.serializers.env;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -37,7 +38,7 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
 
         // Error checks
         if (growModifier <= -1) {
-            throw new IllegalArgumentException("Environment " + recipeId + " has an invalid grow modifier. It must be greater than -1.");
+            throw new IllegalArgumentException("Environment " + recipeId.toString() + " has an invalid grow modifier. It must be greater than -1.");
         }
         return new EnvironmentData(recipeId, inputItem, renderState, growModifier, categories);
     }
@@ -57,7 +58,8 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
 
             return new EnvironmentData(recipeId, inputItem, renderState, growModifier, categories);
         }catch(final Exception e){
-            throw new IllegalStateException("Failed to read environmentData from packet buffer.");
+            CagedMobs.LOGGER.catching(e);
+            throw new IllegalStateException("Failed to read environmentData with id: " + recipeId.toString() + " from packet buffer.");
         }
     }
 
@@ -73,7 +75,8 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
             // Categories
             SerializationHelper.serializeStringCollection(buffer, recipe.getEnvironments());
         }catch (final Exception e) {
-            throw new IllegalStateException("Failed to write environmentData to the packet buffer.");
+            CagedMobs.LOGGER.catching(e);
+            throw new IllegalStateException("Failed to write environmentData with id " + recipe.getId().toString() + "to the packet buffer.");
         }
     }
 }

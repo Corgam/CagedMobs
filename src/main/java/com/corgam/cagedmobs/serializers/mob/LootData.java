@@ -15,7 +15,7 @@ public class LootData {
     private final int maxAmount;
     private final boolean lighting;
     private final boolean arrow;
-    private int color = -1;
+    private int color;
 
     public LootData(ItemStack item, ItemStack cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color){
         this.chance = chance;
@@ -65,26 +65,42 @@ public class LootData {
     }
 
     public static LootData deserializeBuffer(PacketBuffer buffer) {
+        // Chance
         final float chance = buffer.readFloat();
+        // Item
         final ItemStack item = buffer.readItemStack();
+        // Min amount
         final int min = buffer.readInt();
+        // Max amount
         final int max = buffer.readInt();
+        // Lightning
         final boolean isLightning = buffer.readBoolean();
+        // Arrow
         final boolean isArrow = buffer.readBoolean();
+        // Cooked item
         final ItemStack cookedItem = buffer.readItemStack();
+        // Color
         final int color = buffer.readInt();
 
         return new LootData(item, cookedItem, chance, min, max, isLightning, isArrow, color);
     }
 
     public static void serializeBuffer(PacketBuffer buffer, LootData info) {
+        // Chance
         buffer.writeFloat(info.getChance());
+        // Item
         buffer.writeItemStack(info.getItem());
+        // Min amount
         buffer.writeInt(info.getMinAmount());
+        // Max amount
         buffer.writeInt(info.getMaxAmount());
+        // Lightning
         buffer.writeBoolean(info.isLighting());
+        // Arrow
         buffer.writeBoolean(info.isArrow());
+        // Cooking
         buffer.writeItemStack(info.getCookedItem());
+        // Color
         buffer.writeInt(info.getColor());
     }
 

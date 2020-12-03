@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.serializers.mob;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
@@ -39,10 +40,10 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
 
         //Error checks
         if (growTicks <= 0){
-            throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid growth tick rate. It must use a positive integer.");
+            throw new IllegalArgumentException("MobDataRecipe with id: " + id.toString() + " has an invalid growth tick rate. It must use a positive integer.");
         }
         if(samplerTier < 1 || samplerTier > 3){
-            throw new IllegalArgumentException("MobDataRecipe with id: " + id + " has an invalid sampler tier. It must use tiers: 1,2 or 3.");
+            throw new IllegalArgumentException("MobDataRecipe with id: " + id.toString() + " has an invalid sampler tier. It must use tiers: 1,2 or 3.");
         }
 
         return new MobData(id, entityType, validEnvs, growTicks, results, samplerTier);
@@ -70,7 +71,8 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             return new MobData(id, entityType, validEnvs, growTicks, results, tier);
 
         }catch(final Exception e){
-            throw new IllegalStateException("Failed to read mobData from packet buffer.");
+            CagedMobs.LOGGER.catching(e);
+            throw new IllegalStateException("Failed to read mobData wiht id "+ id.toString() + "from packet buffer.", e);
         }
     }
 
@@ -92,7 +94,8 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             buffer.writeInt(recipe.getSamplerTier());
 
         }catch (final Exception e) {
-            throw new IllegalStateException("Failed to write mobData to the packet buffer.");
+            CagedMobs.LOGGER.catching(e);
+            throw new IllegalStateException("Failed to write mobData with id: "+ recipe.getId() + "to the packet buffer.",e);
         }
     }
 
