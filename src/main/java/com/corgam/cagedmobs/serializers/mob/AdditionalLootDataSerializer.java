@@ -45,7 +45,7 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
             return new AdditionalLootData(id, entityType, results);
         }catch(final Exception e){
             CagedMobs.LOGGER.catching(e);
-            throw new IllegalStateException("Failed to read additionalLootData with id: " + id.toString() + "from packet buffer.");
+            throw new IllegalStateException("Failed to read additionalLootData with id: " + id.toString() + " from packet buffer.");
         }
     }
 
@@ -61,7 +61,7 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
             }
         }catch (final Exception e) {
             CagedMobs.LOGGER.catching(e);
-            throw new IllegalStateException("Failed to write additionalLootData with id: " + recipe.getId().toString() + "to the packet buffer.");
+            throw new IllegalStateException("Failed to write additionalLootData with id: " + recipe.getId().toString() + " to the packet buffer.");
         }
     }
 

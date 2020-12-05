@@ -88,6 +88,9 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ADDITIONAL_LOOT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof AdditionalLootData) {
                 final AdditionalLootData additionalLootData = (AdditionalLootData) recipe;
+                // Check for null exceptions
+                if(additionalLootData.getEntityType() == null){continue;}
+                if(this.entity.getEntityType() == null){ continue;}
                 if(this.entity.getEntityType().equals(additionalLootData.getEntityType())) {
                     for(LootData data : additionalLootData.getResults()){
                         if(!this.drops.contains(data)){

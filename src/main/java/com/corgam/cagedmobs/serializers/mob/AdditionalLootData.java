@@ -25,7 +25,9 @@ public class AdditionalLootData implements IRecipe<IInventory> {
         this.id = id;
         this.entityType = entityType;
         this.results = results;
-        CagedMobs.LOGGER.info("Loaded AdditionalLootData recipe for: " + this.entityType.toString());
+        if(id != null && CagedMobs.LOGGER != null) {
+            CagedMobs.LOGGER.info("Loaded AdditionalLootData recipe with id: " + id.toString());
+        }
     }
 
     @Override
@@ -73,5 +75,11 @@ public class AdditionalLootData implements IRecipe<IInventory> {
 
     public void setEntityType(EntityType<?> entityType){
         this.entityType = entityType;
+    }
+
+    @Override
+    public boolean isDynamic() {
+
+        return true;
     }
 }

@@ -76,7 +76,7 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
             SerializationHelper.serializeStringCollection(buffer, recipe.getEnvironments());
         }catch (final Exception e) {
             CagedMobs.LOGGER.catching(e);
-            throw new IllegalStateException("Failed to write environmentData with id " + recipe.getId().toString() + "to the packet buffer.");
+            throw new IllegalStateException("Failed to write environmentData with id " + recipe.getId().toString() + " to the packet buffer.");
         }
     }
 }

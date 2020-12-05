@@ -106,7 +106,9 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
         // Draw entity name
         matrix.push();
         matrix.translate(5, 2, 0);
-        Minecraft.getInstance().fontRenderer.drawString(matrix, new TranslationTextComponent(recipe.getEntity().getEntityType().getTranslationKey()).getString(), 0, 0, 8);
+        if(recipe.getEntity() != null && recipe.getEntity().getEntityType() != null) {
+            Minecraft.getInstance().fontRenderer.drawString(matrix, new TranslationTextComponent(recipe.getEntity().getEntityType().getTranslationKey()).getString(), 0, 0, 8);
+        }
         // Draw required ticks
         matrix.translate(5, 100, 0);
         Minecraft.getInstance().fontRenderer.drawString(matrix, new TranslationTextComponent("jei.tooltip.cagedmobs.entity.ticks",recipe.getSeconds()).getString(), 0, 0, 8);

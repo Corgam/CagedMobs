@@ -69,22 +69,24 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     private WeightedSpawnerEntity renderedEntity;
 
     // Used to get Entity for rendering inside the cage, if cachedEntity is null, then get it from the stored EntityType
-    @Nullable
     @OnlyIn(Dist.CLIENT)
-    public Entity getCachedEntity() {
+    public Entity getCachedEntity(World world) {
         if (this.cachedEntity == null) {
             if(this.renderedEntity == null){
                 CompoundNBT nbt = new CompoundNBT();
                 nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.entityType).toString());
                 this.renderedEntity = new WeightedSpawnerEntity(1, nbt);
             }
-            if(Minecraft.getInstance().getIntegratedServer() != null) {
-                try{
+            try{
+                //if(Minecraft.getInstance().getIntegratedServer() != null && Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next() != null){
                     this.cachedEntity = EntityType.loadEntityAndExecute(this.renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
-                }catch(Exception e){
-                    CagedMobs.LOGGER.error("Error getting cached entity!");
-                }
+                //}else{
+                   // this.cachedEntity = EntityType.loadEntityAndExecute(this.renderedEntity.getNbt(),world, Function.identity());
+                //}
+            }catch(Exception e){
+                CagedMobs.LOGGER.error("Error getting cached entity!",e);
             }
+
         }
         return this.cachedEntity;
     }
@@ -290,6 +292,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
+                // Check for null exception
+                if(mobData.getEntityType() == null){continue;}
                 if(mobData.getEntityType().equals(entityType)) {
                     return true;
                 }
@@ -305,6 +309,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
+                // Check for null exception
+                if(mobData.getEntityType() == null){continue;}
                 if(mobData.getEntityType().equals(type)) {
                     finalMobData = mobData;
                     break;
@@ -316,6 +322,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ADDITIONAL_LOOT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
                 if(recipe instanceof AdditionalLootData) {
                     final AdditionalLootData additionalLootData = (AdditionalLootData) recipe;
+                    // Check for null exception
+                    if(finalMobData.getEntityType() == null){continue;}
                     if(finalMobData.getEntityType().equals(additionalLootData.getEntityType())) {
                         for(LootData data : additionalLootData.getResults()){
                             if(!finalMobData.getResults().contains(data)){

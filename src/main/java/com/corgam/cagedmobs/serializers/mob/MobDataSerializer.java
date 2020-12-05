@@ -72,7 +72,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
 
         }catch(final Exception e){
             CagedMobs.LOGGER.catching(e);
-            throw new IllegalStateException("Failed to read mobData wiht id "+ id.toString() + "from packet buffer.", e);
+            throw new IllegalStateException("Failed to read mobData with id: "+ id.toString() + " from packet buffer.", e);
         }
     }
 
@@ -95,7 +95,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
 
         }catch (final Exception e) {
             CagedMobs.LOGGER.catching(e);
-            throw new IllegalStateException("Failed to write mobData with id: "+ recipe.getId() + "to the packet buffer.",e);
+            throw new IllegalStateException("Failed to write mobData with id: "+ recipe.getId() + " to the packet buffer.",e);
         }
     }
 

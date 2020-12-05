@@ -63,6 +63,8 @@ public class DnaSamplerItem extends Item {
         for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
+                // Check for null exception
+                if(mobData.getEntityType() == null){continue;}
                 if(mobData.getEntityType().equals(type) && mobData.getSamplerTier() <= getSamplerTierInt(stack.getItem())) {
                     sufficient = true;
                     break;
@@ -89,6 +91,8 @@ public class DnaSamplerItem extends Item {
         for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
+                // Check for null exception
+                if(mobData.getEntityType() == null){continue;}
                 if(mobData.getEntityType().equals(clickedEntity.getType())) {
                     contains = true;
                     break;

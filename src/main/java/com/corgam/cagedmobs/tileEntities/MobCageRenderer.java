@@ -18,6 +18,7 @@ import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,6 +26,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.loading.FMLCommonLaunchHandler;
 
 @OnlyIn(Dist.CLIENT)
 public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
@@ -35,7 +38,6 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
 
     @Override
     public void render(MobCageTE tile, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLightIn, int combinedOverlayIn) {
-
         if(tile.getEnvironment() != null && CagedMobs.CLIENT_CONFIG.shouldEnvsRender()){
             matrix.push();
             matrix.scale(0.74f,0.015f,0.74f);
@@ -49,7 +51,7 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
         if(tile.hasEntity() && CagedMobs.CLIENT_CONFIG.shouldEntitiesRender()){
             matrix.push();
             matrix.translate(0.5D, 0.0D, 0.5D);
-            Entity entity = tile.getCachedEntity();
+            Entity entity = tile.getCachedEntity(tile.getWorld());
             if (entity != null) {
                 float maxSize = getEntitySize(entity);
                 float maxEntityDimension = Math.max(entity.getWidth(), entity.getHeight());
@@ -67,7 +69,10 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
                 if(entity instanceof SheepEntity){
                     ((SheepEntity) entity).setFleeceColor(DyeColor.byId(tile.getColor()));
                 }
-                Minecraft.getInstance().getRenderManager().renderEntityStatic(entity,0.0D , 0.0D, getEntityZ(entity), 0.0F, partialTicks, matrix, buffer, combinedLightIn);
+                // Decide what to do on which side
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+                    Minecraft.getInstance().getRenderManager().renderEntityStatic(entity,0.0D , 0.0D, getEntityZ(entity), 0.0F, partialTicks, matrix, buffer, combinedLightIn);
+                });
             }
 
             matrix.pop();
