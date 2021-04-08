@@ -33,7 +33,16 @@ public class DnaSamplerItem extends Item {
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if(target.level.isClientSide() || !(attacker instanceof PlayerEntity)) return false;
         PlayerEntity player = (PlayerEntity) attacker;
-        Hand hand = player.getUsedItemHand();
+        // Select the hand where the sampler is
+        Hand hand;
+        if(player.getMainHandItem().equals(stack)){
+            hand = Hand.MAIN_HAND;
+        }else if(player.getOffhandItem().equals(stack)){
+            hand = Hand.OFF_HAND;
+        }else{
+            return false;
+        }
+        // Try to sample the target
         if (target.isAlive() && canBeCached(target)) {
             if(samplerTierSufficient(stack, target)) {
                 CompoundNBT nbt = new CompoundNBT();
