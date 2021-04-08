@@ -27,14 +27,14 @@ public class SerializationHelper {
     public static void serializeStringCollection(PacketBuffer buffer, Set<String> categories) {
         buffer.writeInt(categories.size());
         for(String s : categories){
-            buffer.writeString(s);
+            buffer.writeUtf(s);
         }
     }
 
     public static void deserializeStringCollection(PacketBuffer buffer, Set<String> categories) {
         final int len = buffer.readInt();
         for(int i=0 ; i < len ; i++){
-            categories.add(buffer.readString());
+            categories.add(buffer.readUtf());
         }
     }
 
@@ -44,36 +44,36 @@ public class SerializationHelper {
         //TODO Non default states
         Block block = renderState.getBlock();
         String locationString = ForgeRegistries.BLOCKS.getKey(block).toString();
-        buffer.writeString(locationString);
+        buffer.writeUtf(locationString);
     }
 
     public static BlockState deserializeBlockState(PacketBuffer buffer) {
         //TODO Non default states
-        String locationString = buffer.readString();
+        String locationString = buffer.readUtf();
         ResourceLocation location = new ResourceLocation(locationString);
         final Block block = ForgeRegistries.BLOCKS.getValue(location);
         if(block != null){
-            return block.getDefaultState();
+            return block.defaultBlockState();
         }
-        return Blocks.AIR.getDefaultState();
+        return Blocks.AIR.defaultBlockState();
     }
 
     public static BlockState deserializeBlockState(JsonElement json) {
         ResourceLocation location = new ResourceLocation(json.getAsString());
         final Block block = ForgeRegistries.BLOCKS.getValue(location);
         if(block != null){
-            return block.getDefaultState();
+            return block.defaultBlockState();
         }
-        return Blocks.AIR.getDefaultState();
+        return Blocks.AIR.defaultBlockState();
     }
 
     // EntityType
 
     public static EntityType<?> deserializeEntityType(ResourceLocation id, PacketBuffer buffer) {
-        final String entityTypeString = buffer.readString();
+        final String entityTypeString = buffer.readUtf();
         ResourceLocation res = new ResourceLocation(entityTypeString);
-        if(EntityType.byKey(res.getPath()).isPresent()) {
-            return EntityType.byKey(res.getPath()).get();
+        if(EntityType.byString(res.getPath()).isPresent()) {
+            return EntityType.byString(res.getPath()).get();
         }else{
             return null;
         }
@@ -81,7 +81,7 @@ public class SerializationHelper {
 
     public static void serializeEntityType(PacketBuffer buffer, EntityType<?> entityType) {
         final String entityTypeString= EntityType.getKey(entityType).toString();
-        buffer.writeString(entityTypeString);
+        buffer.writeUtf(entityTypeString);
     }
 
     public static CompoundNBT serializeEntityTypeNBT(CompoundNBT nbt, EntityType<?> entityType) {
@@ -102,7 +102,7 @@ public class SerializationHelper {
 
     public static EntityType<?> deserializeEntityType(ResourceLocation id, JsonObject json) {
         final String entityTypeString= json.getAsJsonPrimitive("entity").getAsString();
-        Optional<EntityType<?>> entityType = EntityType.byKey(entityTypeString);
+        Optional<EntityType<?>> entityType = EntityType.byString(entityTypeString);
         if(entityType.isPresent()) {
             return entityType.get();
         }else {

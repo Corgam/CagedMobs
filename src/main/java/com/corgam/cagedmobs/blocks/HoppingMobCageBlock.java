@@ -20,16 +20,16 @@ public class HoppingMobCageBlock extends MobCageBlock{
     }
 
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public TileEntity newBlockEntity(IBlockReader worldIn) {
         return new MobCageTE(true);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation (ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.mainInfo").mergeStyle(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.hoppingInfo").mergeStyle(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.envInfo").mergeStyle(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.upgrading").mergeStyle(TextFormatting.GRAY));
+    public void appendHoverText (ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.mainInfo").withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.hoppingInfo").withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.envInfo").withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.upgrading").withStyle(TextFormatting.GRAY));
     }
 }

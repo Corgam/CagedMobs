@@ -35,7 +35,7 @@ public class RecipesHelper {
     public static List<MobData> getEntitiesRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.getRecipesForType(RecipesHelper.MOB_RECIPE);
+            return manager.getAllRecipesFor(RecipesHelper.MOB_RECIPE);
         }
 
         return Collections.emptyList();
@@ -44,7 +44,7 @@ public class RecipesHelper {
     public static List<EnvironmentData> getEnvsRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.getRecipesForType(RecipesHelper.ENV_RECIPE);
+            return manager.getAllRecipesFor(RecipesHelper.ENV_RECIPE);
         }
 
         return Collections.emptyList();
@@ -53,7 +53,7 @@ public class RecipesHelper {
     public static List<AdditionalLootData> getAdditionalLootRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.getRecipesForType(RecipesHelper.ADDITIONAL_LOOT_RECIPE);
+            return manager.getAllRecipesFor(RecipesHelper.ADDITIONAL_LOOT_RECIPE);
         }
 
         return Collections.emptyList();

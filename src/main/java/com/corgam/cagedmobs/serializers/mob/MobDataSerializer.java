@@ -26,17 +26,17 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
 
     // Used to serialize all MobData recipes from JSON files
     @Override
-    public MobData read(ResourceLocation id, JsonObject json) {
+    public MobData fromJson(ResourceLocation id, JsonObject json) {
         // Entity
         final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
         // Envs
         final Set<String> validEnvs = deserializeEnvsData(id, json);
         // Total grow ticks
-        final int growTicks = JSONUtils.getInt(json, "growTicks");
+        final int growTicks = JSONUtils.getAsInt(json, "growTicks");
         // Loot Data
         final List<LootData> results = deserializeLootData(id, json, entityType);
         // Sampler tier
-        final int samplerTier = JSONUtils.getInt(json, "samplerTier");
+        final int samplerTier = JSONUtils.getAsInt(json, "samplerTier");
 
         //Error checks
         if (growTicks <= 0){
@@ -50,7 +50,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
     }
 
     @Override
-    public MobData read(ResourceLocation id, PacketBuffer buffer) {
+    public MobData fromNetwork(ResourceLocation id, PacketBuffer buffer) {
         try {
             // Entity
             final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, buffer);
@@ -77,7 +77,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
     }
 
     @Override
-    public void write(PacketBuffer buffer, MobData recipe) {
+    public void toNetwork(PacketBuffer buffer, MobData recipe) {
         try {
             // Entity
             SerializationHelper.serializeEntityType(buffer, recipe.getEntityType());

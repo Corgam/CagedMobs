@@ -77,16 +77,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                 nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.entityType).toString());
                 this.renderedEntity = new WeightedSpawnerEntity(1, nbt);
             }
-            try{
-                //if(Minecraft.getInstance().getIntegratedServer() != null && Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next() != null){
-                    this.cachedEntity = EntityType.loadEntityAndExecute(this.renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
-                //}else{
-                   // this.cachedEntity = EntityType.loadEntityAndExecute(this.renderedEntity.getNbt(),world, Function.identity());
-                //}
-            }catch(Exception e){
-                CagedMobs.LOGGER.error("Error getting cached entity!",e);
-            }
-
+            this.cachedEntity = EntityType.loadEntityRecursive(this.renderedEntity.getTag(), world, Function.identity());
         }
         return this.cachedEntity;
     }
@@ -117,13 +108,13 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // If has cooking upgrade spawn particles
         if(this.isCooking() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
-            if (!(world instanceof ServerWorld)) {
+            if (!(level instanceof ServerWorld)) {
                     if (rand.nextInt(10) == 0) {
-                        World world = this.getWorld();
-                        BlockPos blockpos = this.getPos();
-                        double d3 = (double) blockpos.getX() + world.rand.nextDouble();
-                        double d4 = (double) blockpos.getY() + (world.rand.nextDouble()/3);
-                        double d5 = (double) blockpos.getZ() + world.rand.nextDouble();
+                        World world = this.getLevel();
+                        BlockPos blockpos = this.getBlockPos();
+                        double d3 = (double) blockpos.getX() + world.random.nextDouble();
+                        double d4 = (double) blockpos.getY() + (world.random.nextDouble()/3);
+                        double d5 = (double) blockpos.getZ() + world.random.nextDouble();
                         world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
                         world.addParticle(ParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
                 }
@@ -132,13 +123,13 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // If has lightning upgrade spawn particles
         if(this.isLightning() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
-            if (!(world instanceof ServerWorld)) {
+            if (!(level instanceof ServerWorld)) {
                 if (rand.nextInt(30) == 0) {
-                    World world = this.getWorld();
-                    BlockPos blockpos = this.getPos();
-                    double d3 = (double) blockpos.getX() + 0.4 + (world.rand.nextDouble()/5);
+                    World world = this.getLevel();
+                    BlockPos blockpos = this.getBlockPos();
+                    double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
                     double d4 = (double) blockpos.getY() + 0.8;
-                    double d5 = (double) blockpos.getZ() +  0.4 + (world.rand.nextDouble()/5);
+                    double d5 = (double) blockpos.getZ() +  0.4 + (world.random.nextDouble()/5);
                     world.addParticle(ParticleTypes.END_ROD, d3, d4, d5, 0.0D, 0.0D, 0.0D);
                 }
             }
@@ -146,13 +137,13 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // If has lightning upgrade spawn particles
         if(this.isArrow() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
-            if (!(world instanceof ServerWorld)) {
+            if (!(level instanceof ServerWorld)) {
                 if (rand.nextInt(30) == 0) {
-                    World world = this.getWorld();
-                    BlockPos blockpos = this.getPos();
-                    double d3 = (double) blockpos.getX() + 0.4 + (world.rand.nextDouble()/5);
+                    World world = this.getLevel();
+                    BlockPos blockpos = this.getBlockPos();
+                    double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
                     double d4 = (double) blockpos.getY() + 0.8;
-                    double d5 = (double) blockpos.getZ() +  0.4 + (world.rand.nextDouble()/5);
+                    double d5 = (double) blockpos.getZ() +  0.4 + (world.random.nextDouble()/5);
                     world.addParticle(ParticleTypes.CRIT, d3, d4, d5, 0.0D, -0.5D, 0.0D);
                 }
             }
@@ -195,14 +186,16 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 ///// ENVIRONMENT /////
 
     public void setEnvironment(ItemStack stack) {
-        this.markDirty();
+        this.setChanged();
         this.environment = getEnvironmentFromItemStack(stack);
         // Set the env item
         ItemStack itemstack = stack.copy();
         itemstack.setCount(1);
         this.envItem = itemstack;
         // Sync with client
-        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        if(this.level != null){
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        }
     }
 
     public EnvironmentData getEnvironment() {
@@ -247,7 +240,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                 return true;
             }
         }
-        player.sendStatusMessage(new TranslationTextComponent("block.cagedmobs.mobcage.envNotSuitable"), true);
+        player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.envNotSuitable"), true);
         return false;
     }
 
@@ -270,9 +263,9 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     }
 
     public void setEntityFromType(EntityType<?> type, ItemStack sampler) {
-        this.markDirty();
+        this.setChanged();
         // Lookup the entity color
-        if(Objects.equals(type.getRegistryName(), ResourceLocation.tryCreate("sheep"))){
+        if(Objects.equals(type.getRegistryName(), ResourceLocation.tryParse("sheep"))){
             if(sampler.hasTag() && sampler.getTag() != null){
                 this.color = sampler.getTag().getInt("Color");
             }
@@ -285,7 +278,9 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // Calculate required ticks (take into account growthModifier from env)
         this.totalGrowTicks = Math.round(mobData.getTotalGrowTicks()/this.environment.getGrowModifier());
         // Sync with client
-        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        if(this.level != null){
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        }
     }
 
     public static boolean existsEntityFromType(EntityType<?> entityType) {
@@ -351,7 +346,9 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // Color
         this.color = 0;
         // Sync with client
-        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        if(this.level != null){
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        }
     }
 
 
@@ -372,13 +369,15 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             this.currentGrowTicks = this.getTotalGrowTicks();
         }
         // Sync with client
-        this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        if(this.level != null){
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        }
     }
 
     // Auto-harvests the cage, when there is a valid inv bellow
     private boolean autoHarvest() {
-        final IItemHandler inventory = getInv(this.world, this.pos.down(), Direction.UP);
-        if(inventory != EmptyHandler.INSTANCE && !this.world.isRemote){
+        final IItemHandler inventory = getInv(this.level, this.worldPosition.below(), Direction.UP);
+        if(inventory != EmptyHandler.INSTANCE && !this.level.isClientSide()){
             // For every item in drop list
             NonNullList<ItemStack> drops =this.createDropsList();
             for(final ItemStack item : drops){
@@ -399,7 +398,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Gets the ItemHandler from block
     private IItemHandler getInv(World world, BlockPos pos, Direction side){
-        final TileEntity te = world.getTileEntity(pos);
+        final TileEntity te = world.getBlockEntity(pos);
         // Capability system
         if(te != null){
             final LazyOptional<IItemHandler> invCap = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
@@ -409,10 +408,8 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             final BlockState state = world.getBlockState(pos);
             if(state.getBlock() instanceof ISidedInventoryProvider){
                 final ISidedInventoryProvider invProvider = (ISidedInventoryProvider) state.getBlock();
-                final ISidedInventory inv = invProvider.createInventory(state, world, pos);
-                if(inv != null){
-                    return new SidedInvWrapper(inv, side);
-                }
+                final ISidedInventory inv = invProvider.getContainer(state, world, pos);
+                return new SidedInvWrapper(inv, side);
             }
         }
         return EmptyHandler.INSTANCE;
@@ -432,9 +429,11 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             for( ItemStack item : drops) {
                 dropItem(item.copy());
             }
-            this.markDirty();
+            this.setChanged();
             // Sync with client
-            this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            if(this.level != null){
+                this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            }
         }
     }
 
@@ -461,10 +460,10 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             if(!this.isArrow() && loot.isArrow()){
                 continue;
             }
-            if(this.world != null && this.world.rand.nextFloat() <= loot.getChance()) {
+            if(this.level != null && this.level.random.nextFloat() <= loot.getChance()) {
                 // Roll the amount of items
                 int range = loot.getMaxAmount() - loot.getMinAmount() + 1;
-                int amount = this.world.rand.nextInt(range) + loot.getMinAmount();
+                int amount = this.level.random.nextInt(range) + loot.getMinAmount();
                 if(amount > 0) {
                     // Add copied item stack to the drop list
                     ItemStack stack = loot.getItem().copy();
@@ -482,13 +481,13 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Creates an item entity
     public void dropItem(ItemStack item) {
-        if(this.world != null && !this.world.isRemote) {
-            final double offsetX = (double) (world.rand.nextFloat() * 0.7F) + (double) 0.15F;
-            final double offsetY = (double) (world.rand.nextFloat() * 0.7F) + (double) 0.060000002F + 0.6D;
-            final double offsetZ = (double) (world.rand.nextFloat() * 0.7F) + (double) 0.15F;
-            final ItemEntity itemEntity = new ItemEntity(this.world, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, item);
-            itemEntity.setDefaultPickupDelay();
-            this.world.addEntity(itemEntity);
+        if(this.level != null && !this.level.isClientSide) {
+            final double offsetX = (double) (level.random.nextFloat() * 0.7F) + (double) 0.15F;
+            final double offsetY = (double) (level.random.nextFloat() * 0.7F) + (double) 0.060000002F + 0.6D;
+            final double offsetZ = (double) (level.random.nextFloat() * 0.7F) + (double) 0.15F;
+            final ItemEntity itemEntity = new ItemEntity(this.level, this.worldPosition.getX() + offsetX, this.worldPosition.getY() + offsetY, this.worldPosition.getZ() + offsetZ, item);
+            itemEntity.setDefaultPickUpDelay();
+            this.level.addFreshEntity(itemEntity);
         }
     }
 
@@ -521,12 +520,12 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     @Nullable
     @Override
     public SUpdateTileEntityPacket getUpdatePacket(){
-        return new SUpdateTileEntityPacket(pos, 1, getUpdateTag());
+        return new SUpdateTileEntityPacket(this.worldPosition, 1, getUpdateTag());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet){
-        CompoundNBT tag = packet.getNbtCompound();
+        CompoundNBT tag = packet.getTag();
         // Store old env and entity type
         ItemStack oldEnv = this.envItem;
         EntityType<?> oldEntityType = this.entityType;
@@ -535,7 +534,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         this.lightning = tag.getBoolean("lightning");
         this.arrow = tag.getBoolean("arrow");
         // Read the env
-        this.envItem = ItemStack.read(tag.getCompound("environmentItem"));
+        this.envItem = ItemStack.of(tag.getCompound("environmentItem"));
         this.environment = MobCageTE.getEnvironmentFromItemStack(this.envItem);
         // Read the mob data
         this.entityType = SerializationHelper.deserializeEntityTypeNBT(tag);
@@ -555,7 +554,10 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // If env or entity changed, refresh model data
         if(!Objects.equals(oldEnv, this.envItem) || !Objects.equals(oldEntityType,this.entityType)){
             ModelDataManager.requestModelDataRefresh(this);
-            world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            // Sync with client
+            if(this.level != null){
+                this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            }
         }
     }
 
@@ -563,16 +565,16 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Deserialize the block to read it from the drive
     @Override
-    public void read(BlockState state, CompoundNBT nbt) {
+    public void load(BlockState state, CompoundNBT nbt) {
         // Call the parent
-        super.read(state, nbt);
+        super.load(state, nbt);
         // Read hopping and upgrades
         this.hopping = nbt.getBoolean("hopping");
         this.cooking = nbt.getBoolean("cooking");
         this.lightning = nbt.getBoolean("lightning");
         this.arrow = nbt.getBoolean("arrow");
         // Read the env
-        this.envItem = ItemStack.read(nbt.getCompound("environmentItem"));
+        this.envItem = ItemStack.of(nbt.getCompound("environmentItem"));
         this.environment = MobCageTE.getEnvironmentFromItemStack(this.envItem);
         // Read the mob data
         this.entityType = SerializationHelper.deserializeEntityTypeNBT(nbt);
@@ -589,7 +591,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Serialize the block to save it on drive
     @Override
-    public CompoundNBT write(CompoundNBT dataTag) {
+    public CompoundNBT save(CompoundNBT dataTag) {
         // Put hopping and upgrades
         dataTag.putBoolean("hopping", this.hopping);
         dataTag.putBoolean("cooking", this.cooking);
@@ -610,7 +612,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                 dataTag.putBoolean("waitingForHarvest", this.waitingForHarvest);
             }
         }
-        return super.write(dataTag);
+        return super.save(dataTag);
     }
 
     public boolean isCooking() {
@@ -637,24 +639,24 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     public void setCooking(boolean cooking) {
         this.cooking = cooking;
         // Sync with client
-        if(this.world != null){
-            this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        if(this.level != null){
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
         }
     }
 
     public void setLightning(boolean lightning) {
         this.lightning = lightning;
         // Sync with client
-        if(this.world != null){
-            this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        if(this.level != null){
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
         }
     }
 
     public void setArrow(boolean arrow){
         this.arrow = arrow;
         // Sync with client
-        if(this.world != null){
-            this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        if(this.level != null){
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
         }
     }
 }

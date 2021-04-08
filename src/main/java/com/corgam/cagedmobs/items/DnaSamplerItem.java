@@ -30,10 +30,10 @@ public class DnaSamplerItem extends Item {
 
     // Called on left click on an entity to get it's sample
     @Override
-    public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if(target.getEntityWorld().isRemote || !(attacker instanceof PlayerEntity)) return false;
+    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if(target.level.isClientSide() || !(attacker instanceof PlayerEntity)) return false;
         PlayerEntity player = (PlayerEntity) attacker;
-        Hand hand = player.getActiveHand();
+        Hand hand = player.getUsedItemHand();
         if (target.isAlive() && canBeCached(target)) {
             if(samplerTierSufficient(stack, target)) {
                 CompoundNBT nbt = new CompoundNBT();
@@ -41,17 +41,17 @@ public class DnaSamplerItem extends Item {
                 // If sheep add it's color to nbt
                 if(target instanceof SheepEntity){
                     SheepEntity sheep = (SheepEntity) target;
-                    DyeColor color = sheep.getFleeceColor();
+                    DyeColor color = sheep.getColor();
                     nbt.putInt("Color",color.getId());
                 }
                 stack.setTag(nbt);
-                player.setHeldItem(hand, stack);
+                player.setItemInHand(hand, stack);
                 return true;
             }else{
-                player.sendStatusMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_sufficient"), true);
+                player.displayClientMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_sufficient"), true);
             }
         }else{
-            player.sendStatusMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_cachable"), true);
+            player.displayClientMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_cachable"), true);
         }
         return false;
     }
@@ -102,23 +102,24 @@ public class DnaSamplerItem extends Item {
         return contains;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-        if(playerIn.isSneaking() && itemstack.hasTag()) {
-            itemstack.removeChildTag("entity");
-            playerIn.swingArm(handIn);
-            ActionResult.resultSuccess(itemstack);
+    @Override
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemstack = playerIn.getItemInHand(handIn);
+        if(playerIn.isCrouching() && itemstack.hasTag()) {
+            itemstack.removeTagKey("entity");
+            playerIn.swing(handIn);
+            ActionResult.success(itemstack);
         }
-        return ActionResult.resultFail(itemstack);
+        return ActionResult.fail(itemstack);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation (ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+    public void appendHoverText (ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
         tooltip.add(getTooltip(stack));
-        tooltip.add(getInformationForTier().mergeStyle(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("item.cagedmobs.dnasampler.makeEmpty").mergeStyle(TextFormatting.GRAY));
+        tooltip.add(getInformationForTier().withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.dnasampler.makeEmpty").withStyle(TextFormatting.GRAY));
     }
 
     private TranslationTextComponent getInformationForTier(){
@@ -133,15 +134,15 @@ public class DnaSamplerItem extends Item {
 
     private ITextComponent getTooltip(ItemStack stack) {
         if(!DnaSamplerItem.containsEntityType(stack)) {
-            return new TranslationTextComponent("item.cagedmobs.dnasampler.empty").mergeStyle(TextFormatting.YELLOW);
+            return new TranslationTextComponent("item.cagedmobs.dnasampler.empty").withStyle(TextFormatting.YELLOW);
         }else {
             EntityType<?> type = SerializationHelper.deserializeEntityTypeNBT(stack.getTag());
             // Add the text component
             if(type != null){
-                return new TranslationTextComponent(type.getTranslationKey()).mergeStyle(TextFormatting.YELLOW);
+                return new TranslationTextComponent(type.getDescriptionId()).withStyle(TextFormatting.YELLOW);
             }else{
                 // If not found say Unknown entity for crash prevention
-                return new TranslationTextComponent("item.cagedmobs.dnasampler.unknown_entity").mergeStyle(TextFormatting.YELLOW);
+                return new TranslationTextComponent("item.cagedmobs.dnasampler.unknown_entity").withStyle(TextFormatting.YELLOW);
             }
         }
     }
@@ -151,7 +152,7 @@ public class DnaSamplerItem extends Item {
     }
 
     public void removeEntityType(ItemStack stack) {
-        stack.removeChildTag("entity");
+        stack.removeTagKey("entity");
     }
 
     public EntityType<?> getEntityType(ItemStack stack) {

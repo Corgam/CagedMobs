@@ -39,22 +39,22 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
     @Override
     public void render(MobCageTE tile, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLightIn, int combinedOverlayIn) {
         if(tile.getEnvironment() != null && CagedMobs.CLIENT_CONFIG.shouldEnvsRender()){
-            matrix.push();
+            matrix.pushPose();
             matrix.scale(0.74f,0.015f,0.74f);
             matrix.translate(0.17, 5, 0.17);
 
-            final BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRendererDispatcher();
+            final BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
             dispatcher.renderBlock(tile.getEnvironment().getRenderState(), matrix, buffer, combinedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
 
-            matrix.pop();
+            matrix.popPose();
         }
         if(tile.hasEntity() && CagedMobs.CLIENT_CONFIG.shouldEntitiesRender()){
-            matrix.push();
+            matrix.pushPose();
             matrix.translate(0.5D, 0.0D, 0.5D);
-            Entity entity = tile.getCachedEntity(tile.getWorld());
+            Entity entity = tile.getCachedEntity(tile.getLevel());
             if (entity != null) {
                 float maxSize = getEntitySize(entity);
-                float maxEntityDimension = Math.max(entity.getWidth(), entity.getHeight());
+                float maxEntityDimension = Math.max(entity.getBbWidth(), entity.getBbHeight());
                 // If entity is bigger then 1.0D, scale it down.
                 if ((double)maxEntityDimension > 1.0D) {
                     maxSize /= maxEntityDimension;
@@ -67,15 +67,15 @@ public class MobCageRenderer extends TileEntityRenderer<MobCageTE> {
                     matrix.scale(maxSize, maxSize, maxSize);
                 }
                 if(entity instanceof SheepEntity){
-                    ((SheepEntity) entity).setFleeceColor(DyeColor.byId(tile.getColor()));
+                    ((SheepEntity) entity).setColor(DyeColor.byId(tile.getColor()));
                 }
                 // Decide what to do on which side
                 DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-                    Minecraft.getInstance().getRenderManager().renderEntityStatic(entity,0.0D , 0.0D, getEntityZ(entity), 0.0F, partialTicks, matrix, buffer, combinedLightIn);
+                    Minecraft.getInstance().getEntityRenderDispatcher().render(entity,0.0D , 0.0D, getEntityZ(entity), 0.0F, partialTicks, matrix, buffer, combinedLightIn);
                 });
             }
 
-            matrix.pop();
+            matrix.popPose();
         }
     }
 

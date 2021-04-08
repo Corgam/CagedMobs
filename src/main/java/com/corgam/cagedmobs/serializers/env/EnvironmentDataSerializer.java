@@ -23,13 +23,13 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
 
     // Used to serialize all EnvData recipes from JSON files
     @Override
-    public EnvironmentData read(ResourceLocation recipeId, JsonObject json) {
+    public EnvironmentData fromJson(ResourceLocation recipeId, JsonObject json) {
         // Input item
-        final Ingredient inputItem = Ingredient.deserialize(json.getAsJsonObject("input"));
+        final Ingredient inputItem = Ingredient.fromJson(json.getAsJsonObject("input"));
         // Block to render
         final BlockState renderState = SerializationHelper.deserializeBlockState(json.getAsJsonPrimitive("render"));
         // Grow modifier
-        final float growModifier = JSONUtils.getFloat(json, "growModifier");
+        final float growModifier = JSONUtils.getAsFloat(json, "growModifier");
         // Categories
         final Set<String> categories = new HashSet<>();
         for(final JsonElement e : json.getAsJsonArray("categories")){
@@ -44,10 +44,10 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
     }
 
     @Override
-    public EnvironmentData read(ResourceLocation recipeId, PacketBuffer buffer) {
+    public EnvironmentData fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
         try {
             // Input item
-            final Ingredient inputItem = Ingredient.read(buffer);
+            final Ingredient inputItem = Ingredient.fromNetwork(buffer);
             // Block to render
             final BlockState renderState = SerializationHelper.deserializeBlockState(buffer);
             // Grow modifier
@@ -64,10 +64,10 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
     }
 
     @Override
-    public void write(PacketBuffer buffer, EnvironmentData recipe) {
+    public void toNetwork(PacketBuffer buffer, EnvironmentData recipe) {
         try{
             // Input item
-            recipe.getInputItem().write(buffer);
+            recipe.getInputItem().toNetwork(buffer);
             // Block to render
             SerializationHelper.serializeBlockState(buffer, recipe.getRenderState());
             // Grow modifier

@@ -1,6 +1,5 @@
 package com.corgam.cagedmobs;
 
-import com.corgam.cagedmobs.addons.theoneprobe.CagedMobsTOPSupport;
 import com.corgam.cagedmobs.configs.ClientConfig;
 import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
@@ -51,7 +50,7 @@ public class CagedMobs
         // Add properties to items
         eventBus.addListener(this::addPropertiesToItems);
         // TheOneProbe support
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::initTOPSupport);
+        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::initTOPSupport);
     }
 
     private void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event) {
@@ -67,20 +66,20 @@ public class CagedMobs
 
     // Adding properties to items with NBT to allow different textures based on nbt
     private void addPropertiesToItems(final FMLClientSetupEvent event) {
-        ItemModelsProperties.registerProperty(CagedItems.DNA_SAMPLER.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
+        ItemModelsProperties.register(CagedItems.DNA_SAMPLER.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
             return DnaSamplerItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
         });
-        ItemModelsProperties.registerProperty(CagedItems.DNA_SAMPLER_DIAMOND.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
+        ItemModelsProperties.register(CagedItems.DNA_SAMPLER_DIAMOND.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
             return DnaSamplerDiamondItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
         });
-        ItemModelsProperties.registerProperty(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
+        ItemModelsProperties.register(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity) -> {
             return DnaSamplerNetheriteItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
         });
     }
     // Initializes the TheOneProbe mod support
-    private void initTOPSupport(final InterModEnqueueEvent event){
-        if(ModList.get().isLoaded("theoneprobe")){
-            InterModComms.sendTo("theoneprobe","getTheOneProbe", CagedMobsTOPSupport::new);
-        }
-    }
+//    private void initTOPSupport(final InterModEnqueueEvent event){
+//        if(ModList.get().isLoaded("theoneprobe")){
+//            InterModComms.sendTo("theoneprobe","getTheOneProbe", CagedMobsTOPSupport::new);
+//        }
+//    }
 }

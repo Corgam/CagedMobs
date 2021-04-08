@@ -22,7 +22,7 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
     }
 
     @Override
-    public AdditionalLootData read(ResourceLocation id, JsonObject json) {
+    public AdditionalLootData fromJson(ResourceLocation id, JsonObject json) {
         // Entity
         final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
         // Loot Data
@@ -32,7 +32,7 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
     }
 
     @Override
-    public AdditionalLootData read(ResourceLocation id, PacketBuffer buffer) {
+    public AdditionalLootData fromNetwork(ResourceLocation id, PacketBuffer buffer) {
         try {
             // Entity
             final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, buffer);
@@ -50,7 +50,7 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
     }
 
     @Override
-    public void write(PacketBuffer buffer, AdditionalLootData recipe) {
+    public void toNetwork(PacketBuffer buffer, AdditionalLootData recipe) {
         try {
             // Entity
             SerializationHelper.serializeEntityType(buffer, recipe.getEntityType());

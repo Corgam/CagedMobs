@@ -36,29 +36,29 @@ public class LootData {
     }
 
     public static LootData deserialize(JsonObject json) {
-        final float chance = JSONUtils.getFloat(json, "chance");
-        final ItemStack item = ShapedRecipe.deserializeItem(json.getAsJsonObject("output"));
-        final int min = JSONUtils.getInt(json, "minAmount");
-        final int max = JSONUtils.getInt(json, "maxAmount");
+        final float chance = JSONUtils.getAsFloat(json, "chance");
+        final ItemStack item = ShapedRecipe.itemFromJson(json.getAsJsonObject("output"));
+        final int min = JSONUtils.getAsInt(json, "minAmount");
+        final int max = JSONUtils.getAsInt(json, "maxAmount");
 
         ItemStack cookedItem = ItemStack.EMPTY;
         if(json.has("output_cooked")){
-            cookedItem = ShapedRecipe.deserializeItem(json.getAsJsonObject("output_cooked"));
+            cookedItem = ShapedRecipe.itemFromJson(json.getAsJsonObject("output_cooked"));
         }
 
         boolean isLighting = false;
         if(json.has("lightning")){
-            isLighting = JSONUtils.getBoolean(json, "lightning");
+            isLighting = JSONUtils.getAsBoolean(json, "lightning");
         }
 
         boolean isArrow = false;
         if(json.has("needsArrow")){
-            isArrow = JSONUtils.getBoolean(json, "needsArrow");
+            isArrow = JSONUtils.getAsBoolean(json, "needsArrow");
         }
 
         int color = -1;
         if(json.has("color")){
-            color = JSONUtils.getInt(json, "color");
+            color = JSONUtils.getAsInt(json, "color");
         }
 
         return new LootData(item, cookedItem, chance, min, max, isLighting, isArrow, color);
@@ -68,7 +68,7 @@ public class LootData {
         // Chance
         final float chance = buffer.readFloat();
         // Item
-        final ItemStack item = buffer.readItemStack();
+        final ItemStack item = buffer.readItem();
         // Min amount
         final int min = buffer.readInt();
         // Max amount
@@ -78,7 +78,7 @@ public class LootData {
         // Arrow
         final boolean isArrow = buffer.readBoolean();
         // Cooked item
-        final ItemStack cookedItem = buffer.readItemStack();
+        final ItemStack cookedItem = buffer.readItem();
         // Color
         final int color = buffer.readInt();
 
@@ -89,7 +89,7 @@ public class LootData {
         // Chance
         buffer.writeFloat(info.getChance());
         // Item
-        buffer.writeItemStack(info.getItem());
+        buffer.writeItemStack(info.getItem(),true);
         // Min amount
         buffer.writeInt(info.getMinAmount());
         // Max amount
@@ -99,7 +99,7 @@ public class LootData {
         // Arrow
         buffer.writeBoolean(info.isArrow());
         // Cooking
-        buffer.writeItemStack(info.getCookedItem());
+        buffer.writeItemStack(info.getCookedItem(),true);
         // Color
         buffer.writeInt(info.getColor());
     }

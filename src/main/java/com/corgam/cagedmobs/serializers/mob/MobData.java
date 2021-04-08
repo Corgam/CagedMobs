@@ -56,17 +56,17 @@ public class MobData implements IRecipe<IInventory> {
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 
@@ -86,7 +86,7 @@ public class MobData implements IRecipe<IInventory> {
     }
 
     @Override
-    public ItemStack getIcon () {
+    public ItemStack getToastSymbol() {
         return new ItemStack(CagedItems.DNA_SAMPLER.get());
     }
 
@@ -110,10 +110,10 @@ public class MobData implements IRecipe<IInventory> {
         this.samplerTier = tier;
     }
 
-    @Override
-    public boolean isDynamic() {
-
-        return true;
-    }
+//    @Override
+//    public boolean isDynamic() {
+//
+//        return true;
+//    }
 
 }

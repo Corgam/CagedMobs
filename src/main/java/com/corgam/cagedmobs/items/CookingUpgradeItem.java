@@ -19,9 +19,9 @@ public class CookingUpgradeItem extends UpgradeItem{
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation (ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("item.cagedmobs.cookingupgrade.info").mergeStyle(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("item.cagedmobs.upgrades.attach").mergeStyle(TextFormatting.GRAY));
+    public void appendHoverText (ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.cookingupgrade.info").withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.upgrades.attach").withStyle(TextFormatting.GRAY));
     }
 }

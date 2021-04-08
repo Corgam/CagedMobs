@@ -36,17 +36,17 @@ public class AdditionalLootData implements IRecipe<IInventory> {
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 
@@ -77,9 +77,9 @@ public class AdditionalLootData implements IRecipe<IInventory> {
         this.entityType = entityType;
     }
 
-    @Override
-    public boolean isDynamic() {
-
-        return true;
-    }
+//    @Override
+//    public boolean isDynamic() {
+//
+//        return true;
+//    }
 }
