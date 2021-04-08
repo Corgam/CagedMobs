@@ -43,7 +43,7 @@ public class DnaSamplerItem extends Item {
             return false;
         }
         // Try to sample the target
-        if (target.isAlive() && canBeCached(target)) {
+        if (canBeCached(target)) {
             if(samplerTierSufficient(stack, target)) {
                 CompoundNBT nbt = new CompoundNBT();
                 SerializationHelper.serializeEntityTypeNBT(nbt, target.getType());
