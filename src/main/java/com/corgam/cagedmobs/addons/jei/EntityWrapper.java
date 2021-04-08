@@ -31,6 +31,9 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +49,6 @@ public class EntityWrapper implements IRecipeCategoryExtension {
     private final List<Integer> cookedIDs = new ArrayList<Integer>();
     private final int ticks;
     public static float rotation = 0.0f;
-
 
     private static double yaw = 0;
 
@@ -113,87 +115,106 @@ public class EntityWrapper implements IRecipeCategoryExtension {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void drawInfo(int recipeWidth, int recipeHeight, MatrixStack matrixStack, double mouseX, double mouseY) {
         // Proper entity
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.getEntity().getEntityType()).toString());
         WeightedSpawnerEntity renderedEntity = new WeightedSpawnerEntity(1, nbt);
-        // Get the world
-//        if(Minecraft.getInstance().getIntegratedServer() != null){
-//            LivingEntity livingEntity = (LivingEntity) EntityType.loadEntityAndExecute(renderedEntity.getNbt(), Minecraft.getInstance().getIntegratedServer().getWorlds().iterator().next(), Function.identity());
-//            if (livingEntity != null) {
-//                float scale = getScaleForEntityType(livingEntity);
-//                int offsetY = getOffsetForEntityType(livingEntity);
-//                // Add rotation
-//                rotation = (rotation+ 0.5f)% 360;
-//                // Render the entity
-//                renderEntity(
-//                        matrixStack,
-//                        38, 120 - offsetY, scale,
-//                        38 - yaw,
-//                        70 - offsetY,
-//                        livingEntity
-//                );
-//                // Update yaw
-//                yaw = (yaw + 1.5) % 720.0F;
-//            }
-//        }
+        if(Minecraft.getInstance().getSingleplayerServer() != null){ // When at single player or single player server
+            LivingEntity livingEntity = (LivingEntity) EntityType.loadEntityRecursive(renderedEntity.getTag(), Minecraft.getInstance().getSingleplayerServer().overworld(), Function.identity());
+            if (livingEntity != null) {
+                float scale = getScaleForEntityType(livingEntity);
+                int offsetY = getOffsetForEntityType(livingEntity);
+                // Add rotation
+                rotation = (rotation+ 0.5f)% 360;
+                // Render the entity
+                renderEntity(
+                        matrixStack,
+                        38, 120 - offsetY, scale,
+                        38 - yaw,
+                        70 - offsetY,
+                        livingEntity
+                );
+                // Update yaw
+                yaw = (yaw + 1.5) % 720.0F;
+            }
+        }else if(Minecraft.getInstance().getCurrentServer() != null){ // When at dedicated server
+            World level = Minecraft.getInstance().level;
+            if(level != null){
+                LivingEntity livingEntity = (LivingEntity) EntityType.loadEntityRecursive(renderedEntity.getTag(), level, Function.identity());
+                if (livingEntity != null) {
+                    float scale = getScaleForEntityType(livingEntity);
+                    int offsetY = getOffsetForEntityType(livingEntity);
+                    // Add rotation
+                    rotation = (rotation+ 0.5f)% 360;
+                    // Render the entity
+                    renderEntity(
+                            matrixStack,
+                            38, 120 - offsetY, scale,
+                            38 - yaw,
+                            70 - offsetY,
+                            livingEntity
+                    );
+                    // Update yaw
+                    yaw = (yaw + 1.5) % 720.0F;
+                }
+            }
+        }
     }
 
-
-
     public static void renderEntity(MatrixStack matrixStack, int x, int y, float scale, double yaw, double pitch, LivingEntity entity) {
-//        matrixStack.pushPose();
-//        // Translate the entity to right position
-//        matrixStack.translate(x, y, 50F);
-//        // Scale the entity
-//        matrixStack.scale(-scale, scale, scale);
-//        // Rotate the entity so it's not upside down
-//        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
-//        // Rotate the entity around
-//        matrixStack.rotate(Vector3f.YP.rotationDegrees(rotation));
-//
-//        // Render the entity
-//        IRenderTypeBuffer.Impl buff = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-//        try{
-//            Minecraft.getInstance().getRenderManager().renderEntityStatic(entity,0.0D,0.0D,0.0D,0.0F,0.0F,matrixStack,buff,15728880);
-//        }catch (Exception e){
-//            matrixStack.translate(x, y, -50F);
-//            matrixStack.scale(scale, -scale, -scale);
-//            matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
-//
-//            CagedMobs.LOGGER.error("Error with rendering entity in JEI!(CagedMobs)", e);
-//        }
-//        buff.finish();
-//        matrixStack.pop();
+        matrixStack.pushPose();
+        // Translate the entity to right position
+        matrixStack.translate(x, y, 50F);
+        // Scale the entity
+        matrixStack.scale(-scale, scale, scale);
+        // Rotate the entity so it's not upside down
+        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+        // Rotate the entity around
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
+
+        // Render the entity
+        IRenderTypeBuffer.Impl buff = Minecraft.getInstance().renderBuffers().bufferSource();
+        try{
+            Minecraft.getInstance().getEntityRenderDispatcher().render(entity,0.0D,0.0D,0.0D,0.0F,0.0F,matrixStack,buff,15728880);
+        }catch (Exception e){
+            matrixStack.translate(x, y, -50F);
+            matrixStack.scale(scale, -scale, -scale);
+            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+
+            CagedMobs.LOGGER.error("Error with rendering entity in JEI!(CagedMobs)", e);
+        }
+        buff.endBatch();
+        matrixStack.popPose();
     }
 
 
     private float getScaleForEntityType(LivingEntity entity){
-//        float width = entity.getWidth();
-//        float height = entity.getHeight();
-//        // Some hardcoded values
-//        if(entity instanceof GhastEntity){
-//            return 6.8F;
-//        }else if(entity instanceof EnderDragonEntity){
-//            return 5.2F;
-//        }else if(entity instanceof  AbstractGroupFishEntity){
-//            return 25.0F;
-//        }else if(entity instanceof ElderGuardianEntity){
-//            return 10.0F;
-//        }
-//
-//        // Handling some of the other cases
-//        if(width <= height){
-//            if(height >= 3){
-//                return 10.0f;
-//            }else if(height >= 2.5){
-//                return 15.0f;
-//            }
-//            else if(height >= 1.9){
-//                return 18.0F;
-//            }
-//        }
+        float width = entity.getBbWidth();
+        float height = entity.getBbHeight();
+        // Some hardcoded values
+        if(entity instanceof GhastEntity){
+            return 6.8F;
+        }else if(entity instanceof EnderDragonEntity){
+            return 5.2F;
+        }else if(entity instanceof  AbstractGroupFishEntity){
+            return 25.0F;
+        }else if(entity instanceof ElderGuardianEntity){
+            return 10.0F;
+        }
+
+        // Handling some of the other cases
+        if(width <= height){
+            if(height >= 3){
+                return 10.0f;
+            }else if(height >= 2.5){
+                return 15.0f;
+            }
+            else if(height >= 1.9){
+                return 18.0F;
+            }
+        }
         return 20.0F;
     }
 
