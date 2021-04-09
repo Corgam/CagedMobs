@@ -1,5 +1,7 @@
 package com.corgam.cagedmobs.blocks;
 
+import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.addons.theoneprobe.ITopInfoProvider;
 import com.corgam.cagedmobs.items.*;
 import com.corgam.cagedmobs.tileEntities.MobCageTE;
 import com.corgam.cagedmobs.setup.CagedItems;
@@ -32,7 +34,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class MobCageBlock extends ContainerBlock /*implements ITopInfoProvider */{
+public class MobCageBlock extends ContainerBlock implements ITopInfoProvider {
     private static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 15.0D, 14.0D);
 
     public MobCageBlock(Properties properties) {
@@ -142,7 +144,7 @@ public class MobCageBlock extends ContainerBlock /*implements ITopInfoProvider *
                 return ActionResultType.PASS;
             }
             // Try to harvest
-            if(!cage.isHopping() && cage.isWaitingForHarvest()) {
+            if((!cage.isHopping() || CagedMobs.SERVER_CONFIG.hoppingCagesDisabled()) && cage.isWaitingForHarvest()) {
                 cage.onPlayerHarvest();
                 return ActionResultType.SUCCESS;
             }
@@ -195,54 +197,54 @@ public class MobCageBlock extends ContainerBlock /*implements ITopInfoProvider *
 
     /// MODS SUPPORT ///
 
-//    // Used for TheOneProbe support
-//    @Override
-//    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
-//        if(!(world.getTileEntity(data.getPos()) instanceof MobCageTE)) {
-//            return;
-//        }
-//        MobCageTE tile = (MobCageTE) world.getTileEntity(data.getPos());
-//        if(tile != null) {
-//            if(tile.hasEnvironment() && tile.hasEntity()) {
-//                probeInfo.progress((int)(tile.getGrowthPercentage()*100), 100, probeInfo.defaultProgressStyle().suffix("%").filledColor(0xff44AA44).alternateFilledColor(0xff44AA44).backgroundColor(0xff836953));
-//            }
-//            if (tile.hasEnvironment()) {
-//                probeInfo.horizontal().text(new TranslationTextComponent("HWYLA.tooltip.cagedmobs.cage.environment"));
-//                probeInfo.horizontal().item(tile.getEnvItem()).itemLabel(tile.getEnvItem());
-//            }
-//            if(tile.hasEntity()){
-//                probeInfo.horizontal().text(new StringTextComponent(
-//                        new TranslationTextComponent("HWYLA.tooltip.cagedmobs.cage.entity").mergeStyle(TextFormatting.GRAY).getString() +
-//                                new TranslationTextComponent(tile.getEntityType().getTranslationKey()).mergeStyle(TextFormatting.GRAY
-//                                ).getString()));
-//            }
-//            // Upgrades
-//            if(tile.hasUpgrade()){
-//                probeInfo.horizontal().text(new TranslationTextComponent("TOP.tooltip.cagedmobs.cage.upgrades"));
-//            }
-//            if(tile.isLightning() && tile.isArrow() && tile.isCooking()){
-//                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isLightning() && tile.isCooking()){
-//                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isLightning() && tile.isArrow()){
-//                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isCooking() && tile.isArrow()){
-//                probeInfo.horizontal().item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isLightning()){
-//                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isCooking()){
-//               probeInfo.item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isArrow()){
-//               probeInfo.horizontal().item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
-//            }
-//
-//        }
-//    }
+    // Used for TheOneProbe support
+    @Override
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
+        if(!(world.getBlockEntity(data.getPos()) instanceof MobCageTE)) {
+            return;
+        }
+        MobCageTE tile = (MobCageTE) world.getBlockEntity(data.getPos());
+        if(tile != null) {
+            if(tile.hasEnvironment() && tile.hasEntity()) {
+                probeInfo.progress((int)(tile.getGrowthPercentage()*100), 100, probeInfo.defaultProgressStyle().suffix("%").filledColor(0xff44AA44).alternateFilledColor(0xff44AA44).backgroundColor(0xff836953));
+            }
+            if (tile.hasEnvironment()) {
+                probeInfo.horizontal().text(new TranslationTextComponent("HWYLA.tooltip.cagedmobs.cage.environment"));
+                probeInfo.horizontal().item(tile.getEnvItem()).itemLabel(tile.getEnvItem());
+            }
+            if(tile.hasEntity()){
+                probeInfo.horizontal().text(new StringTextComponent(
+                        new TranslationTextComponent("HWYLA.tooltip.cagedmobs.cage.entity").withStyle(TextFormatting.GRAY).getString() +
+                                new TranslationTextComponent(tile.getEntityType().getDescriptionId()).withStyle(TextFormatting.GRAY
+                                ).getString()));
+            }
+            // Upgrades
+            if(tile.hasUpgrade()){
+                probeInfo.horizontal().text(new TranslationTextComponent("TOP.tooltip.cagedmobs.cage.upgrades"));
+            }
+            if(tile.isLightning() && tile.isArrow() && tile.isCooking()){
+                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isLightning() && tile.isCooking()){
+                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isLightning() && tile.isArrow()){
+                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isCooking() && tile.isArrow()){
+                probeInfo.horizontal().item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isLightning()){
+                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isCooking()){
+               probeInfo.item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isArrow()){
+               probeInfo.horizontal().item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
+            }
+
+        }
+    }
 
 }

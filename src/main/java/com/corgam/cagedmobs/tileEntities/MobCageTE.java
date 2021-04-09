@@ -422,7 +422,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Is run when player right clicks to harvest
     public void onPlayerHarvest() {
-        if(!this.hopping && canPlayerHarvest()){
+        if((!this.hopping || CagedMobs.SERVER_CONFIG.hoppingCagesDisabled()) && canPlayerHarvest()){
             this.currentGrowTicks = 0;
             this.waitingForHarvest = false;
             List<ItemStack> drops = createDropsList();

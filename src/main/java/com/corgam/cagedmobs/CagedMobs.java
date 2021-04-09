@@ -52,7 +52,7 @@ public class CagedMobs
         // Add properties to items
         eventBus.addListener(this::addPropertiesToItems);
         // TheOneProbe support
-        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::initTOPSupport);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::initTOPSupport);
     }
 
     private void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event) {
