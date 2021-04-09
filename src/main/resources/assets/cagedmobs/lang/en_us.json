@@ -34,6 +34,8 @@
 	"block.cagedmobs.mobcage.envInfo": "Needs to have suitable environment for entity",
 	"block.cagedmobs.mobcage.hoppingInfo": "Puts produced drops into inventory below",
 	"block.cagedmobs.mobcage.upgrading": "Can be upgraded",
+	"block.cagedmobs.mobcage.hoppingCagesDisabled1": "Automatic harvest is disabled.",
+	"block.cagedmobs.mobcage.hoppingCagesDisabled2": "Hopping Cages will work the same as non-hopping variant.",
 
 	"jei.category.cagedmobs.entity": "Caged Entities Drops",
 	"jei.tooltip.cagedmobs.entity.chance": "Chance: %d%%",

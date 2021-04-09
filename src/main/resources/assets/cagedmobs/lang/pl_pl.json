@@ -34,6 +34,8 @@
   "block.cagedmobs.mobcage.envInfo": "Wymaga odpowiedniego środowiska dla stworzenia",
   "block.cagedmobs.mobcage.hoppingInfo": "Umieszcza wyprodukowane łupy w bloku poniżej",
   "block.cagedmobs.mobcage.upgrading": "Może zostać ulepszona",
+  "block.cagedmobs.mobcage.hoppingCagesDisabled1": "Automatyczne zbiory są wyłączone.",
+  "block.cagedmobs.mobcage.hoppingCagesDisabled2": "Skacząca klatka będzie działała tak samo jak jej zwykły wariant.",
 
   "jei.category.cagedmobs.entity": "Łupy klatek na stworzenia",
   "jei.tooltip.cagedmobs.entity.chance": "Szansa: %d%%",

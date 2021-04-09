@@ -356,7 +356,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Attempt harvest (when hopping cage and there is a inv bellow, then harvest, when not hopping, lock and wait for players interaction)
     private void attemptHarvest() {
-        if(this.hopping) {
+        if(this.hopping && !CagedMobs.SERVER_CONFIG.hoppingCagesDisabled()) {
             // Try to auto harvest
             if(this.autoHarvest()){
                 this.currentGrowTicks = 0;

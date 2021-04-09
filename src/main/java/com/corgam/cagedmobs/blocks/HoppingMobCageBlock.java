@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.blocks;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.tileEntities.MobCageTE;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -27,6 +28,9 @@ public class HoppingMobCageBlock extends MobCageBlock{
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText (ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        if(CagedMobs.SERVER_CONFIG.hoppingCagesDisabled()){
+            tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.hoppingCagesDisabled").withStyle(TextFormatting.RED));
+        }
         tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.mainInfo").withStyle(TextFormatting.GRAY));
         tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.hoppingInfo").withStyle(TextFormatting.GRAY));
         tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.envInfo").withStyle(TextFormatting.GRAY));

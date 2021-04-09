@@ -1,6 +1,8 @@
 package com.corgam.cagedmobs;
 
+import com.corgam.cagedmobs.addons.theoneprobe.CagedMobsTOPSupport;
 import com.corgam.cagedmobs.configs.ClientConfig;
+import com.corgam.cagedmobs.configs.ServerConfig;
 import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
 import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
@@ -33,14 +35,14 @@ public class CagedMobs
     public static final Logger LOGGER = LogManager.getLogger();
     final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
     public static final ClientConfig CLIENT_CONFIG = new ClientConfig();
-    //public static final ServerConfig SERVER_CONFIG = new ServerConfig();
+    public static final ServerConfig SERVER_CONFIG = new ServerConfig();
 
     public CagedMobs() {
         // Client
         eventBus.addListener(ClientSetup::renderLayerSetup);
         // Configs
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG.getForgeConfigSpec());
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG.getForgeConfigSpec());
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG.getForgeConfigSpec());
         // Recipes
         eventBus.addGenericListener(IRecipeSerializer.class, this::registerRecipeSerializers);
         // Registries
@@ -77,9 +79,9 @@ public class CagedMobs
         });
     }
     // Initializes the TheOneProbe mod support
-//    private void initTOPSupport(final InterModEnqueueEvent event){
-//        if(ModList.get().isLoaded("theoneprobe")){
-//            InterModComms.sendTo("theoneprobe","getTheOneProbe", CagedMobsTOPSupport::new);
-//        }
-//    }
+    private void initTOPSupport(final InterModEnqueueEvent event){
+        if(ModList.get().isLoaded("theoneprobe")){
+            InterModComms.sendTo("theoneprobe","getTheOneProbe", CagedMobsTOPSupport::new);
+        }
+    }
 }
