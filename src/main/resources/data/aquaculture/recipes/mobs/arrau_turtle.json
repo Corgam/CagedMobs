@@ -8,7 +8,8 @@
 	],
 	"entity": "aquaculture:arrau_turtle",
 	"samplerTier": 1,
-	"environments": ["water"],
+	"environments": ["sand"],
+	"requiresWater": true,
 	"growTicks": 1200,
 	"results": [
 		{
