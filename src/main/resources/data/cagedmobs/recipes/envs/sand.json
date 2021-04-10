@@ -11,5 +11,5 @@
 	},
 	"render": "minecraft:sand",
 	"growModifier": 1.0,
-	"categories": ["desert"]
+	"categories": ["sand"]
 }

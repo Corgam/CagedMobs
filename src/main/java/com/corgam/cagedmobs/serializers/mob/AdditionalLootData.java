@@ -77,9 +77,4 @@ public class AdditionalLootData implements IRecipe<IInventory> {
         this.entityType = entityType;
     }
 
-//    @Override
-//    public boolean isDynamic() {
-//
-//        return true;
-//    }
 }

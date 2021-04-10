@@ -20,16 +20,14 @@ public class Entities implements IRecipeManager {
 
     // Used for creating new entityRecipe with just one valid environment
     @ZenCodeType.Method
-    public CTEntity create(String id, MCEntityType entityType, int growTicks, int tier, String environment) {
-
-        return this.create(id,entityType,growTicks,tier, new String[] {environment});
+    public CTEntity create(String id, MCEntityType entityType, int growTicks, boolean requiresWater, int tier, String environment) {
+        return this.create(id,entityType,growTicks, requiresWater, tier, new String[] {environment});
     }
 
     // Used for creating new entityRecipe with more valid environments
     @ZenCodeType.Method
-    public CTEntity create(String id, MCEntityType entityType, int growTicks, int tier, String[] environments) {
-
-        final CTEntity entity = new CTEntity(id, entityType, growTicks, tier, environments );
+    public CTEntity create(String id, MCEntityType entityType, int growTicks, boolean requiresWater, int tier, String[] environments) {
+        final CTEntity entity = new CTEntity(id, entityType, growTicks, requiresWater, tier, environments );
         CraftTweakerAPI.apply(new ActionAddRecipe(this, entity.getMobData(), ""));
         return entity;
     }

@@ -36,6 +36,8 @@
   "block.cagedmobs.mobcage.upgrading": "Może zostać ulepszona",
   "block.cagedmobs.mobcage.hoppingCagesDisabled1": "Automatyczne zbiory są wyłączone.",
   "block.cagedmobs.mobcage.hoppingCagesDisabled2": "Skacząca klatka będzie działała tak samo jak jej zwykły wariant.",
+  "block.cagedmobs.mobcage.requiresWater": "Te stworzenie wymaga klatki wypełnionej wodą.",
+  "block.cagedmobs.mobcage.envRequired": "Najpierw musisz ustanowić środowisko.",
 
   "jei.category.cagedmobs.entity": "Łupy klatek na stworzenia",
   "jei.tooltip.cagedmobs.entity.chance": "Szansa: %d%%",
@@ -46,6 +48,7 @@
   "jei.tooltip.cagedmobs.entity.lightning_upgrade": "Wymaga ulepszenia: pioruny",
   "jei.tooltip.cagedmobs.entity.arrow_upgrade": "Wymaga ulepszenia: strzały",
   "jei.tooltip.cagedmobs.entity.colorItem": "Wypada jedynie z farbowanych stworzeń",
+  "jei.tooltip.cagedmobs.entity.requiresWater": "Klatka musi być wypełniona wodą",
 
   "HWYLA.tooltip.cagedmobs.cage.entity": "Byt: ",
   "HWYLA.tooltip.cagedmobs.cage.environment": "Środowisko: ",

@@ -36,6 +36,8 @@
 	"block.cagedmobs.mobcage.upgrading": "Can be upgraded",
 	"block.cagedmobs.mobcage.hoppingCagesDisabled1": "Automatic harvest is disabled.",
 	"block.cagedmobs.mobcage.hoppingCagesDisabled2": "Hopping Cages will work the same as non-hopping variant.",
+	"block.cagedmobs.mobcage.requiresWater": "This entity requires a waterlogged cage.",
+	"block.cagedmobs.mobcage.envRequired": "You need to set up an environment first.",
 
 	"jei.category.cagedmobs.entity": "Caged Entities Drops",
 	"jei.tooltip.cagedmobs.entity.chance": "Chance: %d%%",
@@ -46,6 +48,7 @@
 	"jei.tooltip.cagedmobs.entity.lightning_upgrade": "Requires Lightning Upgrade",
 	"jei.tooltip.cagedmobs.entity.arrow_upgrade": "Requires Arrow Upgrade",
 	"jei.tooltip.cagedmobs.entity.colorItem": "Drops only from dyed entities",
+	"jei.tooltip.cagedmobs.entity.requiresWater": "Requires waterlogged cage",
 
 	"HWYLA.tooltip.cagedmobs.cage.entity": "Entity: ",
 	"HWYLA.tooltip.cagedmobs.cage.environment": "Environment: ",

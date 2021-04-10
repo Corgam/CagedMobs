@@ -33,6 +33,11 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
         final Set<String> validEnvs = deserializeEnvsData(id, json);
         // Total grow ticks
         final int growTicks = JSONUtils.getAsInt(json, "growTicks");
+        // If requires water
+        boolean requiresWater = false;
+        if(json.has("requiresWater")) {
+            requiresWater = JSONUtils.getAsBoolean(json, "requiresWater");
+        }
         // Loot Data
         final List<LootData> results = deserializeLootData(id, json, entityType);
         // Sampler tier
@@ -46,7 +51,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             throw new IllegalArgumentException("MobDataRecipe with id: " + id.toString() + " has an invalid sampler tier. It must use tiers: 1,2 or 3.");
         }
 
-        return new MobData(id, entityType, validEnvs, growTicks, results, samplerTier);
+        return new MobData(id, entityType, validEnvs, growTicks, requiresWater, results, samplerTier);
     }
 
     @Override
@@ -59,6 +64,8 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             SerializationHelper.deserializeStringCollection(buffer, validEnvs);
             // Total grow ticks
             final int growTicks = buffer.readInt();
+            // If requires water
+            final boolean requiresWater = buffer.readBoolean();
             // Loot data
             final List<LootData> results = new ArrayList<>();
             final int length = buffer.readInt();
@@ -68,7 +75,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             // Sampler tier
             final int tier = buffer.readInt();
 
-            return new MobData(id, entityType, validEnvs, growTicks, results, tier);
+            return new MobData(id, entityType, validEnvs, growTicks, requiresWater, results, tier);
 
         }catch(final Exception e){
             CagedMobs.LOGGER.catching(e);
@@ -85,6 +92,8 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             SerializationHelper.serializeStringCollection(buffer, recipe.getValidEnvs());
             // Total  Grow Ticks
             buffer.writeInt(recipe.getTotalGrowTicks());
+            // If requires water
+            buffer.writeBoolean(recipe.ifRequiresWater());
             // Loot data
             buffer.writeInt(recipe.getResults().size());
             for( final LootData data : recipe.getResults()){

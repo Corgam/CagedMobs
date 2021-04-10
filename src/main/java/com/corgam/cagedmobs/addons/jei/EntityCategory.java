@@ -12,15 +12,18 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 
 public class EntityCategory implements IRecipeCategory<EntityWrapper> {
 
     public static final ResourceLocation ID = new ResourceLocation(Constants.MOD_ID, "entity");
 
-    private static final BackgroundDrawable ENTITY_BG_DRAWABLE = new BackgroundDrawable("textures/gui/entity.png", 166, 101);
+    private static final BackgroundDrawable ENTITY_BG_DRAWABLE = new BackgroundDrawable("textures/gui/entity.png", 166, 111);
 
     private final IDrawable icon;
     private final IDrawableStatic slotDrawable;
@@ -86,7 +89,6 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
             }
             nextSlotId++;
         }
-
         stacks.addTooltipCallback(entityWrapper::getTooltip);
     }
 
@@ -112,6 +114,11 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
         // Draw required ticks
         matrix.translate(5, 100, 0);
         Minecraft.getInstance().font.draw(matrix, new TranslationTextComponent("jei.tooltip.cagedmobs.entity.ticks",recipe.getSeconds()).getString(), 0, 0, 8);
+        // Draw if requires water
+        if(recipe.ifRequiresWater()){
+            matrix.translate(-5, 10, 0);
+            Minecraft.getInstance().font.draw(matrix, new TranslationTextComponent("jei.tooltip.cagedmobs.entity.requiresWater").withStyle(TextFormatting.BLUE), 0, 0, 8);
+        }
         matrix.popPose();
     }
 }

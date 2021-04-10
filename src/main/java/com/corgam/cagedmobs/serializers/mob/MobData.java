@@ -23,14 +23,16 @@ public class MobData implements IRecipe<IInventory> {
     private EntityType<?> entityType;
     private final Set<String> environments;
     private int growTicks;
+    private boolean requiresWater;
     private final List<LootData> results;
     private int samplerTier;
 
-    public MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, List<LootData> results, int tier){
+    public MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
         this.id = id;
         this.environments = environments;
         this.entityType = entityType;
         this.growTicks = growTicks;
+        this.requiresWater = requiresWater;
         this.results = results;
         this.samplerTier = tier;
         if(id != null && CagedMobs.LOGGER != null){
@@ -98,6 +100,14 @@ public class MobData implements IRecipe<IInventory> {
         this.growTicks = newTicks;
     }
 
+    public boolean ifRequiresWater(){
+        return this.requiresWater;
+    }
+
+    public void setIfRequiresWater(boolean requiresWater){
+        this.requiresWater = requiresWater;
+    }
+
     public List<LootData> getResults () {
         return this.results;
     }
@@ -109,11 +119,4 @@ public class MobData implements IRecipe<IInventory> {
     public void setSamplerTier(int tier){
         this.samplerTier = tier;
     }
-
-//    @Override
-//    public boolean isDynamic() {
-//
-//        return true;
-//    }
-
 }

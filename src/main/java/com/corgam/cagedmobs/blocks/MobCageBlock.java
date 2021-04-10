@@ -8,15 +8,20 @@ import com.corgam.cagedmobs.setup.CagedItems;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
+import net.minecraft.block.*;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -27,6 +32,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -34,15 +40,41 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class MobCageBlock extends ContainerBlock implements ITopInfoProvider {
+public class MobCageBlock extends ContainerBlock implements ITopInfoProvider, IWaterLoggable {
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 15.0D, 14.0D);
 
     public MobCageBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     public TileEntity newBlockEntity(IBlockReader worldIn) {
         return new MobCageTE(false);
+    }
+
+    // If placed in water, waterlog it.
+    @Nullable
+    public BlockState getStateForPlacement(BlockItemUseContext p_196258_1_) {
+        FluidState fluidstate = p_196258_1_.getLevel().getFluidState(p_196258_1_.getClickedPos());
+        boolean flag = fluidstate.getType() == Fluids.WATER;
+        return super.getStateForPlacement(p_196258_1_).setValue(WATERLOGGED, flag);
+    }
+
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> p_206840_1_) {
+        p_206840_1_.add(WATERLOGGED);
+    }
+
+    public BlockState updateShape(BlockState p_196271_1_, Direction p_196271_2_, BlockState p_196271_3_, IWorld p_196271_4_, BlockPos p_196271_5_, BlockPos p_196271_6_) {
+        if (p_196271_1_.getValue(WATERLOGGED)) {
+            p_196271_4_.getLiquidTicks().scheduleTick(p_196271_5_, Fluids.WATER, Fluids.WATER.getTickDelay(p_196271_4_));
+        }
+
+        return super.updateShape(p_196271_1_, p_196271_2_, p_196271_3_, p_196271_4_, p_196271_5_, p_196271_6_);
+    }
+
+    public FluidState getFluidState(BlockState p_204507_1_) {
+        return p_204507_1_.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(p_204507_1_);
     }
 
     @Override
@@ -122,6 +154,8 @@ public class MobCageBlock extends ContainerBlock implements ITopInfoProvider {
                         heldItem.shrink(1);
                     }
                     return ActionResultType.SUCCESS;
+                }else if(heldItem.getItem() instanceof DnaSamplerItem){
+                    player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.envRequired").withStyle(TextFormatting.RED), true);
                 }
                 return ActionResultType.PASS;
             }
@@ -131,7 +165,7 @@ public class MobCageBlock extends ContainerBlock implements ITopInfoProvider {
                 if(heldItem.getItem() instanceof DnaSamplerItem) {
                     DnaSamplerItem sampler = (DnaSamplerItem) heldItem.getItem();
                     // Check if there exists a recipe with given entity type and if the env suits the entity
-                    if(MobCageTE.existsEntityFromType(sampler.getEntityType(heldItem)) && cage.isEnvSuitable(player, sampler.getEntityType(heldItem))){
+                    if(MobCageTE.existsEntityFromType(sampler.getEntityType(heldItem)) && cage.isEnvSuitable(player, sampler.getEntityType(heldItem), state)){
                         cage.setEntityFromType(sampler.getEntityType(heldItem),heldItem);
                         // Clear the sampler's mob type if not in creative
                         if(!player.isCreative()) {

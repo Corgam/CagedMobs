@@ -57,10 +57,10 @@ public class DnaSamplerItem extends Item {
                 player.setItemInHand(hand, stack);
                 return true;
             }else{
-                player.displayClientMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_sufficient"), true);
+                player.displayClientMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_sufficient").withStyle(TextFormatting.RED), true);
             }
         }else{
-            player.displayClientMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_cachable"), true);
+            player.displayClientMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_cachable").withStyle(TextFormatting.RED), true);
         }
         return false;
     }

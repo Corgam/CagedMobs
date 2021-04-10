@@ -47,6 +47,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
     private final List<LootData> drops = NonNullList.create();
     private final List<ItemStack> samplers = NonNullList.create();
     private final List<Integer> cookedIDs = new ArrayList<Integer>();
+    private final boolean requiresWater;
     private final int ticks;
     public static float rotation = 0.0f;
 
@@ -112,6 +113,8 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }
         // Set up required ticks
         this.ticks = entity.getTotalGrowTicks();
+        // Set up if the recipe requires water
+        this.requiresWater = entity.ifRequiresWater();
     }
 
     @Override
@@ -233,7 +236,6 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         return 50;
     }
 
-
     @Override
     public void setIngredients(IIngredients iIngredients) {
         // Inputs
@@ -277,6 +279,10 @@ public class EntityWrapper implements IRecipeCategoryExtension {
 
     public int getSeconds(){
         return this.ticks/20;
+    }
+
+    public boolean ifRequiresWater(){
+        return this.requiresWater;
     }
 
     public void getTooltip (int slotIndex, boolean input, ItemStack ingredient, List<ITextComponent> tooltip) {

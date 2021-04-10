@@ -22,8 +22,8 @@ public class CTEntity {
 
     private final MobData data;
 
-    public CTEntity(String id, MCEntityType entityType, int growTicks, int tier, String[] environments){
-        this(new MobData(ResourceLocation.tryParse(id),entityType.getInternal(),new HashSet<>(Arrays.asList(environments)),growTicks,new ArrayList<>(),tier));
+    public CTEntity(String id, MCEntityType entityType, int growTicks, boolean requiresWater, int tier, String[] environments){
+        this(new MobData(ResourceLocation.tryParse(id),entityType.getInternal(),new HashSet<>(Arrays.asList(environments)),growTicks, requiresWater, new ArrayList<>(),tier));
     }
 
     public CTEntity(MobData mobData){
@@ -113,6 +113,12 @@ public class CTEntity {
     @ZenCodeType.Method
     public CTEntity setTier(int tier) {
         this.data.setSamplerTier(tier);
+        return this;
+    }
+
+    @ZenCodeType.Method
+    public CTEntity setIfRequiresWater(boolean requiresWater) {
+        this.data.setIfRequiresWater(requiresWater);
         return this;
     }
 

@@ -22,11 +22,13 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -101,8 +103,10 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             if(this.currentGrowTicks >= this.getTotalGrowTicks()) {
                 this.attemptHarvest();
             }else {
-                // Add one tick
-                this.currentGrowTicks++;
+                // Add one tick (if entity requires waterlogging check for it)
+                if(!this.entity.ifRequiresWater() || this.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
+                    this.currentGrowTicks++;
+                }
             }
         }
         // If has cooking upgrade spawn particles
@@ -233,14 +237,19 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     }
 
 
-    public boolean isEnvSuitable(PlayerEntity player, EntityType<?> entityType) {
+    public boolean isEnvSuitable(PlayerEntity player, EntityType<?> entityType, BlockState state) {
         MobData recipe = getMobDataFromType(entityType);
+        // Check if entity needs waterlogged cage
+        if(recipe.ifRequiresWater() && !state.getValue(BlockStateProperties.WATERLOGGED)){
+            player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.requiresWater").withStyle(TextFormatting.RED), true);
+            return false;
+        }
         for(String env : this.environment.getEnvironments()){
             if(recipe.getValidEnvs().contains(env)){
                 return true;
             }
         }
-        player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.envNotSuitable"), true);
+        player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.envNotSuitable").withStyle(TextFormatting.RED), true);
         return false;
     }
 
