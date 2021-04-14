@@ -15,8 +15,6 @@ import java.util.List;
 
 public class AdditionalLootData implements IRecipe<IInventory> {
 
-    public static final AdditionalLootDataSerializer SERIALIZER = new AdditionalLootDataSerializer();
-
     private final ResourceLocation id;
     private EntityType<?> entityType;
     private final List<LootData> results;
@@ -57,7 +55,7 @@ public class AdditionalLootData implements IRecipe<IInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return AdditionalLootData.SERIALIZER;
+        return AdditionalLootDataSerializer.INSTANCE;
     }
 
     @Override

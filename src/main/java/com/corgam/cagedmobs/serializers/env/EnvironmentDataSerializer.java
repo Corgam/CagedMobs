@@ -17,6 +17,8 @@ import java.util.Set;
 
 public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<EnvironmentData>{
 
+    public static final EnvironmentDataSerializer INSTANCE = new EnvironmentDataSerializer();
+
     EnvironmentDataSerializer(){
         this.setRegistryName(new ResourceLocation("cagedmobs","env_data"));
     }

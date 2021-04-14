@@ -17,6 +17,8 @@ import java.util.List;
 
 public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AdditionalLootData>{
 
+    public static final AdditionalLootDataSerializer INSTANCE = new AdditionalLootDataSerializer();
+
     AdditionalLootDataSerializer(){
         this.setRegistryName(new ResourceLocation("cagedmobs","additional_loot_data"));
     }

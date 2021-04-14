@@ -1,14 +1,11 @@
 package com.corgam.cagedmobs.serializers.mob;
 
 import com.corgam.cagedmobs.CagedMobs;
-import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.StrayEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
@@ -19,6 +16,8 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import java.util.*;
 
 public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<MobData>{
+
+    public static final MobDataSerializer INSTANCE = new MobDataSerializer();
 
     MobDataSerializer(){
         this.setRegistryName(new ResourceLocation("cagedmobs","mob_data"));

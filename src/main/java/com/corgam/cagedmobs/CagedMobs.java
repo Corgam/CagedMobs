@@ -7,9 +7,9 @@ import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
 import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
-import com.corgam.cagedmobs.serializers.env.EnvironmentData;
-import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
-import com.corgam.cagedmobs.serializers.mob.MobData;
+import com.corgam.cagedmobs.serializers.env.EnvironmentDataSerializer;
+import com.corgam.cagedmobs.serializers.mob.AdditionalLootDataSerializer;
+import com.corgam.cagedmobs.serializers.mob.MobDataSerializer;
 import com.corgam.cagedmobs.setup.*;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -52,7 +52,8 @@ public class CagedMobs
         // Add properties to items
         eventBus.addListener(this::addPropertiesToItems);
         // TheOneProbe support
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::initTOPSupport);
+        eventBus.addListener(this::initTOPSupport);
+
     }
 
     private void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event) {
@@ -61,9 +62,9 @@ public class CagedMobs
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(RecipesHelper.ENV_RECIPE.toString()), RecipesHelper.ENV_RECIPE);
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(RecipesHelper.ADDITIONAL_LOOT_RECIPE.toString()), RecipesHelper.ADDITIONAL_LOOT_RECIPE);
         // Register recipe serializers
-        event.getRegistry().register(EnvironmentData.SERIALIZER);
-        event.getRegistry().register(MobData.SERIALIZER);
-        event.getRegistry().register(AdditionalLootData.SERIALIZER);
+        event.getRegistry().register(EnvironmentDataSerializer.INSTANCE);
+        event.getRegistry().register(MobDataSerializer.INSTANCE);
+        event.getRegistry().register(AdditionalLootDataSerializer.INSTANCE);
     }
 
     // Adding properties to items with NBT to allow different textures based on nbt

@@ -1,24 +1,18 @@
 package com.corgam.cagedmobs.serializers;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class SerializationHelper {
 
@@ -72,8 +66,8 @@ public class SerializationHelper {
     public static EntityType<?> deserializeEntityType(ResourceLocation id, PacketBuffer buffer) {
         final String entityTypeString = buffer.readUtf();
         ResourceLocation res = new ResourceLocation(entityTypeString);
-        if(EntityType.byString(res.getPath()).isPresent()) {
-            return EntityType.byString(res.getPath()).get();
+        if(EntityType.byString(res.toString()).isPresent()) {
+            return EntityType.byString(res.toString()).get();
         }else{
             return null;
         }

@@ -7,6 +7,7 @@ import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
 import com.blamejared.crafttweaker.impl.entity.MCEntityType;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
+import com.corgam.cagedmobs.serializers.mob.MobDataSerializer;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
@@ -46,7 +47,7 @@ public class Entities implements IRecipeManager {
 
     @Override
     public ResourceLocation getBracketResourceLocation () {
-        return MobData.SERIALIZER.getRegistryName();
+        return MobDataSerializer.INSTANCE.getRegistryName();
     }
 
     @Override

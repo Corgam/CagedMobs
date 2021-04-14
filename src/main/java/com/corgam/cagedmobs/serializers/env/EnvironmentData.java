@@ -16,8 +16,6 @@ import java.util.Set;
 
 public class EnvironmentData implements IRecipe<IInventory> {
 
-    public static final EnvironmentDataSerializer SERIALIZER = new EnvironmentDataSerializer();
-
     private final ResourceLocation id;
     private Ingredient inputItem;
     private BlockState renderState;
@@ -62,7 +60,7 @@ public class EnvironmentData implements IRecipe<IInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return this.SERIALIZER;
+        return EnvironmentDataSerializer.INSTANCE;
     }
 
     @Override

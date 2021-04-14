@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -17,9 +16,8 @@ import java.util.*;
 
 public class MobData implements IRecipe<IInventory> {
 
-    public static final MobDataSerializer SERIALIZER = new MobDataSerializer();
-
     private final ResourceLocation id;
+    private final String entityTypeString;
     private EntityType<?> entityType;
     private final Set<String> environments;
     private int growTicks;
@@ -31,6 +29,7 @@ public class MobData implements IRecipe<IInventory> {
         this.id = id;
         this.environments = environments;
         this.entityType = entityType;
+        this.entityTypeString = entityType.toString();
         this.growTicks = growTicks;
         this.requiresWater = requiresWater;
         this.results = results;
@@ -41,6 +40,14 @@ public class MobData implements IRecipe<IInventory> {
     }
 
     public EntityType<?> getEntityType(){
+        // Try to find again entity type if it's null
+        if(this.entityType == null){
+            Optional<EntityType<?>> entityType = EntityType.byString(this.id.toString());
+            if(entityType.isPresent()) {
+                this.entityType = entityType.get();
+                return entityType.get();
+            }
+        }
         return this.entityType;
     }
 
@@ -79,7 +86,7 @@ public class MobData implements IRecipe<IInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return MobData.SERIALIZER;
+        return MobDataSerializer.INSTANCE;
     }
 
     @Override
