@@ -35,12 +35,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
 public class EntityWrapper implements IRecipeCategoryExtension {
+
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
     private final MobData entity;
     private final List<ItemStack> envs = NonNullList.create();
@@ -289,7 +292,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         if(!ingredient.isEmpty()){
             if(slotIndex != 0 && slotIndex != 1){
                  LootData loot = this.drops.get(slotIndex-2);
-                 tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.chance",  loot.getChance() * 100));
+                 tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.chance",  DECIMAL_FORMAT.format(loot.getChance() * 100)));
                  if(loot.getMinAmount() == loot.getMaxAmount()){
                      tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.amountEqual",loot.getMinAmount()));
                  }else{
