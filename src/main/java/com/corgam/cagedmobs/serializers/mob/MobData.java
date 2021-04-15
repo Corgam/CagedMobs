@@ -124,4 +124,9 @@ public class MobData implements IRecipe<IInventory> {
     public void setSamplerTier(int tier){
         this.samplerTier = tier;
     }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
 }

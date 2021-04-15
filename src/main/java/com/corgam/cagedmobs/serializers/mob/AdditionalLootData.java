@@ -75,4 +75,9 @@ public class AdditionalLootData implements IRecipe<IInventory> {
         this.entityType = entityType;
     }
 
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
 }

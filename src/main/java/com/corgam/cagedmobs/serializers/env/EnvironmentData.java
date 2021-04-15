@@ -84,12 +84,6 @@ public class EnvironmentData implements IRecipe<IInventory> {
         return environments;
     }
 
-//    @Override
-//    public boolean isDynamic() {
-//
-//        return true;
-//    }
-
     public void setGrowthModifier(float modifier) {
         this.growModifier = modifier;
     }
@@ -100,5 +94,10 @@ public class EnvironmentData implements IRecipe<IInventory> {
 
     public void setInputItem(Ingredient item) {
         this.inputItem = item;
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
     }
 }
