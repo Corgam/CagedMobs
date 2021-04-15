@@ -9,7 +9,6 @@ import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.setup.CagedTE;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
@@ -365,7 +364,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Attempt harvest (when hopping cage and there is a inv bellow, then harvest, when not hopping, lock and wait for players interaction)
     private void attemptHarvest() {
-        if(this.hopping && !CagedMobs.SERVER_CONFIG.hoppingCagesDisabled()) {
+        if(this.hopping && !CagedMobs.SERVER_CONFIG.ifHoppingCagesDisabled()) {
             // Try to auto harvest
             if(this.autoHarvest()){
                 this.currentGrowTicks = 0;
@@ -431,7 +430,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Is run when player right clicks to harvest
     public void onPlayerHarvest() {
-        if((!this.hopping || CagedMobs.SERVER_CONFIG.hoppingCagesDisabled()) && canPlayerHarvest()){
+        if((!this.hopping || CagedMobs.SERVER_CONFIG.ifHoppingCagesDisabled()) && canPlayerHarvest()){
             this.currentGrowTicks = 0;
             this.waitingForHarvest = false;
             List<ItemStack> drops = createDropsList();

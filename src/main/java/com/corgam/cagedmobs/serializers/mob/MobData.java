@@ -17,7 +17,6 @@ import java.util.*;
 public class MobData implements IRecipe<IInventory> {
 
     private final ResourceLocation id;
-    private final String entityTypeString;
     private EntityType<?> entityType;
     private final Set<String> environments;
     private int growTicks;
@@ -29,7 +28,6 @@ public class MobData implements IRecipe<IInventory> {
         this.id = id;
         this.environments = environments;
         this.entityType = entityType;
-        this.entityTypeString = entityType.toString();
         this.growTicks = growTicks;
         this.requiresWater = requiresWater;
         this.results = results;

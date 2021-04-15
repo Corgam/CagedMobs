@@ -28,7 +28,7 @@ public class HoppingMobCageBlock extends MobCageBlock{
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText (ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        if(CagedMobs.SERVER_CONFIG.hoppingCagesDisabled()){
+        if(CagedMobs.SERVER_CONFIG.ifHoppingCagesDisabled()){
             tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.hoppingCagesDisabled1").withStyle(TextFormatting.RED));
             tooltip.add(new TranslationTextComponent("block.cagedmobs.mobcage.hoppingCagesDisabled2").withStyle(TextFormatting.RED));
         }

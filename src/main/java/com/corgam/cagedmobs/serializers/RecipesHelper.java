@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.serializers;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
 import com.corgam.cagedmobs.serializers.env.RecipeTypeEnvData;
 import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
@@ -7,6 +8,7 @@ import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.serializers.mob.RecipeAdditionalLoot;
 import com.corgam.cagedmobs.serializers.mob.RecipeTypeMobData;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.RecipeManager;
@@ -91,5 +93,24 @@ public class RecipesHelper {
             }
         }
         return false;
+    }
+
+    public static List<EntityType<?>> getEntityTypesFromConfigList(){
+        List<EntityType<?>> blacklisted = new java.util.ArrayList<>(Collections.emptyList());
+        List<? extends String> blacklistedEntities = CagedMobs.SERVER_CONFIG.getEntitiesList();
+        for(String s : blacklistedEntities){
+            Optional<EntityType<?>> entityType = EntityType.byString(s);
+            entityType.ifPresent(blacklisted::add);
+        }
+        return blacklisted;
+    }
+
+    public static boolean isEntityTypeBlacklisted(EntityType<?> type){
+        List<EntityType<?>> list = getEntityTypesFromConfigList();
+        if(CagedMobs.SERVER_CONFIG.isListInWhitelistMode()){
+            return !list.contains(type);
+        }else{
+            return list.contains(type);
+        }
     }
 }

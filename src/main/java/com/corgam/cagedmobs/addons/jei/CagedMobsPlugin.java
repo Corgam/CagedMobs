@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.addons.jei;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.setup.CagedItems;
@@ -9,6 +10,7 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -31,8 +33,17 @@ public class CagedMobsPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes (IRecipeRegistration registration) {
-
         final List<MobData> entities = RecipesHelper.getEntitiesRecipesList(RecipesHelper.getRecipeManager());
+        // Subtract the blacklisted entities
+        List<EntityType<?>> blacklistedEntities = RecipesHelper.getEntityTypesFromConfigList();
+        if(!CagedMobs.SERVER_CONFIG.isListInWhitelistMode()) {
+            // Remove blacklisted entities
+            entities.removeIf(data -> blacklistedEntities.contains(data.getEntityType()));
+        }else{
+            // Remove all except whitelisted entities
+            entities.removeIf(data -> !blacklistedEntities.contains(data.getEntityType()));
+        }
+        // Create JEI recipes
         registration.addRecipes(entities.stream().map(EntityWrapper::new).collect(Collectors.toList()), EntityCategory.ID);
     }
 
@@ -41,4 +52,5 @@ public class CagedMobsPlugin implements IModPlugin {
 
         registration.addRecipeCategories(new EntityCategory(registration.getJeiHelpers().getGuiHelper()));
     }
+
 }

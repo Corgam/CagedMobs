@@ -1,6 +1,7 @@
 package com.corgam.cagedmobs.serializers.mob;
 
 import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.configs.ServerConfig;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

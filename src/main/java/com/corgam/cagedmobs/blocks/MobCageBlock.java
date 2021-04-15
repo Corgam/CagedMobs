@@ -3,6 +3,7 @@ package com.corgam.cagedmobs.blocks;
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.addons.theoneprobe.ITopInfoProvider;
 import com.corgam.cagedmobs.items.*;
+import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.tileEntities.MobCageTE;
 import com.corgam.cagedmobs.setup.CagedItems;
 import mcjty.theoneprobe.api.IProbeHitData;
@@ -15,7 +16,6 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -165,7 +165,9 @@ public class MobCageBlock extends ContainerBlock implements ITopInfoProvider, IW
                 if(heldItem.getItem() instanceof DnaSamplerItem) {
                     DnaSamplerItem sampler = (DnaSamplerItem) heldItem.getItem();
                     // Check if there exists a recipe with given entity type and if the env suits the entity
-                    if(MobCageTE.existsEntityFromType(sampler.getEntityType(heldItem)) && cage.isEnvSuitable(player, sampler.getEntityType(heldItem), state)){
+                    if(MobCageTE.existsEntityFromType(sampler.getEntityType(heldItem))
+                            && cage.isEnvSuitable(player, sampler.getEntityType(heldItem), state)
+                            && !RecipesHelper.isEntityTypeBlacklisted(sampler.getEntityType(heldItem))){
                         cage.setEntityFromType(sampler.getEntityType(heldItem),heldItem);
                         // Clear the sampler's mob type if not in creative
                         if(!player.isCreative()) {
@@ -178,7 +180,7 @@ public class MobCageBlock extends ContainerBlock implements ITopInfoProvider, IW
                 return ActionResultType.PASS;
             }
             // Try to harvest
-            if((!cage.isHopping() || CagedMobs.SERVER_CONFIG.hoppingCagesDisabled()) && cage.isWaitingForHarvest()) {
+            if((!cage.isHopping() || CagedMobs.SERVER_CONFIG.ifHoppingCagesDisabled()) && cage.isWaitingForHarvest()) {
                 cage.onPlayerHarvest();
                 return ActionResultType.SUCCESS;
             }
