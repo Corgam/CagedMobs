@@ -31,4 +31,5 @@ public class CagedItems {
     public final static RegistryObject<Item> DRAGON_SCALE = ITEMS_REG.register("dragon_scale", () -> new Item(new Item.Properties().rarity(Rarity.EPIC).tab(CagedItemGroup.CAGED_MAIN)));
     public final static RegistryObject<Item> SPONGE_FRAGMENT = ITEMS_REG.register("sponge_fragment", () -> new Item(new Item.Properties().tab(CagedItemGroup.CAGED_MAIN)));
     public final static RegistryObject<Item> NETHER_STAR_FRAGMENT = ITEMS_REG.register("nether_star_fragment", () -> new SimpleFoiledItem(new Item.Properties().rarity(Rarity.UNCOMMON).tab(CagedItemGroup.CAGED_MAIN)));
+    public final static RegistryObject<Item> HONEY_DROP = ITEMS_REG.register("honey_drop", () -> new Item(new Item.Properties().tab(CagedItemGroup.CAGED_MAIN)));
 }

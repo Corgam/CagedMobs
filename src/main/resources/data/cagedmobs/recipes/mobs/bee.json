@@ -1,0 +1,32 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+		}
+	],
+	"entity": "minecraft:bee",
+	"samplerTier": 2,
+	"environments": ["farm"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:honeycomb"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "cagedmobs:honey_drop"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}
