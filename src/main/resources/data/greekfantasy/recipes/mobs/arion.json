@@ -8,7 +8,7 @@
 	],
 	"entity": "greekfantasy:arion",
 	"samplerTier": 1,
-	"environments": ["cave"],
+	"environments": ["farm"],
 	"growTicks": 1200,
 	"results": [
 		{

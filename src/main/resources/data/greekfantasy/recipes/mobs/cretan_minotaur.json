@@ -6,10 +6,10 @@
 			"modid": "greekfantasy"
 		}
 	],
-	"entity": "greekfantasy:cretan",
-	"samplerTier": 2,
+	"entity": "greekfantasy:cretan_minotaur",
+	"samplerTier": 3,
 	"environments": ["cave"],
-	"growTicks": 1200,
+	"growTicks": 2400,
 	"results": [
 		{
 			"chance": 0.5,

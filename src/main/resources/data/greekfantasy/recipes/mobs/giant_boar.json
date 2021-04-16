@@ -6,7 +6,7 @@
 			"modid": "greekfantasy"
 		}
 	],
-	"entity": "greekfantasy:gigante",
+	"entity": "greekfantasy:giant_boar",
 	"samplerTier": 3,
 	"environments": ["farm"],
 	"growTicks": 2400,
@@ -23,30 +23,6 @@
 			"chance": 0.5,
 			"output": {
 				"item": "greekfantasy:boar_tusk"
-			},
-			"minAmount": 1,
-			"maxAmount": 2
-		},
-		{
-			"chance": 0.15,
-			"output": {
-				"item": "minecraft:carrot"
-			},
-			"minAmount": 1,
-			"maxAmount": 2
-		},
-		{
-			"chance": 0.15,
-			"output": {
-				"item": "minecraft:potato"
-			},
-			"minAmount": 1,
-			"maxAmount": 2
-		},
-		{
-			"chance": 0.15,
-			"output": {
-				"item": "minecraft:pumpkin"
 			},
 			"minAmount": 1,
 			"maxAmount": 2

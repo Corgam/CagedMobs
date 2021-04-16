@@ -6,10 +6,10 @@
 			"modid": "greekfantasy"
 		}
 	],
-	"entity": "greekfantasy:drakina",
+	"entity": "greekfantasy:drakaina",
 	"samplerTier": 2,
 	"environments": ["cave"],
-	"growTicks": 1200,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.5,

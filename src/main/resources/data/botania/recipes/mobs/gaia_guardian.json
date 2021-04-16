@@ -37,7 +37,7 @@
 			"maxAmount": 3
 		},
 		{
-			"chance": 0.3,
+			"chance": 0.25,
 			"output": {
 				"item": "botania:black_lotus"
 			},
@@ -45,7 +45,7 @@
 			"maxAmount": 3
 		},
 		{
-			"chance": 0.2,
+			"chance": 0.15,
 			"output": {
 				"item": "botania:blacker_lotus"
 			},
@@ -53,7 +53,7 @@
 			"maxAmount": 1
 		},
 		{
-			"chance": 0.35,
+			"chance": 0.2,
 			"output": {
 				"item": "botania:manasteel_ingot"
 			},
@@ -61,7 +61,7 @@
 			"maxAmount": 3
 		},
 		{
-			"chance": 0.2,
+			"chance": 0.15,
 			"output": {
 				"item": "botania:mana_pearl"
 			},

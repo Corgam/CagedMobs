@@ -6,13 +6,13 @@
 			"modid": "greekfantasy"
 		}
 	],
-	"entity": "greekfantasy:cerberus",
+	"entity": "greekfantasy:circe",
 	"samplerTier": 3,
 	"environments": ["cave"],
 	"growTicks": 2400,
 	"results": [
 		{
-			"chance": 0.2,
+			"chance": 0.1,
 			"output": {
 				"item": "greekfantasy:swine_wand"
 			},
