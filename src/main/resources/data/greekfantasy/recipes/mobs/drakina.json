@@ -6,10 +6,10 @@
 			"modid": "greekfantasy"
 		}
 	],
-	"entity": "greekfantasy:gorgon",
+	"entity": "greekfantasy:drakina",
 	"samplerTier": 2,
 	"environments": ["cave"],
-	"growTicks": 1800,
+	"growTicks": 1200,
 	"results": [
 		{
 			"chance": 0.5,
@@ -17,12 +17,12 @@
 				"item": "greekfantasy:snakeskin"
 			},
 			"minAmount": 1,
-			"maxAmount": 4
+			"maxAmount": 2
 		},
 		{
-			"chance": 0.125,
+			"chance": 0.15,
 			"output": {
-				"item": "greekfantasy:gorgon_blood"
+				"item": "greekfantasy:snake_fang"
 			},
 			"minAmount": 1,
 			"maxAmount": 1

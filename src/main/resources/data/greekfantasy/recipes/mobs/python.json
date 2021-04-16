@@ -6,10 +6,10 @@
 			"modid": "greekfantasy"
 		}
 	],
-	"entity": "greekfantasy:gorgon",
-	"samplerTier": 2,
+	"entity": "greekfantasy:python",
+	"samplerTier": 3,
 	"environments": ["cave"],
-	"growTicks": 1800,
+	"growTicks": 2400,
 	"results": [
 		{
 			"chance": 0.5,
@@ -17,16 +17,16 @@
 				"item": "greekfantasy:snakeskin"
 			},
 			"minAmount": 1,
-			"maxAmount": 4
+			"maxAmount": 3
 		},
 		{
-			"chance": 0.125,
-			"output": {
-				"item": "greekfantasy:gorgon_blood"
-			},
-			"minAmount": 1,
-			"maxAmount": 1
+			"chance": 0.3,
+				"output": {
+					"item": "greekfantasy:tough_snakeskin"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
 		}
 	]
-
+	
 }

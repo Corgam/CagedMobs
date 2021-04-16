@@ -1,0 +1,21 @@
+{
+	"type": "cagedmobs:additional_loot_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "quark"
+		}
+	],
+	"entity": "minecraft:ender_dragon",
+	"results": [
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "quark:dragon_scale"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}

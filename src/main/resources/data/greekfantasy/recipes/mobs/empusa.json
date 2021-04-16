@@ -1,0 +1,40 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:empusa",
+	"samplerTier": 2,
+	"environments": ["nether"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "greekfantasy:cursed_hair"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.3,
+			"output": {
+				"item": "greekfantasy:fiery_bat_wing"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:phantom_membrane"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}

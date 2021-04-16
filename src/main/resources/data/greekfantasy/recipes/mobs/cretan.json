@@ -6,27 +6,27 @@
 			"modid": "greekfantasy"
 		}
 	],
-	"entity": "greekfantasy:gorgon",
+	"entity": "greekfantasy:cretan",
 	"samplerTier": 2,
 	"environments": ["cave"],
-	"growTicks": 1800,
+	"growTicks": 1200,
 	"results": [
 		{
 			"chance": 0.5,
 			"output": {
-				"item": "greekfantasy:snakeskin"
+				"item": "minecraft:leather"
 			},
 			"minAmount": 1,
-			"maxAmount": 4
+			"maxAmount": 2
 		},
 		{
-			"chance": 0.125,
-			"output": {
-				"item": "greekfantasy:gorgon_blood"
-			},
-			"minAmount": 1,
-			"maxAmount": 1
+			"chance": 0.4,
+				"output": {
+					"item": "greekfantasy:horn"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
 		}
 	]
-
+	
 }

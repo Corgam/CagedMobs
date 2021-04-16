@@ -6,26 +6,26 @@
 			"modid": "greekfantasy"
 		}
 	],
-	"entity": "greekfantasy:gorgon",
-	"samplerTier": 2,
+	"entity": "greekfantasy:arion",
+	"samplerTier": 1,
 	"environments": ["cave"],
-	"growTicks": 1800,
+	"growTicks": 1200,
 	"results": [
 		{
-			"chance": 0.5,
+			"chance": 0.6,
 			"output": {
-				"item": "greekfantasy:snakeskin"
+				"item": "minecraft:gold_nugget"
 			},
-			"minAmount": 1,
+			"minAmount": 2,
 			"maxAmount": 4
 		},
 		{
-			"chance": 0.125,
+			"chance": 0.7,
 			"output": {
-				"item": "greekfantasy:gorgon_blood"
+				"item": "minecraft:leather"
 			},
 			"minAmount": 1,
-			"maxAmount": 1
+			"maxAmount": 2
 		}
 	]
 

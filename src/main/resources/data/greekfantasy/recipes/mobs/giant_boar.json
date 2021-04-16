@@ -1,0 +1,75 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:gigante",
+	"samplerTier": 3,
+	"environments": ["farm"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "greekfantasy:boar_ear"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "greekfantasy:boar_tusk"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.15,
+			"output": {
+				"item": "minecraft:carrot"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.15,
+			"output": {
+				"item": "minecraft:potato"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.15,
+			"output": {
+				"item": "minecraft:pumpkin"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:leather"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.8,
+			"output": {
+				"item": "minecraft:porkchop"
+			},
+			"output_cooked": {
+				"item": "minecraft:cooked_porkchop"
+			},
+			"minAmount": 2,
+			"maxAmount": 4
+		}
+	]
+
+}
