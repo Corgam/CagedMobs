@@ -118,8 +118,16 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
                         double d3 = (double) blockpos.getX() + world.random.nextDouble();
                         double d4 = (double) blockpos.getY() + (world.random.nextDouble()/3);
                         double d5 = (double) blockpos.getZ() + world.random.nextDouble();
-                        world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                        world.addParticle(ParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                        if(!this.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
+                            // If not waterlogged emit fire particles
+                            world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                            world.addParticle(ParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                        }else{
+                            // If waterlogged emit blue fire particles
+                            world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                            world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                        }
+
                 }
             }
         }
