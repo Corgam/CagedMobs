@@ -15,10 +15,10 @@ import net.minecraft.util.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
-@ZenCodeType.Name("mods.cagedmobs.Environments")
-public class Environments implements IRecipeManager {
+@ZenCodeType.Name("mods.cagedmobs.EnvironmentsManager")
+public class EnvironmentsManager implements IRecipeManager {
 
-    public Environments() {}
+    public EnvironmentsManager() {}
 
     @ZenCodeType.Method
     public CTEnvironment create (String id, IIngredient item, BlockState renderState, float growModifier, String category) {

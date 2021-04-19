@@ -14,10 +14,10 @@ import net.minecraft.util.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
-@ZenCodeType.Name("mods.cagedmobs.Entities")
-public class Entities implements IRecipeManager {
+@ZenCodeType.Name("mods.cagedmobs.EntitiesManager")
+public class EntitiesManager implements IRecipeManager {
 
-    public Entities() {}
+    public EntitiesManager() {}
 
     // Used for creating new entityRecipe with just one valid environment
     @ZenCodeType.Method

@@ -14,10 +14,10 @@ import net.minecraft.util.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
-@ZenCodeType.Name("mods.cagedmobs.AdditionalLoots")
-public class AdditionalLoots implements IRecipeManager {
+@ZenCodeType.Name("mods.cagedmobs.AdditionalLootsManager")
+public class AdditionalLootsManager implements IRecipeManager {
 
-    public AdditionalLoots() {}
+    public AdditionalLootsManager() {}
 
     // Used for creating new additionalLootRecipe
     @ZenCodeType.Method
