@@ -1,0 +1,15 @@
+{
+	"type": "cagedmobs:env_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+		}
+	],
+	"input": {
+		"item": "minecraft:grass_path"
+	},
+	"render": "minecraft:grass_path",
+	"growModifier": 1.15,
+	"categories": ["farm"]
+}
