@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "cagedmobs:dnasamplerdiamond"
+  },
+  "addition": {
+    "item": "cagedmobs:star_infused_netherite_ingot"
+  },
+  "result": {
+    "item": "cagedmobs:dnasamplernetherite"
+  }
+}

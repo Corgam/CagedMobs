@@ -1,8 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "#",
-    "."
+    "r#r",
+    " . "
   ],
   "key": {
     "#": {
@@ -10,6 +10,9 @@
     },
     ".": {
       "item": "minecraft:hopper"
+    },
+    "r": {
+      "item": "minecraft:redstone"
     }
   },
   "result": {

@@ -7,9 +7,9 @@
 		}
 	],
 	"input": {
-		"item": "minecraft:grass_path"
+		"item": "minecraft:honeycomb_block"
 	},
-	"render": "minecraft:grass_path",
+	"render": "minecraft:honeycomb_block",
 	"growModifier": 1.15,
 	"categories": ["farm"]
 }
