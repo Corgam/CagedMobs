@@ -8,7 +8,7 @@
 	],
 	"entity": "twilightforest:mini_ghast",
 	"samplerTier": 2,
-	"environments": ["cave"],
+	"environments": ["tower"],
 	"growTicks": 1800,
 	"results": [
 		{
