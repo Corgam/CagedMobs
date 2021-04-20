@@ -1,0 +1,15 @@
+{
+	"type": "cagedmobs:env_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "twilightforest"
+		}
+	],
+	"input": {
+		"item": "twilightforest:root"
+	},
+	"render": "twilightforest:root",
+	"growModifier": 1.0,
+	"categories": ["forest"]
+}

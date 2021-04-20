@@ -1,0 +1,24 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "twilightforest"
+		}
+	],
+	"entity": "twilightforest:ice_crystal",
+	"samplerTier": 1,
+	"environments": ["snow"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.65,
+				"output": {
+					"item": "minecraft:snowball"
+				},
+				"minAmount": 1,
+				"maxAmount": 2
+		}
+	]
+	
+}

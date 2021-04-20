@@ -1,0 +1,32 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "twilightforest"
+		}
+	],
+	"entity": "twilightforest:ur_ghast",
+	"samplerTier": 3,
+	"environments": ["tower"],
+	"growTicks": 3000,
+	"results": [
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "twilightforest:carminite"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.3,
+			"output": {
+				"item": "twilightforest:fiery_tears"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}
