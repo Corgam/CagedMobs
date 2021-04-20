@@ -12,7 +12,7 @@
 	"growTicks": 3000,
 	"results": [
 		{
-			"chance": 0.1,
+			"chance": 0.08,
 				"output": {
 					"item": "twilightforest:alpha_fur"
 				},
