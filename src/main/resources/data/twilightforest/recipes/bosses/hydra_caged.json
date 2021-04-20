@@ -12,7 +12,7 @@
 	"growTicks": 3000,
 	"results": [
 		{
-			"chance": 0.4,
+			"chance": 0.3,
 			"output": {
 				"item": "twilightforest:hydra_chop"
 			},
@@ -20,7 +20,7 @@
 			"maxAmount": 2
 		},
 		{
-			"chance": 0.2,
+			"chance": 0.15,
 			"output": {
 				"item": "twilightforest:fiery_blood"
 			},

@@ -12,7 +12,7 @@
 	"growTicks": 2400,
 	"results": [
 		{
-			"chance": 0.4,
+			"chance": 0.3,
 			"output": {
 				"item": "greekfantasy:nemean_lion_hide"
 			},
@@ -28,7 +28,7 @@
 				"maxAmount": 7
 		},
 		{
-			"chance": 0.2,
+			"chance": 0.15,
 			"output": {
 				"item": "greekfantasy:dog_claw"
 			},

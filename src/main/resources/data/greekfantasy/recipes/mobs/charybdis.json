@@ -13,7 +13,7 @@
 	"growTicks": 2400,
 	"results": [
 		{
-			"chance": 0.15,
+			"chance": 0.08,
 			"output": {
 				"item": "greekfantasy:conch"
 			},

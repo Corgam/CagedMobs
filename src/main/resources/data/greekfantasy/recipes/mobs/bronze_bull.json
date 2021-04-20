@@ -12,7 +12,7 @@
 	"growTicks": 2400,
 	"results": [
 		{
-			"chance": 0.5,
+			"chance": 0.35,
 			"output": {
 				"item": "greekfantasy:ichor"
 			},
@@ -28,7 +28,7 @@
 			"maxAmount": 4
 		},
 		{
-			"chance": 0.5,
+			"chance": 0.2,
 			"output": {
 				"item": "greekfantasy:fiery_gear"
 			},

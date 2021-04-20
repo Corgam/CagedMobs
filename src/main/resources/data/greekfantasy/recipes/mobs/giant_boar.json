@@ -12,7 +12,7 @@
 	"growTicks": 2400,
 	"results": [
 		{
-			"chance": 0.5,
+			"chance": 0.3,
 			"output": {
 				"item": "greekfantasy:boar_ear"
 			},
@@ -20,7 +20,7 @@
 			"maxAmount": 2
 		},
 		{
-			"chance": 0.5,
+			"chance": 0.3,
 			"output": {
 				"item": "greekfantasy:boar_tusk"
 			},

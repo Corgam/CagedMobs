@@ -200,12 +200,13 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         float height = entity.getBbHeight();
         // Some hardcoded values
         if(entity.getType().toString().contains("twilightforest.ur_ghast")){return 2.0F;}
-        if(entity.getType().toString().contains("greekfantasy.charybdis")){return 2.0F;}
+        if(entity.getType().toString().contains("greekfantasy.charybdis")){return 3.0F;}
         if(entity.getType().toString().contains("twilightforest.hydra")){return 3.2F;}
         if(entity.getType().toString().contains("twilightforest.yeti_alpha")){return 6.0F;}
         if(entity.getType().toString().contains("minecraft.ender_dragon")) {return 5.0F;}
-        if(entity.getType().toString().contains("twilightforest.armored_giant")) {return 5.2F;}
-        if(entity.getType().toString().contains("twilightforest.giant_miner")) {return 5.2F;}
+        if(entity.getType().toString().contains("twilightforest.armored_giant")) {return 6.0F;}
+        if(entity.getType().toString().contains("twilightforest.giant_miner")) {return 6.0F;}
+        if(entity.getType().toString().contains("twilightforest.mini_ghast")) {return 10.0F;}
         if(entity instanceof ElderGuardianEntity) {return 10.0F;}
         if(entity instanceof  AbstractGroupFishEntity) {return 25.0F;}
         if(entity instanceof GhastEntity) {return 5.2F;}

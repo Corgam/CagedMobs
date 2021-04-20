@@ -12,7 +12,7 @@
 	"growTicks": 2400,
 	"results": [
 		{
-			"chance": 0.4,
+			"chance": 0.35,
 				"output": {
 					"item": "twilightforest:naga_scale"
 				},
