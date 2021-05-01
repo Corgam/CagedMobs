@@ -21,6 +21,7 @@ import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.passive.fish.*;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
@@ -77,18 +78,38 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }
         // Add loot
         int lootIndex = 0;
+        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
         for(LootData data : entity.getResults()){
-            if(!this.drops.contains(data)) {
-                this.drops.add(data);
-                lootIndex++;
-                // If it has a cooked variant add one more LootData
-                if (data.isCooking()) {
-                    this.drops.add(data);
-                    // If added cooked variant keep track of cooked IDs
-                    this.cookedIDs.add(lootIndex);
-                    lootIndex++;
+            if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
+                if(!blacklistedItems.contains(data.getItem().getItem())){
+                    if(!this.drops.contains(data)) {
+                        this.drops.add(data);
+                        lootIndex++;
+                        // If it has a cooked variant add one more LootData
+                        if (data.isCooking()) {
+                            this.drops.add(data);
+                            // If added cooked variant keep track of cooked IDs
+                            this.cookedIDs.add(lootIndex);
+                            lootIndex++;
+                        }
+                    }
+                }
+            }else{
+                if(blacklistedItems.contains(data.getItem().getItem())){
+                    if(!this.drops.contains(data)) {
+                        this.drops.add(data);
+                        lootIndex++;
+                        // If it has a cooked variant add one more LootData
+                        if (data.isCooking()) {
+                            this.drops.add(data);
+                            // If added cooked variant keep track of cooked IDs
+                            this.cookedIDs.add(lootIndex);
+                            lootIndex++;
+                        }
+                    }
                 }
             }
+
         }
         // Add additional Loot
         for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ADDITIONAL_LOOT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
@@ -99,17 +120,36 @@ public class EntityWrapper implements IRecipeCategoryExtension {
                 if(this.entity.getEntityType() == null){ continue;}
                 if(this.entity.getEntityType().equals(additionalLootData.getEntityType())) {
                     for(LootData data : additionalLootData.getResults()){
-                        if(!this.drops.contains(data)){
-                            this.drops.add(data);
-                            lootIndex++;
-                            // If it has a cooked variant add one more LootData
-                            if(data.isCooking()){
-                                this.drops.add(data);
-                                // If added cooked variant keep track of cooked IDs
-                                this.cookedIDs.add(lootIndex);
-                                lootIndex++;
+                        if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
+                            if(!blacklistedItems.contains(data.getItem().getItem())){
+                                if(!this.drops.contains(data)){
+                                    this.drops.add(data);
+                                    lootIndex++;
+                                    // If it has a cooked variant add one more LootData
+                                    if(data.isCooking()){
+                                        this.drops.add(data);
+                                        // If added cooked variant keep track of cooked IDs
+                                        this.cookedIDs.add(lootIndex);
+                                        lootIndex++;
+                                    }
+                                }
+                            }
+                        }else{
+                            if(blacklistedItems.contains(data.getItem().getItem())){
+                                if(!this.drops.contains(data)){
+                                    this.drops.add(data);
+                                    lootIndex++;
+                                    // If it has a cooked variant add one more LootData
+                                    if(data.isCooking()){
+                                        this.drops.add(data);
+                                        // If added cooked variant keep track of cooked IDs
+                                        this.cookedIDs.add(lootIndex);
+                                        lootIndex++;
+                                    }
+                                }
                             }
                         }
+
                     }
                 }
             }
@@ -248,11 +288,25 @@ public class EntityWrapper implements IRecipeCategoryExtension {
 
         // Outputs
         final List<ItemStack> outputs = new ArrayList<>();
+        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
         for(LootData loot : this.drops){
-            outputs.add(loot.getItem());
-            if(!loot.getCookedItem().isEmpty() && loot.isCooking()) {
-                outputs.add(loot.getCookedItem());
+            // Add the item to the outputs list if it's not disabled in the config
+            if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
+                if(!blacklistedItems.contains(loot.getItem().getItem())){
+                    outputs.add(loot.getItem());
+                    if(!loot.getCookedItem().isEmpty() && loot.isCooking()) {
+                        outputs.add(loot.getCookedItem());
+                    }
+                }
+            }else{
+                if(blacklistedItems.contains(loot.getItem().getItem())){
+                    outputs.add(loot.getItem());
+                    if(!loot.getCookedItem().isEmpty() && loot.isCooking()) {
+                        outputs.add(loot.getCookedItem());
+                    }
+                }
             }
+
         }
         iIngredients.setOutputs(VanillaTypes.ITEM, outputs);
     }

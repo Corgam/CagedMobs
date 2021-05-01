@@ -36,7 +36,7 @@ public class CagedMobsPlugin implements IModPlugin {
         final List<MobData> entities = RecipesHelper.getEntitiesRecipesList(RecipesHelper.getRecipeManager());
         // Subtract the blacklisted entities
         List<EntityType<?>> blacklistedEntities = RecipesHelper.getEntityTypesFromConfigList();
-        if(!CagedMobs.SERVER_CONFIG.isListInWhitelistMode()) {
+        if(!CagedMobs.SERVER_CONFIG.isEntitiesListInWhitelistMode()) {
             // Remove blacklisted entities
             entities.removeIf(data -> blacklistedEntities.contains(data.getEntityType()));
         }else{

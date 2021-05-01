@@ -1,5 +1,7 @@
 package com.corgam.cagedmobs.addons.jei;
 
+import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.setup.CagedItems;
 import com.corgam.cagedmobs.setup.Constants;
@@ -18,6 +20,8 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+
+import java.util.List;
 
 public class EntityCategory implements IRecipeCategory<EntityWrapper> {
 
@@ -77,17 +81,32 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
         stacks.set(1, entityWrapper.getEnvsItems());
 
         int nextSlotId = 2;
-
+        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
         for (final LootData entry : entityWrapper.getDrops()) {
-
-            int relativeSlotId = nextSlotId - 2;
-            stacks.init(nextSlotId, false, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
-            if(entry.isCooking() && entityWrapper.getCookedIDs().contains(relativeSlotId)){
-                stacks.set(nextSlotId, entry.getCookedItem());
+            // If items not blacklisted draw them
+            if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
+                if(!blacklistedItems.contains(entry.getItem().getItem())){
+                    int relativeSlotId = nextSlotId - 2;
+                    stacks.init(nextSlotId, false, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
+                    if(entry.isCooking() && entityWrapper.getCookedIDs().contains(relativeSlotId)){
+                        stacks.set(nextSlotId, entry.getCookedItem());
+                    }else{
+                        stacks.set(nextSlotId, entry.getItem());
+                    }
+                    nextSlotId++;
+                }
             }else{
-                stacks.set(nextSlotId, entry.getItem());
+                if(blacklistedItems.contains(entry.getItem().getItem())){
+                    int relativeSlotId = nextSlotId - 2;
+                    stacks.init(nextSlotId, false, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
+                    if(entry.isCooking() && entityWrapper.getCookedIDs().contains(relativeSlotId)){
+                        stacks.set(nextSlotId, entry.getCookedItem());
+                    }else{
+                        stacks.set(nextSlotId, entry.getItem());
+                    }
+                    nextSlotId++;
+                }
             }
-            nextSlotId++;
         }
         stacks.addTooltipCallback(entityWrapper::getTooltip);
     }

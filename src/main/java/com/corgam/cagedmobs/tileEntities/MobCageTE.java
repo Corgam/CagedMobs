@@ -15,6 +15,7 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ISidedInventoryProvider;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
@@ -461,7 +462,14 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     // Gives back a list of items that harvest will yield
     private NonNullList<ItemStack> createDropsList(){
         NonNullList<ItemStack> drops = NonNullList.create();
+        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
         for(LootData loot : this.entity.getResults()) {
+            // Skip item if it's blacklisted or whitelisted
+            if(!CagedMobs.SERVER_CONFIG.isEntitiesListInWhitelistMode()){
+                if(blacklistedItems.contains(loot.getItem().getItem())){continue;}
+            }else{
+                if(!blacklistedItems.contains(loot.getItem().getItem())){continue;}
+            }
             // Choose a loot type for entity's color
             if(loot.getColor() != -1){
                 if(loot.getColor() != this.color){
