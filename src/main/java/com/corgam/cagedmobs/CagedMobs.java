@@ -124,13 +124,13 @@ public class CagedMobs
             @ParametersAreNonnullByDefault
             protected void apply(Void objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
                 // MobData recipes
-                String msg = "Loaded "+ MobData.NUMBER_OF_LOADED_MOBDATA_RECIPES + " MobData recipes (" + MobData.NUMBER_OF_NULL_MOBDATA_RECIPES + " null recipes)!";
+                String msg = "[Caged Mobs] Loaded "+ MobData.NUMBER_OF_LOADED_MOBDATA_RECIPES + " MobData recipes (" + MobData.NUMBER_OF_NULL_MOBDATA_RECIPES + " null recipes)!";
                 logMessage(new StringTextComponent(msg));
                 // Additional loot recipes
-                msg = "Loaded "+ AdditionalLootData.NUMBER_OF_LOADED_ADDITIONAL_LOOTDATA_RECIPES + " AdditionalLootData recipes (" + AdditionalLootData.NUMBER_OF_NULL_ADDITIONAL_LOOTDATA_RECIPES + " null recipes)!";
+                msg = "[Caged Mobs] Loaded "+ AdditionalLootData.NUMBER_OF_LOADED_ADDITIONAL_LOOTDATA_RECIPES + " AdditionalLootData recipes (" + AdditionalLootData.NUMBER_OF_NULL_ADDITIONAL_LOOTDATA_RECIPES + " null recipes)!";
                 logMessage(new StringTextComponent(msg));
                 // Environments recipes
-                msg = "Loaded "+ EnvironmentData.NUMBER_OF_LOADED_ENVIRONMENTDATA_RECIPES + " EnvironmentData recipes (" + EnvironmentData.NUMBER_OF_NULL_ENVIRONMENTDATA_RECIPES + " null recipes)!";
+                msg = "[Caged Mobs] Loaded "+ EnvironmentData.NUMBER_OF_LOADED_ENVIRONMENTDATA_RECIPES + " EnvironmentData recipes (" + EnvironmentData.NUMBER_OF_NULL_ENVIRONMENTDATA_RECIPES + " null recipes)!";
                 logMessage(new StringTextComponent(msg));
             }
         });
