@@ -218,7 +218,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         return environment != null;
     }
 
-    private static EnvironmentData getEnvironmentFromItemStack(ItemStack stack){
+    public static EnvironmentData getEnvironmentFromItemStack(ItemStack stack){
         EnvironmentData finalEnvData = null;
         for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ENV_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof EnvironmentData) {

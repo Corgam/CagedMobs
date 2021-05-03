@@ -7,6 +7,7 @@ import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.setup.CagedItems;
+import com.corgam.cagedmobs.tileEntities.MobCageTE;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.IIngredients;
@@ -345,7 +346,12 @@ public class EntityWrapper implements IRecipeCategoryExtension {
 
     public void getTooltip (int slotIndex, boolean input, ItemStack ingredient, List<ITextComponent> tooltip) {
         if(!ingredient.isEmpty()){
-            if(slotIndex != 0 && slotIndex != 1){
+            if(slotIndex == 1){
+                EnvironmentData env = MobCageTE.getEnvironmentFromItemStack(ingredient);
+                if(env != null){
+                    tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.growModifier",  DECIMAL_FORMAT.format(env.getGrowModifier() * 100 - 100)));
+                }
+            }else if(slotIndex != 0){
                  LootData loot = this.drops.get(slotIndex-2);
                  tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.chance",  DECIMAL_FORMAT.format(loot.getChance() * 100)));
                  if(loot.getMinAmount() == loot.getMaxAmount()){

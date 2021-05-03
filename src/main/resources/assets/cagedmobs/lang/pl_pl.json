@@ -43,6 +43,7 @@
 
   "jei.category.cagedmobs.entity": "Łupy klatek na stworzenia",
   "jei.tooltip.cagedmobs.entity.chance": "Szansa: %d%%",
+  "jei.tooltip.cagedmobs.entity.growModifier": "Modyfikator wzrostu: +%d%%",
   "jei.tooltip.cagedmobs.entity.amountEqual": "Ilość: %d",
   "jei.tooltip.cagedmobs.entity.amount": "Ilość: %d - %d",
   "jei.tooltip.cagedmobs.entity.ticks": "%d sekund",

@@ -3,7 +3,7 @@
 	"conditions": [
 		{
 			"type": "forge:mod_loaded",
-			"modid": "cagedmobs"
+			"modid": "twilightforest"
 		}
 	],
 	"entity": "twilightforest:bighorn_sheep",
