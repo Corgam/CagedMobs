@@ -22,14 +22,20 @@ public class EnvironmentData implements IRecipe<IInventory> {
     private float growModifier;
     private final Set<String> environments;
 
+    public static int NUMBER_OF_LOADED_ENVIRONMENTDATA_RECIPES = 0;
+    public static int NUMBER_OF_NULL_ENVIRONMENTDATA_RECIPES = 0;
+
     public EnvironmentData(ResourceLocation id, Ingredient item, BlockState renderState, float growModifier, Set<String> categories){
         this.id = id;
         this.inputItem = item;
         this.renderState = renderState;
         this.growModifier = growModifier;
         this.environments = categories;
-        if(id != null && CagedMobs.LOGGER != null) {
-            CagedMobs.LOGGER.info("Loaded EnvironmentData recipe with id: " + id.toString());
+        // Add the id to the list of loaded recipes
+        if(id != null){
+            NUMBER_OF_LOADED_ENVIRONMENTDATA_RECIPES++;
+        }else{
+            NUMBER_OF_NULL_ENVIRONMENTDATA_RECIPES++;
         }
     }
 
