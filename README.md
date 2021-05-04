@@ -1,6 +1,7 @@
 # CagedMobs
 Welcome to Caged Mobs repository!
-Feel free to post a new issue if you have found a bug or you want to make a request!
+Feel free to post a new issue if you have found a bug or you want to make a feature request!
+You can also do the same on my official [Discord server](https://discord.com/invite/V4ezDH45SZ)! Join it for discussion and to share feedback, ideas and datapacks!
 
 For more info about the mod visit curseforge page: https://www.curseforge.com/minecraft/mc-mods/caged-mobs
 
