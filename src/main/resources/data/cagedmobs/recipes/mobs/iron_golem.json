@@ -16,8 +16,8 @@
 				"output": {
 					"item": "minecraft:iron_ingot"
 				},
-				"minAmount": 3,
-				"maxAmount": 5
+				"minAmount": 1,
+				"maxAmount": 3
 		},
 		{
 			"chance": 0.5,

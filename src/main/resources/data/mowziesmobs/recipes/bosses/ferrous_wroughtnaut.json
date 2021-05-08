@@ -1,0 +1,42 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "mowziesmobs"
+		}
+	],
+	"entity": "mowziesmobs:ferrous_wroughtnaut",
+	"samplerTier": 3,
+	"environments": ["cave"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"lightning": true,
+			"chance": 0.005,
+			"output": {
+				"item": "mowziesmobs:wrought_axe"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"lightning": true,
+			"chance": 0.005,
+			"output": {
+				"item": "mowziesmobs:wrought_helmet"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.8,
+			"output": {
+				"item": "minecraft:iron_ingot"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		}
+	]
+	
+}

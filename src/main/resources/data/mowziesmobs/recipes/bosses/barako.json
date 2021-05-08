@@ -1,0 +1,41 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "mowziesmobs"
+		}
+	],
+	"entity": "mowziesmobs:barako",
+	"samplerTier": 3,
+	"environments": ["farm"],
+	"growTicks": 2200,
+	"results": [
+		{
+			"lightning": true,
+			"chance": 0.025,
+			"output": {
+				"item": "mowziesmobs:barako_mask"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.9,
+			"output": {
+				"item": "mowziesmobs:painted_acacia"
+			},
+			"minAmount": 5,
+			"maxAmount": 15
+		},
+		{
+			"chance": 0.9,
+			"output": {
+				"item": "mowziesmobs:painted_acacia_slab"
+			},
+			"minAmount": 5,
+			"maxAmount": 15
+		}
+	]
+	
+}
