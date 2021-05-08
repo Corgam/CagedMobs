@@ -282,11 +282,10 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     public void setEntityFromType(EntityType<?> type, ItemStack sampler) {
         this.setChanged();
         // Lookup the entity color
-        if(Objects.equals(type.getRegistryName(), ResourceLocation.tryParse("sheep"))){
-            if(sampler.hasTag() && sampler.getTag() != null){
+        if(type.toString().contains("sheep")){
+            if(sampler.hasTag() && sampler.getTag() != null && sampler.getTag().contains("Color") ){
                 this.color = sampler.getTag().getInt("Color");
             }
-
         }
         // Load the mob data
         MobData mobData = getMobDataFromType(type);
