@@ -1,0 +1,33 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:mimicube",
+	"samplerTier": 3,
+	"environments": ["end"],
+	"growTicks": 1500,
+	"results": [
+		{
+			"lightning": true,
+			"chance": 0.3,
+			"output": {
+				"item": "alexsmobs:mimicream"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:slime_ball"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+	
+}

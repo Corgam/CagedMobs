@@ -1,0 +1,40 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:soul_vulture",
+	"samplerTier": 2,
+	"environments": ["bone"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:coal"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "minecraft:bone"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "alexsmobs:soul_heart"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}

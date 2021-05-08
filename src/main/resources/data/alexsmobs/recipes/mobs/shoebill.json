@@ -1,0 +1,24 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:shoebill",
+	"samplerTier": 1,
+	"environments": ["sand"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "minecraft:feather"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		}
+	]
+	
+}
