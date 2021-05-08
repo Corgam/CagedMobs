@@ -1,0 +1,24 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "mysticalworld"
+		}
+	],
+	"entity": "mysticalworld:hell_sprout",
+	"samplerTier": 2,
+	"environments": ["nether"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:nether_wart"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+	
+}
