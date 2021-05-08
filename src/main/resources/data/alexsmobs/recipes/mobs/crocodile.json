@@ -7,17 +7,18 @@
 		}
 	],
 	"entity": "alexsmobs:crocodile",
-	"samplerTier": 1,
+	"samplerTier": 2,
 	"environments": ["sand"],
-	"growTicks": 1200,
+	"growTicks": 1800,
+	"requiresWater": true,
 	"results": [
 		{
-			"chance": 0.5,
+			"chance": 0.4,
 			"output": {
 				"item": "alexsmobs:crocodile_scute"
 			},
 			"minAmount": 1,
-			"maxAmount": 2
+			"maxAmount": 1
 		},
 		{
 			"chance": 0.2,

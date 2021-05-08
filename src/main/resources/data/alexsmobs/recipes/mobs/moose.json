@@ -22,10 +22,10 @@
 		{
 			"chance": 0.7,
 			"output": {
-				"item": "minecraft:moose_ribs"
+				"item": "alexsmobs:moose_ribs"
 			},
 			"output_cooked": {
-				"item": "minecraft:cooked_moose_ribs"
+				"item": "alexsmobs:cooked_moose_ribs"
 			},
 			"minAmount": 1,
 			"maxAmount": 2

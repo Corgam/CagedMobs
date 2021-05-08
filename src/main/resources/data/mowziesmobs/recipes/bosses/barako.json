@@ -9,11 +9,11 @@
 	"entity": "mowziesmobs:barako",
 	"samplerTier": 3,
 	"environments": ["farm"],
-	"growTicks": 2200,
+	"growTicks": 3000,
 	"results": [
 		{
 			"lightning": true,
-			"chance": 0.025,
+			"chance": 0.005,
 			"output": {
 				"item": "mowziesmobs:barako_mask"
 			},

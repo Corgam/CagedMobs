@@ -7,12 +7,12 @@
 		}
 	],
 	"entity": "mowziesmobs:foliaath",
-	"samplerTier": 1,
+	"samplerTier": 2,
 	"environments": ["farm"],
 	"growTicks": 1200,
 	"results": [
 		{
-			"chance": 0.6,
+			"chance": 0.5,
 			"output": {
 				"item": "mowziesmobs:foliaath_seed"
 			},
@@ -25,7 +25,7 @@
 				"item": "minecraft:vine"
 			},
 			"minAmount": 1,
-			"maxAmount": 3
+			"maxAmount": 2
 		}
 	]
 	

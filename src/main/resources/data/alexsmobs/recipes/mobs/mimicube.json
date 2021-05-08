@@ -9,7 +9,7 @@
 	"entity": "alexsmobs:mimicube",
 	"samplerTier": 3,
 	"environments": ["end"],
-	"growTicks": 1500,
+	"growTicks": 1800,
 	"results": [
 		{
 			"lightning": true,

@@ -9,7 +9,7 @@
 	"entity": "alexsmobs:soul_vulture",
 	"samplerTier": 2,
 	"environments": ["bone"],
-	"growTicks": 1200,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.5,

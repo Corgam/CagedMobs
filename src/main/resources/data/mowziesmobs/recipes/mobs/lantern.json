@@ -12,7 +12,7 @@
 	"growTicks": 1200,
 	"results": [
 		{
-			"chance": 0.7,
+			"chance": 0.6,
 			"output": {
 				"item": "mowziesmobs:glowing_jelly"
 			},

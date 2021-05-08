@@ -7,7 +7,7 @@
 		}
 	],
 	"entity": "alexsmobs:grizzly_bear",
-	"samplerTier": 1,
+	"samplerTier": 2,
 	"environments": ["farm"],
 	"growTicks": 1200,
 	"results": [

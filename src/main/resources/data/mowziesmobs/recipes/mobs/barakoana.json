@@ -9,7 +9,7 @@
 	"entity": "mowziesmobs:barakoana",
 	"samplerTier": 2,
 	"environments": ["farm"],
-	"growTicks": 1500,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.005,

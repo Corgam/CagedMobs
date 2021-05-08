@@ -7,9 +7,9 @@
 		}
 	],
 	"entity": "alexsmobs:endergrade",
-	"samplerTier": 1,
+	"samplerTier": 2,
 	"environments": ["end"],
-	"growTicks": 1200,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.5,

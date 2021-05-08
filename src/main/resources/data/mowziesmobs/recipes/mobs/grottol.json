@@ -9,7 +9,7 @@
 	"entity": "mowziesmobs:grottol",
 	"samplerTier": 3,
 	"environments": ["cave"],
-	"growTicks": 1200,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.005,

@@ -6,7 +6,7 @@
 			"modid": "twilightforest"
 		}
 	],
-	"entity": "twilightforest:pinguin",
+	"entity": "twilightforest:penguin",
 	"samplerTier": 1,
 	"environments": ["snow"],
 	"growTicks": 1200,

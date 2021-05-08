@@ -7,9 +7,10 @@
 		}
 	],
 	"entity": "alexsmobs:platypus",
-	"samplerTier": 1,
+	"samplerTier": 2,
 	"environments": ["clay"],
 	"growTicks": 1200,
+	"requiresWater": true,
 	"results": [
 		{
 			"chance": 0.5,

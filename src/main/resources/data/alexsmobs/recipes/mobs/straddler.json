@@ -9,7 +9,7 @@
 	"entity": "alexsmobs:straddler",
 	"samplerTier": 2,
 	"environments": ["nether"],
-	"growTicks": 1200,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.1,

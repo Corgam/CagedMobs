@@ -10,6 +10,7 @@
 	"samplerTier": 1,
 	"environments": ["sand"],
 	"growTicks": 1200,
+	"requiresWater": true,
 	"results": [
 		{
 			"chance": 0.8,

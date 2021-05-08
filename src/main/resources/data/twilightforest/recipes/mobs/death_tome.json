@@ -36,7 +36,7 @@
 			"maxAmount": 2
 		},
 		{
-			"chance": 0.2,
+			"chance": 0.025,
 			"output": {
 				"item": "twilightforest:magic_map_focus"
 			},

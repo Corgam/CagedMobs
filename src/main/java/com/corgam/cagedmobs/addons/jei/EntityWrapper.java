@@ -248,6 +248,11 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         if(entity.getType().toString().contains("twilightforest.armored_giant")) {return 6.0F;}
         if(entity.getType().toString().contains("twilightforest.giant_miner")) {return 6.0F;}
         if(entity.getType().toString().contains("twilightforest.mini_ghast")) {return 10.0F;}
+        if(entity.getType().toString().contains("outvoted:kraken")) {return 6.0F;}
+        if(entity.getType().toString().contains("mowziesmobs:frostmaw")) {return 10.0F;}
+        if(entity.getType().toString().contains("alexsmobs:cachalot_whale")) {return 2.0F;}
+        if(entity.getType().toString().contains("greekfantasy:giant_boar")) {return 10.0F;}
+        if(entity.getType().toString().contains("alexsmobs:crocodile")) {return 60.0F;}
         if(entity instanceof ElderGuardianEntity) {return 10.0F;}
         if(entity instanceof  AbstractGroupFishEntity) {return 25.0F;}
         if(entity instanceof GhastEntity) {return 5.2F;}

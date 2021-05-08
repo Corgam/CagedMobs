@@ -9,7 +9,7 @@
 	"entity": "mowziesmobs:ferrous_wroughtnaut",
 	"samplerTier": 3,
 	"environments": ["cave"],
-	"growTicks": 2400,
+	"growTicks": 3000,
 	"results": [
 		{
 			"lightning": true,

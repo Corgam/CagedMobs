@@ -9,7 +9,7 @@
 	"entity": "alexsmobs:guster",
 	"samplerTier": 2,
 	"environments": ["sand"],
-	"growTicks": 1200,
+	"growTicks": 1800,
 	"results": [
 		{
 			"lightning": true,

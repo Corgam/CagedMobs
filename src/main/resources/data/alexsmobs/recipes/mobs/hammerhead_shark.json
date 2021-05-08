@@ -7,9 +7,10 @@
 		}
 	],
 	"entity": "alexsmobs:hammerhead_shark",
-	"samplerTier": 1,
+	"samplerTier": 2,
 	"environments": ["sand"],
-	"growTicks": 1200,
+	"growTicks": 1800,
+	"requiresWater": true,
 	"results": [
 		{
 			"chance": 0.7,
@@ -17,7 +18,7 @@
 				"item": "alexsmobs:shark_tooth"
 			},
 			"minAmount": 1,
-			"maxAmount": 3
+			"maxAmount": 2
 		}
 	]
 	

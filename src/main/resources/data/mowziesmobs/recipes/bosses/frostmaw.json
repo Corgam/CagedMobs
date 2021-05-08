@@ -9,7 +9,7 @@
 	"entity": "mowziesmobs:frostmaw",
 	"samplerTier": 3,
 	"environments": ["snow"],
-	"growTicks": 2200,
+	"growTicks": 3000,
 	"results": [
 		{
 			"lightning": true,

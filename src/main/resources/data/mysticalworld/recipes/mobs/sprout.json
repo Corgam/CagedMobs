@@ -9,7 +9,7 @@
 	"entity": "mysticalworld:sprout",
 	"samplerTier": 2,
 	"environments": ["farm"],
-	"growTicks": 1200,
+	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.5,
@@ -23,6 +23,9 @@
 			"chance": 0.5,
 			"output": {
 				"item": "minecraft:beetroot"
+			},
+			"output_cooked": {
+				"item": "mysticalworld:cooked_beetroot"
 			},
 			"minAmount": 1,
 			"maxAmount": 2
