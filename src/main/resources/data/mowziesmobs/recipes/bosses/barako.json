@@ -21,20 +21,20 @@
 			"maxAmount": 1
 		},
 		{
-			"chance": 0.9,
+			"chance": 0.8,
 			"output": {
 				"item": "mowziesmobs:painted_acacia"
 			},
-			"minAmount": 5,
-			"maxAmount": 15
+			"minAmount": 1,
+			"maxAmount": 8
 		},
 		{
-			"chance": 0.9,
+			"chance": 0.8,
 			"output": {
 				"item": "mowziesmobs:painted_acacia_slab"
 			},
-			"minAmount": 5,
-			"maxAmount": 15
+			"minAmount": 1,
+			"maxAmount": 8
 		}
 	]
 	
