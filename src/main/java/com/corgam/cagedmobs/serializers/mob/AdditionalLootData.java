@@ -27,10 +27,11 @@ public class AdditionalLootData implements IRecipe<IInventory> {
         this.entityType = entityType;
         this.results = results;
         // Add the id to the list of loaded recipes
-        if(id != null){
-            NUMBER_OF_LOADED_ADDITIONAL_LOOTDATA_RECIPES++;
+        if(id != null && CagedMobs.LOGGER != null){
+            CagedMobs.LOGGER.info("Loaded AdditionalLootData recipe with id: " + id.toString());
+           // NUMBER_OF_LOADED_ADDITIONAL_LOOTDATA_RECIPES++;
         }else{
-            NUMBER_OF_NULL_ADDITIONAL_LOOTDATA_RECIPES++;
+            //NUMBER_OF_NULL_ADDITIONAL_LOOTDATA_RECIPES++;
         }
     }
 

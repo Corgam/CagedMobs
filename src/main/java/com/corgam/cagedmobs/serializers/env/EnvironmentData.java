@@ -32,10 +32,11 @@ public class EnvironmentData implements IRecipe<IInventory> {
         this.growModifier = growModifier;
         this.environments = categories;
         // Add the id to the list of loaded recipes
-        if(id != null){
-            NUMBER_OF_LOADED_ENVIRONMENTDATA_RECIPES++;
+        if(id != null && CagedMobs.LOGGER != null){
+            CagedMobs.LOGGER.info("Loaded EnvironmentData recipe with id: " + id.toString());
+            //NUMBER_OF_LOADED_ENVIRONMENTDATA_RECIPES++;
         }else{
-            NUMBER_OF_NULL_ENVIRONMENTDATA_RECIPES++;
+            //NUMBER_OF_NULL_ENVIRONMENTDATA_RECIPES++;
         }
     }
 

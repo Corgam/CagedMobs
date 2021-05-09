@@ -36,10 +36,11 @@ public class MobData implements IRecipe<IInventory> {
         this.results = results;
         this.samplerTier = tier;
         // Add the id to the list of loaded recipes
-        if(id != null){
-            NUMBER_OF_LOADED_MOBDATA_RECIPES++;
+        if(id != null && CagedMobs.LOGGER != null){
+            CagedMobs.LOGGER.info("Loaded MobData recipe with id: " + id.toString());
+           // NUMBER_OF_LOADED_MOBDATA_RECIPES++;
         }else{
-            NUMBER_OF_NULL_MOBDATA_RECIPES++;
+         //   NUMBER_OF_NULL_MOBDATA_RECIPES++;
         }
     }
 
