@@ -12,7 +12,7 @@
       "item": "minecraft:hopper"
     },
     "r": {
-      "item": "minecraft:redstone"
+      "tag": "forge:dusts/redstone"
     }
   },
   "result": {

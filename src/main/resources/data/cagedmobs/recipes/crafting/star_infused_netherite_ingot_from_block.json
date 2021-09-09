@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "cagedmobs:storage_blocks/star_infused_netherite"
+    }
+  ],
+  "result": {
+    "item": "cagedmobs:star_infused_netherite_ingot",
+    "count": 9
+  }
+}

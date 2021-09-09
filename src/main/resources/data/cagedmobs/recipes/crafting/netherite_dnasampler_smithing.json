@@ -4,7 +4,7 @@
     "item": "cagedmobs:dnasamplerdiamond"
   },
   "addition": {
-    "item": "cagedmobs:star_infused_netherite_ingot"
+    "tag": "cagedmobs:ingots/star_infused_netherite"
   },
   "result": {
     "item": "cagedmobs:dnasamplernetherite"

@@ -6,7 +6,7 @@
   ],
   "key": {
     "X": {
-      "item": "cagedmobs:honey_drop"
+      "tag": "cagedmobs:honey_drops"
     },
     "B": {
       "item": "minecraft:glass_bottle"
