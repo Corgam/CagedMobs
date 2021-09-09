@@ -28,9 +28,11 @@
   "item.cagedmobs.nether_star_fragment": "Fragment Netherowej gwiazdy",
   "item.cagedmobs.honey_drop": "Kropla miodu",
   "item.cagedmobs.star_infused_netherite_ingot": "Sztabka netherytu z duszą gwiazdy",
+  "item.cagedmobs.star_infused_netherite_nugget": "Bryłka netherytu z duszą gwiazdy",
 
   "block.cagedmobs.mobcage": "Klatka na stworzenia",
   "block.cagedmobs.hoppingmobcage": "Skacząca klatka na stworzenia",
+  "block.cagedmobs.star_infused_netherite_block": "Blok netherytu z duszą gwiazdy",
   "block.cagedmobs.mobcage.envNotSuitable": "Środowisko w klatce nie jest odpowiednie dla tego stworzenia.",
   "block.cagedmobs.mobcage.mainInfo": "Zbiera łupy stworzeń z ich próbki DNA",
   "block.cagedmobs.mobcage.envInfo": "Wymaga odpowiedniego środowiska dla stworzenia",

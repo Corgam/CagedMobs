@@ -28,9 +28,11 @@
 	"item.cagedmobs.nether_star_fragment": "Nether Star Fragment",
 	"item.cagedmobs.honey_drop": "Honey Drop",
 	"item.cagedmobs.star_infused_netherite_ingot": "Star Infused Netherite Ingot",
+	"item.cagedmobs.star_infused_netherite_nugget": "Star Infused Netherite Nugget",
 	
 	"block.cagedmobs.mobcage": "Mob Cage",
 	"block.cagedmobs.hoppingmobcage": "Hopping Mob Cage",
+	"block.cagedmobs.star_infused_netherite_block": "Star Infused Netherite Block",
 	"block.cagedmobs.mobcage.envNotSuitable": "The environment inside the cage is not suitable for this entity.",
 	"block.cagedmobs.mobcage.mainInfo": "Can replicate entities' drops from stored DNA Sample",
 	"block.cagedmobs.mobcage.envInfo": "Needs to have suitable environment for entity",

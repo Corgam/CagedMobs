@@ -17,7 +17,7 @@ public class CagedItems {
     public final static RegistryObject<Item> MOB_CAGE = ITEMS_REG.register("mobcage", () -> new BlockItem(CagedBlocks.MOB_CAGE.get(), new Item.Properties().tab(CagedItemGroup.CAGED_MAIN)));
     public final static RegistryObject<Item> HOPPING_MOB_CAGE = ITEMS_REG.register("hoppingmobcage", () -> new BlockItem(CagedBlocks.HOPPING_MOB_CAGE.get(), new Item.Properties().tab(CagedItemGroup.CAGED_MAIN)));
 
-    // PICKER
+    // SAMPLER
     public final static RegistryObject<Item> DNA_SAMPLER = ITEMS_REG.register("dnasampler", () -> new DnaSamplerItem(new Item.Properties().stacksTo(1).tab(CagedItemGroup.CAGED_MAIN)));
     public final static RegistryObject<Item> DNA_SAMPLER_DIAMOND = ITEMS_REG.register("dnasamplerdiamond", () -> new DnaSamplerDiamondItem(new Item.Properties().stacksTo(1).tab(CagedItemGroup.CAGED_MAIN)));
     public final static RegistryObject<Item> DNA_SAMPLER_NETHERITE = ITEMS_REG.register("dnasamplernetherite", () -> new DnaSamplerNetheriteItem(new Item.Properties().stacksTo(1).tab(CagedItemGroup.CAGED_MAIN)));
@@ -33,4 +33,6 @@ public class CagedItems {
     public final static RegistryObject<Item> NETHER_STAR_FRAGMENT = ITEMS_REG.register("nether_star_fragment", () -> new SimpleFoiledItem(new Item.Properties().rarity(Rarity.UNCOMMON).tab(CagedItemGroup.CAGED_MAIN)));
     public final static RegistryObject<Item> HONEY_DROP = ITEMS_REG.register("honey_drop", () -> new Item(new Item.Properties().tab(CagedItemGroup.CAGED_MAIN)));
     public final static RegistryObject<Item> STAR_INFUSED_NETHERITE_INGOT = ITEMS_REG.register("star_infused_netherite_ingot", () -> new SimpleFoiledItem(new Item.Properties().rarity(Rarity.UNCOMMON).tab(CagedItemGroup.CAGED_MAIN)));
+    public final static RegistryObject<Item> STAR_INFUSED_NETHERITE_NUGGET = ITEMS_REG.register("star_infused_netherite_nugget", () -> new SimpleFoiledItem(new Item.Properties().rarity(Rarity.UNCOMMON).tab(CagedItemGroup.CAGED_MAIN)));
+    public final static RegistryObject<Item> STAR_INFUSED_NETHERITE_BLOCK = ITEMS_REG.register("star_infused_netherite_block", () -> new BlockItem(CagedBlocks.STAR_INFUSED_NETHERITE_BLOCK.get(), new Item.Properties().rarity(Rarity.UNCOMMON).tab(CagedItemGroup.CAGED_MAIN)));
 }
