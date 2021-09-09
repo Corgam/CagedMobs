@@ -42,6 +42,7 @@
 	"block.cagedmobs.mobcage.hoppingCagesDisabled2": "Hopping Cages will work the same as non-hopping variant.",
 	"block.cagedmobs.mobcage.requiresWater": "This entity requires a waterlogged cage.",
 	"block.cagedmobs.mobcage.envRequired": "You need to set up an environment first.",
+	"block.cagedmobs.starinfusednetheriteblock.beacon": "Can be used as a beacon base block.",
 
 	"jei.category.cagedmobs.entity": "Caged Entities Drops",
 	"jei.tooltip.cagedmobs.entity.chance": "Chance: %d%%",

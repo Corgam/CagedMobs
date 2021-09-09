@@ -42,6 +42,7 @@
   "block.cagedmobs.mobcage.hoppingCagesDisabled2": "Skacząca klatka będzie działała tak samo jak jej zwykły wariant.",
   "block.cagedmobs.mobcage.requiresWater": "Te stworzenie wymaga klatki wypełnionej wodą.",
   "block.cagedmobs.mobcage.envRequired": "Najpierw musisz ustanowić środowisko.",
+  "block.cagedmobs.starinfusednetheriteblock.beacon": "Może być użyty jako blok do piramidy magicznej latarni.",
 
   "jei.category.cagedmobs.entity": "Łupy klatek na stworzenia",
   "jei.tooltip.cagedmobs.entity.chance": "Szansa: %d%%",
