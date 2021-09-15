@@ -1,0 +1,56 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "iceandfire"
+		}
+	],
+	"entity": "iceandfire:myrmex_sentinel",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "iceandfire:myrmex_desert_chitin"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "iceandfire:myrmex_jungle_chitin"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "iceandfire:myrmex_desert_resin"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "iceandfire:myrmex_jungle_resin"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "iceandfire:myrmex_stinger"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}

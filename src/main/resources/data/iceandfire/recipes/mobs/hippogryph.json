@@ -1,0 +1,57 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "iceandfire"
+		}
+	],
+	"entity": "iceandfire:hippogryph",
+	"samplerTier": 2,
+	"environments": ["farm"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.025,
+			"output": {
+				"item": "iceandfire:hippogryph_talon"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"lightning": true,
+			"chance": 0.05,
+			"output": {
+				"item": "iceandfire:hippogryph_skull"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "iceandfire:hippogryph_egg"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.6,
+			"output": {
+				"item": "minecraft:leather"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.6,
+			"output": {
+				"item": "minecraft:feather"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		}
+	]
+	
+}

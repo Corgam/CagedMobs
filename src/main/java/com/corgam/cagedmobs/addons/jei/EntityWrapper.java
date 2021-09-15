@@ -255,6 +255,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         if(entity.getType().toString().contains("alexsmobs:crocodile")) {return 6.0F;}
         if(entity.getType().toString().contains("alexsmobs:hammerhead_shark")) {return 6.0F;}
         if(entity.getType().toString().contains("upgrade_aquatic:great_thrasher")) {return 2.0F;}
+        if(entity.getType().toString().contains("fireandice:cyclops")) {return 2.0F;}
         if(entity instanceof ElderGuardianEntity) {return 10.0F;}
         if(entity instanceof  AbstractGroupFishEntity) {return 25.0F;}
         if(entity instanceof GhastEntity) {return 5.2F;}

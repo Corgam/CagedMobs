@@ -1,0 +1,57 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "iceandfire"
+		}
+	],
+	"entity": "iceandfire:stymphalian_bird",
+	"samplerTier": 2,
+	"environments": ["farm"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "iceandfire:stymphalian_bird_feather"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		},
+		{
+			"lightning": true,
+			"chance": 0.025,
+			"output": {
+				"item": "iceandfire:stymphalian_skull"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "minecraft:iron_ingot"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "iceandfire:copper_ingot"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		},
+		{
+			"chance": 0.25,
+			"output": {
+				"item": "iceandfire:copper_nugget"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		}
+	]
+	
+}
