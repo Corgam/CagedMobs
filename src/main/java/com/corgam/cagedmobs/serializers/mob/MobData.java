@@ -24,9 +24,6 @@ public class MobData implements IRecipe<IInventory> {
     private final List<LootData> results;
     private int samplerTier;
 
-    public static int NUMBER_OF_LOADED_MOBDATA_RECIPES = 0;
-    public static int NUMBER_OF_NULL_MOBDATA_RECIPES = 0;
-
     public MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
         this.id = id;
         this.environments = environments;
@@ -38,9 +35,6 @@ public class MobData implements IRecipe<IInventory> {
         // Add the id to the list of loaded recipes
         if(id != null && CagedMobs.LOGGER != null){
             CagedMobs.LOGGER.info("Loaded MobData recipe with id: " + id.toString());
-           // NUMBER_OF_LOADED_MOBDATA_RECIPES++;
-        }else{
-         //   NUMBER_OF_NULL_MOBDATA_RECIPES++;
         }
     }
 

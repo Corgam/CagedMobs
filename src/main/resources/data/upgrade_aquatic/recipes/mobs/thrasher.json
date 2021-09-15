@@ -1,0 +1,25 @@
+{
+  "type": "cagedmobs:mob_data",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "upgrade_aquatic"
+    }
+  ],
+  "entity": "upgrade_aquatic:thrasher",
+  "samplerTier": 2,
+  "environments": ["sand"],
+  "growTicks": 1200,
+  "requiresWater": true,
+  "results": [
+    {
+      "chance": 0.2,
+      "output": {
+        "item": "upgrade_aquatic:thrasher_tooth"
+      },
+      "minAmount": 1,
+      "maxAmount": 2
+    }
+  ]
+
+}

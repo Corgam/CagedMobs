@@ -29,8 +29,7 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
         final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
         // Loot Data
         final List<LootData> results = deserializeLootData(id, json, entityType);
-
-            return new AdditionalLootData(id, entityType, results);
+        return new AdditionalLootData(id, entityType, results);
     }
 
     @Override

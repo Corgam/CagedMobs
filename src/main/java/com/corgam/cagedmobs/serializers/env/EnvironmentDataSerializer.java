@@ -37,7 +37,6 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
         for(final JsonElement e : json.getAsJsonArray("categories")){
             categories.add(e.getAsString().toLowerCase());
         }
-
         // Error checks
         if (growModifier <= -1) {
             throw new IllegalArgumentException("Environment " + recipeId.toString() + " has an invalid grow modifier. It must be greater than -1.");
