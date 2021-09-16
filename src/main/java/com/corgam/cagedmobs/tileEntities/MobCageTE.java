@@ -66,7 +66,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     private boolean waitingForHarvest = false;
     // Color of entity
     private int color = 0;
-
+    // Cached entity
     private Entity cachedEntity;
     private WeightedSpawnerEntity renderedEntity;
 
