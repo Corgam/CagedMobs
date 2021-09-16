@@ -169,9 +169,16 @@ public class MobCageBlock extends ContainerBlock implements ITopInfoProvider, IW
                             && cage.isEnvSuitable(player, sampler.getEntityType(heldItem), state)
                             && !RecipesHelper.isEntityTypeBlacklisted(sampler.getEntityType(heldItem))){
                         cage.setEntityFromType(sampler.getEntityType(heldItem),heldItem);
+
                         // Clear the sampler's mob type if not in creative
                         if(!player.isCreative()) {
-                            sampler.removeEntityType(heldItem);
+                            // If single use samplers config is enabled, destroy the sampler. If not, just use its DNA.
+                            if(CagedMobs.SERVER_CONFIG.areSamplersSingleUse()){
+                                player.broadcastBreakEvent(handIn);
+                                heldItem.shrink(1);
+                            }else{
+                                sampler.removeEntityType(heldItem);
+                            }
                         }
                         return ActionResultType.SUCCESS;
                     }

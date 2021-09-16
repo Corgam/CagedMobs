@@ -17,6 +17,8 @@ public class ServerConfig {
     private final ForgeConfigSpec.BooleanValue itemsListInWhitelistMode;
     private final ForgeConfigSpec.ConfigValue<List<? extends String>> itemsList;
 
+    private final ForgeConfigSpec.BooleanValue singleUseSamplers;
+
     public ServerConfig(){
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         builder.comment("Server side config for CagedMobs. If changed it will affect the whole server!");
@@ -25,6 +27,10 @@ public class ServerConfig {
         // Disable hopping cages
         builder.comment("Disables Hopping Cages' automatic harvest, making them work the same as the non-hopping variant.");
         this.hoppingCagesDisabled = builder.define("hoppingCagesDisabled", false);
+
+        // Single use samplers
+        builder.comment("Makes all samplers (all tiers) only single use. After a mob is sampled and put into the cage the sampler will break.");
+        this.singleUseSamplers = builder.define("singleUseSamplers", false);
 
         // Entities list
         builder.comment("List of all entities blacklisted from use (in a modid:name format). Players will not be able to put entities from this list into cages nor sample them.\n" +
@@ -74,4 +80,6 @@ public class ServerConfig {
     public List<? extends String> getItemsList(){
         return this.itemsList.get();
     }
+
+    public boolean areSamplersSingleUse(){return this.singleUseSamplers.get();}
 }
