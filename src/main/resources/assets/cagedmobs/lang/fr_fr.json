@@ -1,0 +1,63 @@
+{
+	"itemGroup.cagedmobstab": "Cages à monstres",
+	
+	"item.cagedmobs.dnasampler": "Echantillonneur ADN",
+	"item.cagedmobs.dnasamplerdiamond": "Echantillonneur ADN en diamant",
+	"item.cagedmobs.dnasamplernetherite": "Echantillonneur ADN en Netherite",
+
+	"item.cagedmobs.dnasampler.empty": "Frappez une entité pour récupérer son ADN",
+	"item.cagedmobs.dnasampler.tier1Info": "Peut être utilisé sur les entités faibles",
+	"item.cagedmobs.dnasampler.tier2Info": "Peut être utilisé sur les entités plus fortes",
+	"item.cagedmobs.dnasampler.tier3Info": "Peut être utilisé sur les Boss",
+	"item.cagedmobs.dnasampler.makeEmpty": "Maj-Clic droit - Pour vider le contenu de l'échantillonneur",
+	"item.cagedmobs.dnasampler.not_cachable": "Cette entité ne peut pas être échantillonnée",
+	"item.cagedmobs.dnasampler.not_sufficient": "Cet échantillonneur n'est pas assez résistant pour cette entité",
+	"item.cagedmobs.dnasampler.unknown_entity": "Entité inconnue",
+
+	"item.cagedmobs.cookingupgrade": "Amélioration - Cuisine",
+	"item.cagedmobs.lightningupgrade": "Amélioration - Foudre",
+	"item.cagedmobs.arrowupgrade": "Amélioration - Flèches",
+	"item.cagedmobs.cookingupgrade.info": "Cuisine automatiquement les butins de l'entité",
+	"item.cagedmobs.lightningupgrade.info": "Tue l'entité avec l'aide de la foudre",
+	"item.cagedmobs.arrowupgrade.info": "Tue l'entité avec l'aide de flèches",
+
+	"item.cagedmobs.upgrades.attach": "Peut être ajouté à une cage",
+
+	"item.cagedmobs.dragon_scale": "Ecaille de Dragon",
+	"item.cagedmobs.sponge_fragment": "Fragment d'éponge",
+	"item.cagedmobs.nether_star_fragment": "Fragment d'étoile du Nether",
+	"item.cagedmobs.honey_drop": "Goutte de miel",
+	"item.cagedmobs.star_infused_netherite_ingot": "Lingot de Netherite scintillante",
+	"item.cagedmobs.star_infused_netherite_nugget": "Pépite de Netherite scintillante",
+	
+	"block.cagedmobs.mobcage": "Cage à monstres",
+	"block.cagedmobs.hoppingmobcage": "Cage à monstres auto-récoltante",
+	"block.cagedmobs.star_infused_netherite_block": "Bloc de Netherite scintillante",
+	"block.cagedmobs.mobcage.envNotSuitable": "L'environnement de la cage ne convient pas a l'entité.",
+	"block.cagedmobs.mobcage.mainInfo": "Permet de générer le butin de l'entité échantillonnée",
+	"block.cagedmobs.mobcage.envInfo": "Nécessite un environnement adapté à l'entité",
+	"block.cagedmobs.mobcage.hoppingInfo": "Envoie les butins dans un stockage placé en dessous",
+	"block.cagedmobs.mobcage.upgrading": "Peut être amélioré",
+	"block.cagedmobs.mobcage.hoppingCagesDisabled1": "Récolte automatique désactivée.",
+	"block.cagedmobs.mobcage.hoppingCagesDisabled2": "Les cages auto-récoltantes Fonctionnerons comme les cages standards.",
+	"block.cagedmobs.mobcage.requiresWater": "Cette entité nécessite une cage immergée dans de l'eau.",
+	"block.cagedmobs.mobcage.envRequired": "Vous devez d'abord définir un environnement.",
+	"block.cagedmobs.starinfusednetheriteblock.beacon": "Peut être utilisé comme base d'une balise.",
+
+	"jei.category.cagedmobs.entity": "Butin de l'entité",
+	"jei.tooltip.cagedmobs.entity.chance": "Chance: %d%%",
+	"jei.tooltip.cagedmobs.entity.growModifier": "Croissance: +%d%%",
+	"jei.tooltip.cagedmobs.entity.amountEqual": "Quantité: %d",
+	"jei.tooltip.cagedmobs.entity.amount": "Quantité: %d - %d",
+	"jei.tooltip.cagedmobs.entity.ticks": "%d secondes",
+	"jei.tooltip.cagedmobs.entity.cooking_upgrade": "Nécessite l'amélioration - Cuisine",
+	"jei.tooltip.cagedmobs.entity.lightning_upgrade": "Nécessite l'amélioration - Foudre",
+	"jei.tooltip.cagedmobs.entity.arrow_upgrade": "Nécessite l'amélioration - Flèches",
+	"jei.tooltip.cagedmobs.entity.colorItem": "S'obtient uniquement sur les entité de la couleur correspondante",
+	"jei.tooltip.cagedmobs.entity.requiresWater": "Nécessite une cage immergée",
+
+	"HWYLA.tooltip.cagedmobs.cage.entity": "Entité: ",
+	"HWYLA.tooltip.cagedmobs.cage.environment": "Environnement: ",
+	"HWYLA.tooltip.cagedmobs.cage.progress": "Progression: ",
+	"TOP.tooltip.cagedmobs.cage.upgrades": "Améliorations:"
+}
