@@ -17,6 +17,8 @@ import java.util.Set;
 
 public class EnvironmentDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<EnvironmentData>{
 
+    public static final EnvironmentDataSerializer INSTANCE = new EnvironmentDataSerializer();
+
     EnvironmentDataSerializer(){
         this.setRegistryName(new ResourceLocation("cagedmobs","env_data"));
     }
@@ -35,7 +37,6 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<RecipeSerializ
         for(final JsonElement e : json.getAsJsonArray("categories")){
             categories.add(e.getAsString().toLowerCase());
         }
-
         // Error checks
         if (growModifier <= -1) {
             throw new IllegalArgumentException("Environment " + recipeId.toString() + " has an invalid grow modifier. It must be greater than -1.");

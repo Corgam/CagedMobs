@@ -8,7 +8,7 @@
 	],
 	"entity": "minecraft:rabbit",
 	"samplerTier": 1,
-	"environments": ["farm","desert"],
+	"environments": ["farm","sand"],
 	"growTicks": 1200,
 	"results": [
 		{

@@ -1,0 +1,33 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:guster",
+	"samplerTier": 2,
+	"environments": ["sand"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"lightning": true,
+			"chance": 0.1,
+			"output": {
+				"item": "alexsmobs:guster_eye"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:sand"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		}
+	]
+	
+}

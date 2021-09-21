@@ -8,7 +8,8 @@
 	],
 	"entity": "greekfantasy:siren",
 	"samplerTier": 2,
-	"environments": ["water"],
+	"environments": ["sand"],
+	"requiresWater": true,
 	"growTicks": 1800,
 	"results": [
 		{
@@ -20,7 +21,7 @@
 			"maxAmount": 2
 		},
 		{
-			"chance": 0.1,
+			"chance": 0.05,
 				"output": {
 					"item": "minecraft:nautilus_shell"
 				},

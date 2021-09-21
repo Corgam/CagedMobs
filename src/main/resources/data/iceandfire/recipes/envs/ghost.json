@@ -1,0 +1,15 @@
+{
+	"type": "cagedmobs:env_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "iceandfire"
+		}
+	],
+	"input": {
+		"item": "iceandfire:graveyard_soil"
+	},
+	"render": "iceandfire:graveyard_soil",
+	"growModifier": 1.0,
+	"categories": ["ghost"]
+}

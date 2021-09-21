@@ -1,0 +1,63 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:geryon",
+	"samplerTier": 3,
+	"environments": ["cave"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.12,
+			"output": {
+				"item": "greekfantasy:ambrosia"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "greekfantasy:iron_club"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "minecraft:shield"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:diamond"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:netherite_scrap"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.005,
+			"output": {
+				"item": "minecraft:netherite_ingot"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+}

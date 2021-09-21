@@ -1,0 +1,40 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:nemean_lion",
+	"samplerTier": 3,
+	"environments": ["sand"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.3,
+			"output": {
+				"item": "greekfantasy:nemean_lion_hide"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.8,
+				"output": {
+					"item": "minecraft:gold_nugget"
+				},
+				"minAmount": 1,
+				"maxAmount": 7
+		},
+		{
+			"chance": 0.15,
+			"output": {
+				"item": "greekfantasy:dog_claw"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}

@@ -1,0 +1,32 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "twilightforest"
+		}
+	],
+	"entity": "twilightforest:mini_ghast",
+	"samplerTier": 2,
+	"environments": ["tower"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "minecraft:gunpowder"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:ghast_tear"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}

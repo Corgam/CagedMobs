@@ -1,18 +1,19 @@
 package com.corgam.cagedmobs;
 
 import com.corgam.cagedmobs.configs.ClientConfig;
+import com.corgam.cagedmobs.configs.ServerConfig;
 import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
 import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
-import com.corgam.cagedmobs.serializers.env.EnvironmentData;
-import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
-import com.corgam.cagedmobs.serializers.mob.MobData;
+import com.corgam.cagedmobs.serializers.env.EnvironmentDataSerializer;
+import com.corgam.cagedmobs.serializers.mob.AdditionalLootDataSerializer;
+import com.corgam.cagedmobs.serializers.mob.MobDataSerializer;
 import com.corgam.cagedmobs.setup.*;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.Registry;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -23,32 +24,34 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.*;
+
 @Mod(Constants.MOD_ID)
 public class CagedMobs
 {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
+    public static final UUID CAGEDMOBS_UUID = UUID.nameUUIDFromBytes(Constants.MOD_ID.getBytes());
     final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
     public static final ClientConfig CLIENT_CONFIG = new ClientConfig();
-    //public static final ServerConfig SERVER_CONFIG = new ServerConfig();
+    public static final ServerConfig SERVER_CONFIG = new ServerConfig();
 
     public CagedMobs() {
         // Client
         eventBus.addListener(ClientSetup::renderLayerSetup);
         // Configs
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG.getForgeConfigSpec());
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG.getForgeConfigSpec());
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG.getForgeConfigSpec());
         // Recipes
-
         eventBus.addGenericListener(RecipeSerializer.class, this::registerRecipeSerializers);
         // Registries
         CagedBlocks.BLOCKS_REG.register(eventBus);
         CagedItems.ITEMS_REG.register(eventBus);
-        CagedTE.TE_REG.register(eventBus);
+        CagedBlockEntity.TE_REG.register(eventBus);
         // Add properties to items
         eventBus.addListener(this::addPropertiesToItems);
         // TheOneProbe support
-        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::initTOPSupport);
+        //eventBus.addListener(this::initTOPSupport);
     }
 
     private void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
@@ -57,21 +60,21 @@ public class CagedMobs
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(RecipesHelper.ENV_RECIPE.toString()), RecipesHelper.ENV_RECIPE);
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(RecipesHelper.ADDITIONAL_LOOT_RECIPE.toString()), RecipesHelper.ADDITIONAL_LOOT_RECIPE);
         // Register recipe serializers
-        event.getRegistry().register(EnvironmentData.SERIALIZER);
-        event.getRegistry().register(MobData.SERIALIZER);
-        event.getRegistry().register(AdditionalLootData.SERIALIZER);
+        event.getRegistry().register(EnvironmentDataSerializer.INSTANCE);
+        event.getRegistry().register(MobDataSerializer.INSTANCE);
+        event.getRegistry().register(AdditionalLootDataSerializer.INSTANCE);
     }
 
     // Adding properties to items with NBT to allow different textures based on nbt
     private void addPropertiesToItems(final FMLClientSetupEvent event) {
-        ItemProperties.register(CagedItems.DNA_SAMPLER.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> {
-            return DnaSamplerItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
-        });
-        ItemProperties.register(CagedItems.DNA_SAMPLER_DIAMOND.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> {
-            return DnaSamplerDiamondItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
-        });
-        ItemProperties.register(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> {
-            return DnaSamplerNetheriteItem.containsEntityType(itemStack) ? 1.0F : 0.0F;
-        });
+        ItemProperties.register(CagedItems.DNA_SAMPLER.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
+        ItemProperties.register(CagedItems.DNA_SAMPLER_DIAMOND.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerDiamondItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
+        ItemProperties.register(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerNetheriteItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
     }
+    // Initializes the TheOneProbe mod support
+//    private void initTOPSupport(final InterModEnqueueEvent event){
+//        if(ModList.get().isLoaded("theoneprobe")){
+//            InterModComms.sendTo("theoneprobe","getTheOneProbe", CagedMobsTOPSupport::new);
+//        }
+//    }
 }

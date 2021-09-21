@@ -1,0 +1,120 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:circe",
+	"samplerTier": 3,
+	"environments": ["cave"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "greekfantasy:swine_wand"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:glass_bottle"
+			},
+			"minAmount": 1,
+			"maxAmount": 6
+		},
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "minecraft:glowstone_dust"
+			},
+			"minAmount": 1,
+			"maxAmount": 6
+		},
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "minecraft:redstone"
+			},
+			"minAmount": 1,
+			"maxAmount": 6
+		},
+		{
+			"chance": 0.3,
+			"output": {
+				"item": "minecraft:gunpowder"
+			},
+			"minAmount": 1,
+			"maxAmount": 6
+		},
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "minecraft:spider_eye"
+			},
+			"minAmount": 1,
+			"maxAmount": 6
+		},
+		{
+			"chance": 0.6,
+			"output": {
+				"item": "minecraft:stick"
+			},
+			"minAmount": 1,
+			"maxAmount": 6
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:sugar"
+			},
+			"minAmount": 1,
+			"maxAmount": 6
+		},
+		{
+			"chance": 0.08,
+			"output": {
+				"item": "minecraft:potion"
+			},
+			"nbtName": "Potion",
+			"nbtData": "minecraft:healing",
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.08,
+			"output": {
+				"item": "minecraft:potion"
+			},
+			"nbtName": "Potion",
+			"nbtData": "minecraft:fire_resistance",
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.08,
+			"output": {
+				"item": "minecraft:potion"
+			},
+			"nbtName": "Potion",
+			"nbtData": "minecraft:swiftness",
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.08,
+			"output": {
+				"item": "minecraft:potion"
+			},
+			"nbtName": "Potion",
+			"nbtData": "minecraft:water_breathing",
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}

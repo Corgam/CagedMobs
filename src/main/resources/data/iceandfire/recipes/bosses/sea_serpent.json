@@ -1,0 +1,89 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "iceandfire"
+		}
+	],
+	"entity": "iceandfire:sea_serpent",
+	"samplerTier": 3,
+	"environments": ["sand"],
+	"growTicks": 2400,
+	"requiresWater": true,
+	"results": [
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "iceandfire:sea_serpent_scales_teal"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "iceandfire:sea_serpent_scales_blue"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "iceandfire:sea_serpent_scales_deepblue"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "iceandfire:sea_serpent_scales_purple"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "iceandfire:sea_serpent_scales_green"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "iceandfire:sea_serpent_scales_bronze"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "iceandfire:sea_serpent_scales_red"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "iceandfire:sea_serpent_fang"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"lightning": true,
+			"chance": 0.025,
+			"output": {
+				"item": "iceandfire:sea_serpent_skull"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+}

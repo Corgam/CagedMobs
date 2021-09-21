@@ -15,8 +15,6 @@ import java.util.List;
 
 public class AdditionalLootData implements Recipe<Inventory> {
 
-    public static final AdditionalLootDataSerializer SERIALIZER = new AdditionalLootDataSerializer();
-
     private final ResourceLocation id;
     private EntityType<?> entityType;
     private final List<LootData> results;
@@ -25,7 +23,8 @@ public class AdditionalLootData implements Recipe<Inventory> {
         this.id = id;
         this.entityType = entityType;
         this.results = results;
-        if(id != null && CagedMobs.LOGGER != null) {
+        // Add the id to the list of loaded recipes
+        if(id != null && CagedMobs.LOGGER != null){
             CagedMobs.LOGGER.info("Loaded AdditionalLootData recipe with id: " + id.toString());
         }
     }
@@ -57,7 +56,7 @@ public class AdditionalLootData implements Recipe<Inventory> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return AdditionalLootData.SERIALIZER;
+        return AdditionalLootDataSerializer.INSTANCE;
     }
 
     @Override
@@ -77,9 +76,9 @@ public class AdditionalLootData implements Recipe<Inventory> {
         this.entityType = entityType;
     }
 
-//    @Override
-//    public boolean isDynamic() {
-//
-//        return true;
-//    }
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
 }

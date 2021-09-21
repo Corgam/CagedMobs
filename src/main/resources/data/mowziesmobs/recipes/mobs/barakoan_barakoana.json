@@ -1,0 +1,32 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "mowziesmobs"
+		}
+	],
+	"entity": "mowziesmobs:barakoan_barakoana",
+	"samplerTier": 2,
+	"environments": ["farm"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.6,
+			"output": {
+				"item": "mowziesmobs:dart"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "mowziesmobs:blowgun"
+			},
+			"minAmount": 0,
+			"maxAmount": 1
+		}
+	]
+	
+}

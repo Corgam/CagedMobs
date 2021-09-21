@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    "XBX",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "tag": "forge:nether_stars"
+    },
+    "B": {
+      "tag": "forge:ingots/netherite"
+    }
+  },
+  "result": {
+    "item": "cagedmobs:star_infused_netherite_ingot"
+  }
+}

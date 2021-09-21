@@ -16,8 +16,6 @@ import java.util.Set;
 
 public class EnvironmentData implements Recipe<Inventory> {
 
-    public static final EnvironmentDataSerializer SERIALIZER = new EnvironmentDataSerializer();
-
     private final ResourceLocation id;
     private Ingredient inputItem;
     private BlockState renderState;
@@ -30,7 +28,8 @@ public class EnvironmentData implements Recipe<Inventory> {
         this.renderState = renderState;
         this.growModifier = growModifier;
         this.environments = categories;
-        if(id != null && CagedMobs.LOGGER != null) {
+        // Add the id to the list of loaded recipes
+        if(id != null && CagedMobs.LOGGER != null){
             CagedMobs.LOGGER.info("Loaded EnvironmentData recipe with id: " + id.toString());
         }
     }
@@ -62,7 +61,7 @@ public class EnvironmentData implements Recipe<Inventory> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return this.SERIALIZER;
+        return EnvironmentDataSerializer.INSTANCE;
     }
 
     @Override
@@ -86,12 +85,6 @@ public class EnvironmentData implements Recipe<Inventory> {
         return environments;
     }
 
-//    @Override
-//    public boolean isDynamic() {
-//
-//        return true;
-//    }
-
     public void setGrowthModifier(float modifier) {
         this.growModifier = modifier;
     }
@@ -102,5 +95,10 @@ public class EnvironmentData implements Recipe<Inventory> {
 
     public void setInputItem(Ingredient item) {
         this.inputItem = item;
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
     }
 }

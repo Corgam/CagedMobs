@@ -1,0 +1,27 @@
+{
+  "type": "cagedmobs:mob_data",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "entity": "tconstruct:terracube",
+  "samplerTier": 2,
+  "environments": ["farm"],
+  "growTicks": 1200,
+  "results": [
+    {
+      "chance": 0.7,
+      "output": {
+        "item": "minecraft:clay_ball"
+      },
+      "output_cooked": {
+        "item": "minecraft:brick"
+      },
+      "minAmount": 1,
+      "maxAmount": 2
+    }
+  ]
+
+}

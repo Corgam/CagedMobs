@@ -1,0 +1,21 @@
+{
+	"type": "cagedmobs:additional_loot_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "xreliquary"
+		}
+	],
+	"entity": "minecraft:skeleton",
+	"results": [
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "xreliquary:rib_bone"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}

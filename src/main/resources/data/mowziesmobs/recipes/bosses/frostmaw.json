@@ -1,0 +1,49 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "mowziesmobs"
+		}
+	],
+	"entity": "mowziesmobs:frostmaw",
+	"samplerTier": 3,
+	"environments": ["snow"],
+	"growTicks": 3000,
+	"results": [
+		{
+			"lightning": true,
+			"chance": 0.01,
+			"output": {
+				"item": "mowziesmobs:ice_crystal"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:ice"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		},
+		{
+			"chance": 0.3,
+			"output": {
+				"item": "minecraft:packed_ice"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "minecraft:blue_ice"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+	
+}

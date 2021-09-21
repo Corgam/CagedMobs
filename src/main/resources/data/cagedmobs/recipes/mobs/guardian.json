@@ -8,8 +8,9 @@
 	],
 	"entity": "minecraft:guardian",
 	"samplerTier": 2,
-	"environments": ["water"],
+	"environments": ["sand"],
 	"growTicks": 1800,
+	"requiresWater": true,
 	"results": [
 		{
 			"chance": 0.60,

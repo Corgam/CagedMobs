@@ -15,7 +15,9 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdditionalLootDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<AdditionalLootData>{
+public class AdditionalLootDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<AdditionalLootData> {
+
+    public static final AdditionalLootDataSerializer INSTANCE = new AdditionalLootDataSerializer();
 
     AdditionalLootDataSerializer(){
         this.setRegistryName(new ResourceLocation("cagedmobs","additional_loot_data"));
@@ -27,8 +29,7 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<RecipeSeria
         final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
         // Loot Data
         final List<LootData> results = deserializeLootData(id, json, entityType);
-
-            return new AdditionalLootData(id, entityType, results);
+        return new AdditionalLootData(id, entityType, results);
     }
 
     @Override

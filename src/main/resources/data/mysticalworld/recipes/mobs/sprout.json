@@ -1,0 +1,57 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "mysticalworld"
+		}
+	],
+	"entity": "mysticalworld:sprout",
+	"samplerTier": 2,
+	"environments": ["farm"],
+	"growTicks": 1800,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:melon_slice"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:beetroot"
+			},
+			"output_cooked": {
+				"item": "mysticalworld:cooked_beetroot"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:potato"
+			},
+			"output_cooked": {
+				"item": "minecraft:baked_potato"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "mysticalworld:aubergine"
+			},
+			"output_cooked": {
+				"item": "mysticalworld:cooked_aubergine"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+	
+}

@@ -1,0 +1,21 @@
+{
+	"type": "cagedmobs:additional_loot_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "xreliquary"
+		}
+	],
+	"entity": "minecraft:witch",
+	"results": [
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "xreliquary:witch_hat"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}

@@ -12,6 +12,6 @@ public class CagedItemGroup extends CreativeModeTab {
 
     @Override
     public ItemStack makeIcon() {
-        return new ItemStack(CagedItems.DNA_SAMPLER_NETHERITE.get());
+        return new ItemStack(CagedItems.HOPPING_MOB_CAGE.get());
     }
 }

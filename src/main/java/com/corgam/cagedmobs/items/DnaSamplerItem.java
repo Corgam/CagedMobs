@@ -31,13 +31,22 @@ public class DnaSamplerItem extends Item {
         super(properties);
     }
 
-    // Called on left-click on an entity to get it's sample
+    // Called on left click on an entity to get it's sample
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if(target.level.isClientSide() || !(attacker instanceof Player)) return false;
         Player player = (Player) attacker;
-        InteractionHand hand = player.getUsedItemHand();
-        if (target.isAlive() && canBeCached(target)) {
+        // Select the hand where the sampler is
+        InteractionHand hand;
+        if(player.getMainHandItem().equals(stack)){
+            hand = InteractionHand.MAIN_HAND;
+        }else if(player.getOffhandItem().equals(stack)){
+            hand = InteractionHand.OFF_HAND;
+        }else{
+            return false;
+        }
+        // Try to sample the target
+        if (canBeCached(target) && !RecipesHelper.isEntityTypeBlacklisted(target.getType())) {
             if(samplerTierSufficient(stack, target)) {
                 CompoundTag nbt = new CompoundTag();
                 SerializationHelper.serializeEntityTypeNBT(nbt, target.getType());
@@ -51,10 +60,10 @@ public class DnaSamplerItem extends Item {
                 player.setItemInHand(hand, stack);
                 return true;
             }else{
-                player.displayClientMessage(new TranslatableComponent("item.cagedmobs.dnasampler.not_sufficient"), true);
+                player.displayClientMessage(new TranslatableComponent("item.cagedmobs.dnasampler.not_sufficient").withStyle(ChatFormatting.RED), true);
             }
         }else{
-            player.displayClientMessage(new TranslatableComponent("item.cagedmobs.dnasampler.not_cachable"), true);
+            player.displayClientMessage(new TranslatableComponent("item.cagedmobs.dnasampler.not_cachable").withStyle(ChatFormatting.RED), true);
         }
         return false;
     }
@@ -106,11 +115,11 @@ public class DnaSamplerItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
-        ItemStack itemstack = playerIn.getItemInHand(handIn);
-        if(playerIn.isCrouching() && itemstack.hasTag()) {
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        if(player.isCrouching() && itemstack.hasTag()) {
             itemstack.removeTagKey("entity");
-            playerIn.swing(handIn);
+            player.swing(hand);
             InteractionResultHolder.success(itemstack);
         }
         return InteractionResultHolder.fail(itemstack);
@@ -118,7 +127,7 @@ public class DnaSamplerItem extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText (ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable net.minecraft.world.level.Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         tooltip.add(getTooltip(stack));
         tooltip.add(getInformationForTier().withStyle(ChatFormatting.GRAY));

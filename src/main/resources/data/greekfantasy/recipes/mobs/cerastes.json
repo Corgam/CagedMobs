@@ -8,11 +8,11 @@
 	],
 	"entity": "greekfantasy:cerastes",
 	"samplerTier": 2,
-	"environments": ["desert"],
+	"environments": ["sand"],
 	"growTicks": 1800,
 	"results": [
 		{
-			"chance": 0.4,
+			"chance": 0.2,
 			"output": {
 				"item": "greekfantasy:horn"
 			},

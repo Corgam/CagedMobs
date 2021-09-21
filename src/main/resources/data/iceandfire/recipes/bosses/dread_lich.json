@@ -1,0 +1,40 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "iceandfire"
+		}
+	],
+	"entity": "iceandfire:dread_lich",
+	"samplerTier": 3,
+	"environments": ["ghost"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.8,
+			"output": {
+				"item": "minecraft:bone"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		},
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "iceandfire:dread_key"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "iceandfire:dread_shard"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+	
+}

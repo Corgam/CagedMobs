@@ -16,28 +16,37 @@ import java.util.*;
 
 public class MobData implements Recipe<Inventory> {
 
-    public static final MobDataSerializer SERIALIZER = new MobDataSerializer();
-
     private final ResourceLocation id;
     private EntityType<?> entityType;
     private final Set<String> environments;
     private int growTicks;
+    private boolean requiresWater;
     private final List<LootData> results;
     private int samplerTier;
 
-    public MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, List<LootData> results, int tier){
+    public MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
         this.id = id;
         this.environments = environments;
         this.entityType = entityType;
         this.growTicks = growTicks;
+        this.requiresWater = requiresWater;
         this.results = results;
         this.samplerTier = tier;
+        // Add the id to the list of loaded recipes
         if(id != null && CagedMobs.LOGGER != null){
             CagedMobs.LOGGER.info("Loaded MobData recipe with id: " + id.toString());
         }
     }
 
     public EntityType<?> getEntityType(){
+        // Try to find again entity type if it's null
+        if(this.entityType == null){
+            Optional<EntityType<?>> entityType = EntityType.byString(this.id.toString());
+            if(entityType.isPresent()) {
+                this.entityType = entityType.get();
+                return entityType.get();
+            }
+        }
         return this.entityType;
     }
 
@@ -76,7 +85,7 @@ public class MobData implements Recipe<Inventory> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return MobData.SERIALIZER;
+        return MobDataSerializer.INSTANCE;
     }
 
     @Override
@@ -97,6 +106,14 @@ public class MobData implements Recipe<Inventory> {
         this.growTicks = newTicks;
     }
 
+    public boolean ifRequiresWater(){
+        return this.requiresWater;
+    }
+
+    public void setIfRequiresWater(boolean requiresWater){
+        this.requiresWater = requiresWater;
+    }
+
     public List<LootData> getResults () {
         return this.results;
     }
@@ -109,10 +126,8 @@ public class MobData implements Recipe<Inventory> {
         this.samplerTier = tier;
     }
 
-//    @Override
-//    public boolean isDynamic() {
-//
-//        return true;
-//    }
-
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
 }

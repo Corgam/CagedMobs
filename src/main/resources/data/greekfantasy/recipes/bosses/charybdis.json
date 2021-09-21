@@ -1,0 +1,25 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "greekfantasy"
+		}
+	],
+	"entity": "greekfantasy:charybdis",
+	"samplerTier": 3,
+	"requiresWater": true,
+	"environments": ["sand"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.08,
+			"output": {
+				"item": "greekfantasy:conch"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}

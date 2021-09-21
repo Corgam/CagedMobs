@@ -8,8 +8,9 @@
 	],
 	"entity": "minecraft:salmon",
 	"samplerTier": 1,
-	"environments": ["water"],
+	"environments": ["sand"],
 	"growTicks": 1200,
+	"requiresWater": true,
 	"results": [
 		{
 			"chance": 0.7,

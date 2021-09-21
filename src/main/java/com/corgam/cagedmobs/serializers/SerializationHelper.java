@@ -17,7 +17,6 @@ import java.util.Set;
 public class SerializationHelper {
 
     //String collection
-
     public static void serializeStringCollection(FriendlyByteBuf buffer, Set<String> categories) {
         buffer.writeInt(categories.size());
         for(String s : categories){
@@ -66,8 +65,8 @@ public class SerializationHelper {
     public static EntityType<?> deserializeEntityType(ResourceLocation id, FriendlyByteBuf buffer) {
         final String entityTypeString = buffer.readUtf();
         ResourceLocation res = new ResourceLocation(entityTypeString);
-        if(EntityType.byString(res.getPath()).isPresent()) {
-            return EntityType.byString(res.getPath()).get();
+        if(EntityType.byString(res.toString()).isPresent()) {
+            return EntityType.byString(res.toString()).get();
         }else{
             return null;
         }

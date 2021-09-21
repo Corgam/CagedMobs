@@ -1,0 +1,33 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:crocodile",
+	"samplerTier": 2,
+	"environments": ["sand"],
+	"growTicks": 1800,
+	"requiresWater": true,
+	"results": [
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "alexsmobs:crocodile_scute"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "alexsmobs:crocodile_egg"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}

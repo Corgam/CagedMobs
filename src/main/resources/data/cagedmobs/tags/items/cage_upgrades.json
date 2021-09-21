@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#cagedmobs:cage_upgrades/arrow",
+    "#cagedmobs:cage_upgrades/cooking",
+    "#cagedmobs:cage_upgrades/lightning"
+  ]
+}

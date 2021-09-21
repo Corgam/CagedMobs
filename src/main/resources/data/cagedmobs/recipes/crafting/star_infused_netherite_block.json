@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "cagedmobs:nuggets/star_infused_netherite"
+    }
+  },
+  "result": {
+    "item": "cagedmobs:star_infused_netherite_ingot"
+  }
+}

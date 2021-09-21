@@ -1,0 +1,25 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:hammerhead_shark",
+	"samplerTier": 2,
+	"environments": ["sand"],
+	"growTicks": 1800,
+	"requiresWater": true,
+	"results": [
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "alexsmobs:shark_tooth"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+	
+}

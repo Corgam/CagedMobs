@@ -1,0 +1,104 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "twilightforest"
+		}
+	],
+	"entity": "twilightforest:lich",
+	"samplerTier": 3,
+	"environments": ["forest"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.4,
+				"output": {
+					"item": "minecraft:ender_pearl"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.5,
+				"output": {
+					"item": "minecraft:bone"
+				},
+				"minAmount": 1,
+				"maxAmount": 3
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "twilightforest:zombie_scepter"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "twilightforest:lifedrain_scepter"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "twilightforest:twilight_scepter"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "twilightforest:shield_scepter"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "minecraft:golden_sword"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "minecraft:golden_helmet"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "minecraft:golden_chestplate"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "minecraft:golden_leggings"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "minecraft:golden_boots"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}

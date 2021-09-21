@@ -1,0 +1,49 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:seal",
+	"samplerTier": 1,
+	"environments": ["sand"],
+	"growTicks": 1200,
+	"requiresWater": true,
+	"results": [
+		{
+			"chance": 0.8,
+			"output": {
+				"item": "minecraft:kelp"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		},
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "minecraft:nautilus_shell"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "minecraft:scute"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "minecraft:sand"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		}
+	]
+	
+}

@@ -1,0 +1,24 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "twilightforest"
+		}
+	],
+	"entity": "twilightforest:naga",
+	"samplerTier": 3,
+	"environments": ["forest"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.35,
+				"output": {
+					"item": "twilightforest:naga_scale"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		}
+	]
+	
+}

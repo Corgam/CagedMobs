@@ -1,0 +1,121 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "iceandfire"
+		}
+	],
+	"entity": "iceandfire:fire_dragon",
+	"samplerTier": 3,
+	"environments": ["fire"],
+	"growTicks": 3000,
+	"results": [
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "iceandfire:dragonbone"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "iceandfire:fire_dragon_blood"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"lightning": true,
+			"chance": 0.05,
+			"output": {
+				"item": "iceandfire:dragon_skull_fire"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "iceandfire:fire_dragon_heart"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "iceandfire:fire_dragon_flesh"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.005,
+			"output": {
+				"item": "iceandfire:dragonegg_red"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.15,
+			"output": {
+				"item": "iceandfire:dragonscales_red"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.005,
+			"output": {
+				"item": "iceandfire:dragonegg_gray"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.15,
+			"output": {
+				"item": "iceandfire:dragonscales_gray"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.005,
+			"output": {
+				"item": "iceandfire:dragonegg_bronze"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.15,
+			"output": {
+				"item": "iceandfire:dragonscales_bronze"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.005,
+			"output": {
+				"item": "iceandfire:dragonegg_green"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.15,
+			"output": {
+				"item": "iceandfire:dragonscales_green"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+
+}

@@ -1,0 +1,35 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:moose",
+	"samplerTier": 2,
+	"environments": ["farm"],
+	"growTicks": 1500,
+	"results": [
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "alexsmobs:moose_antler"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "alexsmobs:moose_ribs"
+			},
+			"output_cooked": {
+				"item": "alexsmobs:cooked_moose_ribs"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+	
+}

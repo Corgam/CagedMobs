@@ -1,0 +1,35 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:gazelle",
+	"samplerTier": 1,
+	"environments": ["sand"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.3,
+			"output": {
+				"item": "alexsmobs:gazelle_horn"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "minecraft:mutton"
+			},
+			"output_cooked": {
+				"item": "minecraft:cooked_mutton"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}
