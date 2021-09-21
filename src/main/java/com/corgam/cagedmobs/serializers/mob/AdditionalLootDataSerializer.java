@@ -4,20 +4,18 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AdditionalLootData>{
-
-    public static final AdditionalLootDataSerializer INSTANCE = new AdditionalLootDataSerializer();
+public class AdditionalLootDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<AdditionalLootData>{
 
     AdditionalLootDataSerializer(){
         this.setRegistryName(new ResourceLocation("cagedmobs","additional_loot_data"));
@@ -29,11 +27,12 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
         final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
         // Loot Data
         final List<LootData> results = deserializeLootData(id, json, entityType);
-        return new AdditionalLootData(id, entityType, results);
+
+            return new AdditionalLootData(id, entityType, results);
     }
 
     @Override
-    public AdditionalLootData fromNetwork(ResourceLocation id, PacketBuffer buffer) {
+    public AdditionalLootData fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
         try {
             // Entity
             final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, buffer);
@@ -51,7 +50,7 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
     }
 
     @Override
-    public void toNetwork(PacketBuffer buffer, AdditionalLootData recipe) {
+    public void toNetwork(FriendlyByteBuf buffer, AdditionalLootData recipe) {
         try {
             // Entity
             SerializationHelper.serializeEntityType(buffer, recipe.getEntityType());
@@ -85,7 +84,7 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSeri
     }
 
     private static ItemStack writeNBTtoItem(String nbtName, String nbtData, ItemStack stack){
-        CompoundNBT nbt = new CompoundNBT();
+        CompoundTag nbt = new CompoundTag();
         nbt.putString(nbtName,nbtData);
         stack.setTag(nbt);
         return stack;

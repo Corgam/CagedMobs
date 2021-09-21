@@ -8,9 +8,8 @@
 	],
 	"entity": "minecraft:drowned",
 	"samplerTier": 2,
-	"environments": ["sand"],
+	"environments": ["water"],
 	"growTicks": 1800,
-	"requiresWater": true,
 	"results": [
 		{
 			"chance": 0.75,

@@ -8,7 +8,7 @@
 	],
 	"entity": "betterdefaultbiomes:camel",
 	"samplerTier": 1,
-	"environments": ["sand"],
+	"environments": ["desert"],
 	"growTicks": 1200,
 	"results": [
 		{

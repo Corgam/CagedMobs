@@ -20,17 +20,6 @@
 				"maxAmount": 1
 		},
 		{
-			"chance": 0.8,
-			"output": {
-				"item": "minecraft:porkchop"
-			},
-			"output_cooked": {
-				"item": "minecraft:cooked_porkchop"
-			},
-			"minAmount": 1,
-			"maxAmount": 2
-		},
-		{
 			"chance": 0.5,
 				"output": {
 					"item": "minecraft:arrow"
@@ -45,14 +34,6 @@
 				},
 				"minAmount": 1,
 				"maxAmount": 1
-		},
-		{
-			"chance": 0.1,
-			"output": {
-				"item": "hunterillager:boomerang"
-			},
-			"minAmount": 1,
-			"maxAmount": 1
 		}
 	]
 	

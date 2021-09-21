@@ -8,8 +8,7 @@
 	],
 	"entity": "aquaculture:pollock",
 	"samplerTier": 1,
-	"environments": ["sand"],
-	"requiresWater": true,
+	"environments": ["water"],
 	"growTicks": 1200,
 	"results": [
 		{

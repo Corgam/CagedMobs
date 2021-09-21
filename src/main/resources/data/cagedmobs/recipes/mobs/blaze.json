@@ -12,7 +12,7 @@
 	"growTicks": 1800,
 	"results": [
 		{
-			"chance": 0.6,
+			"chance": 0.7,
 			"output": {
 				"item": "minecraft:blaze_rod"
 			},

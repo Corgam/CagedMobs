@@ -8,8 +8,7 @@
 	],
 	"entity": "greekfantasy:naiad",
 	"samplerTier": 2,
-	"environments": ["sand"],
-	"requiresWater": true,
+	"environments": ["water"],
 	"growTicks": 1800,
 	"results": [
 		{

@@ -12,13 +12,14 @@
 	"growTicks": 1200,
 	"results": [
 		{
-			"chance": 0.6,
+			"chance": 0.7,
 			"output": {
 				"item": "minecraft:leather"
 			},
 			"minAmount": 1,
 			"maxAmount": 2
 		}
+
 	]
 	
 }

@@ -3,20 +3,23 @@ package com.corgam.cagedmobs.items;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.*;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -28,28 +31,19 @@ public class DnaSamplerItem extends Item {
         super(properties);
     }
 
-    // Called on left click on an entity to get it's sample
+    // Called on left-click on an entity to get it's sample
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if(target.level.isClientSide() || !(attacker instanceof PlayerEntity)) return false;
-        PlayerEntity player = (PlayerEntity) attacker;
-        // Select the hand where the sampler is
-        Hand hand;
-        if(player.getMainHandItem().equals(stack)){
-            hand = Hand.MAIN_HAND;
-        }else if(player.getOffhandItem().equals(stack)){
-            hand = Hand.OFF_HAND;
-        }else{
-            return false;
-        }
-        // Try to sample the target
-        if (canBeCached(target) && !RecipesHelper.isEntityTypeBlacklisted(target.getType())) {
+        if(target.level.isClientSide() || !(attacker instanceof Player)) return false;
+        Player player = (Player) attacker;
+        InteractionHand hand = player.getUsedItemHand();
+        if (target.isAlive() && canBeCached(target)) {
             if(samplerTierSufficient(stack, target)) {
-                CompoundNBT nbt = new CompoundNBT();
+                CompoundTag nbt = new CompoundTag();
                 SerializationHelper.serializeEntityTypeNBT(nbt, target.getType());
                 // If sheep add it's color to nbt
-                if(target instanceof SheepEntity){
-                    SheepEntity sheep = (SheepEntity) target;
+                if(target instanceof Sheep){
+                    Sheep sheep = (Sheep) target;
                     DyeColor color = sheep.getColor();
                     nbt.putInt("Color",color.getId());
                 }
@@ -57,10 +51,10 @@ public class DnaSamplerItem extends Item {
                 player.setItemInHand(hand, stack);
                 return true;
             }else{
-                player.displayClientMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_sufficient").withStyle(TextFormatting.RED), true);
+                player.displayClientMessage(new TranslatableComponent("item.cagedmobs.dnasampler.not_sufficient"), true);
             }
         }else{
-            player.displayClientMessage(new TranslationTextComponent("item.cagedmobs.dnasampler.not_cachable").withStyle(TextFormatting.RED), true);
+            player.displayClientMessage(new TranslatableComponent("item.cagedmobs.dnasampler.not_cachable"), true);
         }
         return false;
     }
@@ -69,7 +63,7 @@ public class DnaSamplerItem extends Item {
     private static boolean samplerTierSufficient(ItemStack stack, Entity target) {
         EntityType<?> type = target.getType();
         boolean sufficient = false;
-        for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
                 // Check for null exception
@@ -97,7 +91,7 @@ public class DnaSamplerItem extends Item {
     // Check if entity can be cached based on the list of cachable entities
     private static boolean canBeCached(Entity clickedEntity) {
         boolean contains = false;
-        for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
                 // Check for null exception
@@ -112,46 +106,46 @@ public class DnaSamplerItem extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
         if(playerIn.isCrouching() && itemstack.hasTag()) {
             itemstack.removeTagKey("entity");
             playerIn.swing(handIn);
-            ActionResult.success(itemstack);
+            InteractionResultHolder.success(itemstack);
         }
-        return ActionResult.fail(itemstack);
+        return InteractionResultHolder.fail(itemstack);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText (ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText (ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         tooltip.add(getTooltip(stack));
-        tooltip.add(getInformationForTier().withStyle(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("item.cagedmobs.dnasampler.makeEmpty").withStyle(TextFormatting.GRAY));
+        tooltip.add(getInformationForTier().withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("item.cagedmobs.dnasampler.makeEmpty").withStyle(ChatFormatting.GRAY));
     }
 
-    private TranslationTextComponent getInformationForTier(){
+    private TranslatableComponent getInformationForTier(){
         if(this instanceof DnaSamplerNetheriteItem){
-            return new TranslationTextComponent("item.cagedmobs.dnasampler.tier3Info");
+            return new TranslatableComponent("item.cagedmobs.dnasampler.tier3Info");
         }else if(this instanceof DnaSamplerDiamondItem){
-            return new TranslationTextComponent("item.cagedmobs.dnasampler.tier2Info");
+            return new TranslatableComponent("item.cagedmobs.dnasampler.tier2Info");
         }else{
-            return new TranslationTextComponent("item.cagedmobs.dnasampler.tier1Info");
+            return new TranslatableComponent("item.cagedmobs.dnasampler.tier1Info");
         }
     }
 
-    private ITextComponent getTooltip(ItemStack stack) {
+    private Component getTooltip(ItemStack stack) {
         if(!DnaSamplerItem.containsEntityType(stack)) {
-            return new TranslationTextComponent("item.cagedmobs.dnasampler.empty").withStyle(TextFormatting.YELLOW);
+            return new TranslatableComponent("item.cagedmobs.dnasampler.empty").withStyle(ChatFormatting.YELLOW);
         }else {
             EntityType<?> type = SerializationHelper.deserializeEntityTypeNBT(stack.getTag());
             // Add the text component
             if(type != null){
-                return new TranslationTextComponent(type.getDescriptionId()).withStyle(TextFormatting.YELLOW);
+                return new TranslatableComponent(type.getDescriptionId()).withStyle(ChatFormatting.YELLOW);
             }else{
                 // If not found say Unknown entity for crash prevention
-                return new TranslationTextComponent("item.cagedmobs.dnasampler.unknown_entity").withStyle(TextFormatting.YELLOW);
+                return new TranslatableComponent("item.cagedmobs.dnasampler.unknown_entity").withStyle(ChatFormatting.YELLOW);
             }
         }
     }

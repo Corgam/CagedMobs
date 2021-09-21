@@ -18,14 +18,6 @@
 			},
 			"minAmount": 1,
 			"maxAmount": 4
-		},
-		{
-			"chance": 0.125,
-			"output": {
-				"item": "greekfantasy:gorgon_blood"
-			},
-			"minAmount": 1,
-			"maxAmount": 1
 		}
 	]
 

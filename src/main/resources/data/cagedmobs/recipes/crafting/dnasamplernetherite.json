@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X  ",
+    " # ",
+    "  ."
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:glass/black"
+    },
+    "X": {
+      "tag": "forge:nether_stars"
+    },
+    ".": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "result": {
+    "item": "cagedmobs:dnasamplernetherite"
+  }
+}

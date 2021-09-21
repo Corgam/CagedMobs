@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " X ",
-    "rBs",
+    "rBb",
     "bQb"
   ],
   "key": {
@@ -20,9 +20,6 @@
     },
     "Q": {
       "tag": "forge:storage_blocks/quartz"
-    },
-    "s": {
-      "item": "minecraft:skeleton_skull"
     }
   },
   "result": {

@@ -8,9 +8,8 @@
 	],
 	"entity": "minecraft:cod",
 	"samplerTier": 1,
-	"environments": ["sand"],
+	"environments": ["water"],
 	"growTicks": 1200,
-	"requiresWater": true,
 	"results": [
 		{
 			"chance": 0.7,

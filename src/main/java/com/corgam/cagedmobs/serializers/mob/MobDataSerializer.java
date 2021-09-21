@@ -1,24 +1,21 @@
 package com.corgam.cagedmobs.serializers.mob;
 
 import com.corgam.cagedmobs.CagedMobs;
-import com.corgam.cagedmobs.configs.ServerConfig;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.*;
 
-public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<MobData>{
-
-    public static final MobDataSerializer INSTANCE = new MobDataSerializer();
+public class MobDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<MobData>{
 
     MobDataSerializer(){
         this.setRegistryName(new ResourceLocation("cagedmobs","mob_data"));
@@ -32,16 +29,11 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
         // Envs
         final Set<String> validEnvs = deserializeEnvsData(id, json);
         // Total grow ticks
-        final int growTicks = JSONUtils.getAsInt(json, "growTicks");
-        // If requires water
-        boolean requiresWater = false;
-        if(json.has("requiresWater")) {
-            requiresWater = JSONUtils.getAsBoolean(json, "requiresWater");
-        }
+        final int growTicks = GsonHelper.getAsInt(json, "growTicks");
         // Loot Data
         final List<LootData> results = deserializeLootData(id, json, entityType);
         // Sampler tier
-        final int samplerTier = JSONUtils.getAsInt(json, "samplerTier");
+        final int samplerTier = GsonHelper.getAsInt(json, "samplerTier");
 
         //Error checks
         if (growTicks <= 0){
@@ -51,11 +43,11 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             throw new IllegalArgumentException("MobDataRecipe with id: " + id.toString() + " has an invalid sampler tier. It must use tiers: 1,2 or 3.");
         }
 
-        return new MobData(id, entityType, validEnvs, growTicks, requiresWater, results, samplerTier);
+        return new MobData(id, entityType, validEnvs, growTicks, results, samplerTier);
     }
 
     @Override
-    public MobData fromNetwork(ResourceLocation id, PacketBuffer buffer) {
+    public MobData fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
         try {
             // Entity
             final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, buffer);
@@ -64,8 +56,6 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             SerializationHelper.deserializeStringCollection(buffer, validEnvs);
             // Total grow ticks
             final int growTicks = buffer.readInt();
-            // If requires water
-            final boolean requiresWater = buffer.readBoolean();
             // Loot data
             final List<LootData> results = new ArrayList<>();
             final int length = buffer.readInt();
@@ -75,7 +65,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             // Sampler tier
             final int tier = buffer.readInt();
 
-            return new MobData(id, entityType, validEnvs, growTicks, requiresWater, results, tier);
+            return new MobData(id, entityType, validEnvs, growTicks, results, tier);
 
         }catch(final Exception e){
             CagedMobs.LOGGER.catching(e);
@@ -84,7 +74,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
     }
 
     @Override
-    public void toNetwork(PacketBuffer buffer, MobData recipe) {
+    public void toNetwork(FriendlyByteBuf buffer, MobData recipe) {
         try {
             // Entity
             SerializationHelper.serializeEntityType(buffer, recipe.getEntityType());
@@ -92,8 +82,6 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
             SerializationHelper.serializeStringCollection(buffer, recipe.getValidEnvs());
             // Total  Grow Ticks
             buffer.writeInt(recipe.getTotalGrowTicks());
-            // If requires water
-            buffer.writeBoolean(recipe.ifRequiresWater());
             // Loot data
             buffer.writeInt(recipe.getResults().size());
             for( final LootData data : recipe.getResults()){
@@ -135,7 +123,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> 
     }
 
     private static ItemStack writeNBTtoItem(String nbtName, String nbtData, ItemStack stack){
-        CompoundNBT nbt = new CompoundNBT();
+        CompoundTag nbt = new CompoundTag();
         nbt.putString(nbtName,nbtData);
         stack.setTag(nbt);
         return stack;

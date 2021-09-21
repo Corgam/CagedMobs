@@ -3,50 +3,41 @@ package com.corgam.cagedmobs.serializers.mob;
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.setup.CagedItems;
-import net.minecraft.entity.EntityType;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 
 import java.util.*;
 
-public class MobData implements IRecipe<IInventory> {
+public class MobData implements Recipe<Inventory> {
+
+    public static final MobDataSerializer SERIALIZER = new MobDataSerializer();
 
     private final ResourceLocation id;
     private EntityType<?> entityType;
     private final Set<String> environments;
     private int growTicks;
-    private boolean requiresWater;
     private final List<LootData> results;
     private int samplerTier;
 
-    public MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
+    public MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, List<LootData> results, int tier){
         this.id = id;
         this.environments = environments;
         this.entityType = entityType;
         this.growTicks = growTicks;
-        this.requiresWater = requiresWater;
         this.results = results;
         this.samplerTier = tier;
-        // Add the id to the list of loaded recipes
         if(id != null && CagedMobs.LOGGER != null){
             CagedMobs.LOGGER.info("Loaded MobData recipe with id: " + id.toString());
         }
     }
 
     public EntityType<?> getEntityType(){
-        // Try to find again entity type if it's null
-        if(this.entityType == null){
-            Optional<EntityType<?>> entityType = EntityType.byString(this.id.toString());
-            if(entityType.isPresent()) {
-                this.entityType = entityType.get();
-                return entityType.get();
-            }
-        }
         return this.entityType;
     }
 
@@ -59,12 +50,12 @@ public class MobData implements IRecipe<IInventory> {
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(Inventory inv, Level worldIn) {
         return false;
     }
 
     @Override
-    public ItemStack assemble(IInventory inv) {
+    public ItemStack assemble(Inventory inv) {
         return ItemStack.EMPTY;
     }
 
@@ -84,12 +75,12 @@ public class MobData implements IRecipe<IInventory> {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
-        return MobDataSerializer.INSTANCE;
+    public RecipeSerializer<?> getSerializer() {
+        return MobData.SERIALIZER;
     }
 
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return RecipesHelper.MOB_RECIPE;
     }
 
@@ -106,14 +97,6 @@ public class MobData implements IRecipe<IInventory> {
         this.growTicks = newTicks;
     }
 
-    public boolean ifRequiresWater(){
-        return this.requiresWater;
-    }
-
-    public void setIfRequiresWater(boolean requiresWater){
-        this.requiresWater = requiresWater;
-    }
-
     public List<LootData> getResults () {
         return this.results;
     }
@@ -126,8 +109,10 @@ public class MobData implements IRecipe<IInventory> {
         this.samplerTier = tier;
     }
 
-    @Override
-    public boolean isSpecial() {
-        return true;
-    }
+//    @Override
+//    public boolean isDynamic() {
+//
+//        return true;
+//    }
+
 }

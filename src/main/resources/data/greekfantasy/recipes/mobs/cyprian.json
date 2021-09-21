@@ -12,7 +12,7 @@
 	"growTicks": 1800,
 	"results": [
 		{
-			"chance": 0.1,
+			"chance": 0.5,
 			"output": {
 				"item": "greekfantasy:horn"
 			},

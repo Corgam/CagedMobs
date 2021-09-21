@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#cagedmobs:samplers/iron",
-    "#cagedmobs:samplers/diamond",
-    "#cagedmobs:samplers/netherite"
-  ]
-}

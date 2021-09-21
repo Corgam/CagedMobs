@@ -8,7 +8,7 @@
 	],
 	"entity": "betterdefaultbiomes:desert_bandit_master",
 	"samplerTier": 2,
-	"environments": ["sand"],
+	"environments": ["desert"],
 	"growTicks": 1800,
 	"results": [
 		{

@@ -17,13 +17,13 @@ public class ClientConfig {
         builder.comment("Client side config for CagedMobs. Do not change when shipping in ModPacks!");
         builder.push("client");
 
-        builder.comment("Disables environments rendering inside cages to save on performance.");
+        builder.comment("Disables environments (block models) render to save on performance.");
         this.disableEnvsRender = builder.define("disableEnvsRender", false);
 
-        builder.comment("Disables entities models rendering inside cages to save on performance.");
+        builder.comment("Disables entities models render to save on performance.");
         this.disableEntitiesRender = builder.define("disableEntitiesRender", false);
 
-        builder.comment("Disables entities growth progress rendering inside cages and keeps the size of the entity inside the cage always the same.");
+        builder.comment("Disables entities growth progress render and keeps the size of the entity inside the cage always the same.");
         this.disableGrowthRender = builder.define("disableGrowthRender", false);
 
         builder.comment("Disables particles emitted by the cage upgrades");

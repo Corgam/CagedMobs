@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.items;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 public abstract class UpgradeItem extends Item {
     public UpgradeItem(Properties properties) {

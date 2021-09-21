@@ -2,19 +2,21 @@ package com.corgam.cagedmobs.serializers.env;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Set;
 
-public class EnvironmentData implements IRecipe<IInventory> {
+public class EnvironmentData implements Recipe<Inventory> {
+
+    public static final EnvironmentDataSerializer SERIALIZER = new EnvironmentDataSerializer();
 
     private final ResourceLocation id;
     private Ingredient inputItem;
@@ -28,19 +30,18 @@ public class EnvironmentData implements IRecipe<IInventory> {
         this.renderState = renderState;
         this.growModifier = growModifier;
         this.environments = categories;
-        // Add the id to the list of loaded recipes
-        if(id != null && CagedMobs.LOGGER != null){
+        if(id != null && CagedMobs.LOGGER != null) {
             CagedMobs.LOGGER.info("Loaded EnvironmentData recipe with id: " + id.toString());
         }
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(Inventory inv, Level worldIn) {
         return false;
     }
 
     @Override
-    public ItemStack assemble(IInventory inv) {
+    public ItemStack assemble(Inventory inv) {
         return ItemStack.EMPTY;
     }
 
@@ -60,12 +61,12 @@ public class EnvironmentData implements IRecipe<IInventory> {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
-        return EnvironmentDataSerializer.INSTANCE;
+    public RecipeSerializer<?> getSerializer() {
+        return this.SERIALIZER;
     }
 
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return RecipesHelper.ENV_RECIPE;
     }
 
@@ -85,6 +86,12 @@ public class EnvironmentData implements IRecipe<IInventory> {
         return environments;
     }
 
+//    @Override
+//    public boolean isDynamic() {
+//
+//        return true;
+//    }
+
     public void setGrowthModifier(float modifier) {
         this.growModifier = modifier;
     }
@@ -95,10 +102,5 @@ public class EnvironmentData implements IRecipe<IInventory> {
 
     public void setInputItem(Ingredient item) {
         this.inputItem = item;
-    }
-
-    @Override
-    public boolean isSpecial() {
-        return true;
     }
 }

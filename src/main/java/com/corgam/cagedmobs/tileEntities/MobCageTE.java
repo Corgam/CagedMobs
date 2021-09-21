@@ -9,28 +9,37 @@ import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.setup.CagedTE;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ISidedInventoryProvider;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -48,7 +57,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 
-public class MobCageTE extends TileEntity implements ITickableTileEntity {
+public class MobCageTE extends BlockEntity implements ITickableTileEntity {
     // Hopping and upgrades
     private boolean hopping = false;
     private boolean cooking = false;
@@ -59,27 +68,27 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     private ItemStack envItem = ItemStack.EMPTY;
     // Entity
     private MobData entity = null;
-    private EntityType<?> entityType = null;
+    private BlockEntityType<?> entityType = null;
     // Ticks
     private int currentGrowTicks = 0;
     private int totalGrowTicks = 0;
     private boolean waitingForHarvest = false;
     // Color of entity
     private int color = 0;
-    // Cached entity
+
     private Entity cachedEntity;
     private WeightedSpawnerEntity renderedEntity;
 
     // Used to get Entity for rendering inside the cage, if cachedEntity is null, then get it from the stored EntityType
     @OnlyIn(Dist.CLIENT)
-    public Entity getCachedEntity(World world) {
+    public Entity getCachedEntity(Level level) {
         if (this.cachedEntity == null) {
             if(this.renderedEntity == null){
-                CompoundNBT nbt = new CompoundNBT();
+                CompoundTag nbt = new CompoundTag();
                 nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.entityType).toString());
                 this.renderedEntity = new WeightedSpawnerEntity(1, nbt);
             }
-            this.cachedEntity = EntityType.loadEntityRecursive(this.renderedEntity.getTag(), world, Function.identity());
+            this.cachedEntity = EntityType.loadEntityRecursive(this.renderedEntity.getTag(), level, Function.identity());
         }
         return this.cachedEntity;
     }
@@ -103,41 +112,31 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             if(this.currentGrowTicks >= this.getTotalGrowTicks()) {
                 this.attemptHarvest();
             }else {
-                // Add one tick (if entity requires waterlogging check for it)
-                if(!this.entity.ifRequiresWater() || this.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
-                    this.currentGrowTicks++;
-                }
+                // Add one tick
+                this.currentGrowTicks++;
             }
         }
         // If has cooking upgrade spawn particles
         if(this.isCooking() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
-            if (!(level instanceof ServerWorld)) {
-                    if (rand.nextInt(10) == 0) {
-                        World world = this.getLevel();
-                        BlockPos blockpos = this.getBlockPos();
-                        double d3 = (double) blockpos.getX() + world.random.nextDouble();
-                        double d4 = (double) blockpos.getY() + (world.random.nextDouble()/3);
-                        double d5 = (double) blockpos.getZ() + world.random.nextDouble();
-                        if(!this.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
-                            // If not waterlogged emit fire particles
-                            world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                            world.addParticle(ParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                        }else{
-                            // If waterlogged emit blue fire particles
-                            world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                            world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                        }
-
+            if (!(level instanceof ServerLevel)) {
+                if (rand.nextInt(10) == 0) {
+                    Level world = this.getLevel();
+                    BlockPos blockpos = this.getBlockPos();
+                    double d3 = (double) blockpos.getX() + world.random.nextDouble();
+                    double d4 = (double) blockpos.getY() + (world.random.nextDouble()/3);
+                    double d5 = (double) blockpos.getZ() + world.random.nextDouble();
+                    world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                    world.addParticle(ParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
                 }
             }
         }
         // If has lightning upgrade spawn particles
         if(this.isLightning() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
-            if (!(level instanceof ServerWorld)) {
+            if (!(level instanceof ServerLevel)) {
                 if (rand.nextInt(30) == 0) {
-                    World world = this.getLevel();
+                    Level world = this.getLevel();
                     BlockPos blockpos = this.getBlockPos();
                     double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
                     double d4 = (double) blockpos.getY() + 0.8;
@@ -149,9 +148,9 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         // If has lightning upgrade spawn particles
         if(this.isArrow() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
-            if (!(level instanceof ServerWorld)) {
+            if (!(level instanceof ServerLevel)) {
                 if (rand.nextInt(30) == 0) {
-                    World world = this.getLevel();
+                    Level world = this.getLevel();
                     BlockPos blockpos = this.getBlockPos();
                     double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
                     double d4 = (double) blockpos.getY() + 0.8;
@@ -218,7 +217,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
         return environment != null;
     }
 
-    public static EnvironmentData getEnvironmentFromItemStack(ItemStack stack){
+    private static EnvironmentData getEnvironmentFromItemStack(ItemStack stack){
         EnvironmentData finalEnvData = null;
         for(final IRecipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ENV_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof EnvironmentData) {
@@ -245,19 +244,14 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     }
 
 
-    public boolean isEnvSuitable(PlayerEntity player, EntityType<?> entityType, BlockState state) {
+    public boolean isEnvSuitable(PlayerEntity player, EntityType<?> entityType) {
         MobData recipe = getMobDataFromType(entityType);
-        // Check if entity needs waterlogged cage
-        if(recipe.ifRequiresWater() && !state.getValue(BlockStateProperties.WATERLOGGED)){
-            player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.requiresWater").withStyle(TextFormatting.RED), true);
-            return false;
-        }
         for(String env : this.environment.getEnvironments()){
             if(recipe.getValidEnvs().contains(env)){
                 return true;
             }
         }
-        player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.envNotSuitable").withStyle(TextFormatting.RED), true);
+        player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.envNotSuitable"), true);
         return false;
     }
 
@@ -282,10 +276,11 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     public void setEntityFromType(EntityType<?> type, ItemStack sampler) {
         this.setChanged();
         // Lookup the entity color
-        if(type.toString().contains("sheep")){
-            if(sampler.hasTag() && sampler.getTag() != null && sampler.getTag().contains("Color") ){
+        if(Objects.equals(type.getRegistryName(), ResourceLocation.tryParse("sheep"))){
+            if(sampler.hasTag() && sampler.getTag() != null){
                 this.color = sampler.getTag().getInt("Color");
             }
+
         }
         // Load the mob data
         MobData mobData = getMobDataFromType(type);
@@ -372,7 +367,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Attempt harvest (when hopping cage and there is a inv bellow, then harvest, when not hopping, lock and wait for players interaction)
     private void attemptHarvest() {
-        if(this.hopping && !CagedMobs.SERVER_CONFIG.ifHoppingCagesDisabled()) {
+        if(this.hopping) {
             // Try to auto harvest
             if(this.autoHarvest()){
                 this.currentGrowTicks = 0;
@@ -397,17 +392,17 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
             // For every item in drop list
             NonNullList<ItemStack> drops =this.createDropsList();
             for(final ItemStack item : drops){
-               // For every slot in inv
-               for(int slot = 0; slot < inventory.getSlots(); slot++){
-                   // Simulate the insert
-                   if(inventory.isItemValid(slot, item) && inventory.insertItem(slot,item,true).getCount() != item.getCount()){
-                    // Actual insert
-                       inventory.insertItem(slot, item, false);
-                       break;
-                   }
-               }
-           }
-           return true;
+                // For every slot in inv
+                for(int slot = 0; slot < inventory.getSlots(); slot++){
+                    // Simulate the insert
+                    if(inventory.isItemValid(slot, item) && inventory.insertItem(slot,item,true).getCount() != item.getCount()){
+                        // Actual insert
+                        inventory.insertItem(slot, item, false);
+                        break;
+                    }
+                }
+            }
+            return true;
         }
         return false;
     }
@@ -438,7 +433,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
 
     // Is run when player right clicks to harvest
     public void onPlayerHarvest() {
-        if((!this.hopping || CagedMobs.SERVER_CONFIG.ifHoppingCagesDisabled()) && canPlayerHarvest()){
+        if(!this.hopping && canPlayerHarvest()){
             this.currentGrowTicks = 0;
             this.waitingForHarvest = false;
             List<ItemStack> drops = createDropsList();
@@ -461,14 +456,7 @@ public class MobCageTE extends TileEntity implements ITickableTileEntity {
     // Gives back a list of items that harvest will yield
     private NonNullList<ItemStack> createDropsList(){
         NonNullList<ItemStack> drops = NonNullList.create();
-        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
         for(LootData loot : this.entity.getResults()) {
-            // Skip item if it's blacklisted or whitelisted
-            if(!CagedMobs.SERVER_CONFIG.isEntitiesListInWhitelistMode()){
-                if(blacklistedItems.contains(loot.getItem().getItem())){continue;}
-            }else{
-                if(!blacklistedItems.contains(loot.getItem().getItem())){continue;}
-            }
             // Choose a loot type for entity's color
             if(loot.getColor() != -1){
                 if(loot.getColor() != this.color){
