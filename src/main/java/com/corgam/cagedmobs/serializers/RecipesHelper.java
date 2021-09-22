@@ -33,7 +33,7 @@ public class RecipesHelper {
     // Some helper functions
 
     public static Map<ResourceLocation, Recipe<?>> getRecipes (RecipeType<?> recipeType, RecipeManager manager) {
-        final Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipesMap = ObfuscationReflectionHelper.getPrivateValue(RecipeManager.class, manager, "field_199522_d");
+        final Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipesMap = ObfuscationReflectionHelper.getPrivateValue(RecipeManager.class, manager, "f_44007_");
         return recipesMap.get(recipeType);
     }
 

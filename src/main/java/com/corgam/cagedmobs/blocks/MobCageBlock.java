@@ -4,6 +4,7 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.blockEntities.MobCageBlockEntity;
 import com.corgam.cagedmobs.items.*;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
+import com.corgam.cagedmobs.setup.CagedBlockEntity;
 import com.corgam.cagedmobs.setup.CagedItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -24,6 +25,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -49,7 +52,13 @@ public class MobCageBlock extends BaseEntityBlock implements /* ITopInfoProvider
     }
 
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new MobCageBlockEntity(false);
+        return new MobCageBlockEntity(pos, state, false);
+    }
+
+
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return createTickerHelper(type, CagedBlockEntity.MOB_CAGE.get(), MobCageBlockEntity::tick);
     }
 
     // If placed in water, waterlog it.
@@ -226,17 +235,17 @@ public class MobCageBlock extends BaseEntityBlock implements /* ITopInfoProvider
         tooltip.add(new TranslatableComponent("block.cagedmobs.mobcage.upgrading").withStyle(ChatFormatting.GRAY));
     }
 
-    /// SHAPE ///
+    /// SHAPE methods ///
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
 
-//    @Override
-//    public VoxelShape getShape(BlockGetter p_60652_, BlockPos p_60653_, CollisionContext p_60654_) {
-//        return SHAPE;
-//    }
+    @Override
+    public VoxelShape getShape(BlockState p_57291_, BlockGetter p_57292_, BlockPos p_57293_, CollisionContext p_57294_) {
+        return SHAPE;
+    }
 
     /// MODS SUPPORT ///
 

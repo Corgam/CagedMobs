@@ -15,8 +15,12 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.WorldlyContainerHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -25,7 +29,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.SpawnData;
+import net.minecraft.world.level.block.StructureBlock;
+import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.api.distmarker.Dist;
@@ -64,58 +72,57 @@ public class MobCageBlockEntity extends BlockEntity{
     private int color = 0;
     // Cached entity
     private Entity cachedEntity;
-    //private WeightedSpawnerEntity renderedEntity;
+    private SpawnData renderedEntity;
 
     // Used to get Entity for rendering inside the cage, if cachedEntity is null, then get it from the stored EntityType
-//    @OnlyIn(Dist.CLIENT)
-//    public Entity getCachedEntity(Level world) {
-//        if (this.cachedEntity == null) {
-//            if(this.renderedEntity == null){
-//                CompoundTag nbt = new CompoundTag();
-//                nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.entityType).toString());
-//                this.renderedEntity = new WeightedSpawnerEntity(1, nbt);
-//            }
-//            this.cachedEntity = EntityType.loadEntityRecursive(this.renderedEntity.getTag(), world, Function.identity());
-//        }
-//        return this.cachedEntity;
-//    }
+    @OnlyIn(Dist.CLIENT)
+    public Entity getCachedEntity(Level world) {
+        if (this.cachedEntity == null) {
+            if(this.renderedEntity == null){
+                CompoundTag nbt = new CompoundTag();
+                nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.entityType).toString());
+                this.renderedEntity = new SpawnData(1, nbt);
+            }
+            this.cachedEntity = EntityType.loadEntityRecursive(this.renderedEntity.getTag(), world, Function.identity());
+        }
+        return this.cachedEntity;
+    }
 
     // METHODS
 
-    public MobCageBlockEntity(boolean hopping) {
-        super(CagedBlockEntity.MOB_CAGE.get());
+    public MobCageBlockEntity(BlockPos pos, BlockState state) {
+        super(CagedBlockEntity.MOB_CAGE.get(), pos, state);
+    }
+
+    public MobCageBlockEntity(BlockPos pos, BlockState state, boolean hopping) {
+        super(CagedBlockEntity.MOB_CAGE.get(), pos, state);
         this.hopping = hopping;
     }
 
-    public MobCageBlockEntity() {
-        super(CagedBlockEntity.MOB_CAGE.get());
-    }
-
-    @Override
-    public void tick() {
+    public static void tick(Level level, BlockPos pos, BlockState state, MobCageBlockEntity blockEntity) {
         //Tick only when env and mob is inside
-        if(this.hasEnvAndEntity() && !waitingForHarvest) {
+        if(blockEntity.hasEnvAndEntity() && !blockEntity.waitingForHarvest) {
             // Check if ready to harvest
-            if(this.currentGrowTicks >= this.getTotalGrowTicks()) {
-                this.attemptHarvest();
+            if(blockEntity.currentGrowTicks >= blockEntity.getTotalGrowTicks()) {
+                blockEntity.attemptHarvest();
             }else {
                 // Add one tick (if entity requires waterlogging check for it)
-                if(!this.entity.ifRequiresWater() || this.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
-                    this.currentGrowTicks++;
+                if(!blockEntity.entity.ifRequiresWater() || blockEntity.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
+                    blockEntity.currentGrowTicks++;
                 }
             }
         }
         // If has cooking upgrade spawn particles
-        if(this.isCooking() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
+        if(blockEntity.isCooking() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
             if (!(level instanceof ServerLevel)) {
                     if (rand.nextInt(10) == 0) {
-                        Level world = this.getLevel();
-                        BlockPos blockpos = this.getBlockPos();
+                        Level world = blockEntity.getLevel();
+                        BlockPos blockpos = blockEntity.getBlockPos();
                         double d3 = (double) blockpos.getX() + world.random.nextDouble();
                         double d4 = (double) blockpos.getY() + (world.random.nextDouble()/3);
                         double d5 = (double) blockpos.getZ() + world.random.nextDouble();
-                        if(!this.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
+                        if(!blockEntity.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
                             // If not waterlogged emit fire particles
                             world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
                             world.addParticle(ParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
@@ -129,12 +136,12 @@ public class MobCageBlockEntity extends BlockEntity{
             }
         }
         // If has lightning upgrade spawn particles
-        if(this.isLightning() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
+        if(blockEntity.isLightning() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
             if (!(level instanceof ServerLevel)) {
                 if (rand.nextInt(30) == 0) {
-                    Level world = this.getLevel();
-                    BlockPos blockpos = this.getBlockPos();
+                    Level world = blockEntity.getLevel();
+                    BlockPos blockpos = blockEntity.getBlockPos();
                     double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
                     double d4 = (double) blockpos.getY() + 0.8;
                     double d5 = (double) blockpos.getZ() +  0.4 + (world.random.nextDouble()/5);
@@ -143,12 +150,12 @@ public class MobCageBlockEntity extends BlockEntity{
             }
         }
         // If has lightning upgrade spawn particles
-        if(this.isArrow() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
+        if(blockEntity.isArrow() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
             if (!(level instanceof ServerLevel)) {
                 if (rand.nextInt(30) == 0) {
-                    Level world = this.getLevel();
-                    BlockPos blockpos = this.getBlockPos();
+                    Level world = blockEntity.getLevel();
+                    BlockPos blockpos = blockEntity.getBlockPos();
                     double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
                     double d4 = (double) blockpos.getY() + 0.8;
                     double d5 = (double) blockpos.getZ() +  0.4 + (world.random.nextDouble()/5);
@@ -418,9 +425,9 @@ public class MobCageBlockEntity extends BlockEntity{
         }else{
             // When block doesn't use capability system
             final BlockState state = world.getBlockState(pos);
-            if(state.getBlock() instanceof ISidedInventoryProvider){
-                final ISidedInventoryProvider invProvider = (ISidedInventoryProvider) state.getBlock();
-                final ISidedInventory inv = invProvider.getContainer(state, world, pos);
+            if(state.getBlock() instanceof WorldlyContainerHolder){
+                final WorldlyContainerHolder invProvider = (WorldlyContainerHolder) state.getBlock();
+                final WorldlyContainer inv = invProvider.getContainer(state, world, pos);
                 return new SidedInvWrapper(inv, side);
             }
         }
@@ -538,12 +545,12 @@ public class MobCageBlockEntity extends BlockEntity{
 
     @Nullable
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket(){
-        return new SUpdateTileEntityPacket(this.worldPosition, 1, getUpdateTag());
+    public ClientboundBlockEntityDataPacket getUpdatePacket(){
+        return new ClientboundBlockEntityDataPacket(this.worldPosition, 1, getUpdateTag());
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet){
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet){
         CompoundTag tag = packet.getTag();
         // Store old env and entity type
         ItemStack oldEnv = this.envItem;
@@ -584,9 +591,9 @@ public class MobCageBlockEntity extends BlockEntity{
 
     // Deserialize the block to read it from the drive
     @Override
-    public void load(BlockState state, CompoundTag nbt) {
+    public void load(CompoundTag nbt) {
         // Call the parent
-        super.load(state, nbt);
+        super.load(nbt);
         // Read hopping and upgrades
         this.hopping = nbt.getBoolean("hopping");
         this.cooking = nbt.getBoolean("cooking");

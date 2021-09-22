@@ -24,7 +24,7 @@ public class HoppingMobCageBlock extends MobCageBlock{
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new MobCageBlockEntity(true);
+        return new MobCageBlockEntity(pos, state, true);
     }
 
     @Override
