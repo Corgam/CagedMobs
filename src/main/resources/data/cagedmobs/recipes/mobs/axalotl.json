@@ -1,0 +1,16 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+		}
+	],
+	"entity": "minecraft:axolotl",
+	"samplerTier": 1,
+	"environments": ["sand"],
+	"requiresWater": true,
+	"growTicks": 1200,
+	"results": [
+	]
+}

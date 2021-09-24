@@ -1,0 +1,25 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+		}
+	],
+	"entity": "minecraft:glow_squid",
+	"samplerTier": 2,
+	"environments": ["sand"],
+	"growTicks": 1200,
+	"requiresWater": true,
+	"results": [
+		{
+			"chance": 0.6,
+				"output": {
+					"item": "minecraft:glow_ink_sac"
+				},
+				"minAmount": 1,
+				"maxAmount": 3
+		}
+	]
+	
+}
