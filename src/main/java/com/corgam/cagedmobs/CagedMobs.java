@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs;
 
+import com.corgam.cagedmobs.addons.theoneprobe.CagedMobsTOPSupport;
 import com.corgam.cagedmobs.configs.ClientConfig;
 import com.corgam.cagedmobs.configs.ServerConfig;
 import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
@@ -16,22 +17,22 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.*;
 
 @Mod(Constants.MOD_ID)
 public class CagedMobs
 {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final UUID CAGEDMOBS_UUID = UUID.nameUUIDFromBytes(Constants.MOD_ID.getBytes());
     final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
     public static final ClientConfig CLIENT_CONFIG = new ClientConfig();
     public static final ServerConfig SERVER_CONFIG = new ServerConfig();
@@ -51,7 +52,7 @@ public class CagedMobs
         // Add properties to items
         eventBus.addListener(this::addPropertiesToItems);
         // TheOneProbe support
-        //eventBus.addListener(this::initTOPSupport);
+        eventBus.addListener(this::initTOPSupport);
     }
 
     private void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
@@ -72,9 +73,9 @@ public class CagedMobs
         ItemProperties.register(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerNetheriteItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
     }
     // Initializes the TheOneProbe mod support
-//    private void initTOPSupport(final InterModEnqueueEvent event){
-//        if(ModList.get().isLoaded("theoneprobe")){
-//            InterModComms.sendTo("theoneprobe","getTheOneProbe", CagedMobsTOPSupport::new);
-//        }
-//    }
+    private void initTOPSupport(final InterModEnqueueEvent event){
+        if(ModList.get().isLoaded("theoneprobe")){
+            InterModComms.sendTo("theoneprobe","getTheOneProbe", CagedMobsTOPSupport::new);
+        }
+    }
 }

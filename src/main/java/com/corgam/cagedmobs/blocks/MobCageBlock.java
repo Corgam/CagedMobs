@@ -1,11 +1,15 @@
 package com.corgam.cagedmobs.blocks;
 
 import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.addons.theoneprobe.ITopInfoProvider;
 import com.corgam.cagedmobs.blockEntities.MobCageBlockEntity;
 import com.corgam.cagedmobs.items.*;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.setup.CagedBlockEntity;
 import com.corgam.cagedmobs.setup.CagedItems;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -42,7 +46,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class MobCageBlock extends BaseEntityBlock implements /* ITopInfoProvider,*/ SimpleWaterloggedBlock {
+public class MobCageBlock extends BaseEntityBlock implements ITopInfoProvider, SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 15.0D, 14.0D);
 
@@ -98,8 +102,7 @@ public class MobCageBlock extends BaseEntityBlock implements /* ITopInfoProvider
         }
         // Error check for tile entity
         final BlockEntity tile = worldIn.getBlockEntity(pos);
-        if( tile instanceof MobCageBlockEntity) {
-            final MobCageBlockEntity cage = (MobCageBlockEntity) tile;
+        if(tile instanceof final MobCageBlockEntity cage) {
             final ItemStack heldItem = player.getItemInHand(handIn);
             // Try to remove upgrade, env or mob
             if(player.isCrouching()) {
@@ -170,8 +173,7 @@ public class MobCageBlock extends BaseEntityBlock implements /* ITopInfoProvider
             // Try to add a mob
             if(!cage.hasEntity()){
                 // Check if player holds DNA Sampler
-                if(heldItem.getItem() instanceof DnaSamplerItem) {
-                    DnaSamplerItem sampler = (DnaSamplerItem) heldItem.getItem();
+                if(heldItem.getItem() instanceof DnaSamplerItem sampler) {
                     // Check if there exists a recipe with given entity type and if the env suits the entity
                     if(MobCageBlockEntity.existsEntityFromType(sampler.getEntityType(heldItem))
                             && cage.isEnvSuitable(player, sampler.getEntityType(heldItem), state)
@@ -208,8 +210,7 @@ public class MobCageBlock extends BaseEntityBlock implements /* ITopInfoProvider
     public void onRemove (BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if(state.hasBlockEntity() && state.getBlock() != newState.getBlock()){
             final BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-            if (tileEntity instanceof MobCageBlockEntity) {
-                final MobCageBlockEntity tile = (MobCageBlockEntity) tileEntity;
+            if (tileEntity instanceof final MobCageBlockEntity tile) {
                 if(tile.hasEnvironment()){
                     tile.dropItem(tile.getEnvItem().copy());
                 }
@@ -243,60 +244,58 @@ public class MobCageBlock extends BaseEntityBlock implements /* ITopInfoProvider
     }
 
     @Override
-    public VoxelShape getShape(BlockState p_57291_, BlockGetter p_57292_, BlockPos p_57293_, CollisionContext p_57294_) {
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     /// MODS SUPPORT ///
 
     // Used for TheOneProbe support
-//    @Override
-//    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
-//        if(!(world.getBlockEntity(data.getPos()) instanceof MobCageTE)) {
-//            return;
-//        }
-//        MobCageTE tile = (MobCageTE) world.getBlockEntity(data.getPos());
-//        if(tile != null) {
-//            if(tile.hasEnvironment() && tile.hasEntity()) {
-//                probeInfo.progress((int)(tile.getGrowthPercentage()*100), 100, probeInfo.defaultProgressStyle().suffix("%").filledColor(0xff44AA44).alternateFilledColor(0xff44AA44).backgroundColor(0xff836953));
-//            }
-//            if (tile.hasEnvironment()) {
-//                probeInfo.horizontal().text(new TranslatableComponent("HWYLA.tooltip.cagedmobs.cage.environment"));
-//                probeInfo.horizontal().item(tile.getEnvItem()).itemLabel(tile.getEnvItem());
-//            }
-//            if(tile.hasEntity()){
-//                probeInfo.horizontal().text(new StringTextComponent(
-//                        new TranslatableComponent("HWYLA.tooltip.cagedmobs.cage.entity").withStyle(TextFormatting.GRAY).getString() +
-//                                new TranslatableComponent(tile.getEntityType().getDescriptionId()).withStyle(TextFormatting.GRAY
-//                                ).getString()));
-//            }
-//            // Upgrades
-//            if(tile.hasUpgrade()){
-//                probeInfo.horizontal().text(new TranslatableComponent("TOP.tooltip.cagedmobs.cage.upgrades"));
-//            }
-//            if(tile.isLightning() && tile.isArrow() && tile.isCooking()){
-//                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isLightning() && tile.isCooking()){
-//                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isLightning() && tile.isArrow()){
-//                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isCooking() && tile.isArrow()){
-//                probeInfo.horizontal().item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isLightning()){
-//                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isCooking()){
-//               probeInfo.item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance());
-//            }
-//            else if(tile.isArrow()){
-//               probeInfo.horizontal().item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
-//            }
-//
-//        }
-//    }
+    @Override
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData data) {
+        if(!(world.getBlockEntity(data.getPos()) instanceof MobCageBlockEntity tile)) {
+            return;
+        }
+        if(tile != null) {
+            if(tile.hasEnvironment() && tile.hasEntity()) {
+                probeInfo.progress((int)(tile.getGrowthPercentage()*100), 100, probeInfo.defaultProgressStyle().suffix("%").filledColor(0xff44AA44).alternateFilledColor(0xff44AA44).backgroundColor(0xff836953));
+            }
+            if (tile.hasEnvironment()) {
+                probeInfo.horizontal().text(new TranslatableComponent("HWYLA.tooltip.cagedmobs.cage.environment"));
+                probeInfo.horizontal().item(tile.getEnvItem()).itemLabel(tile.getEnvItem());
+            }
+            if(tile.hasEntity()){
+                probeInfo.horizontal().text(new TranslatableComponent("HWYLA.tooltip.cagedmobs.cage.entity").withStyle(ChatFormatting.GRAY).getString() +
+                                new TranslatableComponent(tile.getEntityType().getDescriptionId()).withStyle(ChatFormatting.GRAY
+                                ).getString());
+            }
+            // Upgrades
+            if(tile.hasUpgrade()){
+                probeInfo.horizontal().text(new TranslatableComponent("TOP.tooltip.cagedmobs.cage.upgrades"));
+            }
+            if(tile.isLightning() && tile.isArrow() && tile.isCooking()){
+                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isLightning() && tile.isCooking()){
+                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isLightning() && tile.isArrow()){
+                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isCooking() && tile.isArrow()){
+                probeInfo.horizontal().item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance()).item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isLightning()){
+                probeInfo.horizontal().item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isCooking()){
+               probeInfo.item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance());
+            }
+            else if(tile.isArrow()){
+               probeInfo.horizontal().item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance());
+            }
+
+        }
+    }
 
 }

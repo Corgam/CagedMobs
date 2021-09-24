@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
@@ -21,9 +22,7 @@ import net.minecraftforge.fml.DistExecutor;
 @OnlyIn(Dist.CLIENT)
 public class MobCageRenderer implements BlockEntityRenderer<MobCageBlockEntity> {
 
-//    public MobCageRenderer(BlockRenderDispatcher rendererDispatcherIn) {
-//        super(rendererDispatcherIn);
-//    }
+    public MobCageRenderer(BlockEntityRendererProvider.Context context) {}
 
     @Override
     public void render(MobCageBlockEntity tile, float partialTicks, PoseStack matrix, MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
