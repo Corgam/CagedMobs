@@ -8,7 +8,7 @@
 	],
 	"entity": "minecraft:mooshroom",
 	"samplerTier": 1,
-	"environments": ["farm"],
+	"environments": ["mycelium"],
 	"growTicks": 1200,
 	"results": [
 		{
