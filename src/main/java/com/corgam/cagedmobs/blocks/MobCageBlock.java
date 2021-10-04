@@ -132,6 +132,30 @@ public class MobCageBlock extends BaseEntityBlock implements ITopInfoProvider, S
                     return InteractionResult.SUCCESS;
                 }
             }
+            // Try to get back entity
+            if(cage.hasEntity()){
+                // Restore the entity to the sampler
+                if(heldItem.getItem() instanceof DnaSamplerItem sampler) {
+                    if(!DnaSamplerItem.containsEntityType(heldItem)){
+                        // Check if sampler's tier is sufficient
+                        if(cage.getEntity().getSamplerTier() >= 3  && !(heldItem.getItem() instanceof DnaSamplerNetheriteItem)){
+                            player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
+                            return InteractionResult.FAIL;
+                        }
+                        if(cage.getEntity().getSamplerTier() >= 2  && !((heldItem.getItem() instanceof DnaSamplerNetheriteItem) || (heldItem.getItem() instanceof DnaSamplerDiamondItem))){
+                            player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
+                            return InteractionResult.FAIL;
+                        }
+                        // Get back the entity
+                        sampler.setEntityTypeFromCage(cage, heldItem, player, handIn);
+                    }else{
+                        player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mobcage.samplerAlreadyUsed").withStyle(ChatFormatting.RED), true);
+                        return InteractionResult.FAIL;
+                    }
+                }
+                cage.onEntityRemoval();
+                return InteractionResult.SUCCESS;
+            }
             //Try to add an upgrade
             if(!cage.isCooking() || !cage.isLightning() || !cage.isArrow()){
                 if(heldItem.getItem() instanceof UpgradeItem) {

@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.items;
 
+import com.corgam.cagedmobs.blockEntities.MobCageBlockEntity;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
@@ -132,6 +133,7 @@ public class DnaSamplerItem extends Item {
         tooltip.add(getTooltip(stack));
         tooltip.add(getInformationForTier().withStyle(ChatFormatting.GRAY));
         tooltip.add(new TranslatableComponent("item.cagedmobs.dnasampler.makeEmpty").withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("item.cagedmobs.dnasampler.getBackEntity").withStyle(ChatFormatting.GRAY));
     }
 
     private TranslatableComponent getInformationForTier(){
@@ -165,6 +167,18 @@ public class DnaSamplerItem extends Item {
 
     public void removeEntityType(ItemStack stack) {
         stack.removeTagKey("entity");
+    }
+
+    public void setEntityTypeFromCage(MobCageBlockEntity cage, ItemStack stack, Player player, InteractionHand hand){
+        EntityType<?> type = cage.getEntityType();
+        CompoundTag nbt = new CompoundTag();
+        SerializationHelper.serializeEntityTypeNBT(nbt, type);
+        // If sheep add it's color to nbt
+        if(type.toString().contains("sheep")){
+            nbt.putInt("Color",cage.getColor());
+        }
+        stack.setTag(nbt);
+        player.setItemInHand(hand, stack);
     }
 
     public EntityType<?> getEntityType(ItemStack stack) {
