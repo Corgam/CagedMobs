@@ -152,9 +152,9 @@ public class MobCageBlock extends BaseEntityBlock implements ITopInfoProvider, S
                         player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mobcage.samplerAlreadyUsed").withStyle(ChatFormatting.RED), true);
                         return InteractionResult.FAIL;
                     }
+                    cage.onEntityRemoval();
+                    return InteractionResult.SUCCESS;
                 }
-                cage.onEntityRemoval();
-                return InteractionResult.SUCCESS;
             }
             //Try to add an upgrade
             if(!cage.isCooking() || !cage.isLightning() || !cage.isArrow()){

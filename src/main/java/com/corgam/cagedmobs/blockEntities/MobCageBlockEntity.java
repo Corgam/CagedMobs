@@ -170,7 +170,8 @@ public class MobCageBlockEntity extends BlockEntity{
     }
 
     public int getTotalGrowTicks() {
-        return this.totalGrowTicks;
+        int basicTotalGrowTicks = Math.round(this.getEntity().getTotalGrowTicks()/this.environment.getGrowModifier());
+        return this.totalGrowTicks = (int) Math.round(basicTotalGrowTicks/CagedMobs.SERVER_CONFIG.getSpeedOfCages());
     }
 
     public int getCurrentGrowTicks() {
@@ -179,7 +180,7 @@ public class MobCageBlockEntity extends BlockEntity{
 
     public float getGrowthPercentage(){
         if(this.totalGrowTicks != 0) {
-            return (float) this.currentGrowTicks / this.totalGrowTicks;
+            return (float) this.getCurrentGrowTicks() / this.getTotalGrowTicks();
         }else{
             return 0;
         }
@@ -295,7 +296,8 @@ public class MobCageBlockEntity extends BlockEntity{
         this.entity = mobData;
         this.entityType = type;
         // Calculate required ticks (take into account growthModifier from env)
-        this.totalGrowTicks = Math.round(mobData.getTotalGrowTicks()/this.environment.getGrowModifier());
+        int basicTotalGrowTicks = Math.round(mobData.getTotalGrowTicks()/this.environment.getGrowModifier());
+        this.totalGrowTicks = (int) Math.round(basicTotalGrowTicks/CagedMobs.SERVER_CONFIG.getSpeedOfCages());
         // Sync with client
         if(this.level != null){
             this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
