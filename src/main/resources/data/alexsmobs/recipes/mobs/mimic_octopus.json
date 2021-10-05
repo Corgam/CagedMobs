@@ -6,8 +6,8 @@
 			"modid": "alexsmobs"
 		}
 	],
-	"entity": "alexsmobs:blobfish",
-	"samplerTier": 1,
+	"entity": "alexsmobs:mimic_octopus",
+	"samplerTier": 2,
 	"environments": ["sand"],
 	"growTicks": 1200,
 	"requiresWater": true,
@@ -15,18 +15,10 @@
 		{
 			"chance": 0.7,
 			"output": {
-				"item": "alexsmobs:blobfish"
+				"item": "minecraft:ink_sac"
 			},
 			"minAmount": 1,
-			"maxAmount": 1
-		},
-		{
-			"chance": 0.05,
-			"output": {
-				"item": "minecraft:bone_meal"
-			},
-			"minAmount": 1,
-			"maxAmount": 1
+			"maxAmount": 2
 		}
 	]
 	

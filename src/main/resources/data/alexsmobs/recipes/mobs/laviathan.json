@@ -6,7 +6,7 @@
 			"modid": "alexsmobs"
 		}
 	],
-	"entity": "alexsmobs:warped_toad",
+	"entity": "alexsmobs:laviathan",
 	"samplerTier": 2,
 	"environments": ["nether"],
 	"growTicks": 1800,
@@ -14,18 +14,26 @@
 		{
 			"chance": 0.5,
 			"output": {
-				"item": "minecraft:shroomlight"
+				"item": "minecraft:magma_block"
 			},
 			"minAmount": 1,
 			"maxAmount": 3
 		},
 		{
-			"chance": 0.7,
+			"chance": 0.5,
 			"output": {
-				"item": "minecraft:nether_wart"
+				"item": "minecraft:blackstone"
 			},
 			"minAmount": 1,
-			"maxAmount": 2
+			"maxAmount": 3
+		},
+		{
+			"chance": 0.3,
+			"output": {
+				"item": "minecraft:obsidian"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

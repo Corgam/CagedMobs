@@ -24,8 +24,8 @@
 			"output": {
 				"item": "minecraft:basalt"
 			},
-			"minAmount": 3,
-			"maxAmount": 11
+			"minAmount": 1,
+			"maxAmount": 3
 		}
 	]
 	

@@ -6,24 +6,16 @@
 			"modid": "alexsmobs"
 		}
 	],
-	"entity": "alexsmobs:blobfish",
-	"samplerTier": 1,
+	"entity": "alexsmobs:frilled_shark",
+	"samplerTier": 2,
 	"environments": ["sand"],
-	"growTicks": 1200,
+	"growTicks": 1600,
 	"requiresWater": true,
 	"results": [
 		{
-			"chance": 0.7,
+			"chance": 0.3,
 			"output": {
-				"item": "alexsmobs:blobfish"
-			},
-			"minAmount": 1,
-			"maxAmount": 1
-		},
-		{
-			"chance": 0.05,
-			"output": {
-				"item": "minecraft:bone_meal"
+				"item": "alexsmobs:serrated_shark_tooth"
 			},
 			"minAmount": 1,
 			"maxAmount": 1

@@ -6,26 +6,18 @@
 			"modid": "alexsmobs"
 		}
 	],
-	"entity": "alexsmobs:warped_toad",
+	"entity": "alexsmobs:tarantula_hawk",
 	"samplerTier": 2,
-	"environments": ["nether"],
+	"environments": ["sand"],
 	"growTicks": 1800,
 	"results": [
 		{
 			"chance": 0.5,
 			"output": {
-				"item": "minecraft:shroomlight"
+				"item": "alexsmobs:tarantula_hawk_wing_fragment"
 			},
 			"minAmount": 1,
-			"maxAmount": 3
-		},
-		{
-			"chance": 0.7,
-			"output": {
-				"item": "minecraft:nether_wart"
-			},
-			"minAmount": 1,
-			"maxAmount": 2
+			"maxAmount": 1
 		}
 	]
 	

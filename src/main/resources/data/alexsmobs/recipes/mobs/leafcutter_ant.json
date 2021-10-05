@@ -20,7 +20,7 @@
 			"maxAmount": 1
 		},
 		{
-			"chance": 0.8,
+			"chance": 0.5,
 			"output": {
 				"item": "alexsmobs:gongylidia"
 			},

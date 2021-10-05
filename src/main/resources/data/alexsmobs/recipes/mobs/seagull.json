@@ -6,27 +6,18 @@
 			"modid": "alexsmobs"
 		}
 	],
-	"entity": "alexsmobs:blobfish",
+	"entity": "alexsmobs:seagull",
 	"samplerTier": 1,
 	"environments": ["sand"],
 	"growTicks": 1200,
-	"requiresWater": true,
 	"results": [
 		{
 			"chance": 0.7,
 			"output": {
-				"item": "alexsmobs:blobfish"
+				"item": "minecraft:feather"
 			},
 			"minAmount": 1,
-			"maxAmount": 1
-		},
-		{
-			"chance": 0.05,
-			"output": {
-				"item": "minecraft:bone_meal"
-			},
-			"minAmount": 1,
-			"maxAmount": 1
+			"maxAmount": 2
 		}
 	]
 	

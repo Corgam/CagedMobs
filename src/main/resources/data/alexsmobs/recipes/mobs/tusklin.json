@@ -6,23 +6,26 @@
 			"modid": "alexsmobs"
 		}
 	],
-	"entity": "alexsmobs:warped_toad",
+	"entity": "alexsmobs:tusklin",
 	"samplerTier": 2,
-	"environments": ["nether"],
+	"environments": ["snow"],
 	"growTicks": 1800,
 	"results": [
 		{
-			"chance": 0.5,
+			"chance": 0.7,
 			"output": {
-				"item": "minecraft:shroomlight"
+				"item": "minecraft:porkchop"
+			},
+			"output_cooked": {
+				"item": "minecraft:cooked_porkchop"
 			},
 			"minAmount": 1,
-			"maxAmount": 3
+			"maxAmount": 2
 		},
 		{
 			"chance": 0.7,
 			"output": {
-				"item": "minecraft:nether_wart"
+				"item": "minecraft:snowball"
 			},
 			"minAmount": 1,
 			"maxAmount": 2

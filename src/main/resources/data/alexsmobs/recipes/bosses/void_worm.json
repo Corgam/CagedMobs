@@ -6,24 +6,23 @@
 			"modid": "alexsmobs"
 		}
 	],
-	"entity": "alexsmobs:blobfish",
-	"samplerTier": 1,
-	"environments": ["sand"],
-	"growTicks": 1200,
-	"requiresWater": true,
+	"entity": "alexsmobs:void_worm",
+	"samplerTier": 3,
+	"environments": ["end"],
+	"growTicks": 2100,
 	"results": [
 		{
-			"chance": 0.7,
+			"chance": 0.5,
 			"output": {
-				"item": "alexsmobs:blobfish"
+				"item": "alexsmobs:void_worm_eye"
 			},
 			"minAmount": 1,
 			"maxAmount": 1
 		},
 		{
-			"chance": 0.05,
+			"chance": 0.5,
 			"output": {
-				"item": "minecraft:bone_meal"
+				"item": "alexsmobs:void_worm_mandible"
 			},
 			"minAmount": 1,
 			"maxAmount": 1
