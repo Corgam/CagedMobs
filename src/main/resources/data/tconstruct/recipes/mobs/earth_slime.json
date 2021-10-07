@@ -8,7 +8,7 @@
   ],
   "entity": "tconstruct:earth_slime",
   "samplerTier": 2,
-  "environments": ["slime"],
+  "environments": ["cave","slime"],
   "growTicks": 1200,
   "results": [
     {
