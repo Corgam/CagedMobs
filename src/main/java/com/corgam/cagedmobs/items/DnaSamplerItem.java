@@ -3,6 +3,7 @@ package com.corgam.cagedmobs.items;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
+import com.corgam.cagedmobs.tileEntities.MobCageTE;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -129,6 +130,7 @@ public class DnaSamplerItem extends Item {
         tooltip.add(getTooltip(stack));
         tooltip.add(getInformationForTier().withStyle(TextFormatting.GRAY));
         tooltip.add(new TranslationTextComponent("item.cagedmobs.dnasampler.makeEmpty").withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.dnasampler.getBackEntity").withStyle(TextFormatting.GRAY));
     }
 
     private TranslationTextComponent getInformationForTier(){
@@ -162,6 +164,18 @@ public class DnaSamplerItem extends Item {
 
     public void removeEntityType(ItemStack stack) {
         stack.removeTagKey("entity");
+    }
+
+    public void setEntityTypeFromCage(MobCageTE cage, ItemStack stack, PlayerEntity player, Hand hand){
+        EntityType<?> type = cage.getEntityType();
+        CompoundNBT nbt = new CompoundNBT();
+        SerializationHelper.serializeEntityTypeNBT(nbt, type);
+        // If sheep add it's color to nbt
+        if(type.toString().contains("sheep")){
+            nbt.putInt("Color",cage.getColor());
+        }
+        stack.setTag(nbt);
+        player.setItemInHand(hand, stack);
     }
 
     public EntityType<?> getEntityType(ItemStack stack) {

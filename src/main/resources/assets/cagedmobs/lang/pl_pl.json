@@ -10,6 +10,7 @@
   "item.cagedmobs.dnasampler.tier2Info": "Może być użyta na silniejszych stworzeniach",
   "item.cagedmobs.dnasampler.tier3Info": "Może być użyta na bossach",
   "item.cagedmobs.dnasampler.makeEmpty": "Kliknij shift i prawy przycisk myszki, aby usunąć DNA",
+  "item.cagedmobs.dnasampler.getBackEntity": "Kliknij prawym przyciskiem myszki aby odzyskać DNA z klatki",
   "item.cagedmobs.dnasampler.not_cachable": "Nie można pobrać próbki DNA z tego typu stworzenia",
   "item.cagedmobs.dnasampler.not_sufficient": "Ta strzykawka nie jest wystarczająco silna, aby pobrać próbkę DNA z tego stworzenia",
   "item.cagedmobs.dnasampler.unknown_entity": "Nieznane stworzenie",
@@ -42,6 +43,8 @@
   "block.cagedmobs.mobcage.hoppingCagesDisabled2": "Skacząca klatka będzie działała tak samo jak jej zwykły wariant.",
   "block.cagedmobs.mobcage.requiresWater": "Te stworzenie wymaga klatki wypełnionej wodą.",
   "block.cagedmobs.mobcage.envRequired": "Najpierw musisz ustanowić środowisko.",
+  "block.cagedmobs.mobcage.samplerAlreadyUsed": "Ta strzykawka ma w środku DNA innego stworzenia.",
+  "block.cagedmobs.mobcage.samplerNotSufficient": "Ta strzykawka nie jest wystarczająco silna, aby odzyskać stworzenie z klatki.",
   "block.cagedmobs.starinfusednetheriteblock.beacon": "Może być użyty jako blok do piramidy magicznej latarni.",
 
   "jei.category.cagedmobs.entity": "Łupy klatek na stworzenia",

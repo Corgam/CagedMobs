@@ -10,6 +10,7 @@
 	"item.cagedmobs.dnasampler.tier2Info": "Can be used on stronger entities",
 	"item.cagedmobs.dnasampler.tier3Info": "Can be used on bosses",
 	"item.cagedmobs.dnasampler.makeEmpty": "Shift-right click to clear stored DNA sample",
+	"item.cagedmobs.dnasampler.getBackEntity": "Right click on the cage to get back stored DNA sample",
 	"item.cagedmobs.dnasampler.not_cachable": "This type of entity cannot be sampled",
 	"item.cagedmobs.dnasampler.not_sufficient": "This DNA sampler is not strong enough to sample this entity",
 	"item.cagedmobs.dnasampler.unknown_entity": "Unknown entity",
@@ -42,6 +43,8 @@
 	"block.cagedmobs.mobcage.hoppingCagesDisabled2": "Hopping Cages will work the same as non-hopping variant.",
 	"block.cagedmobs.mobcage.requiresWater": "This entity requires a waterlogged cage.",
 	"block.cagedmobs.mobcage.envRequired": "You need to set up an environment first.",
+	"block.cagedmobs.mobcage.samplerAlreadyUsed": "This sampler has another entity's DNA inside.",
+	"block.cagedmobs.mobcage.samplerNotSufficient": "This sampler is not strong enough to get back entity from the cage.",
 	"block.cagedmobs.starinfusednetheriteblock.beacon": "Can be used as a beacon base block.",
 
 	"jei.category.cagedmobs.entity": "Caged Entities Drops",
