@@ -142,9 +142,9 @@ public class MobCageBlock extends ContainerBlock implements ITopInfoProvider, IW
                         player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.samplerAlreadyUsed").withStyle(TextFormatting.RED), true);
                         return ActionResultType.FAIL;
                     }
+                    cage.onEntityRemoval();
+                    return ActionResultType.SUCCESS;
                 }
-                cage.onEntityRemoval();
-                return ActionResultType.SUCCESS;
             }
             //Try to add an upgrade
             if(!cage.isCooking() || !cage.isLightning() || !cage.isArrow()){
