@@ -117,6 +117,7 @@ public class DnaSamplerItem extends Item {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
         if(playerIn.isCrouching() && itemstack.hasTag()) {
             itemstack.removeTagKey("entity");
+            itemstack.removeTagKey("Color");
             playerIn.swing(handIn);
             ActionResult.success(itemstack);
         }
@@ -164,6 +165,7 @@ public class DnaSamplerItem extends Item {
 
     public void removeEntityType(ItemStack stack) {
         stack.removeTagKey("entity");
+        stack.removeTagKey("Color");
     }
 
     public void setEntityTypeFromCage(MobCageTE cage, ItemStack stack, PlayerEntity player, Hand hand){
