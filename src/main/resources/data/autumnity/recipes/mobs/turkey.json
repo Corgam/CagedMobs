@@ -29,6 +29,14 @@
 			},
 			"minAmount": 1,
 			"maxAmount": 3
+		},
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "autumnity:turkey_egg"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	
