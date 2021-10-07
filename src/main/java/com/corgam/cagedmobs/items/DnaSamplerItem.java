@@ -116,8 +116,7 @@ public class DnaSamplerItem extends Item {
     public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
         if(playerIn.isCrouching() && itemstack.hasTag()) {
-            itemstack.removeTagKey("entity");
-            itemstack.removeTagKey("Color");
+            removeEntityType(itemstack);
             playerIn.swing(handIn);
             ActionResult.success(itemstack);
         }
