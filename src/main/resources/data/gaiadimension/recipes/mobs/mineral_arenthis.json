@@ -1,0 +1,36 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "gaiadimension"
+		}
+	],
+	"entity": "gaiadimension:mineral_arenthis",
+	"samplerTier": 1,
+	"environments": ["gaia"],
+	"growTicks": 1200,
+	"requiresWater": true,
+	"results": [
+		{
+			"chance": 0.75,
+			"output": {
+				"item": "gaiadimension:large_tentacle"
+			},
+			"output_cooked": {
+				"item": "gaiadimension:large_calamari"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		},
+		{
+			"chance": 0.6,
+			"output": {
+				"item": "gaiadimension:sugar_cluster"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+	
+}
