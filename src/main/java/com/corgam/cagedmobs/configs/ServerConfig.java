@@ -19,6 +19,8 @@ public class ServerConfig {
 
     private final ForgeConfigSpec.BooleanValue singleUseSamplers;
 
+    private final ForgeConfigSpec.DoubleValue cagesSpeed;
+
     public ServerConfig(){
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         builder.comment("Server side config for CagedMobs. If changed it will affect the whole server!");
@@ -31,6 +33,10 @@ public class ServerConfig {
         // Single use samplers
         builder.comment("Makes all samplers (all tiers) only single use. After a mob is sampled and put into the cage the sampler will break.");
         this.singleUseSamplers = builder.define("singleUseSamplers", false);
+
+        // Cage speed
+        builder.comment("Sets the speed of all cages. The bigger the value the faster the cages will work (by default: 1.00).");
+        this.cagesSpeed = builder.defineInRange("cagesSpeed",1.00,0.01,100.00);
 
         // Entities list
         builder.comment("List of all entities blacklisted from use (in a modid:name format). Players will not be able to put entities from this list into cages nor sample them.\n" +
@@ -82,4 +88,6 @@ public class ServerConfig {
     }
 
     public boolean areSamplersSingleUse(){return this.singleUseSamplers.get();}
+
+    public Double getSpeedOfCages(){return this.cagesSpeed.get();}
 }
