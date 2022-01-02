@@ -44,6 +44,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class EntityWrapper implements IRecipeCategoryExtension {
@@ -170,9 +171,9 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         // Proper entity
         CompoundTag nbt = new CompoundTag();
         nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.getEntity().getEntityType()).toString());
-        SpawnData renderedEntity = new SpawnData(1, nbt);
+        SpawnData renderedEntity = new SpawnData(nbt, Optional.empty());
         if(Minecraft.getInstance().getSingleplayerServer() != null){ // When at single player or single player server
-            LivingEntity livingEntity = (LivingEntity) EntityType.loadEntityRecursive(renderedEntity.getTag(), Minecraft.getInstance().getSingleplayerServer().overworld(), Function.identity());
+            LivingEntity livingEntity = (LivingEntity) EntityType.loadEntityRecursive(renderedEntity.getEntityToSpawn(), Minecraft.getInstance().getSingleplayerServer().overworld(), Function.identity());
             if (livingEntity != null) {
                 float scale = getScaleForEntityType(livingEntity);
                 int offsetY = getOffsetForEntityType(livingEntity);
@@ -192,7 +193,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }else if(Minecraft.getInstance().getCurrentServer() != null){ // When at dedicated server
             Level level = Minecraft.getInstance().level;
             if(level != null){
-                LivingEntity livingEntity = (LivingEntity) EntityType.loadEntityRecursive(renderedEntity.getTag(), level, Function.identity());
+                LivingEntity livingEntity = (LivingEntity) EntityType.loadEntityRecursive(renderedEntity.getEntityToSpawn(), level, Function.identity());
                 if (livingEntity != null) {
                     float scale = getScaleForEntityType(livingEntity);
                     int offsetY = getOffsetForEntityType(livingEntity);

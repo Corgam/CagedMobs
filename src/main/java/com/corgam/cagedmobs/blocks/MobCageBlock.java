@@ -79,7 +79,7 @@ public class MobCageBlock extends BaseEntityBlock implements ITopInfoProvider, S
 
     public BlockState updateShape(BlockState stateOld, Direction dir, BlockState stateNew, LevelAccessor accessor, BlockPos posOld, BlockPos posNew) {
         if (stateOld.getValue(WATERLOGGED)) {
-            accessor.getLiquidTicks().scheduleTick(posOld, Fluids.WATER, Fluids.WATER.getTickDelay(accessor));
+            accessor.scheduleTick(posOld, Fluids.WATER, Fluids.WATER.getTickDelay(accessor));
         }
 
         return super.updateShape(stateOld, dir, stateNew, accessor, posOld, posNew);

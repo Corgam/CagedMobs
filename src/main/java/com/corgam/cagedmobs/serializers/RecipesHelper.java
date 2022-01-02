@@ -17,8 +17,8 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
-import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.*;
 

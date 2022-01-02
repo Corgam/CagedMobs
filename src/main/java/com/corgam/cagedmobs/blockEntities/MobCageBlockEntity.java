@@ -39,7 +39,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.ModelDataManager;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -49,6 +48,7 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -81,9 +81,9 @@ public class MobCageBlockEntity extends BlockEntity{
             if(this.renderedEntity == null){
                 CompoundTag nbt = new CompoundTag();
                 nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.entityType).toString());
-                this.renderedEntity = new SpawnData(1, nbt);
+                this.renderedEntity = new SpawnData(nbt, Optional.empty());
             }
-            this.cachedEntity = EntityType.loadEntityRecursive(this.renderedEntity.getTag(), world, Function.identity());
+            this.cachedEntity = EntityType.loadEntityRecursive(this.renderedEntity.getEntityToSpawn(), world, Function.identity());
         }
         return this.cachedEntity;
     }
@@ -210,7 +210,7 @@ public class MobCageBlockEntity extends BlockEntity{
         this.envItem = itemstack;
         // Sync with client
         if(this.level != null){
-            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
         }
     }
 
@@ -300,7 +300,7 @@ public class MobCageBlockEntity extends BlockEntity{
         this.totalGrowTicks = (int) Math.round(basicTotalGrowTicks/CagedMobs.SERVER_CONFIG.getSpeedOfCages());
         // Sync with client
         if(this.level != null){
-            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
         }
     }
 
@@ -368,7 +368,7 @@ public class MobCageBlockEntity extends BlockEntity{
         this.color = 0;
         // Sync with client
         if(this.level != null){
-            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
         }
     }
 
@@ -391,7 +391,7 @@ public class MobCageBlockEntity extends BlockEntity{
         }
         // Sync with client
         if(this.level != null){
-            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
         }
     }
 
@@ -453,7 +453,7 @@ public class MobCageBlockEntity extends BlockEntity{
             this.setChanged();
             // Sync with client
             if(this.level != null){
-                this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+                this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
             }
         }
     }
@@ -548,7 +548,7 @@ public class MobCageBlockEntity extends BlockEntity{
     @Nullable
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket(){
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 1, getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
@@ -584,7 +584,7 @@ public class MobCageBlockEntity extends BlockEntity{
             ModelDataManager.requestModelDataRefresh(this);
             // Sync with client
             if(this.level != null){
-                this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+                this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
             }
         }
     }
@@ -668,7 +668,7 @@ public class MobCageBlockEntity extends BlockEntity{
         this.cooking = cooking;
         // Sync with client
         if(this.level != null){
-            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
         }
     }
 
@@ -676,7 +676,7 @@ public class MobCageBlockEntity extends BlockEntity{
         this.lightning = lightning;
         // Sync with client
         if(this.level != null){
-            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
         }
     }
 
@@ -684,7 +684,7 @@ public class MobCageBlockEntity extends BlockEntity{
         this.arrow = arrow;
         // Sync with client
         if(this.level != null){
-            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
         }
     }
 }

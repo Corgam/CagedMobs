@@ -2,9 +2,9 @@ package com.corgam.cagedmobs.setup;
 
 import com.corgam.cagedmobs.blockEntities.MobCageBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class CagedBlockEntity {
     //Registry
