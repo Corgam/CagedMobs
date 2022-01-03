@@ -8,7 +8,7 @@
 	],
 	"entity": "minecraft:goat",
 	"samplerTier": 2,
-	"environments": ["farm"],
+	"environments": ["snow"],
 	"growTicks": 1200,
 	"results": [
 	]

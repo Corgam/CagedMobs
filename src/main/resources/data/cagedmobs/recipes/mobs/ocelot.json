@@ -6,10 +6,9 @@
 			"modid": "cagedmobs"
 		}
 	],
-	"entity": "minecraft:fox",
+	"entity": "minecraft:ocelot",
 	"samplerTier": 1,
-	"environments": ["farm","snow"],
+	"environments": ["farm"],
 	"growTicks": 1200,
-	"results": [
-	]
+	"results": []
 }
