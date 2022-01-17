@@ -89,11 +89,6 @@ public class MobCageBlock extends BaseEntityBlock implements ITopInfoProvider, S
         return p_204507_1_.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(p_204507_1_);
     }
 
-//    @Override
-//    public boolean hasBlockEntity (BlockState state) {
-//        return true;
-//    }
-
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         // If on client leave the functionality for the server only
@@ -110,14 +105,17 @@ public class MobCageBlock extends BaseEntityBlock implements ITopInfoProvider, S
                     if(cage.isCooking()){
                         cage.setCooking(false);
                         cage.dropItem(new ItemStack(CagedItems.COOKING_UPGRADE.get(),1));
+                        cage.setChanged();
                         return InteractionResult.SUCCESS;
                     }else if(cage.isLightning()){
                         cage.setLightning(false);
                         cage.dropItem(new ItemStack(CagedItems.LIGHTNING_UPGRADE.get(),1));
+                        cage.setChanged();
                         return InteractionResult.SUCCESS;
                     }else if(cage.isArrow()){
                         cage.setArrow(false);
                         cage.dropItem(new ItemStack(CagedItems.ARROW_UPGRADE.get(),1));
+                        cage.setChanged();
                         return InteractionResult.SUCCESS;
                     }
                 }
@@ -148,6 +146,7 @@ public class MobCageBlock extends BaseEntityBlock implements ITopInfoProvider, S
                         }
                         // Get back the entity
                         sampler.setEntityTypeFromCage(cage, heldItem, player, handIn);
+                        cage.setChanged();
                     }else{
                         player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mobcage.samplerAlreadyUsed").withStyle(ChatFormatting.RED), true);
                         return InteractionResult.FAIL;
@@ -161,18 +160,21 @@ public class MobCageBlock extends BaseEntityBlock implements ITopInfoProvider, S
                 if(heldItem.getItem() instanceof UpgradeItem) {
                     if(heldItem.getItem() instanceof CookingUpgradeItem && !cage.isCooking()){
                         cage.setCooking(true);
+                        cage.setChanged();
                         if(!player.isCreative()) {
                             heldItem.shrink(1);
                         }
                         return InteractionResult.SUCCESS;
                     }else if(heldItem.getItem() instanceof LightningUpgradeItem && !cage.isLightning()){
                         cage.setLightning(true);
+                        cage.setChanged();
                         if(!player.isCreative()) {
                             heldItem.shrink(1);
                         }
                         return InteractionResult.SUCCESS;
                     }else if(heldItem.getItem() instanceof ArrowUpgradeItem && !cage.isArrow()){
                         cage.setArrow(true);
+                        cage.setChanged();
                         if(!player.isCreative()) {
                             heldItem.shrink(1);
                         }

@@ -44,6 +44,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.EmptyHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -97,6 +98,7 @@ public class MobCageBlockEntity extends BlockEntity{
     public MobCageBlockEntity(BlockPos pos, BlockState state, boolean hopping) {
         super(CagedBlockEntity.MOB_CAGE.get(), pos, state);
         this.hopping = hopping;
+        this.setChanged();
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, MobCageBlockEntity blockEntity) {
@@ -212,6 +214,8 @@ public class MobCageBlockEntity extends BlockEntity{
         if(this.level != null){
             this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
         }
+        // Check this block as a block to be saved upon exiting the chunk
+        this.setChanged();
     }
 
     public EnvironmentData getEnvironment() {
@@ -270,6 +274,8 @@ public class MobCageBlockEntity extends BlockEntity{
         this.environment = null;
         this.envItem = ItemStack.EMPTY;
         this.color = 0;
+        // Check this block as a block to be saved upon exiting the chunk
+        this.setChanged();
     }
 
 
@@ -302,6 +308,8 @@ public class MobCageBlockEntity extends BlockEntity{
         if(this.level != null){
             this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
         }
+        // Check this block as a block to be saved upon exiting the chunk
+        this.setChanged();
     }
 
     public static boolean existsEntityFromType(EntityType<?> entityType) {
@@ -370,6 +378,8 @@ public class MobCageBlockEntity extends BlockEntity{
         if(this.level != null){
             this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
         }
+        // Check this block as a block to be saved upon exiting the chunk
+        this.setChanged();
     }
 
 
@@ -393,6 +403,8 @@ public class MobCageBlockEntity extends BlockEntity{
         if(this.level != null){
             this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
         }
+        // Check this block as a block to be saved upon exiting the chunk
+        this.setChanged();
     }
 
     // Auto-harvests the cage, when there is a valid inv bellow
@@ -455,6 +467,8 @@ public class MobCageBlockEntity extends BlockEntity{
             if(this.level != null){
                 this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
             }
+            // Check this block as a block to be saved upon exiting the chunk
+            this.setChanged();
         }
     }
 
@@ -619,7 +633,7 @@ public class MobCageBlockEntity extends BlockEntity{
 
     // Serialize the block to save it on drive
     @Override
-    public CompoundTag save(CompoundTag dataTag) {
+    public @NotNull CompoundTag save(CompoundTag dataTag) {
         // Put hopping and upgrades
         dataTag.putBoolean("hopping", this.hopping);
         dataTag.putBoolean("cooking", this.cooking);
@@ -641,6 +655,31 @@ public class MobCageBlockEntity extends BlockEntity{
             }
         }
         return super.save(dataTag);
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag dataTag) {
+        super.saveAdditional(dataTag);
+        // Put hopping and upgrades
+        dataTag.putBoolean("hopping", this.hopping);
+        dataTag.putBoolean("cooking", this.cooking);
+        dataTag.putBoolean("lightning", this.lightning);
+        dataTag.putBoolean("arrow", this.arrow);
+        // If cage has env, then put env info and maybe entity info
+        if(this.hasEnvironment()) {
+            // Put env info
+            dataTag.put("environmentItem", this.envItem.serializeNBT());
+            // If cage has entity, put entity info
+            if(this.hasEntity()){
+                // Put entity type
+                SerializationHelper.serializeEntityTypeNBT(dataTag, this.entityType);
+                // Put color
+                dataTag.putInt("color", this.color);
+                // Put ticks info
+                dataTag.putInt("currentGrowTicks", this.currentGrowTicks);
+                dataTag.putBoolean("waitingForHarvest", this.waitingForHarvest);
+            }
+        }
     }
 
     public boolean isCooking() {
