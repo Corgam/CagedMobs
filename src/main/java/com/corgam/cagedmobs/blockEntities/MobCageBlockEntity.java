@@ -628,32 +628,6 @@ public class MobCageBlockEntity extends BlockEntity{
         }
     }
 
-    // Serialize the block to save it on drive
-    @Override
-    public @NotNull CompoundTag save(CompoundTag dataTag) {
-        // Put hopping and upgrades
-        dataTag.putBoolean("hopping", this.hopping);
-        dataTag.putBoolean("cooking", this.cooking);
-        dataTag.putBoolean("lightning", this.lightning);
-        dataTag.putBoolean("arrow", this.arrow);
-        // If cage has env, then put env info and maybe entity info
-        if(this.hasEnvironment()) {
-            // Put env info
-            dataTag.put("environmentItem", this.envItem.serializeNBT());
-            // If cage has entity, put entity info
-            if(this.hasEntity()){
-                // Put entity type
-                SerializationHelper.serializeEntityTypeNBT(dataTag, this.entityType);
-                // Put color
-                dataTag.putInt("color", this.color);
-                // Put ticks info
-                dataTag.putInt("currentGrowTicks", this.currentGrowTicks);
-                dataTag.putBoolean("waitingForHarvest", this.waitingForHarvest);
-            }
-        }
-        return super.save(dataTag);
-    }
-
     @Override
     protected void saveAdditional(CompoundTag dataTag) {
         super.saveAdditional(dataTag);

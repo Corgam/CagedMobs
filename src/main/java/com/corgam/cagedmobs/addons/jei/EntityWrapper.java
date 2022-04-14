@@ -11,7 +11,6 @@ import com.corgam.cagedmobs.setup.CagedItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -296,36 +295,36 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         return 50;
     }
 
-    @Override
-    public void setIngredients(IIngredients iIngredients) {
-        // Inputs
-        final List<ItemStack> inputs = new ArrayList<>(this.envs);
-        iIngredients.setInputs(VanillaTypes.ITEM, inputs);
-
-        // Outputs
-        final List<ItemStack> outputs = new ArrayList<>();
-        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
-        for(LootData loot : this.drops){
-            // Add the item to the outputs list if it's not disabled in the config
-            if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
-                if(!blacklistedItems.contains(loot.getItem().getItem())){
-                    outputs.add(loot.getItem());
-                    if(!loot.getCookedItem().isEmpty() && loot.isCooking()) {
-                        outputs.add(loot.getCookedItem());
-                    }
-                }
-            }else{
-                if(blacklistedItems.contains(loot.getItem().getItem())){
-                    outputs.add(loot.getItem());
-                    if(!loot.getCookedItem().isEmpty() && loot.isCooking()) {
-                        outputs.add(loot.getCookedItem());
-                    }
-                }
-            }
-
-        }
-        iIngredients.setOutputs(VanillaTypes.ITEM, outputs);
-    }
+//    @Override
+//    public void setIngredients(IIngredients iIngredients) {
+//        // Inputs
+//        final List<ItemStack> inputs = new ArrayList<>(this.envs);
+//        iIngredients.setInputs(VanillaTypes.ITEM, inputs);
+//
+//        // Outputs
+//        final List<ItemStack> outputs = new ArrayList<>();
+//        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
+//        for(LootData loot : this.drops){
+//            // Add the item to the outputs list if it's not disabled in the config
+//            if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
+//                if(!blacklistedItems.contains(loot.getItem().getItem())){
+//                    outputs.add(loot.getItem());
+//                    if(!loot.getCookedItem().isEmpty() && loot.isCooking()) {
+//                        outputs.add(loot.getCookedItem());
+//                    }
+//                }
+//            }else{
+//                if(blacklistedItems.contains(loot.getItem().getItem())){
+//                    outputs.add(loot.getItem());
+//                    if(!loot.getCookedItem().isEmpty() && loot.isCooking()) {
+//                        outputs.add(loot.getCookedItem());
+//                    }
+//                }
+//            }
+//
+//        }
+//        iIngredients.setOutputs(VanillaTypes.ITEM, outputs);
+//    }
 
     public List<LootData> getDrops() {
         return this.drops;

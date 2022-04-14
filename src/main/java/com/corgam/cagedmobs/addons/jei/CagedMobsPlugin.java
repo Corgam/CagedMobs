@@ -7,6 +7,7 @@ import com.corgam.cagedmobs.setup.CagedItems;
 import com.corgam.cagedmobs.setup.Constants;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -15,10 +16,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @JeiPlugin
 public class CagedMobsPlugin implements IModPlugin {
+
+    public static final RecipeType<MobData> MOB_CAGE =
+            RecipeType.create(Constants.MOD_ID, "entity", MobData.class);
 
     @Override
     public ResourceLocation getPluginUid () {
@@ -27,8 +30,8 @@ public class CagedMobsPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts (IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(CagedItems.MOB_CAGE.get()), EntityCategory.ID);
-        registration.addRecipeCatalyst(new ItemStack(CagedItems.HOPPING_MOB_CAGE.get()), EntityCategory.ID);
+        registration.addRecipeCatalyst(new ItemStack(CagedItems.MOB_CAGE.get()), MOB_CAGE);
+        registration.addRecipeCatalyst(new ItemStack(CagedItems.HOPPING_MOB_CAGE.get()), MOB_CAGE);
     }
 
     @Override
@@ -44,7 +47,7 @@ public class CagedMobsPlugin implements IModPlugin {
             entities.removeIf(data -> !blacklistedEntities.contains(data.getEntityType()));
         }
         // Create JEI recipes
-        registration.addRecipes(entities.stream().map(EntityWrapper::new).collect(Collectors.toList()), EntityCategory.ID);
+        registration.addRecipes(MOB_CAGE, entities);
     }
 
     @Override
