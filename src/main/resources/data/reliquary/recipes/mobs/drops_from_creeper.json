@@ -3,7 +3,7 @@
 	"conditions": [
 		{
 			"type": "forge:mod_loaded",
-			"modid": "xreliquary"
+			"modid": "reliquary"
 		}
 	],
 	"entity": "minecraft:creeper",
@@ -11,7 +11,7 @@
 		{
 			"chance": 0.1,
 			"output": {
-				"item": "xreliquary:catalyzing_gland"
+				"item": "reliquary:catalyzing_gland"
 			},
 			"minAmount": 1,
 			"maxAmount": 1
@@ -20,7 +20,7 @@
 			"lightning":true,
 			"chance": 0.1,
 			"output": {
-				"item": "xreliquary:eye_of_the_storm"
+				"item": "reliquary:eye_of_the_storm"
 			},
 			"minAmount": 1,
 			"maxAmount": 1

@@ -3,15 +3,15 @@
 	"conditions": [
 		{
 			"type": "forge:mod_loaded",
-			"modid": "xreliquary"
+			"modid": "reliquary"
 		}
 	],
-	"entity": "minecraft:wither_skeleton",
+	"entity": "minecraft:witch",
 	"results": [
 		{
 			"chance": 0.1,
 			"output": {
-				"item": "xreliquary:withered_rib"
+				"item": "reliquary:witch_hat"
 			},
 			"minAmount": 1,
 			"maxAmount": 1

@@ -3,15 +3,15 @@
 	"conditions": [
 		{
 			"type": "forge:mod_loaded",
-			"modid": "xreliquary"
+			"modid": "reliquary"
 		}
 	],
-	"entity": "minecraft:squid",
+	"entity": "minecraft:wither_skeleton",
 	"results": [
 		{
 			"chance": 0.1,
 			"output": {
-				"item": "xreliquary:squid_beak"
+				"item": "reliquary:withered_rib"
 			},
 			"minAmount": 1,
 			"maxAmount": 1

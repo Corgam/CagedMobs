@@ -3,15 +3,15 @@
 	"conditions": [
 		{
 			"type": "forge:mod_loaded",
-			"modid": "xreliquary"
+			"modid": "reliquary"
 		}
 	],
-	"entity": "minecraft:witch",
+	"entity": "minecraft:zombified_piglin",
 	"results": [
 		{
 			"chance": 0.1,
 			"output": {
-				"item": "xreliquary:witch_hat"
+				"item": "reliquary:zombie_heart"
 			},
 			"minAmount": 1,
 			"maxAmount": 1

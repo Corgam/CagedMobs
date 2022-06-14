@@ -3,15 +3,15 @@
 	"conditions": [
 		{
 			"type": "forge:mod_loaded",
-			"modid": "xreliquary"
+			"modid": "reliquary"
 		}
 	],
-	"entity": "minecraft:enderman",
+	"entity": "minecraft:squid",
 	"results": [
 		{
 			"chance": 0.1,
 			"output": {
-				"item": "xreliquary:nebulous_heart"
+				"item": "reliquary:squid_beak"
 			},
 			"minAmount": 1,
 			"maxAmount": 1
