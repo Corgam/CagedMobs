@@ -1,11 +1,15 @@
 package com.corgam.cagedmobs.addons.jei;
 
+import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.serializers.RecipesHelper;
+import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import com.corgam.cagedmobs.setup.CagedItems;
 import com.corgam.cagedmobs.setup.Constants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -20,6 +24,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -40,18 +45,6 @@ public class EntityCategory implements IRecipeCategory<MobData> {
         this.slotDrawable = gui.getSlotDrawable();
         ResourceLocation backgroundRL = new ResourceLocation(Constants.MOD_ID, "textures/gui/entity.png");
         this.background = gui.createDrawable(backgroundRL,0,0,BG_WIDTH+BG_PADDING*2,BG_HEIGHT+BG_PADDING*2);
-        ////// Specific do MobData
-        // Add DNA samplers to the recipe based on the tier of recipe
-        if(entity.getSamplerTier() >= 3){
-            this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER_NETHERITE.get()));
-        }else if(entity.getSamplerTier() == 2){
-            this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER_NETHERITE.get()));
-            this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER_DIAMOND.get()));
-        }else{
-            this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER_NETHERITE.get()));
-            this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER_DIAMOND.get()));
-            this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER.get()));
-        }
     }
 
     @Override
@@ -86,59 +79,46 @@ public class EntityCategory implements IRecipeCategory<MobData> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, MobData wrapper, IFocusGroup focuses){
-        builder.addSlot(RecipeIngredientRole.INPUT, 19, 62+19)
-                //.addItemStacks(wrapper.getSamplers());
-                .addItemStack(new ItemStack(CagedItems.DNA_SAMPLER_DIAMOND.get()));
-    }
+    public void setRecipe(IRecipeLayoutBuilder builder, MobData recipe, IFocusGroup focuses){
+        EntityWrapper wrapper = new EntityWrapper(recipe);
 
-//    @Override
-//    public void setIngredients(EntityWrapper entityWrapper, IIngredients iIngredients) {
-//        entityWrapper.setIngredients(iIngredients);
-//    }
-//
-//    @Override
-//    public void setRecipe(IRecipeLayout iRecipeLayout, EntityWrapper entityWrapper, IIngredients iIngredients) {
-//        final IGuiItemStackGroup stacks = iRecipeLayout.getItemStacks();
-//
-//        // DNA Samplers
-//        stacks.init(0, true, 19, 62+19);
-//        stacks.set(0, entityWrapper.getSamplers());
-//
-//        // Soil Inputs
-//        stacks.init(1, true, 19 + 20, 62 + 19);
-//        stacks.set(1, entityWrapper.getEnvsItems());
-//
-//        int nextSlotId = 2;
-//        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
-//        for (final LootData entry : entityWrapper.getDrops()) {
-//            // If items not blacklisted draw them
-//            if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
-//                if(!blacklistedItems.contains(entry.getItem().getItem())){
-//                    int relativeSlotId = nextSlotId - 2;
-//                    stacks.init(nextSlotId, false, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
-//                    if(entry.isCooking() && entityWrapper.getCookedIDs().contains(relativeSlotId)){
-//                        stacks.set(nextSlotId, entry.getCookedItem());
-//                    }else{
-//                        stacks.set(nextSlotId, entry.getItem());
-//                    }
-//                    nextSlotId++;
-//                }
-//            }else{
-//                if(blacklistedItems.contains(entry.getItem().getItem())){
-//                    int relativeSlotId = nextSlotId - 2;
-//                    stacks.init(nextSlotId, false, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
-//                    if(entry.isCooking() && entityWrapper.getCookedIDs().contains(relativeSlotId)){
-//                        stacks.set(nextSlotId, entry.getCookedItem());
-//                    }else{
-//                        stacks.set(nextSlotId, entry.getItem());
-//                    }
-//                    nextSlotId++;
-//                }
-//            }
-//        }
-//        stacks.addTooltipCallback(entityWrapper::getTooltip);
-//    }
+        builder.addInvisibleIngredients(RecipeIngredientRole.INPUT)
+                .addItemStacks(wrapper.getSamplers());
+        
+        builder.addSlot(RecipeIngredientRole.INPUT, 19, 62+19)
+                .setSlotName("samplers")
+                .addItemStacks(wrapper.getSampledSamplers());
+
+        builder.addSlot(RecipeIngredientRole.INPUT, 19 + 20, 62 + 19)
+                .setSlotName("envs")
+                .addItemStacks(wrapper.getEnvsItems())
+                .addTooltipCallback(wrapper::getEnvTooltip);
+
+
+        int lootID = 0;
+        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
+        for (final LootData entry : wrapper.getDrops()) {
+            // If items not blacklisted draw them
+            boolean isWhitelistMode = CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode();
+            boolean listed = blacklistedItems.contains(entry.getItem().getItem());
+            if((isWhitelistMode && listed) || (!isWhitelistMode && !listed)){
+                if(!blacklistedItems.contains(entry.getItem().getItem())){
+                    final int lootSlotIndex = lootID;
+                    IRecipeSlotBuilder slot = builder
+                            .addSlot(RecipeIngredientRole.OUTPUT, 100 + 19 * (lootID % 4), 5 + 19 * (lootID / 4))
+                            .addTooltipCallback((recipeSlotView, tooltip) ->
+                                    wrapper.getLootTooltip(lootSlotIndex, recipeSlotView, tooltip)
+                            );
+                    if(entry.isCooking() && wrapper.getCookedIDs().contains(lootID)) {
+                        slot.addItemStacks(List.of(entry.getCookedItem()));
+                    }else{
+                        slot.addItemStacks(List.of(entry.getItem()));
+                    }
+                }
+            }
+            ++lootID;
+        }
+    }
 
     @Override
     public void draw (MobData recipe, IRecipeSlotsView recipeSlotsView, PoseStack matrix, double mouseX, double mouseY) {
@@ -147,27 +127,25 @@ public class EntityCategory implements IRecipeCategory<MobData> {
         this.slotDrawable.draw(matrix, 19+20, 62 + 19);
         this.slotDrawable.draw(matrix, 19+20, 62 + 19);
         // Draw Drops
-        for (int nextSlotId = 2; nextSlotId < 22; nextSlotId++) {
-
-            final int relativeSlotId = nextSlotId - 2;
+        for (int relativeSlotId = 0; relativeSlotId < 20; relativeSlotId++) {
             this.slotDrawable.draw(matrix, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
         }
-//        // Draw entity
-//        recipe.drawInfo(getBackground().getWidth(), getBackground().getHeight(), matrix, mouseX, mouseY);
-//        // Draw entity name
-//        matrix.pushPose();
-//        matrix.translate(5, 2, 0);
-//        if(recipe.getEntity() != null && recipe.getEntity().getEntityType() != null) {
-//            Minecraft.getInstance().font.draw(matrix, recipe.getEntity().getEntityType().getDescription(), 0, 0, 8);
-//        }
-//        // Draw required ticks
-//        matrix.translate(5, 100, 0);
-//        Minecraft.getInstance().font.draw(matrix, new TranslatableComponent("jei.tooltip.cagedmobs.entity.ticks",recipe.getSeconds()).getString(), 0, 0, 8);
-//        // Draw if requires water
-//        if(recipe.ifRequiresWater()){
-//            matrix.translate(-5, 10, 0);
-//            Minecraft.getInstance().font.draw(matrix, new TranslatableComponent("jei.tooltip.cagedmobs.entity.requiresWater").withStyle(ChatFormatting.BLUE), 0, 0, 8);
-//        }
-//        matrix.popPose();
+        // Draw entity
+        RenderEntityHelper.drawInfo(recipe, getBackground().getWidth(), getBackground().getHeight(), matrix, mouseX, mouseY);
+        // Draw entity name
+        matrix.pushPose();
+        matrix.translate(5, 2, 0);
+        if(recipe.getEntityType() != null) {
+            Minecraft.getInstance().font.draw(matrix, recipe.getEntityType().getDescription(), 0, 0, 8);
+        }
+        // Draw required ticks
+        matrix.translate(5, 100, 0);
+        Minecraft.getInstance().font.draw(matrix, new TranslatableComponent("jei.tooltip.cagedmobs.entity.ticks", RenderEntityHelper.getSeconds(recipe)).getString(), 0, 0, 8);
+        // Draw if requires water
+        if(recipe.ifRequiresWater()){
+            matrix.translate(-5, 10, 0);
+            Minecraft.getInstance().font.draw(matrix, new TranslatableComponent("jei.tooltip.cagedmobs.entity.requiresWater").withStyle(ChatFormatting.BLUE), 0, 0, 8);
+        }
+        matrix.popPose();
     }
 }
