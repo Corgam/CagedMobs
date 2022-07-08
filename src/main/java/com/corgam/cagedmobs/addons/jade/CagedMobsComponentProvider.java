@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.config.IPluginConfig;
 import mcp.mobius.waila.api.ui.IElement;
-import mcp.mobius.waila.impl.ui.*;
+import mcp.mobius.waila.api.ui.IElementHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -18,28 +18,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CagedMobsComponentProvider implements IComponentProvider {
-
-    public static final ProgressStyle PROGRESS_STYLE = new ProgressStyle();
-    public static final BorderStyle BORDER_STYLE = new BorderStyle();
-
-    static {
-        BORDER_STYLE.width(1);
-        PROGRESS_STYLE.color(0xff44AA44, 0xff44AA44); // bg color 0xff836953
-    }
-
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor blockAccessor, IPluginConfig pluginConfig) {
-        if(!(blockAccessor.getBlockEntity() instanceof MobCageBlockEntity)){
+        if(!(blockAccessor.getBlockEntity() instanceof MobCageBlockEntity tile)){
             return;
         }
-        MobCageBlockEntity tile = (MobCageBlockEntity) blockAccessor.getBlockEntity();
+
+        IElementHelper helper = tooltip.getElementHelper();
         // Add growth progress
         if(tile.hasEntity() && tile.hasEnvironment()){
-            tooltip.add(new ProgressElement(
-                    tile.getGrowthPercentage(),
+            tooltip.add(helper.progress(tile.getGrowthPercentage(),
                     new TextComponent(String.format("%3.0f%%", tile.getGrowthPercentage()*100)),
-                    PROGRESS_STYLE,
-                    BORDER_STYLE
+                    helper.progressStyle().color(0xff44AA44, 0xff44AA44),
+                    helper.borderStyle().width(1)
             ));
         }
         // Add env
@@ -48,8 +39,8 @@ public class CagedMobsComponentProvider implements IComponentProvider {
             if(representation != null){
                 tooltip.add(new TranslatableComponent("HWYLA.tooltip.cagedmobs.cage.environment"));
                 tooltip.add(List.of(
-                        ItemStackElement.of(representation, 1.0F),
-                        new TextElement(representation.getHoverName())));
+                        helper.item(representation, 1.0F),
+                        helper.text(representation.getHoverName())));
             }
         }
         // Add entity
@@ -66,13 +57,13 @@ public class CagedMobsComponentProvider implements IComponentProvider {
             tooltip.add(new TranslatableComponent("TOP.tooltip.cagedmobs.cage.upgrades"));
             List<IElement> upgrades = new ArrayList<>();
             if(tile.isLightning()){
-                upgrades.add(ItemStackElement.of(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance(), 1.0F));
+                upgrades.add(helper.item(CagedItems.LIGHTNING_UPGRADE.get().getDefaultInstance(), 1.0F));
             }
             if(tile.isCooking()){
-                upgrades.add(ItemStackElement.of(CagedItems.COOKING_UPGRADE.get().getDefaultInstance(), 1.0F));
+                upgrades.add(helper.item(CagedItems.COOKING_UPGRADE.get().getDefaultInstance(), 1.0F));
             }
             if(tile.isArrow()){
-                upgrades.add(ItemStackElement.of(CagedItems.ARROW_UPGRADE.get().getDefaultInstance(), 1.0F));
+                upgrades.add(helper.item(CagedItems.ARROW_UPGRADE.get().getDefaultInstance(), 1.0F));
             }
             tooltip.add(upgrades);
         }
