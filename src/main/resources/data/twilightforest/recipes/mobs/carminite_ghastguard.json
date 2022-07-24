@@ -6,23 +6,23 @@
 			"modid": "twilightforest"
 		}
 	],
-	"entity": "twilightforest:tower_broodling",
-	"samplerTier": 1,
+	"entity": "twilightforest:carminite_ghastguard",
+	"samplerTier": 2,
 	"environments": ["tower"],
-	"growTicks": 1200,
+	"growTicks": 1800,
 	"results": [
 		{
-			"chance": 0.75,
+			"chance": 0.7,
 			"output": {
-				"item": "minecraft:string"
+				"item": "minecraft:gunpowder"
 			},
 			"minAmount": 1,
 			"maxAmount": 2
 		},
 		{
-			"chance": 0.4,
+			"chance": 0.5,
 			"output": {
-				"item": "minecraft:spider_eye"
+				"item": "minecraft:ghast_tear"
 			},
 			"minAmount": 1,
 			"maxAmount": 1

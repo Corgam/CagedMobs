@@ -6,7 +6,7 @@
 			"modid": "twilightforest"
 		}
 	],
-	"entity": "twilightforest:goblin_knight_lower",
+	"entity": "twilightforest:lower_goblin_knight",
 	"samplerTier": 2,
 	"environments": ["cave"],
 	"growTicks": 1800,

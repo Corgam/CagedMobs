@@ -6,7 +6,7 @@
 			"modid": "twilightforest"
 		}
 	],
-	"entity": "twilightforest:bunny",
+	"entity": "twilightforest:dwarf_rabbit",
 	"samplerTier": 1,
 	"environments": ["forest"],
 	"growTicks": 1200,

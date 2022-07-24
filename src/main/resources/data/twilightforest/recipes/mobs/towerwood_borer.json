@@ -6,7 +6,7 @@
 			"modid": "twilightforest"
 		}
 	],
-	"entity": "twilightforest:tower_termite",
+	"entity": "twilightforest:towerwood_borer",
 	"samplerTier": 2,
 	"environments": ["tower"],
 	"growTicks": 1800,

@@ -6,7 +6,7 @@
 			"modid": "twilightforest"
 		}
 	],
-	"entity": "twilightforest:tower_ghast",
+	"entity": "twilightforest:carminite_ghastling",
 	"samplerTier": 2,
 	"environments": ["tower"],
 	"growTicks": 1800,

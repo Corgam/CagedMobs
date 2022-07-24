@@ -6,7 +6,7 @@
 			"modid": "twilightforest"
 		}
 	],
-	"entity": "twilightforest:yeti_alpha",
+	"entity": "twilightforest:alpha_yeti",
 	"samplerTier": 3,
 	"environments": ["snow"],
 	"growTicks": 3000,
@@ -14,7 +14,7 @@
 		{
 			"chance": 0.08,
 				"output": {
-					"item": "twilightforest:alpha_fur"
+					"item": "twilightforest:alpha_yeti_fur"
 				},
 				"minAmount": 1,
 				"maxAmount": 1
