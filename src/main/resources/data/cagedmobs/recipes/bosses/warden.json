@@ -1,0 +1,32 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+		}
+	],
+	"entity": "minecraft:warden",
+	"samplerTier": 3,
+	"environments": ["sculk"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.80,
+				"output": {
+					"item": "minecraft:sculk_catalyst"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "cagedmobs:warden_receptor"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}

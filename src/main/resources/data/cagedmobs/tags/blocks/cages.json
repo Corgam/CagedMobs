@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#cagedmobs:cages/mobcage",
-    "#cagedmobs:cages/hoppingmobcage"
+    "cagedmobs:mobcage",
+    "cagedmobs:hoppingmobcage"
   ]
 }

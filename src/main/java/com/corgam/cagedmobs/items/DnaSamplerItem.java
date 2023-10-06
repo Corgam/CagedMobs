@@ -1,13 +1,14 @@
 package com.corgam.cagedmobs.items;
 
 import com.corgam.cagedmobs.blockEntities.MobCageBlockEntity;
+import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -32,10 +33,10 @@ public class DnaSamplerItem extends Item {
         super(properties);
     }
 
-    // Called on left click on an entity to get it's sample
+    // Called on left-click on an entity to get it's sample
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if(target.level.isClientSide() || !(attacker instanceof Player)) return false;
+        if(target.level().isClientSide() || !(attacker instanceof Player)) return false;
         Player player = (Player) attacker;
         // Select the hand where the sampler is
         InteractionHand hand;
@@ -61,10 +62,10 @@ public class DnaSamplerItem extends Item {
                 player.setItemInHand(hand, stack);
                 return true;
             }else{
-                player.displayClientMessage(new TranslatableComponent("item.cagedmobs.dnasampler.not_sufficient").withStyle(ChatFormatting.RED), true);
+                player.displayClientMessage(Component.translatable("item.cagedmobs.dnasampler.not_sufficient").withStyle(ChatFormatting.RED), true);
             }
         }else{
-            player.displayClientMessage(new TranslatableComponent("item.cagedmobs.dnasampler.not_cachable").withStyle(ChatFormatting.RED), true);
+            player.displayClientMessage(Component.translatable("item.cagedmobs.dnasampler.not_cachable").withStyle(ChatFormatting.RED), true);
         }
         return false;
     }
@@ -73,7 +74,7 @@ public class DnaSamplerItem extends Item {
     private static boolean samplerTierSufficient(ItemStack stack, Entity target) {
         EntityType<?> type = target.getType();
         boolean sufficient = false;
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.MOB_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
                 // Check for null exception
@@ -101,7 +102,7 @@ public class DnaSamplerItem extends Item {
     // Check if entity can be cached based on the list of cachable entities
     private static boolean canBeCached(Entity clickedEntity) {
         boolean contains = false;
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.MOB_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
                 // Check for null exception
@@ -132,31 +133,31 @@ public class DnaSamplerItem extends Item {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         tooltip.add(getTooltip(stack));
         tooltip.add(getInformationForTier().withStyle(ChatFormatting.GRAY));
-        tooltip.add(new TranslatableComponent("item.cagedmobs.dnasampler.makeEmpty").withStyle(ChatFormatting.GRAY));
-        tooltip.add(new TranslatableComponent("item.cagedmobs.dnasampler.getBackEntity").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("item.cagedmobs.dnasampler.makeEmpty").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("item.cagedmobs.dnasampler.getBackEntity").withStyle(ChatFormatting.GRAY));
     }
 
-    private TranslatableComponent getInformationForTier(){
+    private MutableComponent getInformationForTier(){
         if(this instanceof DnaSamplerNetheriteItem){
-            return new TranslatableComponent("item.cagedmobs.dnasampler.tier3Info");
+            return Component.translatable("item.cagedmobs.dnasampler.tier3Info");
         }else if(this instanceof DnaSamplerDiamondItem){
-            return new TranslatableComponent("item.cagedmobs.dnasampler.tier2Info");
+            return Component.translatable("item.cagedmobs.dnasampler.tier2Info");
         }else{
-            return new TranslatableComponent("item.cagedmobs.dnasampler.tier1Info");
+            return Component.translatable("item.cagedmobs.dnasampler.tier1Info");
         }
     }
 
     private Component getTooltip(ItemStack stack) {
         if(!DnaSamplerItem.containsEntityType(stack)) {
-            return new TranslatableComponent("item.cagedmobs.dnasampler.empty").withStyle(ChatFormatting.YELLOW);
+            return Component.translatable("item.cagedmobs.dnasampler.empty").withStyle(ChatFormatting.YELLOW);
         }else {
             EntityType<?> type = SerializationHelper.deserializeEntityTypeNBT(stack.getTag());
             // Add the text component
             if(type != null){
-                return new TranslatableComponent(type.getDescriptionId()).withStyle(ChatFormatting.YELLOW);
+                return Component.translatable(type.getDescriptionId()).withStyle(ChatFormatting.YELLOW);
             }else{
                 // If not found say Unknown entity for crash prevention
-                return new TranslatableComponent("item.cagedmobs.dnasampler.unknown_entity").withStyle(ChatFormatting.YELLOW);
+                return Component.translatable("item.cagedmobs.dnasampler.unknown_entity").withStyle(ChatFormatting.YELLOW);
             }
         }
     }

@@ -10,17 +10,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdditionalLootDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<AdditionalLootData> {
+public class AdditionalLootDataSerializer implements RecipeSerializer<AdditionalLootData> {
 
-    public static final AdditionalLootDataSerializer INSTANCE = new AdditionalLootDataSerializer();
-
-    AdditionalLootDataSerializer(){
-        this.setRegistryName(new ResourceLocation("cagedmobs","additional_loot_data"));
+    public AdditionalLootDataSerializer(){
     }
 
     @Override

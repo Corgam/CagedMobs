@@ -6,16 +6,10 @@ import com.corgam.cagedmobs.configs.ServerConfig;
 import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
 import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
-import com.corgam.cagedmobs.serializers.RecipesHelper;
-import com.corgam.cagedmobs.serializers.env.EnvironmentDataSerializer;
-import com.corgam.cagedmobs.serializers.mob.AdditionalLootDataSerializer;
-import com.corgam.cagedmobs.serializers.mob.MobDataSerializer;
+import com.corgam.cagedmobs.registers.*;
 import com.corgam.cagedmobs.setup.*;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModList;
@@ -43,27 +37,17 @@ public class CagedMobs
         // Configs
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG.getForgeConfigSpec());
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG.getForgeConfigSpec());
-        // Recipes
-        eventBus.addGenericListener(RecipeSerializer.class, this::registerRecipeSerializers);
         // Registries
         CagedBlocks.BLOCKS_REG.register(eventBus);
         CagedItems.ITEMS_REG.register(eventBus);
         CagedBlockEntity.TE_REG.register(eventBus);
+        CagedCreativeTabs.CAGED_CREATIVE_TABS_REG.register(eventBus);
+        CagedRecipeTypes.CAGED_RECIPE_TYPES.register(eventBus);
+        CagedRecipeSerializers.CAGED_RECIPE_SERIALIZERS.register(eventBus);
         // Add properties to items
         eventBus.addListener(this::addPropertiesToItems);
         // TheOneProbe support
         eventBus.addListener(this::initTOPSupport);
-    }
-
-    private void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
-        // Register new recipes
-        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(RecipesHelper.MOB_RECIPE.toString()), RecipesHelper.MOB_RECIPE);
-        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(RecipesHelper.ENV_RECIPE.toString()), RecipesHelper.ENV_RECIPE);
-        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(RecipesHelper.ADDITIONAL_LOOT_RECIPE.toString()), RecipesHelper.ADDITIONAL_LOOT_RECIPE);
-        // Register recipe serializers
-        event.getRegistry().register(EnvironmentDataSerializer.INSTANCE);
-        event.getRegistry().register(MobDataSerializer.INSTANCE);
-        event.getRegistry().register(AdditionalLootDataSerializer.INSTANCE);
     }
 
     // Adding properties to items with NBT to allow different textures based on nbt

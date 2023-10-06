@@ -16,7 +16,6 @@ import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.item.DyeColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.fml.DistExecutor;
 
 @OnlyIn(Dist.CLIENT)
@@ -32,8 +31,7 @@ public class MobCageRenderer implements BlockEntityRenderer<MobCageBlockEntity> 
             matrix.translate(0.17, 5, 0.17);
 
             final BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
-            dispatcher.renderSingleBlock(tile.getEnvironment().getRenderState(), matrix, buffer, combinedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
-
+            dispatcher.renderSingleBlock(tile.getEnvironment().getRenderState(), matrix, buffer, combinedLightIn, combinedOverlayIn);
             matrix.popPose();
         }
         if(tile.hasEntity() && CagedMobs.CLIENT_CONFIG.shouldEntitiesRender()){
@@ -43,7 +41,7 @@ public class MobCageRenderer implements BlockEntityRenderer<MobCageBlockEntity> 
             if (entity != null) {
                 float maxSize = getEntitySize(entity);
                 float maxEntityDimension = Math.max(entity.getBbWidth(), entity.getBbHeight());
-                // If entity is bigger then 1.0D, scale it down.
+                // If entity is bigger than 1.0D, scale it down.
                 if ((double)maxEntityDimension > 1.0D) {
                     maxSize /= maxEntityDimension;
                 }

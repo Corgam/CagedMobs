@@ -2,24 +2,32 @@ package com.corgam.cagedmobs.addons.jei;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.blockEntities.MobCageBlockEntity;
+import com.corgam.cagedmobs.registers.CagedItems;
+import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
 import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
-import com.corgam.cagedmobs.setup.CagedItems;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
-import mezz.jei.api.constants.VanillaTypes;
+import com.mojang.math.Axis;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.AbstractFish;
@@ -116,7 +124,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
 
         }
         // Add additional Loot
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ADDITIONAL_LOOT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof AdditionalLootData) {
                 final AdditionalLootData additionalLootData = (AdditionalLootData) recipe;
                 // Check for null exceptions
@@ -164,12 +172,110 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         this.requiresWater = entity.ifRequiresWater();
     }
 
-    @Override
+    public List<LootData> getDrops() {
+        return this.drops;
+    }
+
+    public List<ItemStack> getEnvsItems() {
+        return this.envs;
+    }
+
+    public MobData getEntity() {
+        return entity;
+    }
+
+    public List<ItemStack> getSamplers() {
+        return this.samplers;
+    }
+
+    public List<Integer> getCookedIDs() {
+        return this.cookedIDs;
+    }
+
+    public int getTicks(){
+        return this.ticks;
+    }
+
+    public int getSeconds(){
+        return this.ticks/20;
+    }
+
+    public boolean ifRequiresWater(){
+        return this.requiresWater;
+    }
+
+    public void setRecipe(IRecipeLayoutBuilder builder, IFocusGroup focuses) {
+        // DNA Samplers
+        final IRecipeSlotBuilder samplersSlot = builder.addSlot(RecipeIngredientRole.INPUT, 15, 62+20);
+        samplersSlot.addItemStacks(this.getSamplers());
+
+        // Soil Inputs
+        final IRecipeSlotBuilder environmentsSlot = builder.addSlot(RecipeIngredientRole.INPUT, 15 + 20, 62+20);
+        environmentsSlot.addItemStacks(this.getEnvsItems());
+        environmentsSlot.addTooltipCallback(this.getEnvTooltip());
+
+        int nextSlotId = 2;
+        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
+        for (final LootData entry : this.getDrops()) {
+            // If items not blacklisted draw them
+            if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
+                if(!blacklistedItems.contains(entry.getItem().getItem())){
+                    int relativeSlotId = nextSlotId - 2;
+                    final IRecipeSlotBuilder lootSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 101 + 19 * (relativeSlotId % 4), 6 + 19 * (relativeSlotId / 4));
+                    if(entry.isCooking() && this.getCookedIDs().contains(relativeSlotId)){
+                        lootSlot.addItemStack(entry.getCookedItem());
+                    }else{
+                        lootSlot.addItemStack(entry.getItem());
+                    }
+                    nextSlotId++;
+                    // Add tooltip
+                    lootSlot.addTooltipCallback(this.getLootTooltip(entry));
+                }
+            }else{
+                if(blacklistedItems.contains(entry.getItem().getItem())){
+                    int relativeSlotId = nextSlotId - 2;
+                    final IRecipeSlotBuilder lootSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
+                    if(entry.isCooking() && this.getCookedIDs().contains(relativeSlotId)){
+                        lootSlot.addItemStack(entry.getCookedItem());
+                    }else{
+                        lootSlot.addItemStack(entry.getItem());
+                    }
+                    nextSlotId++;
+                    // Add tooltip
+                    lootSlot.addTooltipCallback(this.getLootTooltip(entry));
+                }
+            }
+        }
+    }
+
+    public void draw(IRecipeSlotsView view, GuiGraphics graphics, double mouseX, double mouseY, IGuiHelper guiHelper, IDrawable background, int width, int height) {
+        // Draw Seed & Soil
+        guiHelper.getSlotDrawable().draw(graphics, 14, 62+19);
+        guiHelper.getSlotDrawable().draw(graphics, 14+20, 62 + 19);
+        // Draw Drops
+        for (int nextSlotId = 2; nextSlotId < 22; nextSlotId++) {
+            final int relativeSlotId = nextSlotId - 2;
+            guiHelper.getSlotDrawable().draw(graphics, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
+        }
+        // Draw entity
+        this.drawEntity(graphics, background.getWidth(), background.getHeight(), mouseX, mouseY, width, height);
+        // Draw entity name
+        if(this.getEntity() != null && this.getEntity().getEntityType() != null) {
+            graphics.drawString(Minecraft.getInstance().font, this.getEntity().getEntityType().getDescription(), 5, 2, 8, false);
+        }
+        // Draw required ticks
+        graphics.drawString(Minecraft.getInstance().font, Component.translatable("jei.tooltip.cagedmobs.entity.ticks", this.getSeconds()), 10, 102, 8, false);
+        // Draw waterlogged info if it requires water
+        if(this.ifRequiresWater()){
+            graphics.drawString(Minecraft.getInstance().font, Component.translatable("jei.tooltip.cagedmobs.entity.requiresWater", this.getSeconds()).withStyle(ChatFormatting.BLUE), 5, 112, 8, false);
+        }
+    }
+
     @OnlyIn(Dist.CLIENT)
-    public void drawInfo(int recipeWidth, int recipeHeight, PoseStack matrixStack, double mouseX, double mouseY) {
+    public void drawEntity(GuiGraphics graphics, int recipeWidth, int recipeHeight, double mouseX, double mouseY, int width, int height) {
         // Proper entity
         CompoundTag nbt = new CompoundTag();
-        nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.getEntity().getEntityType()).toString());
+        nbt.putString("id", EntityType.getKey(this.getEntity().getEntityType()).toString());
         SpawnData renderedEntity = new SpawnData(nbt, Optional.empty());
         if(Minecraft.getInstance().getSingleplayerServer() != null){ // When at single player or single player server
             LivingEntity livingEntity = (LivingEntity) EntityType.loadEntityRecursive(renderedEntity.getEntityToSpawn(), Minecraft.getInstance().getSingleplayerServer().overworld(), Function.identity());
@@ -180,7 +286,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
                 rotation = (rotation+ 0.5f)% 360;
                 // Render the entity
                 renderEntity(
-                        matrixStack,
+                        graphics,
                         33, 120 - offsetY, scale,
                         38 - yaw,
                         70 - offsetY,
@@ -200,7 +306,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
                     rotation = (rotation+ 0.5f)% 360;
                     // Render the entity
                     renderEntity(
-                            matrixStack,
+                            graphics,
                             33, 120 - offsetY, scale,
                             38 - yaw,
                             70 - offsetY,
@@ -213,17 +319,17 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }
     }
 
-    public static void renderEntity(PoseStack matrixStack, int x, int y, float scale, double yaw, double pitch, LivingEntity entity) {
+    public static void renderEntity(GuiGraphics graphics, int x, int y, float scale, double yaw, double pitch, LivingEntity entity) {
+        PoseStack matrixStack = graphics.pose();
         matrixStack.pushPose();
         // Translate the entity to right position
         matrixStack.translate(x, y, 50F);
         // Scale the entity
         matrixStack.scale(-scale, scale, scale);
         // Rotate the entity so it's not upside down
-        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+        matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
         // Rotate the entity around
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
-
+        matrixStack.mulPose(Axis.YP.rotationDegrees(rotation));
         // Render the entity
         MultiBufferSource.BufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
         try{
@@ -231,12 +337,49 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }catch (Exception e){
             matrixStack.translate(x, y, -50F);
             matrixStack.scale(scale, -scale, -scale);
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
-
-            CagedMobs.LOGGER.error("Error with rendering entity in JEI!(CagedMobs)", e);
+            matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
+            CagedMobs.LOGGER.error("[CagedMobs] Error with rendering entity in JEI!", e);
         }
         buff.endBatch();
         matrixStack.popPose();
+    }
+
+    private IRecipeSlotTooltipCallback getEnvTooltip() {
+        return (view, tooltip) -> {
+            if(view.getDisplayedItemStack().isPresent()){
+                ItemStack displayedItem = view.getDisplayedItemStack().get();
+                EnvironmentData env = MobCageBlockEntity.getEnvironmentFromItemStack(displayedItem);
+                if(env != null){
+                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.growModifier",  DECIMAL_FORMAT.format(env.getGrowModifier() * 100 - 100)));
+                }
+            }
+        };
+    }
+
+    private IRecipeSlotTooltipCallback getLootTooltip(LootData entry) {
+        return (view, tooltip) -> {
+            if (view.getDisplayedItemStack().isPresent()){
+                ItemStack displayedItem = view.getDisplayedItemStack().get();
+                tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.chance",  DECIMAL_FORMAT.format(entry.getChance() * 100)));
+                if(entry.getMinAmount() == entry.getMaxAmount()){
+                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.amountEqual",entry.getMinAmount()));
+                }else{
+                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.amount",entry.getMinAmount(), entry.getMaxAmount()));
+                }
+                if(entry.isLighting()){
+                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.lightning_upgrade").withStyle(ChatFormatting.YELLOW));
+                }
+                if(entry.isCooking() && displayedItem.getItem().equals(entry.getCookedItem().getItem())){
+                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.cooking_upgrade").withStyle(ChatFormatting.YELLOW));
+                }
+                if(entry.isArrow()){
+                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.arrow_upgrade").withStyle(ChatFormatting.YELLOW));
+                }
+                if(entry.hasColor()){
+                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.colorItem").withStyle(ChatFormatting.YELLOW));
+                }
+            }
+        };
     }
 
     private float getScaleForEntityType(LivingEntity entity){
@@ -282,7 +425,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
 
     private int getOffsetForEntityType(LivingEntity entity){
         if(entity instanceof Phantom ||
-            entity instanceof AbstractFish ||
+                entity instanceof AbstractFish ||
                 entity instanceof EnderDragon ||
                 entity instanceof Dolphin ||
                 entity instanceof Guardian ||
@@ -294,99 +437,5 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }
         return 50;
     }
-
-//    @Override
-//    public void setIngredients(IIngredients iIngredients) {
-//        // Inputs
-//        final List<ItemStack> inputs = new ArrayList<>(this.envs);
-//        iIngredients.setInputs(VanillaTypes.ITEM, inputs);
-//
-//        // Outputs
-//        final List<ItemStack> outputs = new ArrayList<>();
-//        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
-//        for(LootData loot : this.drops){
-//            // Add the item to the outputs list if it's not disabled in the config
-//            if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
-//                if(!blacklistedItems.contains(loot.getItem().getItem())){
-//                    outputs.add(loot.getItem());
-//                    if(!loot.getCookedItem().isEmpty() && loot.isCooking()) {
-//                        outputs.add(loot.getCookedItem());
-//                    }
-//                }
-//            }else{
-//                if(blacklistedItems.contains(loot.getItem().getItem())){
-//                    outputs.add(loot.getItem());
-//                    if(!loot.getCookedItem().isEmpty() && loot.isCooking()) {
-//                        outputs.add(loot.getCookedItem());
-//                    }
-//                }
-//            }
-//
-//        }
-//        iIngredients.setOutputs(VanillaTypes.ITEM, outputs);
-//    }
-
-    public List<LootData> getDrops() {
-        return this.drops;
-    }
-
-    public List<ItemStack> getEnvsItems() {
-        return this.envs;
-    }
-
-    public MobData getEntity() {
-        return entity;
-    }
-
-    public List<ItemStack> getSamplers() {
-        return this.samplers;
-    }
-
-    public List<Integer> getCookedIDs() {
-        return this.cookedIDs;
-    }
-
-    public int getTicks(){
-        return this.ticks;
-    }
-
-    public int getSeconds(){
-        return this.ticks/20;
-    }
-
-    public boolean ifRequiresWater(){
-        return this.requiresWater;
-    }
-
-    public void getTooltip (int slotIndex, boolean input, ItemStack ingredient, List<Component> tooltip) {
-        if(!ingredient.isEmpty()){
-            if(slotIndex == 1){
-                EnvironmentData env = MobCageBlockEntity.getEnvironmentFromItemStack(ingredient);
-                if(env != null){
-                    tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.growModifier",  DECIMAL_FORMAT.format(env.getGrowModifier() * 100 - 100)));
-                }
-            }else if(slotIndex != 0){
-                 LootData loot = this.drops.get(slotIndex-2);
-                 tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.chance",  DECIMAL_FORMAT.format(loot.getChance() * 100)));
-                 if(loot.getMinAmount() == loot.getMaxAmount()){
-                     tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.amountEqual",loot.getMinAmount()));
-                 }else{
-                     tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.amount",loot.getMinAmount(), loot.getMaxAmount()));
-                 }
-                 if(loot.isLighting()){
-                     tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.lightning_upgrade").withStyle(ChatFormatting.YELLOW));
-                 }
-                 if(loot.isCooking() && ingredient.getItem().equals(loot.getCookedItem().getItem())){
-                     tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.cooking_upgrade").withStyle(ChatFormatting.YELLOW));
-                 }
-                 if(loot.isArrow()){
-                     tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.arrow_upgrade").withStyle(ChatFormatting.YELLOW));
-                 }
-                 if(loot.hasColor()){
-                     tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.colorItem").withStyle(ChatFormatting.YELLOW));
-                 }
-            }
-        }
-    }
-
 }
+

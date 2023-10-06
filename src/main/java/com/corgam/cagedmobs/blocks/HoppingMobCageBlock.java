@@ -5,7 +5,6 @@ import com.corgam.cagedmobs.blockEntities.MobCageBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -31,12 +30,12 @@ public class HoppingMobCageBlock extends MobCageBlock{
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack item, @Nullable BlockGetter getter, List<Component> tooltip, TooltipFlag flag) {
         if(CagedMobs.SERVER_CONFIG.ifHoppingCagesDisabled()){
-            tooltip.add(new TranslatableComponent("block.cagedmobs.mobcage.hoppingCagesDisabled1").withStyle(ChatFormatting.RED));
-            tooltip.add(new TranslatableComponent("block.cagedmobs.mobcage.hoppingCagesDisabled2").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("block.cagedmobs.mobcage.hoppingCagesDisabled1").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("block.cagedmobs.mobcage.hoppingCagesDisabled2").withStyle(ChatFormatting.RED));
         }
-        tooltip.add(new TranslatableComponent("block.cagedmobs.mobcage.mainInfo").withStyle(ChatFormatting.GRAY));
-        tooltip.add(new TranslatableComponent("block.cagedmobs.mobcage.hoppingInfo").withStyle(ChatFormatting.GRAY));
-        tooltip.add(new TranslatableComponent("block.cagedmobs.mobcage.envInfo").withStyle(ChatFormatting.GRAY));
-        tooltip.add(new TranslatableComponent("block.cagedmobs.mobcage.upgrading").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("block.cagedmobs.mobcage.mainInfo").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("block.cagedmobs.mobcage.hoppingInfo").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("block.cagedmobs.mobcage.envInfo").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("block.cagedmobs.mobcage.upgrading").withStyle(ChatFormatting.GRAY));
     }
 }

@@ -1,0 +1,39 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+		}
+	],
+	"entity": "minecraft:frog",
+	"samplerTier": 2,
+	"environments": ["farm", "sand", "snow"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "minecraft:pearlescent_froglight"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "minecraft:verdant_froglight"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "minecraft:ochre_froglight"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+}

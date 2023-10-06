@@ -29,6 +29,14 @@
 				},
 				"minAmount": 1,
 				"maxAmount": 2
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "cagedmobs:milk_drop"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

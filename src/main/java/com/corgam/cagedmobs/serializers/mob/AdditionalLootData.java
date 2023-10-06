@@ -1,7 +1,9 @@
 package com.corgam.cagedmobs.serializers.mob;
 
 import com.corgam.cagedmobs.CagedMobs;
-import com.corgam.cagedmobs.serializers.RecipesHelper;
+import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
+import com.corgam.cagedmobs.registers.CagedRecipeTypes;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
@@ -35,7 +37,7 @@ public class AdditionalLootData implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack assemble(Inventory inv) {
+    public ItemStack assemble(Inventory pContainer, RegistryAccess pRegistryAccess) {
         return ItemStack.EMPTY;
     }
 
@@ -45,7 +47,7 @@ public class AdditionalLootData implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack getResultItem() {
+    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
         return ItemStack.EMPTY;
     }
 
@@ -56,12 +58,12 @@ public class AdditionalLootData implements Recipe<Inventory> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return AdditionalLootDataSerializer.INSTANCE;
+        return CagedRecipeSerializers.ADDITIONAL_LOOT_RECIPE_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
-        return RecipesHelper.ADDITIONAL_LOOT_RECIPE;
+        return CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get();
     }
 
     public List<LootData> getResults () {

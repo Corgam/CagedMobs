@@ -11,16 +11,12 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.*;
 
-public class MobDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<MobData> {
+public class MobDataSerializer implements RecipeSerializer<MobData> {
 
-    public static final MobDataSerializer INSTANCE = new MobDataSerializer();
-
-    MobDataSerializer(){
-        this.setRegistryName(new ResourceLocation("cagedmobs","mob_data"));
+    public MobDataSerializer(){
     }
 
     // Used to serialize all MobData recipes from JSON files
@@ -32,7 +28,7 @@ public class MobDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> i
         final Set<String> validEnvs = deserializeEnvsData(id, json);
         // Total grow ticks
         final int growTicks = GsonHelper.getAsInt(json, "growTicks");
-        // If requires water
+        // If it requires water
         boolean requiresWater = false;
         if(json.has("requiresWater")) {
             requiresWater = GsonHelper.getAsBoolean(json, "requiresWater");

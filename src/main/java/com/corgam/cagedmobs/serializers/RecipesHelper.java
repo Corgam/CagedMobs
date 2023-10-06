@@ -1,6 +1,7 @@
 package com.corgam.cagedmobs.serializers;
 
 import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
 import com.corgam.cagedmobs.serializers.env.RecipeTypeEnvData;
 import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
@@ -24,12 +25,6 @@ import java.util.*;
 
 public class RecipesHelper {
 
-    // Recipes
-
-    public static final RecipeType<MobData> MOB_RECIPE = new RecipeTypeMobData();
-    public static final RecipeType<EnvironmentData> ENV_RECIPE = new RecipeTypeEnvData();
-    public static final RecipeType<AdditionalLootData> ADDITIONAL_LOOT_RECIPE = new RecipeAdditionalLoot();
-
     // Some helper functions
 
     public static Map<ResourceLocation, Recipe<?>> getRecipes (RecipeType<?> recipeType, RecipeManager manager) {
@@ -40,7 +35,7 @@ public class RecipesHelper {
     public static List<MobData> getEntitiesRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.getAllRecipesFor(RecipesHelper.MOB_RECIPE);
+            return manager.getAllRecipesFor(CagedRecipeTypes.MOB_RECIPE.get());
         }
 
         return Collections.emptyList();
@@ -49,7 +44,7 @@ public class RecipesHelper {
     public static List<EnvironmentData> getEnvsRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.getAllRecipesFor(RecipesHelper.ENV_RECIPE);
+            return manager.getAllRecipesFor(CagedRecipeTypes.ENV_RECIPE.get());
         }
 
         return Collections.emptyList();
@@ -58,7 +53,7 @@ public class RecipesHelper {
     public static List<AdditionalLootData> getAdditionalLootRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.getAllRecipesFor(RecipesHelper.ADDITIONAL_LOOT_RECIPE);
+            return manager.getAllRecipesFor(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get());
         }
 
         return Collections.emptyList();

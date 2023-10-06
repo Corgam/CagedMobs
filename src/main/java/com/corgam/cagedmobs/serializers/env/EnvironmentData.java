@@ -1,7 +1,10 @@
 package com.corgam.cagedmobs.serializers.env;
 
 import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
+import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -40,7 +43,7 @@ public class EnvironmentData implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack assemble(Inventory inv) {
+    public ItemStack assemble(Inventory pContainer, RegistryAccess pRegistryAccess) {
         return ItemStack.EMPTY;
     }
 
@@ -50,7 +53,7 @@ public class EnvironmentData implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack getResultItem() {
+    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
         return ItemStack.EMPTY;
     }
 
@@ -61,12 +64,12 @@ public class EnvironmentData implements Recipe<Inventory> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return EnvironmentDataSerializer.INSTANCE;
+        return CagedRecipeSerializers.ENV_RECIPE_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
-        return RecipesHelper.ENV_RECIPE;
+        return CagedRecipeTypes.ENV_RECIPE.get();
     }
 
     public Ingredient getInputItem() {

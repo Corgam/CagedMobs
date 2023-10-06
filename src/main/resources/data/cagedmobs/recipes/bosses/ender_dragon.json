@@ -12,7 +12,7 @@
 	"growTicks": 2400,
 	"results": [
 		{
-			"chance": 0.05,
+			"chance": 0.1,
 				"output": {
 					"item": "cagedmobs:dragon_scale"
 				},

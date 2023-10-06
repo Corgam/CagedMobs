@@ -1,8 +1,15 @@
 {
   "replace": false,
   "values": [
-    "#cagedmobs:cage_upgrades/arrow",
-    "#cagedmobs:cage_upgrades/cooking",
-    "#cagedmobs:cage_upgrades/lightning"
+    "cagedmobs:arrowupgrade",
+    "cagedmobs:cookingupgrade",
+    "cagedmobs:lightningupgrade",
+    "cagedmobs:experience_upgrade",
+    "cagedmobs:speed_i_upgrade",
+    "cagedmobs:speed_ii_upgrade",
+    "cagedmobs:speed_iii_upgrade",
+    "cagedmobs:fortune_i_upgrade",
+    "cagedmobs:fortune_ii_upgrade",
+    "cagedmobs:fortune_iii_upgrade"
   ]
 }

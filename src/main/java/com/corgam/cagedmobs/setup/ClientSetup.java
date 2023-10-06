@@ -1,6 +1,8 @@
 package com.corgam.cagedmobs.setup;
 
 import com.corgam.cagedmobs.blockEntities.MobCageRenderer;
+import com.corgam.cagedmobs.registers.CagedBlockEntity;
+import com.corgam.cagedmobs.registers.CagedBlocks;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;

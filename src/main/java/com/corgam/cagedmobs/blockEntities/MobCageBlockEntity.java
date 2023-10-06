@@ -1,22 +1,22 @@
 package com.corgam.cagedmobs.blockEntities;
 
 import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
 import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
-import com.corgam.cagedmobs.setup.CagedBlockEntity;
+import com.corgam.cagedmobs.registers.CagedBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.WorldlyContainer;
@@ -35,23 +35,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.ModelDataManager;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.EmptyHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 
 public class MobCageBlockEntity extends BlockEntity{
-    // Hopping and upgrades
+    // Hopping
     private boolean hopping = false;
     private boolean cooking = false;
     private boolean lightning = false;
@@ -78,7 +73,7 @@ public class MobCageBlockEntity extends BlockEntity{
         if (this.cachedEntity == null) {
             if(this.renderedEntity == null){
                 CompoundTag nbt = new CompoundTag();
-                nbt.putString("id", Registry.ENTITY_TYPE.getKey(this.entityType).toString());
+                nbt.putString("id", EntityType.getKey(this.entityType).toString());
                 this.renderedEntity = new SpawnData(nbt, Optional.empty());
             }
             this.cachedEntity = EntityType.loadEntityRecursive(this.renderedEntity.getEntityToSpawn(), world, Function.identity());
@@ -112,7 +107,7 @@ public class MobCageBlockEntity extends BlockEntity{
             }
         }
         // If has cooking upgrade spawn particles
-        if(blockEntity.isCooking() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
+        if(blockEntity.hasCookingUpgrades() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
             if (!(level instanceof ServerLevel)) {
                     if (rand.nextInt(10) == 0) {
@@ -135,7 +130,7 @@ public class MobCageBlockEntity extends BlockEntity{
             }
         }
         // If has lightning upgrade spawn particles
-        if(blockEntity.isLightning() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
+        if(blockEntity.hasLightningUpgrades() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
             if (!(level instanceof ServerLevel)) {
                 if (rand.nextInt(30) == 0) {
@@ -149,7 +144,7 @@ public class MobCageBlockEntity extends BlockEntity{
             }
         }
         // If has lightning upgrade spawn particles
-        if(blockEntity.isArrow() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
+        if(blockEntity.hasArrowsUpgrades() && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
             Random rand = new Random();
             if (!(level instanceof ServerLevel)) {
                 if (rand.nextInt(30) == 0) {
@@ -225,7 +220,7 @@ public class MobCageBlockEntity extends BlockEntity{
 
     public static EnvironmentData getEnvironmentFromItemStack(ItemStack stack){
         EnvironmentData finalEnvData = null;
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ENV_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENV_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof EnvironmentData) {
                 final EnvironmentData envData = (EnvironmentData) recipe;
                 if(envData.getInputItem().test(stack)) {
@@ -238,7 +233,7 @@ public class MobCageBlockEntity extends BlockEntity{
     }
 
     public static boolean existsEnvironmentFromItemStack(ItemStack stack){
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ENV_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENV_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof EnvironmentData) {
                 final EnvironmentData envData = (EnvironmentData) recipe;
                 if(envData.getInputItem().test(stack)) {
@@ -254,7 +249,7 @@ public class MobCageBlockEntity extends BlockEntity{
         MobData recipe = getMobDataFromType(entityType);
         // Check if entity needs waterlogged cage
         if(recipe.ifRequiresWater() && !state.getValue(BlockStateProperties.WATERLOGGED)){
-            player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mobcage.requiresWater").withStyle(ChatFormatting.RED), true);
+            player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.requiresWater").withStyle(ChatFormatting.RED), true);
             return false;
         }
         for(String env : this.environment.getEnvironments()){
@@ -262,7 +257,7 @@ public class MobCageBlockEntity extends BlockEntity{
                 return true;
             }
         }
-        player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mobcage.envNotSuitable").withStyle(ChatFormatting.RED), true);
+        player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.envNotSuitable").withStyle(ChatFormatting.RED), true);
         return false;
     }
 
@@ -310,7 +305,7 @@ public class MobCageBlockEntity extends BlockEntity{
     }
 
     public static boolean existsEntityFromType(EntityType<?> entityType) {
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.MOB_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
                 // Check for null exception
@@ -327,7 +322,7 @@ public class MobCageBlockEntity extends BlockEntity{
     private static MobData getMobDataFromType(EntityType<?> type){
         MobData finalMobData = null;
         // Get the mobData
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.MOB_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.MOB_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof MobData) {
                 final MobData mobData = (MobData) recipe;
                 // Check for null exception
@@ -340,7 +335,7 @@ public class MobCageBlockEntity extends BlockEntity{
         }
         // Add additional Loot
         if(finalMobData != null){
-            for(final Recipe<?> recipe : RecipesHelper.getRecipes(RecipesHelper.ADDITIONAL_LOOT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+            for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
                 if(recipe instanceof AdditionalLootData) {
                     final AdditionalLootData additionalLootData = (AdditionalLootData) recipe;
                     // Check for null exception
@@ -431,7 +426,7 @@ public class MobCageBlockEntity extends BlockEntity{
         final BlockEntity te = world.getBlockEntity(pos);
         // Capability system
         if(te != null){
-            final LazyOptional<IItemHandler> invCap = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+            final LazyOptional<IItemHandler> invCap = te.getCapability(ForgeCapabilities.ITEM_HANDLER, side);
             return invCap.orElse(EmptyHandler.INSTANCE);
         }else{
             // When block doesn't use capability system
@@ -492,11 +487,11 @@ public class MobCageBlockEntity extends BlockEntity{
                 }
             }
             // Skip if loot needs lightning upgrade, but it's not present in the cage.
-            if(!this.isLightning() && loot.isLighting()){
+            if(!this.hasLightningUpgrades() && loot.isLighting()){
                 continue;
             }
             // Skip if loot needs arrow upgrade, but it's not present in the cage.
-            if(!this.isArrow() && loot.isArrow()){
+            if(!this.hasArrowsUpgrades() && loot.isArrow()){
                 continue;
             }
             if(this.level != null && this.level.random.nextFloat() <= loot.getChance()) {
@@ -507,7 +502,7 @@ public class MobCageBlockEntity extends BlockEntity{
                     // Add copied item stack to the drop list
                     ItemStack stack = loot.getItem().copy();
                     // Replace the item if there is a cooking upgrade
-                    if(this.isCooking() && loot.isCooking()){
+                    if(this.hasCookingUpgrades() && loot.isCooking()){
                         stack = loot.getCookedItem().copy();
                     }
                     stack.setCount(amount);
@@ -592,7 +587,7 @@ public class MobCageBlockEntity extends BlockEntity{
         }
         // If env or entity changed, refresh model data
         if(!Objects.equals(oldEnv, this.envItem) || !Objects.equals(oldEntityType,this.entityType)){
-            ModelDataManager.requestModelDataRefresh(this);
+            requestModelDataUpdate();
             // Sync with client
             if(this.level != null){
                 this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
@@ -653,23 +648,30 @@ public class MobCageBlockEntity extends BlockEntity{
         }
     }
 
-    public boolean isCooking() {
+    public boolean hasCookingUpgrades() {
         return this.cooking;
     }
 
-    public boolean isLightning() {
+    public boolean hasLightningUpgrades() {
         return this.lightning;
     }
 
-    public boolean isArrow(){
+    public boolean hasArrowsUpgrades(){
         return this.arrow;
     }
 
-    public boolean hasUpgrade(){
-        return this.isArrow() || this.isCooking() || this.isLightning();
+    /**
+     * Checks whether the case has at least one upgrade.
+     * @return if cage has at least one upgrade
+     */
+    public boolean hasUpgrades(){
+        return this.hasArrowsUpgrades() || this.hasCookingUpgrades() || this.hasLightningUpgrades();
     }
 
-
+    /**
+     * Returns the id of the color of the entity (use for example for sheep)
+     * @return the color id
+     */
     public int getColor(){
         return this.color;
     }

@@ -20,6 +20,15 @@
 			"maxAmount": 1
 		},
 		{
+			"lightning": true,
+			"chance": 0.05,
+			"output": {
+				"item": "minecraft:piglin_head"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
 			"chance": 0.05,
 			"output": {
 				"item": "minecraft:golden_sword"

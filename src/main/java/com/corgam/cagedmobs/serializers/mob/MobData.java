@@ -1,8 +1,11 @@
 package com.corgam.cagedmobs.serializers.mob;
 
 import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
+import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
-import com.corgam.cagedmobs.setup.CagedItems;
+import com.corgam.cagedmobs.registers.CagedItems;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
@@ -64,17 +67,16 @@ public class MobData implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack assemble(Inventory inv) {
+    public ItemStack assemble(Inventory pContainer, RegistryAccess pRegistryAccess) {
         return ItemStack.EMPTY;
     }
-
     @Override
     public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Override
-    public ItemStack getResultItem() {
+    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
         return ItemStack.EMPTY;
     }
 
@@ -85,12 +87,12 @@ public class MobData implements Recipe<Inventory> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return MobDataSerializer.INSTANCE;
+        return CagedRecipeSerializers.MOB_RECIPE_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
-        return RecipesHelper.MOB_RECIPE;
+        return CagedRecipeTypes.MOB_RECIPE.get();
     }
 
     @Override
