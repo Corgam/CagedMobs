@@ -18,6 +18,7 @@ public class CagedCreativeTabs {
                 // Cages
                 pOutput.accept(CagedItems.MOB_CAGE.get());
                 pOutput.accept(CagedItems.HOPPING_MOB_CAGE.get());
+                pOutput.accept(CagedItems.TEST_BLOCK.get());
                 // Samplers
                 pOutput.accept(CagedItems.DNA_SAMPLER.get());
                 pOutput.accept(CagedItems.DNA_SAMPLER_DIAMOND.get());

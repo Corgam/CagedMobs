@@ -29,7 +29,7 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
     public EntityCategory(IGuiHelper gui, RecipeType<EntityWrapper> type){
         this.guiHelper = gui;
         this.icon = gui.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CagedItems.MOB_CAGE.get()));
-        ResourceLocation backgroundRL = new ResourceLocation(Constants.MOD_ID, "textures/gui/entity.png");
+        ResourceLocation backgroundRL = new ResourceLocation(Constants.MOD_ID, "textures/gui/jei_recipe.png");
         this.background = gui.createDrawable(backgroundRL,0,0,BG_WIDTH+BG_PADDING*2,BG_HEIGHT+BG_PADDING*2);
         this.type = type;
         this.title = Component.translatable("jei.category.cagedmobs.entity");

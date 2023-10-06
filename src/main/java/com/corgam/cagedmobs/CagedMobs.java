@@ -44,19 +44,27 @@ public class CagedMobs
         CagedCreativeTabs.CAGED_CREATIVE_TABS_REG.register(eventBus);
         CagedRecipeTypes.CAGED_RECIPE_TYPES.register(eventBus);
         CagedRecipeSerializers.CAGED_RECIPE_SERIALIZERS.register(eventBus);
+        CagedContainers.CAGED_MENU_TYPES.register(eventBus);
         // Add properties to items
         eventBus.addListener(this::addPropertiesToItems);
         // TheOneProbe support
         eventBus.addListener(this::initTOPSupport);
     }
 
-    // Adding properties to items with NBT to allow different textures based on nbt
+    /**
+     * Adding properties to items with NBT to allow different textures based on nbt
+     * @param event FMLClientSetupEvent event
+     */
     private void addPropertiesToItems(final FMLClientSetupEvent event) {
         ItemProperties.register(CagedItems.DNA_SAMPLER.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
         ItemProperties.register(CagedItems.DNA_SAMPLER_DIAMOND.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerDiamondItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
         ItemProperties.register(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerNetheriteItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
     }
-    // Initializes the TheOneProbe mod support
+
+    /**
+     * Initializes the TheOneProbe mod support
+     * @param event InterModEnqueueEvent event
+     */
     private void initTOPSupport(final InterModEnqueueEvent event){
         if(ModList.get().isLoaded("theoneprobe")){
             InterModComms.sendTo("theoneprobe","getTheOneProbe", CagedMobsTOPSupport::new);
