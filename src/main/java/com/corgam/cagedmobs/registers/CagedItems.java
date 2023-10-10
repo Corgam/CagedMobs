@@ -29,9 +29,7 @@ public class CagedItems {
     public final static RegistryObject<Item> SPEED_I_UPGRADE = ITEMS_REG.register("speed_i_upgrade", () -> new SpeedIUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> SPEED_II_UPGRADE = ITEMS_REG.register("speed_ii_upgrade", () -> new SpeedIIUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> SPEED_III_UPGRADE = ITEMS_REG.register("speed_iii_upgrade", () -> new SpeedIIIUpgradeItem(new Item.Properties()));
-    public final static RegistryObject<Item> FORTUNE_I_UPGRADE = ITEMS_REG.register("fortune_i_upgrade", () -> new FortuneIUpgradeItem(new Item.Properties()));
-    public final static RegistryObject<Item> FORTUNE_II_UPGRADE = ITEMS_REG.register("fortune_ii_upgrade", () -> new FortuneIIUpgradeItem(new Item.Properties()));
-    public final static RegistryObject<Item> FORTUNE_III_UPGRADE = ITEMS_REG.register("fortune_iii_upgrade", () -> new FortuneIIIUpgradeItem(new Item.Properties()));
+    public final static RegistryObject<Item> FORTUNE_UPGRADE = ITEMS_REG.register("fortune_upgrade", () -> new FortuneUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> COOKING_UPGRADE = ITEMS_REG.register("cookingupgrade", () -> new CookingUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> LIGHTNING_UPGRADE = ITEMS_REG.register("lightningupgrade", () -> new LightningUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> ARROW_UPGRADE = ITEMS_REG.register("arrowupgrade", () -> new ArrowUpgradeItem(new Item.Properties()));

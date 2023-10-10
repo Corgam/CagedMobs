@@ -22,21 +22,16 @@
   "item.cagedmobs.speed_ii_upgrade.info": "Zwiększa szybkość klatki o 100%",
   "item.cagedmobs.speed_iii_upgrade.info": "Zwiększa szybkość klatki o 200%",
 
-  "item.cagedmobs.fortune_i_upgrade": "Ulepszenie: Szczęście I",
-  "item.cagedmobs.fortune_ii_upgrade": "Ulepszenie: Szczęście II",
-  "item.cagedmobs.fortune_iii_upgrade": "Ulepszenie: Szczęście III",
-  "item.cagedmobs.fortune_i_upgrade.info": "Dodaje Szczęście I do klatki",
-  "item.cagedmobs.fortune_ii_upgrade.info": "Dodaje Szczęście II do klatki",
-  "item.cagedmobs.fortune_iii_upgrade.info": "Dodaje Szczęście III do klatki",
-
   "item.cagedmobs.cookingupgrade": "Ulepszenie: Opiekacz",
   "item.cagedmobs.lightningupgrade": "Ulepszenie: Pioruny",
   "item.cagedmobs.arrowupgrade": "Ulepszenie: Strzały",
   "item.cagedmobs.experience_upgrade": "Ulepszenie: Doświadczenie",
+  "item.cagedmobs.fortune_upgrade": "Ulepszenie: Szczęście",
   "item.cagedmobs.cookingupgrade.info": "Automatycznie piecze przedmioty, które da się upiec",
   "item.cagedmobs.lightningupgrade.info": "Zabija za pomocą piorunów stworzenia znajdujące się w klatce",
   "item.cagedmobs.arrowupgrade.info": "Zabija za pomocą strzał stworzenia znajdujące się w klatce",
   "item.cagedmobs.experience_upgrade.info": "Stworzenia zabite w klatce dają doświadczenie",
+  "item.cagedmobs.fortune_upgrade.info": "Aplikuje Szczęście III dla przedmiotów z klatki",
 
   "item.cagedmobs.upgrades.attach": "Może zostać zamontowane w klatce na stworzenia",
   "item.cagedmobs.upgrades.stack": "Ulepszenia mogą się kumulować",
