@@ -1,7 +1,7 @@
 package com.corgam.cagedmobs.setup;
 
-import com.corgam.cagedmobs.blockEntities.MobCageRenderer;
-import com.corgam.cagedmobs.blockEntities.TestScreen;
+import com.corgam.cagedmobs.block_entities.MobCageRenderer;
+import com.corgam.cagedmobs.block_entities.MobCageScreen;
 import com.corgam.cagedmobs.registers.CagedBlockEntity;
 import com.corgam.cagedmobs.registers.CagedBlocks;
 import com.corgam.cagedmobs.registers.CagedContainers;
@@ -21,7 +21,7 @@ public class ClientSetup {
         BlockEntityRenderers.register(CagedBlockEntity.MOB_CAGE.get(), MobCageRenderer::new);
         event.enqueueWork(() -> {
             // Connect the cage container and the screen
-            MenuScreens.register(CagedContainers.CAGE_CONTAINER.get(), TestScreen::new);
+            MenuScreens.register(CagedContainers.CAGE_CONTAINER.get(), MobCageScreen::new);
         });
     }
 }

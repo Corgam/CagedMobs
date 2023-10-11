@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.blockEntities;
+package com.corgam.cagedmobs.block_entities;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
@@ -45,7 +45,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
-public class MobCageBlockEntity extends BlockEntity{
+public class OldTestEntity extends BlockEntity{
     // Hopping
     private boolean hopping = false;
     private boolean cooking = false;
@@ -83,17 +83,17 @@ public class MobCageBlockEntity extends BlockEntity{
 
     // METHODS
 
-    public MobCageBlockEntity(BlockPos pos, BlockState state) {
+    public OldTestEntity(BlockPos pos, BlockState state) {
         super(CagedBlockEntity.MOB_CAGE.get(), pos, state);
     }
 
-    public MobCageBlockEntity(BlockPos pos, BlockState state, boolean hopping) {
+    public OldTestEntity(BlockPos pos, BlockState state, boolean hopping) {
         super(CagedBlockEntity.MOB_CAGE.get(), pos, state);
         this.hopping = hopping;
         this.setChanged();
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, MobCageBlockEntity blockEntity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, OldTestEntity blockEntity) {
         //Tick only when env and mob is inside
         if(blockEntity.hasEnvAndEntity() && !blockEntity.waitingForHarvest) {
             // Check if ready to harvest
@@ -569,10 +569,10 @@ public class MobCageBlockEntity extends BlockEntity{
         this.arrow = tag.getBoolean("arrow");
         // Read the env
         this.envItem = ItemStack.of(tag.getCompound("environmentItem"));
-        this.environment = MobCageBlockEntity.getEnvironmentFromItemStack(this.envItem);
+        this.environment = OldTestEntity.getEnvironmentFromItemStack(this.envItem);
         // Read the mob data
         this.entityType = SerializationHelper.deserializeEntityTypeNBT(tag);
-        this.entity = MobCageBlockEntity.getMobDataFromType(this.entityType);
+        this.entity = OldTestEntity.getMobDataFromType(this.entityType);
         if(this.entityType == null){
             this.renderedEntity = null;
             this.cachedEntity = null;
@@ -609,10 +609,10 @@ public class MobCageBlockEntity extends BlockEntity{
         this.arrow = nbt.getBoolean("arrow");
         // Read the env
         this.envItem = ItemStack.of(nbt.getCompound("environmentItem"));
-        this.environment = MobCageBlockEntity.getEnvironmentFromItemStack(this.envItem);
+        this.environment = OldTestEntity.getEnvironmentFromItemStack(this.envItem);
         // Read the mob data
         this.entityType = SerializationHelper.deserializeEntityTypeNBT(nbt);
-        this.entity = MobCageBlockEntity.getMobDataFromType(this.entityType);
+        this.entity = OldTestEntity.getMobDataFromType(this.entityType);
         // Read color
         this.color = nbt.getInt("color");
         // Read ticks info

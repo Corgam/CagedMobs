@@ -1,6 +1,5 @@
 package com.corgam.cagedmobs.helpers;
 
-import com.corgam.cagedmobs.blockEntities.MobCageBlockEntity;
 import com.corgam.cagedmobs.items.upgrades.UpgradeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;

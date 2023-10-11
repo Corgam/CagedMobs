@@ -1,14 +1,15 @@
-package com.corgam.cagedmobs.blockEntities;
+package com.corgam.cagedmobs.block_entities;
 
 import com.corgam.cagedmobs.helpers.AdaptedItemHandler;
-import com.corgam.cagedmobs.items.upgrades.UpgradeItem;
 import com.corgam.cagedmobs.registers.CagedBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TestEntity extends BlockEntity {
+public class MobCageBlockEntity extends BlockEntity {
 
     // Item capability
     public static int UPGRADES_COUNT = 3;
@@ -65,7 +66,7 @@ public class TestEntity extends BlockEntity {
      * @param pPos the position of the entity
      * @param pBlockState the state of the entity
      */
-    public TestEntity(BlockPos pPos, BlockState pBlockState) {
+    public MobCageBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(CagedBlockEntity.TEST_ENTITY.get(), pPos, pBlockState);
     }
 
@@ -123,6 +124,41 @@ public class TestEntity extends BlockEntity {
             }
         }else{
             return super.getCapability(cap, side);
+        }
+    }
+
+    /**
+     * Main method executed in every tick. Runs only on the server instance.
+     * @param level the world in which the block entity is located
+     * @param pos the position of the block entity
+     * @param state the state of the block entity
+     * @param blockEntity the block entity class
+     */
+    public static void tick(Level level, BlockPos pos, BlockState state, MobCageBlockEntity blockEntity) {
+
+    }
+
+    /**
+     * Drops the whole inventory on the ground.
+     */
+    public void dropInventory(){
+        for (int i = 0; i < this.items.getSlots(); i++) {
+            this.dropItem(this.items.getStackInSlot(i));
+        }
+    }
+
+    /**
+     * Creates a single item entity on the ground.
+     * @param item item to drop
+     */
+    private void dropItem(ItemStack item) {
+        if(this.level != null && !this.level.isClientSide) {
+            final double offsetX = (double) (level.random.nextFloat() * 0.7F) + (double) 0.15F;
+            final double offsetY = (double) (level.random.nextFloat() * 0.7F) + (double) 0.060000002F + 0.6D;
+            final double offsetZ = (double) (level.random.nextFloat() * 0.7F) + (double) 0.15F;
+            final ItemEntity itemEntity = new ItemEntity(this.level, this.worldPosition.getX() + offsetX, this.worldPosition.getY() + offsetY, this.worldPosition.getZ() + offsetZ, item);
+            itemEntity.setDefaultPickUpDelay();
+            this.level.addFreshEntity(itemEntity);
         }
     }
 
@@ -217,8 +253,5 @@ public class TestEntity extends BlockEntity {
         if (tag != null) {
             handleUpdateTag(tag);
         }
-    }
-
-    public void tickServer() {
     }
 }

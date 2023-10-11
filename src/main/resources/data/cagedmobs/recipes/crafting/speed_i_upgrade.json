@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "  X",
+    "X X",
     "rBb",
     "bQb"
   ],
   "key": {
     "X": {
-      "tag": "cagedmobs:dragon_scales"
+      "tag": "forge:ingots/netherite"
     },
     "r": {
       "tag": "forge:dusts/redstone"
     },
     "B": {
-      "item": "cagedmobs:speed_i_upgrade"
+      "tag": "forge:storage_blocks/coal"
     },
     "b": {
       "item": "minecraft:blackstone"
@@ -23,6 +23,6 @@
     }
   },
   "result": {
-    "item": "cagedmobs:speed_ii_upgrade"
+    "item": "cagedmobs:speed_i_upgrade"
   }
 }

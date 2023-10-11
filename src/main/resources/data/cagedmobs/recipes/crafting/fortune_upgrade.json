@@ -1,28 +1,35 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " XX",
+    "dXd",
     "rBb",
     "bQb"
   ],
   "key": {
     "X": {
-      "tag": "forge:nuggets/nether_star"
+      "type": "forge:partial_nbt",
+      "item": "minecraft:enchanted_book",
+      "nbt": {
+        "StoredEnchantments": [{"lvl": 3, "id": "minecraft:fortune"}]
+      }
     },
     "r": {
       "tag": "forge:dusts/redstone"
     },
     "B": {
-      "item": "cagedmobs:speed_i_upgrade"
+      "tag": "forge:storage_blocks/coal"
     },
     "b": {
       "item": "minecraft:blackstone"
     },
     "Q": {
       "tag": "forge:storage_blocks/quartz"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
     }
   },
   "result": {
-    "item": "cagedmobs:speed_ii_upgrade"
+    "item": "cagedmobs:fortune_upgrade"
   }
 }

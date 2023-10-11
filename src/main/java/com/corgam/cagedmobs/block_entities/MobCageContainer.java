@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.blockEntities;
+package com.corgam.cagedmobs.block_entities;
 
 import com.corgam.cagedmobs.helpers.EnvironmentItemSlotHandler;
 import com.corgam.cagedmobs.helpers.UpgradeItemSlotHandler;
@@ -16,10 +16,10 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 
-import static com.corgam.cagedmobs.blockEntities.TestEntity.ENVIRONMENT_SLOT;
-import static com.corgam.cagedmobs.blockEntities.TestEntity.SLOT_COUNT;
+import static com.corgam.cagedmobs.block_entities.MobCageBlockEntity.ENVIRONMENT_SLOT;
+import static com.corgam.cagedmobs.block_entities.MobCageBlockEntity.SLOT_COUNT;
 
-public class TestEntityContainer extends AbstractContainerMenu {
+public class MobCageContainer extends AbstractContainerMenu {
 
     private final BlockPos pos;
     private Slot environmentSlot = null;
@@ -32,18 +32,18 @@ public class TestEntityContainer extends AbstractContainerMenu {
      * @param pPlayer the accessing player
      * @param pPos block position
      */
-    public TestEntityContainer(int pWindowId, Player pPlayer, BlockPos pPos) {
+    public MobCageContainer(int pWindowId, Player pPlayer, BlockPos pPos) {
         super(CagedContainers.CAGE_CONTAINER.get(), pWindowId);
         this.pos = pPos;
-        if(pPlayer.level().getBlockEntity(pos) instanceof TestEntity cage){
+        if(pPlayer.level().getBlockEntity(pos) instanceof MobCageBlockEntity cage){
             // Environment
-            this.environmentSlot = addSlot(new EnvironmentItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT, 26, 40));
+            this.environmentSlot = addSlot(new EnvironmentItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT, 26, 44));
             // Upgrades
-            upgradeSlots.add(addSlot(new UpgradeItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT + 1, 134, 19)));
-            upgradeSlots.add(addSlot(new UpgradeItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT + 2, 134, 40)));
-            upgradeSlots.add(addSlot(new UpgradeItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT + 3, 134, 61)));
+            upgradeSlots.add(addSlot(new UpgradeItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT + 1, 134, 23)));
+            upgradeSlots.add(addSlot(new UpgradeItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT + 2, 134, 44)));
+            upgradeSlots.add(addSlot(new UpgradeItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT + 3, 134, 65)));
         }
-        layoutPlayerInventorySlots(pPlayer.getInventory(), 8, 97);
+        layoutPlayerInventorySlots(pPlayer.getInventory(), 8, 101);
     }
 
     private void layoutPlayerInventorySlots(Inventory inventory, int leftCol, int topRow) {
@@ -122,7 +122,8 @@ public class TestEntityContainer extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player pPlayer) {
-        return stillValid(ContainerLevelAccess.create(pPlayer.level(), pos), pPlayer, CagedBlocks.TEST_BLOCK.get());
+        return stillValid(ContainerLevelAccess.create(pPlayer.level(), pos), pPlayer, CagedBlocks.MOB_CAGE.get())
+                || stillValid(ContainerLevelAccess.create(pPlayer.level(), pos), pPlayer, CagedBlocks.HOPPING_MOB_CAGE.get());
     }
 
     public Slot getEnvironmentSlot() {

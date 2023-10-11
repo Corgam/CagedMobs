@@ -1,28 +1,31 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " XX",
-    "rBb",
+    " BX",
+    "rGb",
     "bQb"
   ],
   "key": {
     "X": {
-      "tag": "forge:nuggets/nether_star"
+      "item": "minecraft:glass_bottle"
     },
     "r": {
       "tag": "forge:dusts/redstone"
     },
     "B": {
-      "item": "cagedmobs:speed_i_upgrade"
+      "tag": "forge:storage_blocks/coal"
     },
     "b": {
       "item": "minecraft:blackstone"
     },
     "Q": {
       "tag": "forge:storage_blocks/quartz"
+    },
+    "G": {
+      "tag": "forge:glass/lime"
     }
   },
   "result": {
-    "item": "cagedmobs:speed_ii_upgrade"
+    "item": "cagedmobs:experience_upgrade"
   }
 }

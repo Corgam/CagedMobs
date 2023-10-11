@@ -1,7 +1,7 @@
 package com.corgam.cagedmobs.addons.jei;
 
 import com.corgam.cagedmobs.CagedMobs;
-import com.corgam.cagedmobs.blockEntities.MobCageBlockEntity;
+import com.corgam.cagedmobs.block_entities.OldTestEntity;
 import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
@@ -23,7 +23,6 @@ import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -348,7 +347,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         return (view, tooltip) -> {
             if(view.getDisplayedItemStack().isPresent()){
                 ItemStack displayedItem = view.getDisplayedItemStack().get();
-                EnvironmentData env = MobCageBlockEntity.getEnvironmentFromItemStack(displayedItem);
+                EnvironmentData env = OldTestEntity.getEnvironmentFromItemStack(displayedItem);
                 if(env != null){
                     tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.growModifier",  DECIMAL_FORMAT.format(env.getGrowModifier() * 100 - 100)));
                 }
