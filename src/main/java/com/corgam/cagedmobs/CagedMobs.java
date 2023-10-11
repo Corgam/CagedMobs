@@ -40,7 +40,7 @@ public class CagedMobs
         // Registries
         CagedBlocks.BLOCKS_REG.register(eventBus);
         CagedItems.ITEMS_REG.register(eventBus);
-        CagedBlockEntity.TE_REG.register(eventBus);
+        CagedBlockEntities.TE_REG.register(eventBus);
         CagedCreativeTabs.CAGED_CREATIVE_TABS_REG.register(eventBus);
         CagedRecipeTypes.CAGED_RECIPE_TYPES.register(eventBus);
         CagedRecipeSerializers.CAGED_RECIPE_SERIALIZERS.register(eventBus);

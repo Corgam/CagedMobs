@@ -19,12 +19,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 
 @OnlyIn(Dist.CLIENT)
-public class MobCageRenderer implements BlockEntityRenderer<OldTestEntity> {
+public class MobCageRenderer implements BlockEntityRenderer<MobCageBlockEntity> {
 
     public MobCageRenderer(BlockEntityRendererProvider.Context context) {}
 
     @Override
-    public void render(OldTestEntity tile, float partialTicks, PoseStack matrix, MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
+    public void render(MobCageBlockEntity tile, float partialTicks, PoseStack matrix, MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
         if(tile.getEnvironment() != null && CagedMobs.CLIENT_CONFIG.shouldEnvsRender()){
             matrix.pushPose();
             matrix.scale(0.74f,0.015f,0.74f);

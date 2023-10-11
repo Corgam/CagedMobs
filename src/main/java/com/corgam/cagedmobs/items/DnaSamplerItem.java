@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.items;
 
-import com.corgam.cagedmobs.block_entities.OldTestEntity;
+import com.corgam.cagedmobs.block_entities.MobCageBlockEntity;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
@@ -171,7 +171,7 @@ public class DnaSamplerItem extends Item {
         stack.removeTagKey("Color");
     }
 
-    public void setEntityTypeFromCage(OldTestEntity cage, ItemStack stack, Player player, InteractionHand hand){
+    public void setEntityTypeFromCage(MobCageBlockEntity cage, ItemStack stack, Player player, InteractionHand hand){
         EntityType<?> type = cage.getEntityType();
         CompoundTag nbt = new CompoundTag();
         SerializationHelper.serializeEntityTypeNBT(nbt, type);

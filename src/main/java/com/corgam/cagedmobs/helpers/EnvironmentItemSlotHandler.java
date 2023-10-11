@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.helpers;
 
-import com.corgam.cagedmobs.block_entities.OldTestEntity;
+import com.corgam.cagedmobs.block_entities.MobCageBlockEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -18,7 +18,7 @@ public class EnvironmentItemSlotHandler extends SlotItemHandler {
         if (stack.isEmpty()){
             return false;
         }else{
-            return OldTestEntity.existsEnvironmentFromItemStack(stack);
+            return MobCageBlockEntity.existsEnvironmentFromItemStack(stack);
         }
     }
     @Override

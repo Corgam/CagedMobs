@@ -1,7 +1,7 @@
 package com.corgam.cagedmobs.addons.jei;
 
 import com.corgam.cagedmobs.CagedMobs;
-import com.corgam.cagedmobs.block_entities.OldTestEntity;
+import com.corgam.cagedmobs.block_entities.MobCageBlockEntity;
 import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
@@ -347,7 +347,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         return (view, tooltip) -> {
             if(view.getDisplayedItemStack().isPresent()){
                 ItemStack displayedItem = view.getDisplayedItemStack().get();
-                EnvironmentData env = OldTestEntity.getEnvironmentFromItemStack(displayedItem);
+                EnvironmentData env = MobCageBlockEntity.getEnvironmentDataFromItemStack(displayedItem);
                 if(env != null){
                     tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.growModifier",  DECIMAL_FORMAT.format(env.getGrowModifier() * 100 - 100)));
                 }

@@ -1,8 +1,14 @@
 package com.corgam.cagedmobs.blocks;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.block_entities.MobCageBlockEntity;
 import com.corgam.cagedmobs.block_entities.MobCageContainer;
-import com.corgam.cagedmobs.registers.CagedBlockEntity;
+import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
+import com.corgam.cagedmobs.items.DnaSamplerItem;
+import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
+import com.corgam.cagedmobs.items.upgrades.UpgradeItem;
+import com.corgam.cagedmobs.registers.CagedBlockEntities;
+import com.corgam.cagedmobs.serializers.RecipesHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,6 +21,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -66,32 +73,119 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult trace) {
-        if(!level.isClientSide){
-            BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof MobCageBlockEntity){
-                MenuProvider containerProvider = new MenuProvider() {
-                    @Override
-                    public Component getDisplayName() {
-                        return state.getValue(HOPPING) ? Component.translatable("block.cagedmobs.hoppingmobcage") : Component.translatable("block.cagedmobs.mobcage");
-                    }
-
-                    @Nullable
-                    @Override
-                    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-                        return new MobCageContainer(pContainerId, pPlayer, pos);
-                    }
-                };
-                NetworkHooks.openScreen((ServerPlayer) player, containerProvider, be.getBlockPos());
-            } else {
-                throw new IllegalStateException("Mob Cage container provider is missing!");
-            }
+        // If on client side, skip.
+        if(level.isClientSide()) {
+            return InteractionResult.SUCCESS;
         }
-        return InteractionResult.SUCCESS;
+        BlockEntity be = level.getBlockEntity(pos);
+        if (be instanceof MobCageBlockEntity cageBE){
+            // Get item in hand
+            final ItemStack heldItem = player.getItemInHand(hand);
+            // Try to add environment
+            if(!cageBE.hasEnvironment()){
+                // Check if there exists a recipe for given item
+                if(cageBE.existsEnvironmentFromItemStack(heldItem)){
+                    // Set environment
+                    cageBE.setEnvironment(heldItem);
+                    if(!player.isCreative()){
+                        heldItem.shrink(1);
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+            }
+            // Try to add upgrades
+            if(cageBE.acceptsUpgrades()){
+                if(heldItem.getItem() instanceof UpgradeItem){
+                    cageBE.addUpgrade(heldItem);
+                    if(!player.isCreative()){
+                        heldItem.shrink(1);
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+            }
+            // Add or remove entity
+            if(heldItem.getItem() instanceof DnaSamplerItem sampler){
+                if(!cageBE.hasEntity()){
+                    // Check if there exists a recipe for a given entity type,
+                    // if the environment is suitable for that entity and if it is not blacklisted.
+                    if(cageBE.existsEntityDataFromType(sampler.getEntityType(heldItem))
+                        && cageBE.isEnvironmentSuitable(player, sampler.getEntityType(heldItem), state)
+                        && !RecipesHelper.isEntityTypeBlacklisted(sampler.getEntityType(heldItem))){
+                        // Add entity
+                        cageBE.setEntityFromSampler(sampler.getEntityType(heldItem), heldItem);
+                        // Clear the sampler
+                        if(!player.isCreative()){
+                            // If single use samplers config is enabled, destroy the sampler. If not, just use its DNA.
+                            if(CagedMobs.SERVER_CONFIG.areSamplersSingleUse()){
+                                player.broadcastBreakEvent(hand);
+                                heldItem.shrink(1);
+                            }else{
+                                sampler.removeEntityType(heldItem);
+                            }
+                        }
+                        return InteractionResult.SUCCESS;
+                    }
+                    return InteractionResult.PASS;
+                // Retrieve entity from the cage
+                }else{
+                    if(!DnaSamplerItem.containsEntityType(heldItem)){
+                        // Check if sampler's tier is sufficient
+                        if(cageBE.getEntity().getSamplerTier() >= 3  && !(heldItem.getItem() instanceof DnaSamplerNetheriteItem)){
+                            player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
+                            return InteractionResult.FAIL;
+                        }
+                        if(cageBE.getEntity().getSamplerTier() >= 2  && !((heldItem.getItem() instanceof DnaSamplerNetheriteItem) || (heldItem.getItem() instanceof DnaSamplerDiamondItem))){
+                            player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
+                            return InteractionResult.FAIL;
+                        }
+                        // Get back the entity
+                        sampler.setEntityTypeFromCage(cageBE, heldItem, player, hand);
+                        cageBE.setChanged();
+                    }else{
+                        player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerAlreadyUsed").withStyle(ChatFormatting.RED), true);
+                        return InteractionResult.FAIL;
+                    }
+                    cageBE.removeEntity();
+                    return InteractionResult.SUCCESS;
+                }
+            }
+            // Try to harvest the cage with sword
+            if(heldItem.getItem() instanceof SwordItem){
+                if((!state.getValue(HOPPING) || CagedMobs.SERVER_CONFIG.ifHoppingCagesDisabled()) && cageBE.isWaitingForHarvest()){
+                    cageBE.onPlayerHarvest(cageBE.getBlockState());
+                    return InteractionResult.SUCCESS;
+                }
+            }
+            // If crouching remove entity
+            if(player.isCrouching()){
+                if(cageBE.hasEntity()){
+                    cageBE.removeEntity();
+                    cageBE.setChanged();
+                    return InteractionResult.SUCCESS;
+                }
+            }
+            // Open the GUI
+            MenuProvider containerProvider = new MenuProvider() {
+                @Override
+                public Component getDisplayName() {
+                    return state.getValue(HOPPING) ? Component.translatable("block.cagedmobs.hoppingmobcage") : Component.translatable("block.cagedmobs.mobcage");
+                }
+                @Nullable
+                @Override
+                public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+                    return new MobCageContainer(pContainerId, pPlayer, pos);
+                }
+            };
+            NetworkHooks.openScreen((ServerPlayer) player, containerProvider, cageBE.getBlockPos());
+            return InteractionResult.SUCCESS;
+        } else {
+        throw new IllegalStateException("Mob Cage container provider is missing!");
+        }
     }
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, CagedBlockEntity.TEST_ENTITY.get(), MobCageBlockEntity::tick);
+        return createTickerHelper(type, CagedBlockEntities.MOB_CAGE_BLOCK_ENTITY.get(), MobCageBlockEntity::tick);
     }
 
     /**

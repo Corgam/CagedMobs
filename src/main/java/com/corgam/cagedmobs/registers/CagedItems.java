@@ -18,14 +18,10 @@ public class CagedItems {
     // CAGES
     public final static RegistryObject<Item> MOB_CAGE = ITEMS_REG.register("mobcage", () -> new BlockItem(CagedBlocks.MOB_CAGE.get(), new Item.Properties()));
     public final static RegistryObject<Item> HOPPING_MOB_CAGE = ITEMS_REG.register("hoppingmobcage", () -> new BlockItem(CagedBlocks.HOPPING_MOB_CAGE.get(), new Item.Properties()));
-    public final static RegistryObject<Item> TEST_BLOCK = ITEMS_REG.register("testblock", () -> new BlockItem(CagedBlocks.TEST_BLOCK.get(), new Item.Properties()));
-    public final static RegistryObject<Item> HOPPING_TEST_BLOCK = ITEMS_REG.register("hopping_testblock", () -> new BlockItem(CagedBlocks.HOPPING_TEST_BLOCK.get(), new Item.Properties()));
-
     // SAMPLER
     public final static RegistryObject<Item> DNA_SAMPLER = ITEMS_REG.register("dnasampler", () -> new DnaSamplerItem(new Item.Properties().stacksTo(1)));
     public final static RegistryObject<Item> DNA_SAMPLER_DIAMOND = ITEMS_REG.register("dnasamplerdiamond", () -> new DnaSamplerDiamondItem(new Item.Properties().stacksTo(1)));
     public final static RegistryObject<Item> DNA_SAMPLER_NETHERITE = ITEMS_REG.register("dnasamplernetherite", () -> new DnaSamplerNetheriteItem(new Item.Properties().stacksTo(1)));
-
     // UPGRADES
     public final static RegistryObject<Item> SPEED_I_UPGRADE = ITEMS_REG.register("speed_i_upgrade", () -> new SpeedIUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> SPEED_II_UPGRADE = ITEMS_REG.register("speed_ii_upgrade", () -> new SpeedIIUpgradeItem(new Item.Properties()));
