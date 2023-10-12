@@ -101,9 +101,11 @@ public class MobCageContainer extends AbstractContainerMenu {
             if (!this.moveItemStackTo(stack, 0, SLOT_COUNT+1, false)) {
                 if (pIndex < 27 + SLOT_COUNT) {
                     if (!this.moveItemStackTo(stack, 27 + SLOT_COUNT, 36 + SLOT_COUNT, false)) {
+                        this.broadcastFullState();
                         return ItemStack.EMPTY;
                     }
                 } else if (pIndex < Inventory.INVENTORY_SIZE + SLOT_COUNT && !this.moveItemStackTo(stack, SLOT_COUNT, 27 + SLOT_COUNT, false)) {
+                    slot.setChanged();
                     return ItemStack.EMPTY;
                 }
             }

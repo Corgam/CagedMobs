@@ -25,13 +25,13 @@ public class MobCageRenderer implements BlockEntityRenderer<MobCageBlockEntity> 
 
     @Override
     public void render(MobCageBlockEntity tile, float partialTicks, PoseStack matrix, MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
-        if(tile.getEnvironment() != null && CagedMobs.CLIENT_CONFIG.shouldEnvsRender()){
+        if(tile.getEnvironmentData() != null && CagedMobs.CLIENT_CONFIG.shouldEnvsRender()){
             matrix.pushPose();
             matrix.scale(0.74f,0.015f,0.74f);
             matrix.translate(0.17, 5, 0.17);
 
             final BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
-            dispatcher.renderSingleBlock(tile.getEnvironment().getRenderState(), matrix, buffer, combinedLightIn, combinedOverlayIn);
+            dispatcher.renderSingleBlock(tile.getEnvironmentData().getRenderState(), matrix, buffer, combinedLightIn, combinedOverlayIn);
             matrix.popPose();
         }
         if(tile.hasEntity() && CagedMobs.CLIENT_CONFIG.shouldEntitiesRender()){

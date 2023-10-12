@@ -1,6 +1,7 @@
 package com.corgam.cagedmobs.blocks;
 
 import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.addons.theoneprobe.ITopInfoProvider;
 import com.corgam.cagedmobs.block_entities.MobCageBlockEntity;
 import com.corgam.cagedmobs.block_entities.MobCageContainer;
 import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
@@ -9,6 +10,9 @@ import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
 import com.corgam.cagedmobs.items.upgrades.UpgradeItem;
 import com.corgam.cagedmobs.registers.CagedBlockEntities;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,6 +24,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
@@ -50,7 +55,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
+import static com.corgam.cagedmobs.block_entities.MobCageBlockEntity.ENVIRONMENT_SLOT;
+
+public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBlock, ITopInfoProvider {
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty HOPPING = BooleanProperty.create("hopping");
@@ -247,5 +254,38 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
     }
 
+    // Mods Support
 
+    /**
+     * Used for TheOneProbe mod support.
+     */
+    @Override
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData data) {
+        if((world.getBlockEntity(data.getPos()) instanceof MobCageBlockEntity tile)) {
+            if (tile.hasEnvironment() && tile.hasEntity()) {
+                probeInfo.progress((int) (tile.getGrowthPercentage() * 100), 100, probeInfo.defaultProgressStyle().suffix("%").filledColor(0xff44AA44).alternateFilledColor(0xff44AA44).backgroundColor(0xff836953));
+            }
+            if (tile.hasEnvironment()) {
+                probeInfo.horizontal().text(Component.translatable("HWYLA.tooltip.cagedmobs.cage.environment"));
+                ItemStack envItem = tile.getInventoryHandler().getStackInSlot(ENVIRONMENT_SLOT);
+                if(!envItem.isEmpty()){
+                    probeInfo.horizontal().item(envItem).itemLabel(envItem);
+                }
+            }
+            if(tile.hasEntity()){
+                probeInfo.horizontal().text(Component.translatable("HWYLA.tooltip.cagedmobs.cage.entity").withStyle(ChatFormatting.GRAY).getString() +
+                        Component.translatable(tile.getEntityType().getDescriptionId()).withStyle(ChatFormatting.GRAY).getString());
+            }
+            // Upgrades
+            if(tile.hasAnyUpgrades()){
+                // Add Upgrade text
+                probeInfo.horizontal().text(Component.translatable("TOP.tooltip.cagedmobs.cage.upgrades"));
+                for(ItemStack upgrade : tile.getUpgradesAsItemStacks()){
+                    if(!upgrade.isEmpty()){
+                        probeInfo.horizontal().item(upgrade);
+                    }
+                }
+            }
+        }
+    }
 }

@@ -48,10 +48,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 
 import static com.corgam.cagedmobs.blocks.MobCageBlock.HOPPING;
@@ -121,8 +118,15 @@ public class MobCageBlockEntity extends BlockEntity {
     @Nonnull
     private ItemStackHandler createItemHandler(){
         return new ItemStackHandler(SLOT_COUNT){
+
+
             @Override
             protected void onContentsChanged(int slot){
+                // Update the environment
+                if(slot == ENVIRONMENT_SLOT){
+                    updateEnvironment();
+                }
+                // Notify client and server
                 setChanged();
                 if(level != null){
                     level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
@@ -185,61 +189,16 @@ public class MobCageBlockEntity extends BlockEntity {
             if(blockEntity.currentGrowTicks >= blockEntity.getTotalGrowTicks()) {
                 blockEntity.attemptHarvest(state);
             }else {
-                // Add one tick (if entity requires waterlogging check for it)
+                // Add one tick (if entity requires water-logging check for it)
                 if(!blockEntity.entity.ifRequiresWater() || blockEntity.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
                     blockEntity.currentGrowTicks++;
                 }
             }
         }
         // Check if the cage has cooking upgrade and spawn particles
-        if(blockEntity.hasUpgrades(CagedItems.COOKING_UPGRADE.get(), 1) && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
-            Random rand = new Random();
-            if (!(level instanceof ServerLevel)) {
-                if (rand.nextInt(10) == 0) {
-                    Level world = blockEntity.getLevel();
-                    BlockPos blockpos = blockEntity.getBlockPos();
-                    double d3 = (double) blockpos.getX() + world.random.nextDouble();
-                    double d4 = (double) blockpos.getY() + (world.random.nextDouble()/3);
-                    double d5 = (double) blockpos.getZ() + world.random.nextDouble();
-                    if(!blockEntity.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
-                        // If not waterlogged emit fire particles
-                        world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                        world.addParticle(ParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                    }else{
-                        // If waterlogged emit blue fire particles
-                        world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                        world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                    }
-
-                }
-            }
-        }
-        // Check if the cage has lighting upgrade and spawn particles
-        if(blockEntity.hasUpgrades(CagedItems.LIGHTNING_UPGRADE.get(), 1) && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
-            Random rand = new Random();
-            if (!(level instanceof ServerLevel)) {
-                if (rand.nextInt(30) == 0) {
-                    Level world = blockEntity.getLevel();
-                    BlockPos blockpos = blockEntity.getBlockPos();
-                    double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
-                    double d4 = (double) blockpos.getY() + 0.8;
-                    double d5 = (double) blockpos.getZ() +  0.4 + (world.random.nextDouble()/5);
-                    world.addParticle(ParticleTypes.END_ROD, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                }
-            }
-        }
-        // Check if the cage has arrows upgrade and spawn particles
-        if(blockEntity.hasUpgrades(CagedItems.ARROW_UPGRADE.get(), 1) && CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
-            Random rand = new Random();
-            if (!(level instanceof ServerLevel)) {
-                if (rand.nextInt(30) == 0) {
-                    Level world = blockEntity.getLevel();
-                    BlockPos blockpos = blockEntity.getBlockPos();
-                    double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
-                    double d4 = (double) blockpos.getY() + 0.8;
-                    double d5 = (double) blockpos.getZ() +  0.4 + (world.random.nextDouble()/5);
-                    world.addParticle(ParticleTypes.CRIT, d3, d4, d5, 0.0D, -0.5D, 0.0D);
-                }
+        if(CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
+            for(ItemStack upgrade : blockEntity.getUpgradesAsItemStacks()){
+                blockEntity.emitUpgradeParticles(upgrade, blockEntity);
             }
         }
     }
@@ -321,10 +280,21 @@ public class MobCageBlockEntity extends BlockEntity {
     }
 
     /**
+     * Updates the environment from currently held item.
+     */
+    public void updateEnvironment(){
+        ItemStack envItem = this.items.getStackInSlot(ENVIRONMENT_SLOT);
+        envItem.setCount(1);
+        if(envItem.isEmpty()){
+            this.removeEnvironment();
+        }
+    }
+
+    /**
      * Returns the environment data.
      * @return the environment data
      */
-    public EnvironmentData getEnvironment() {
+    public EnvironmentData getEnvironmentData() {
         return this.environmentData;
     }
 
@@ -333,7 +303,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return if block entity has environment data.
      */
     public boolean hasEnvironment() {
-        return this.environmentData != null;
+        return !this.items.getStackInSlot(ENVIRONMENT_SLOT).isEmpty();
     }
 
     /**
@@ -372,9 +342,11 @@ public class MobCageBlockEntity extends BlockEntity {
             player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.requiresWater").withStyle(ChatFormatting.RED), true);
             return false;
         }
-        for(String env : this.environmentData.getEnvironments()){
-            if(recipe.getValidEnvs().contains(env)){
-                return true;
+        if(this.environmentData != null){
+            for(String env : this.environmentData.getEnvironments()){
+                if(recipe.getValidEnvs().contains(env)){
+                    return true;
+                }
             }
         }
         player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.envNotSuitable").withStyle(ChatFormatting.RED), true);
@@ -540,15 +512,16 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param heldItem upgrade to add.
      */
     public void addUpgrade(ItemStack heldItem) {
-        for (int i = 0; i < this.items.getSlots(); i++) {
+        for (int slot = ENVIRONMENT_SLOT+1; slot < this.items.getSlots(); slot++) {
             // Check for empty slot
-            if(this.items.extractItem(i,1,true).isEmpty()){
+            if(this.items.getStackInSlot(slot).isEmpty()){
                 ItemStack upgrade = heldItem.copy();
                 upgrade.setCount(1);
                 // Check if upgrade is valid
-                if(this.items.isItemValid(i, upgrade)){
+                if(this.items.isItemValid(slot, upgrade)){
                     // Insert upgrade
-                    this.items.insertItem(i, upgrade, false);
+                    this.items.insertItem(slot, upgrade, false);
+                    return;
                 }
             }
         }
@@ -559,9 +532,19 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return if cage can accept more upgrades.
      */
     public boolean acceptsUpgrades() {
-        return this.items.extractItem(ENVIRONMENT_SLOT+1, 1, true).isEmpty() ||
-                this.items.extractItem(ENVIRONMENT_SLOT+2, 1, true).isEmpty() ||
-                this.items.extractItem(ENVIRONMENT_SLOT+3, 1, true).isEmpty();
+        return this.items.getStackInSlot(ENVIRONMENT_SLOT+1).isEmpty() ||
+                this.items.getStackInSlot(ENVIRONMENT_SLOT+2).isEmpty() ||
+                this.items.getStackInSlot(ENVIRONMENT_SLOT+3).isEmpty();
+    }
+
+    /**
+     * Returns if the cage has any upgrade.
+     * @return if the cage has any upgrade
+     */
+    public boolean hasAnyUpgrades(){
+        return !this.items.getStackInSlot(ENVIRONMENT_SLOT+1).isEmpty() ||
+                !this.items.getStackInSlot(ENVIRONMENT_SLOT+2).isEmpty() ||
+                !this.items.getStackInSlot(ENVIRONMENT_SLOT+3).isEmpty();
     }
 
     /**
@@ -573,11 +556,80 @@ public class MobCageBlockEntity extends BlockEntity {
     public boolean hasUpgrades(Item upgradeItem, int requiredCount){
         int currentCount = 0;
         for (int i = 0; i < this.items.getSlots(); i++) {
-            if(this.items.extractItem(i,1,true).getItem().equals(upgradeItem)){
+            if(this.items.getStackInSlot(i).getItem().equals(upgradeItem)){
                 currentCount++;
             }
         }
         return currentCount >= requiredCount;
+    }
+
+    /**
+     * Returns a list of upgrades as ItemStacks.
+     * @return list of upgrades
+     */
+    public List<ItemStack> getUpgradesAsItemStacks(){
+        List<ItemStack> upgrades = new ArrayList<>();
+        for(int slot = ENVIRONMENT_SLOT+1; slot <= UPGRADES_COUNT; slot++){
+            upgrades.add(this.items.getStackInSlot(slot));
+        }
+        return upgrades;
+    }
+
+    /**
+     * Emits particles specific for the given upgrade.
+     * @param upgrade upgrade item stack
+     */
+    private void emitUpgradeParticles(ItemStack upgrade, MobCageBlockEntity blockEntity) {
+        if(upgrade.getItem().equals(CagedItems.COOKING_UPGRADE.get())){
+            Random rand = new Random();
+            if (!(level instanceof ServerLevel)) {
+                if (rand.nextInt(10) == 0) {
+                    Level world = blockEntity.getLevel();
+                    BlockPos blockpos = blockEntity.getBlockPos();
+                    double d3 = (double) blockpos.getX() + world.random.nextDouble();
+                    double d4 = (double) blockpos.getY() + (world.random.nextDouble()/3);
+                    double d5 = (double) blockpos.getZ() + world.random.nextDouble();
+                    if(!blockEntity.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
+                        // If not waterlogged emit fire particles
+                        world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                        world.addParticle(ParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                    }else{
+                        // If waterlogged emit blue fire particles
+                        world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                        world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                    }
+
+                }
+            }
+        }
+        // Check if the cage has lighting upgrade and spawn particles
+        if(upgrade.getItem().equals(CagedItems.LIGHTNING_UPGRADE.get())){
+            Random rand = new Random();
+            if (!(level instanceof ServerLevel)) {
+                if (rand.nextInt(30) == 0) {
+                    Level world = blockEntity.getLevel();
+                    BlockPos blockpos = blockEntity.getBlockPos();
+                    double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
+                    double d4 = (double) blockpos.getY() + 0.8;
+                    double d5 = (double) blockpos.getZ() +  0.4 + (world.random.nextDouble()/5);
+                    world.addParticle(ParticleTypes.END_ROD, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                }
+            }
+        }
+        // Check if the cage has arrows upgrade and spawn particles
+        if(upgrade.getItem().equals(CagedItems.ARROW_UPGRADE.get())){
+            Random rand = new Random();
+            if (!(level instanceof ServerLevel)) {
+                if (rand.nextInt(30) == 0) {
+                    Level world = blockEntity.getLevel();
+                    BlockPos blockpos = blockEntity.getBlockPos();
+                    double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
+                    double d4 = (double) blockpos.getY() + 0.8;
+                    double d5 = (double) blockpos.getZ() +  0.4 + (world.random.nextDouble()/5);
+                    world.addParticle(ParticleTypes.CRIT, d3, d4, d5, 0.0D, -0.5D, 0.0D);
+                }
+            }
+        }
     }
 
     // HARVESTING FUNCTIONS
@@ -781,7 +833,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return current grow ticks
      */
     private int getCurrentGrowTicks() {
-        return currentGrowTicks;
+        return this.currentGrowTicks;
     }
 
 
@@ -804,29 +856,21 @@ public class MobCageBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag){
         super.saveAdditional(tag);
-        saveClientData(tag);
+        this.saveTag(tag);
     }
 
-    /**
-     * Saves custom parameters of the entity  in correct order.
-     * Used by the update tag to keep the network overhead small.
-     * @param tag the nbt tag to save to
-     */
-    private void saveClientData(CompoundTag tag){
+    private void saveTag(@NotNull CompoundTag tag){
         // Item capability
         tag.put(ITEMS_TAG, items.serializeNBT());
-        if(this.hasEnvironment()) {
-            // If cage has entity, put entity info
-            if(this.hasEntity()){
-                // Put entity type
-                SerializationHelper.serializeEntityTypeNBT(tag, this.entityType);
-                // Put color
-                tag.putInt("color",this.color);
-                // Put ticks info
-                tag.putInt("currentGrowTicks", this.currentGrowTicks);
-                tag.putBoolean("waitingForHarvest", this.waitingForHarvest);
-            }
+        // Put entity type
+        if(this.hasEntity()){
+            SerializationHelper.serializeEntityTypeNBT(tag, this.entityType);
         }
+        // Put color
+        tag.putInt("color",this.color);
+        // Put ticks info
+        tag.putInt("currentGrowTicks", this.currentGrowTicks);
+        tag.putBoolean("waitingForHarvest", this.waitingForHarvest);
     }
 
     /**
@@ -836,15 +880,14 @@ public class MobCageBlockEntity extends BlockEntity {
     @Override
     public void load(@NotNull CompoundTag tag) {
         super.load(tag);
-        loadClientData(tag);
+        this.loadTag(tag);
     }
 
     /**
-     * Loads custom parameters of the entity in correct order.
-     * Used by the update tag to keep the network overhead small.
-     * @param tag the nbt tag to load from
+     * Loads the block entity data from the tag.
+     * @param tag the tag to load
      */
-    private void loadClientData(CompoundTag tag) {
+    private void loadTag(@NotNull CompoundTag tag){
         // Store old env and entity type
         ItemStack oldEnv = this.items.getStackInSlot(ENVIRONMENT_SLOT);
         EntityType<?> oldEntityType = this.entityType;
@@ -888,7 +931,7 @@ public class MobCageBlockEntity extends BlockEntity {
     @Override
     public @NotNull CompoundTag getUpdateTag() {
         CompoundTag tag = super.getUpdateTag();
-        saveClientData(tag);
+        this.saveTag(tag);
         return tag;
     }
 
@@ -898,8 +941,9 @@ public class MobCageBlockEntity extends BlockEntity {
      */
     @Override
     public void handleUpdateTag(CompoundTag tag) {
-        if (tag != null) {
-            loadClientData(tag);
+        super.handleUpdateTag(tag);
+        if(tag != null){
+            this.loadTag(tag);
         }
     }
 
@@ -910,7 +954,6 @@ public class MobCageBlockEntity extends BlockEntity {
     @Nullable
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        // Uses getUpdateTag() under the hood
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
@@ -922,7 +965,6 @@ public class MobCageBlockEntity extends BlockEntity {
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
         CompoundTag tag = pkt.getTag();
-        // This will call loadClientData()
         if (tag != null) {
             handleUpdateTag(tag);
         }
