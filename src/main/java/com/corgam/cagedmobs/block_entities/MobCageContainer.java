@@ -2,6 +2,7 @@ package com.corgam.cagedmobs.block_entities;
 
 import com.corgam.cagedmobs.helpers.EnvironmentItemSlotHandler;
 import com.corgam.cagedmobs.helpers.UpgradeItemSlotHandler;
+import com.corgam.cagedmobs.items.upgrades.UpgradeItem;
 import com.corgam.cagedmobs.registers.CagedBlocks;
 import com.corgam.cagedmobs.registers.CagedContainers;
 import net.minecraft.core.BlockPos;
@@ -16,8 +17,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 
-import static com.corgam.cagedmobs.block_entities.MobCageBlockEntity.ENVIRONMENT_SLOT;
-import static com.corgam.cagedmobs.block_entities.MobCageBlockEntity.SLOT_COUNT;
+import static com.corgam.cagedmobs.block_entities.MobCageBlockEntity.*;
 
 public class MobCageContainer extends AbstractContainerMenu {
 
@@ -90,35 +90,39 @@ public class MobCageContainer extends AbstractContainerMenu {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(pIndex);
         if (slot.hasItem()) {
-            ItemStack stack = slot.getItem();
-            itemstack = stack.copy();
-            // Get items from cage to the inventory
+            ItemStack slotItem = slot.getItem();
+            itemstack = slotItem.copy();
+            // Get items from block back to the player inventory
             if (pIndex < SLOT_COUNT) {
-                if (!this.moveItemStackTo(stack, SLOT_COUNT, Inventory.INVENTORY_SIZE + SLOT_COUNT, true)) {
+                if (!this.moveItemStackTo(slotItem, SLOT_COUNT, Inventory.INVENTORY_SIZE + SLOT_COUNT, true)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            if (!this.moveItemStackTo(stack, 0, SLOT_COUNT+1, false)) {
-                if (pIndex < 27 + SLOT_COUNT) {
-                    if (!this.moveItemStackTo(stack, 27 + SLOT_COUNT, 36 + SLOT_COUNT, false)) {
-                        this.broadcastFullState();
-                        return ItemStack.EMPTY;
+            } else if (slotItem.getItem() instanceof UpgradeItem) {
+                for(int i = ENVIRONMENT_SLOT+1; i < SLOT_COUNT; i++){
+                    if (!this.slots.get(i).hasItem() && this.slots.get(i).mayPlace(slotItem)) {
+                        ItemStack itemstack2 = slotItem.copyWithCount(1);
+                        slotItem.shrink(1);
+                        this.slots.get(i).setByPlayer(itemstack2);
                     }
-                } else if (pIndex < Inventory.INVENTORY_SIZE + SLOT_COUNT && !this.moveItemStackTo(stack, SLOT_COUNT, 27 + SLOT_COUNT, false)) {
-                    slot.setChanged();
-                    return ItemStack.EMPTY;
+                }
+            } else if(existsEnvironmentFromItemStack(slotItem)){
+                if (!this.slots.get(ENVIRONMENT_SLOT).hasItem() && this.slots.get(ENVIRONMENT_SLOT).mayPlace(slotItem)) {
+                    ItemStack itemstack2 = slotItem.copyWithCount(1);
+                    slotItem.shrink(1);
+                    this.slots.get(ENVIRONMENT_SLOT).setByPlayer(itemstack2);
                 }
             }
-            if (stack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
+            if (slotItem.isEmpty()) {
+                slot.setByPlayer(ItemStack.EMPTY);
             } else {
                 slot.setChanged();
             }
-            if (stack.getCount() == itemstack.getCount()) {
+            if (slotItem.getCount() == itemstack.getCount()) {
                 return ItemStack.EMPTY;
             }
-            slot.onTake(pPlayer, stack);
+            slot.onTake(pPlayer, slotItem);
         }
+
         return itemstack;
     }
 

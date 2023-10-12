@@ -24,6 +24,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
@@ -180,7 +181,18 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                 @Nullable
                 @Override
                 public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-                    return new MobCageContainer(pContainerId, pPlayer, pos);
+                    AbstractContainerMenu menu = new MobCageContainer(pContainerId, pPlayer, pos);
+                    menu.addSlotListener(new ContainerListener() {
+                        @Override
+                        public void slotChanged(AbstractContainerMenu pContainerToSend, int pDataSlotIndex, ItemStack pStack) {
+                            if(pDataSlotIndex == ENVIRONMENT_SLOT){
+                                cageBE.updateEnvironment();
+                            }
+                        }
+                        @Override
+                        public void dataChanged(AbstractContainerMenu pContainerMenu, int pDataSlotIndex, int pValue) {}
+                    });
+                    return menu;
                 }
             };
             NetworkHooks.openScreen((ServerPlayer) player, containerProvider, cageBE.getBlockPos());

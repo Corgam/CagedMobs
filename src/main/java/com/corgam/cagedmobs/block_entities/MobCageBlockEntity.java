@@ -235,10 +235,12 @@ public class MobCageBlockEntity extends BlockEntity {
      */
     public void setEnvironment(ItemStack heldItem) {
         this.environmentData = getEnvironmentDataFromItemStack(heldItem);
-        // Set the env item
-        ItemStack itemstack = heldItem.copy();
-        itemstack.setCount(1);
-        this.items.insertItem(ENVIRONMENT_SLOT, itemstack, false);
+        if(this.items.getStackInSlot(ENVIRONMENT_SLOT).isEmpty()){
+            // Set the env item
+            ItemStack itemstack = heldItem.copy();
+            itemstack.setCount(1);
+            this.items.insertItem(ENVIRONMENT_SLOT, itemstack, false);
+        }
         // Check this block as a block to be saved upon exiting the chunk
         this.setChanged();
         // Sync with client
@@ -271,6 +273,8 @@ public class MobCageBlockEntity extends BlockEntity {
      */
     public void removeEnvironment(){
         this.environmentData = null;
+        // Update entity
+        this.removeEntity();
         // Check this block as a block to be saved upon exiting the chunk
         this.setChanged();
         // Sync with client
@@ -287,6 +291,8 @@ public class MobCageBlockEntity extends BlockEntity {
         envItem.setCount(1);
         if(envItem.isEmpty()){
             this.removeEnvironment();
+        }else if(this.environmentData == null){
+            this.setEnvironment(envItem);
         }
     }
 
@@ -824,8 +830,11 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return total grow ticks
      */
     private int getTotalGrowTicks() {
-        int basicTotalGrowTicks = Math.round(this.getEntity().getTotalGrowTicks()/this.environmentData.getGrowModifier());
-        return this.totalGrowTicks = (int) Math.round(basicTotalGrowTicks/CagedMobs.SERVER_CONFIG.getSpeedOfCages());
+        if(this.environmentData != null){
+            int basicTotalGrowTicks = Math.round(this.getEntity().getTotalGrowTicks()/this.environmentData.getGrowModifier());
+            return this.totalGrowTicks = (int) Math.round(basicTotalGrowTicks/CagedMobs.SERVER_CONFIG.getSpeedOfCages());
+        }
+        return 0;
     }
 
     /**
