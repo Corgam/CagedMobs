@@ -7,13 +7,14 @@ import com.corgam.cagedmobs.block_entities.MobCageContainer;
 import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
 import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
+import com.corgam.cagedmobs.items.EmptySpawnEggItem;
 import com.corgam.cagedmobs.items.upgrades.UpgradeItem;
 import com.corgam.cagedmobs.registers.CagedBlockEntities;
+import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
-import mcjty.theoneprobe.apiimpl.ProbeInfo;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,12 +23,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -52,6 +54,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -134,7 +137,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                         }
                         return InteractionResult.SUCCESS;
                     }
-                    return InteractionResult.PASS;
+                    return InteractionResult.FAIL;
                 // Retrieve entity from the cage
                 }else{
                     if(!DnaSamplerItem.containsEntityType(heldItem)){
@@ -151,11 +154,49 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                         sampler.setEntityTypeFromCage(cageBE, heldItem, player, hand);
                         cageBE.setChanged();
                     }else{
-                        player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerAlreadyUsed").withStyle(ChatFormatting.RED), true);
+                        player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
                         return InteractionResult.FAIL;
                     }
                     cageBE.removeEntity();
                     return InteractionResult.SUCCESS;
+                }
+            }
+            // Add entity from spawn egg
+            if(heldItem.getItem() instanceof SpawnEggItem spawnEggItem){
+                if(!cageBE.hasEntity()){
+                    EntityType<?> entityType = spawnEggItem.getType(heldItem.getOrCreateTag());
+                    // Check if there exists a recipe for a given entity type,
+                    // if the environment is suitable for that entity and if it is not blacklisted.
+                    if(cageBE.existsEntityDataFromType(entityType)
+                            && cageBE.isEnvironmentSuitable(player, entityType, state)
+                            && !RecipesHelper.isEntityTypeBlacklisted(entityType)){
+                        // Add entity
+                        cageBE.setEntityFromSampler(entityType, heldItem);
+                        // Clear the sampler
+                        if(!player.isCreative()){
+                            heldItem.shrink(1);
+                            player.addItem(new ItemStack(CagedItems.EMPTY_SPAWN_EGG.get()));
+                        }
+                        return InteractionResult.SUCCESS;
+                    }
+                }else{
+                    player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
+                }
+                return InteractionResult.CONSUME;
+            }
+            // Retrieve entity from the cage with empty spawn egg
+            if(heldItem.getItem() instanceof EmptySpawnEggItem){
+                if(cageBE.hasEntity()){
+                    SpawnEggItem spawnEgg = ForgeSpawnEggItem.fromEntityType(cageBE.getEntityType());
+                    if(spawnEgg != null){
+                        if(!player.isCreative()){
+                            player.addItem(new ItemStack(spawnEgg));
+                            heldItem.shrink(1);
+                        }
+                        cageBE.removeEntity();
+                        return InteractionResult.SUCCESS;
+                    }
+                   return InteractionResult.FAIL;
                 }
             }
             // Try to harvest the cage with sword

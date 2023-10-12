@@ -2,6 +2,8 @@ package com.corgam.cagedmobs.block_entities;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.helpers.AdaptedItemHandler;
+import com.corgam.cagedmobs.items.upgrades.SpeedIIIUpgradeItem;
+import com.corgam.cagedmobs.items.upgrades.SpeedIIUpgradeItem;
 import com.corgam.cagedmobs.items.upgrades.SpeedIUpgradeItem;
 import com.corgam.cagedmobs.registers.CagedBlockEntities;
 import com.corgam.cagedmobs.registers.CagedItems;
@@ -598,7 +600,9 @@ public class MobCageBlockEntity extends BlockEntity {
             emitExperienceParticles(blockEntity);
         }else if(upgrade.getItem().equals(CagedItems.FORTUNE_UPGRADE.get())){
             emitFortuneParticles(blockEntity);
-        }else if(upgrade.getItem() instanceof SpeedIUpgradeItem){
+        }else if(upgrade.getItem() instanceof SpeedIUpgradeItem ||
+        upgrade.getItem() instanceof SpeedIIUpgradeItem ||
+        upgrade.getItem() instanceof SpeedIIIUpgradeItem){
             emitSpeedParticles(blockEntity);
         }
     }

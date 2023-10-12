@@ -7,7 +7,7 @@
   ],
   "key": {
     "X": {
-      "tag": "cagedmobs:warden_receptors"
+      "item": "cagedmobs:warden_receptor"
     },
     "r": {
       "tag": "forge:dusts/redstone"

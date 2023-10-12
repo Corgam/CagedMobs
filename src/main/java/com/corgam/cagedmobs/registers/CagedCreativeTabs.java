@@ -38,10 +38,13 @@ public class CagedCreativeTabs {
                 pOutput.accept(CagedItems.SPONGE_FRAGMENT.get());
                 pOutput.accept(CagedItems.HONEY_DROP.get());
                 pOutput.accept(CagedItems.MILK_DROP.get());
+                pOutput.accept(CagedItems.EXPERIENCE_ORB.get());
                 // Star-infused Netherite
                 pOutput.accept(CagedItems.STAR_INFUSED_NETHERITE_NUGGET.get());
                 pOutput.accept(CagedItems.STAR_INFUSED_NETHERITE_INGOT.get());
                 pOutput.accept(CagedItems.STAR_INFUSED_NETHERITE_BLOCK.get());
+                // Empty spawn egg
+                pOutput.accept(CagedItems.EMPTY_SPAWN_EGG.get());
             })).build());
 
 }

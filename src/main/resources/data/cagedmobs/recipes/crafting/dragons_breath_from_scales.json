@@ -6,7 +6,7 @@
   ],
   "key": {
     "X": {
-      "tag": "cagedmobs:dragon_scales"
+      "item": "cagedmobs:dragon_scale"
     },
     "B": {
       "item": "minecraft:glass_bottle"

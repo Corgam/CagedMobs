@@ -6,7 +6,7 @@
   ],
   "key": {
     "X": {
-      "tag": "cagedmobs:milk_drops"
+      "item": "cagedmobs:milk_drop"
     },
     "B": {
       "item": "minecraft:bucket"

@@ -30,7 +30,7 @@
 	"item.cagedmobs.cookingupgrade.info": "Automatically cooks cookable entity drops",
 	"item.cagedmobs.lightningupgrade.info": "Kills entities inside the cage with lightning",
 	"item.cagedmobs.arrowupgrade.info": "Kills entities inside the cage with arrows",
-	"item.cagedmobs.experience_upgrade.info": "Entities killed inside the cage drop experience",
+	"item.cagedmobs.experience_upgrade.info": "Entities killed inside the cage drop Experience Orbs",
 	"item.cagedmobs.fortune_upgrade.info": "Applies Fortune III to the cage drops",
 
 	"item.cagedmobs.upgrades.attach": "Can be attached to the Mob Cages",
@@ -42,9 +42,11 @@
 	"item.cagedmobs.sponge_fragment": "Sponge Fragment",
 	"item.cagedmobs.honey_drop": "Honey Drop",
 	"item.cagedmobs.milk_drop": "Milk Drop",
+	"item.cagedmobs.experience_orb": "Experience Orb",
+	"item.cagedmobs.empty_spawn_egg": "Empty Spawn Egg",
 	"item.cagedmobs.star_infused_netherite_ingot": "Star Infused Netherite Ingot",
 	"item.cagedmobs.star_infused_netherite_nugget": "Star Infused Netherite Nugget",
-	
+
 	"block.cagedmobs.mobcage": "Mob Cage",
 	"block.cagedmobs.hoppingmobcage": "Hopping Mob Cage",
 	"block.cagedmobs.star_infused_netherite_block": "Star Infused Netherite Block",
@@ -57,7 +59,7 @@
 	"block.cagedmobs.mobcage.hoppingCagesDisabled2": "Hopping Cages will work the same as non-hopping variant.",
 	"block.cagedmobs.mobcage.requiresWater": "This entity requires a waterlogged cage.",
 	"block.cagedmobs.mobcage.envRequired": "You need to set up an environment first.",
-	"block.cagedmobs.mobcage.samplerAlreadyUsed": "This sampler has another entity's DNA inside.",
+	"block.cagedmobs.mobcage.cageAlreadyUsed": "This cage has another entity's DNA inside.",
 	"block.cagedmobs.mobcage.samplerNotSufficient": "This sampler is not strong enough to get back entity from the cage.",
 	"block.cagedmobs.mobcage.upgradesFull": "The cage has the max amount of upgrades!",
 	"block.cagedmobs.starinfusednetheriteblock.beacon": "Can be used as a beacon base block.",

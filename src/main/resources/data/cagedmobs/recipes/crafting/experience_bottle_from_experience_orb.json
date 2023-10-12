@@ -1,18 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "X",
-    "B"
+    " X ",
+    "XBX",
+    " X "
   ],
   "key": {
     "X": {
-      "item": "cagedmobs:honey_drop"
+      "item": "cagedmobs:experience_orb"
     },
     "B": {
       "item": "minecraft:glass_bottle"
     }
   },
   "result": {
-    "item": "minecraft:honey_bottle"
+    "item": "minecraft:experience_bottle"
   }
 }

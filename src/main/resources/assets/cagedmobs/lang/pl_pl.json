@@ -30,7 +30,7 @@
   "item.cagedmobs.cookingupgrade.info": "Automatycznie piecze przedmioty, które da się upiec",
   "item.cagedmobs.lightningupgrade.info": "Zabija za pomocą piorunów stworzenia znajdujące się w klatce",
   "item.cagedmobs.arrowupgrade.info": "Zabija za pomocą strzał stworzenia znajdujące się w klatce",
-  "item.cagedmobs.experience_upgrade.info": "Stworzenia zabite w klatce dają doświadczenie",
+  "item.cagedmobs.experience_upgrade.info": "Stworzenia zabite w klatce dają kule doświadczenia",
   "item.cagedmobs.fortune_upgrade.info": "Aplikuje Szczęście III dla przedmiotów z klatki",
 
   "item.cagedmobs.upgrades.attach": "Może zostać zamontowane w klatce na stworzenia",
@@ -42,6 +42,8 @@
   "item.cagedmobs.sponge_fragment": "Fragment gąbki",
   "item.cagedmobs.honey_drop": "Kropla miodu",
   "item.cagedmobs.milk_drop": "Kropla mleka",
+  "item.cagedmobs.experience_orb": "Kula doświadczenia",
+  "item.cagedmobs.empty_spawn_egg": "Puste jajko przyzywające",
   "item.cagedmobs.star_infused_netherite_ingot": "Sztabka netherytu z duszą gwiazdy",
   "item.cagedmobs.star_infused_netherite_nugget": "Bryłka netherytu z duszą gwiazdy",
 
@@ -57,7 +59,7 @@
   "block.cagedmobs.mobcage.hoppingCagesDisabled2": "Skacząca klatka będzie działała tak samo jak jej zwykły wariant.",
   "block.cagedmobs.mobcage.requiresWater": "Te stworzenie wymaga klatki wypełnionej wodą.",
   "block.cagedmobs.mobcage.envRequired": "Najpierw musisz ustanowić środowisko.",
-  "block.cagedmobs.mobcage.samplerAlreadyUsed": "Ta strzykawka ma w środku DNA innego stworzenia.",
+  "block.cagedmobs.mobcage.cageAlreadyUsed": "Ta klatka ma w środku DNA innego stworzenia.",
   "block.cagedmobs.mobcage.samplerNotSufficient": "Ta strzykawka nie jest wystarczająco silna, aby odzyskać stworzenie z klatki.",
   "block.cagedmobs.mobcage.upgradesFull": "Klatka ma już maksymalną ilość ulepszeń!",
   "block.cagedmobs.starinfusednetheriteblock.beacon": "Może być użyty jako blok do piramidy magicznej latarni.",
