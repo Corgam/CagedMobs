@@ -2,6 +2,7 @@ package com.corgam.cagedmobs.block_entities;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.helpers.AdaptedItemHandler;
+import com.corgam.cagedmobs.items.upgrades.SpeedIUpgradeItem;
 import com.corgam.cagedmobs.registers.CagedBlockEntities;
 import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
@@ -52,6 +53,7 @@ import java.util.*;
 import java.util.function.Function;
 
 import static com.corgam.cagedmobs.blocks.MobCageBlock.HOPPING;
+import static com.corgam.cagedmobs.helpers.UpgradeItemsParticles.*;
 
 public class MobCageBlockEntity extends BlockEntity {
 
@@ -587,54 +589,17 @@ public class MobCageBlockEntity extends BlockEntity {
      */
     private void emitUpgradeParticles(ItemStack upgrade, MobCageBlockEntity blockEntity) {
         if(upgrade.getItem().equals(CagedItems.COOKING_UPGRADE.get())){
-            Random rand = new Random();
-            if (!(level instanceof ServerLevel)) {
-                if (rand.nextInt(10) == 0) {
-                    Level world = blockEntity.getLevel();
-                    BlockPos blockpos = blockEntity.getBlockPos();
-                    double d3 = (double) blockpos.getX() + world.random.nextDouble();
-                    double d4 = (double) blockpos.getY() + (world.random.nextDouble()/3);
-                    double d5 = (double) blockpos.getZ() + world.random.nextDouble();
-                    if(!blockEntity.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
-                        // If not waterlogged emit fire particles
-                        world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                        world.addParticle(ParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                    }else{
-                        // If waterlogged emit blue fire particles
-                        world.addParticle(ParticleTypes.SMOKE, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                        world.addParticle(ParticleTypes.SOUL_FIRE_FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                    }
-
-                }
-            }
-        }
-        // Check if the cage has lighting upgrade and spawn particles
-        if(upgrade.getItem().equals(CagedItems.LIGHTNING_UPGRADE.get())){
-            Random rand = new Random();
-            if (!(level instanceof ServerLevel)) {
-                if (rand.nextInt(30) == 0) {
-                    Level world = blockEntity.getLevel();
-                    BlockPos blockpos = blockEntity.getBlockPos();
-                    double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
-                    double d4 = (double) blockpos.getY() + 0.8;
-                    double d5 = (double) blockpos.getZ() +  0.4 + (world.random.nextDouble()/5);
-                    world.addParticle(ParticleTypes.END_ROD, d3, d4, d5, 0.0D, 0.0D, 0.0D);
-                }
-            }
-        }
-        // Check if the cage has arrows upgrade and spawn particles
-        if(upgrade.getItem().equals(CagedItems.ARROW_UPGRADE.get())){
-            Random rand = new Random();
-            if (!(level instanceof ServerLevel)) {
-                if (rand.nextInt(30) == 0) {
-                    Level world = blockEntity.getLevel();
-                    BlockPos blockpos = blockEntity.getBlockPos();
-                    double d3 = (double) blockpos.getX() + 0.4 + (world.random.nextDouble()/5);
-                    double d4 = (double) blockpos.getY() + 0.8;
-                    double d5 = (double) blockpos.getZ() +  0.4 + (world.random.nextDouble()/5);
-                    world.addParticle(ParticleTypes.CRIT, d3, d4, d5, 0.0D, -0.5D, 0.0D);
-                }
-            }
+            emitCookingParticles(blockEntity);
+        }else if(upgrade.getItem().equals(CagedItems.LIGHTNING_UPGRADE.get())){
+            emitLightningParticles(blockEntity);
+        }else if(upgrade.getItem().equals(CagedItems.ARROW_UPGRADE.get())){
+            emitArrowParticles(blockEntity);
+        }else if(upgrade.getItem().equals(CagedItems.EXPERIENCE_UPGRADE.get())){
+            emitExperienceParticles(blockEntity);
+        }else if(upgrade.getItem().equals(CagedItems.FORTUNE_UPGRADE.get())){
+            emitFortuneParticles(blockEntity);
+        }else if(upgrade.getItem() instanceof SpeedIUpgradeItem){
+            emitSpeedParticles(blockEntity);
         }
     }
 
