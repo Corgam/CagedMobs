@@ -13,6 +13,7 @@ import com.corgam.cagedmobs.serializers.RecipesHelper;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.apiimpl.ProbeInfo;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -292,9 +293,10 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
             if(tile.hasAnyUpgrades()){
                 // Add Upgrade text
                 probeInfo.horizontal().text(Component.translatable("TOP.tooltip.cagedmobs.cage.upgrades"));
+                IProbeInfo hor = probeInfo.horizontal();
                 for(ItemStack upgrade : tile.getUpgradesAsItemStacks()){
                     if(!upgrade.isEmpty()){
-                        probeInfo.horizontal().item(upgrade);
+                        hor.item(upgrade);
                     }
                 }
             }
