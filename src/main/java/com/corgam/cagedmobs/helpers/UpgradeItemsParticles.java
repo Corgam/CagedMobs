@@ -3,18 +3,26 @@ package com.corgam.cagedmobs.helpers;
 import com.corgam.cagedmobs.block_entities.MobCageBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.Random;
+/**
+ * Helper class for emitting cage upgrades' particles on client side.
+ */
 
+@OnlyIn(Dist.CLIENT)
 public class UpgradeItemsParticles {
+
+    /**
+     * Emits cooking upgrade particles from the cage.
+     * @param blockEntity the block entity to emit particles from
+     */
     public static void emitCookingParticles(MobCageBlockEntity blockEntity){
-        Random rand = new Random();
         Level level = blockEntity.getLevel();
-        if (!(level instanceof ServerLevel) && level != null) {
-            if (rand.nextInt(10) == 0) {
+        if (level != null && level.isClientSide()) {
+            if (level.random.nextInt(10) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + (level.random.nextDouble()/3);
@@ -33,11 +41,14 @@ public class UpgradeItemsParticles {
         }
     }
 
+    /**
+     * Emits lightning upgrade particles from the cage.
+     * @param blockEntity the block entity to emit particles from
+     */
     public static void emitLightningParticles(MobCageBlockEntity blockEntity){
-        Random rand = new Random();
         Level level = blockEntity.getLevel();
-        if (!(level instanceof ServerLevel) && level != null) {
-            if (rand.nextInt(15) == 0) {
+        if (level != null && level.isClientSide()) {
+            if (level.random.nextInt(15) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + level.random.nextDouble();
@@ -46,11 +57,15 @@ public class UpgradeItemsParticles {
             }
         }
     }
+
+    /**
+     * Emits arrow upgrade particles from the cage.
+     * @param blockEntity the block entity to emit particles from
+     */
     public static void emitArrowParticles(MobCageBlockEntity blockEntity){
-        Random rand = new Random();
         Level level = blockEntity.getLevel();
-        if (!(level instanceof ServerLevel) && level != null) {
-            if (rand.nextInt(30) == 0) {
+        if (level != null && level.isClientSide()) {
+            if (level.random.nextInt(30) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + 0.4 + (level.random.nextDouble()/5);
                 double d4 = (double) blockpos.getY() + 0.8;
@@ -59,11 +74,15 @@ public class UpgradeItemsParticles {
             }
         }
     }
+
+    /**
+     * Emits experience upgrade particles from the cage.
+     * @param blockEntity the block entity to emit particles from
+     */
     public static void emitExperienceParticles(MobCageBlockEntity blockEntity){
-        Random rand = new Random();
         Level level = blockEntity.getLevel();
-        if (!(level instanceof ServerLevel) && level != null) {
-            if (rand.nextInt(20) == 0) {
+        if (level != null && level.isClientSide()) {
+            if (level.random.nextInt(20) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + 0.9;
@@ -73,11 +92,14 @@ public class UpgradeItemsParticles {
         }
     }
 
+    /**
+     * Emits fortune upgrade particles from the cage.
+     * @param blockEntity the block entity to emit particles from
+     */
     public static void emitFortuneParticles(MobCageBlockEntity blockEntity){
-        Random rand = new Random();
         Level level = blockEntity.getLevel();
-        if (!(level instanceof ServerLevel) && level != null) {
-            if (rand.nextInt(20) == 0) {
+        if (level != null && level.isClientSide()) {
+            if (level.random.nextInt(20) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + (level.random.nextDouble()/2);
@@ -86,11 +108,16 @@ public class UpgradeItemsParticles {
             }
         }
     }
+
+    /**
+     * Emits speed upgrade particles from the cage.
+     * Used for all levels of speed upgrade.
+     * @param blockEntity the block entity to emit particles from
+     */
     public static void emitSpeedParticles(MobCageBlockEntity blockEntity){
-        Random rand = new Random();
         Level level = blockEntity.getLevel();
-        if (!(level instanceof ServerLevel) && level != null) {
-            if (rand.nextInt(25) == 0) {
+        if (level != null && level.isClientSide()) {
+            if (level.random.nextInt(25) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + (level.random.nextDouble()/2);

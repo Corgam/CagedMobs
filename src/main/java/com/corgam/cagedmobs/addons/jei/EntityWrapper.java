@@ -27,8 +27,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.Squid;
@@ -42,7 +42,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.SpawnData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -51,7 +50,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
+
+import static com.corgam.cagedmobs.CagedMobs.LOGGER;
 
 public class EntityWrapper implements IRecipeCategoryExtension {
 
@@ -124,8 +124,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }
         // Add additional Loot
         for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
-            if(recipe instanceof AdditionalLootData) {
-                final AdditionalLootData additionalLootData = (AdditionalLootData) recipe;
+            if(recipe instanceof AdditionalLootData additionalLootData) {
                 // Check for null exceptions
                 if(additionalLootData.getEntityType() == null){continue;}
                 if(this.entity.getEntityType() == null){ continue;}
@@ -272,53 +271,35 @@ public class EntityWrapper implements IRecipeCategoryExtension {
 
     @OnlyIn(Dist.CLIENT)
     public void drawEntity(GuiGraphics graphics, int recipeWidth, int recipeHeight, double mouseX, double mouseY, int width, int height) {
-        // Proper entity
+        // Create the nbt tag
         CompoundTag nbt = new CompoundTag();
         nbt.putString("id", EntityType.getKey(this.getEntity().getEntityType()).toString());
-        SpawnData renderedEntity = new SpawnData(nbt, Optional.empty());
-        if(Minecraft.getInstance().getSingleplayerServer() != null){ // When at single player or single player server
-            LivingEntity livingEntity = (LivingEntity) EntityType.loadEntityRecursive(renderedEntity.getEntityToSpawn(), Minecraft.getInstance().getSingleplayerServer().overworld(), Function.identity());
-            if (livingEntity != null) {
-                float scale = getScaleForEntityType(livingEntity);
-                int offsetY = getOffsetForEntityType(livingEntity);
-                // Add rotation
-                rotation = (rotation+ 0.5f)% 360;
-                // Render the entity
-                renderEntity(
-                        graphics,
-                        33, 120 - offsetY, scale,
-                        38 - yaw,
-                        70 - offsetY,
-                        livingEntity
-                );
-                // Update yaw
-                yaw = (yaw + 1.5) % 720.0F;
-            }
-        }else if(Minecraft.getInstance().getCurrentServer() != null){ // When at dedicated server
-            Level level = Minecraft.getInstance().level;
-            if(level != null){
-                LivingEntity livingEntity = (LivingEntity) EntityType.loadEntityRecursive(renderedEntity.getEntityToSpawn(), level, Function.identity());
-                if (livingEntity != null) {
-                    float scale = getScaleForEntityType(livingEntity);
-                    int offsetY = getOffsetForEntityType(livingEntity);
-                    // Add rotation
-                    rotation = (rotation+ 0.5f)% 360;
-                    // Render the entity
-                    renderEntity(
-                            graphics,
-                            33, 120 - offsetY, scale,
-                            38 - yaw,
-                            70 - offsetY,
-                            livingEntity
-                    );
-                    // Update yaw
-                    yaw = (yaw + 1.5) % 720.0F;
-                }
-            }
+        // Create the entity object to render
+        Optional<Entity> entity = Optional.empty();
+        Level level = Minecraft.getInstance().level;
+        if(level != null && level.isClientSide()){
+            entity = EntityType.create(nbt, level);
+        }
+        // Render the entity if created correctly
+        if (entity.isPresent()) {
+            float scale = getScaleForEntityType(entity.get());
+            int offsetY = getOffsetForEntityType(entity.get());
+            // Add rotation
+            rotation = (rotation+ 0.5f)% 360;
+            // Render the entity
+            renderEntity(
+                    graphics,
+                    33, 120 - offsetY, scale,
+                    38 - yaw,
+                    70 - offsetY,
+                    entity.get()
+            );
+            // Update yaw
+            yaw = (yaw + 1.5) % 720.0F;
         }
     }
 
-    public static void renderEntity(GuiGraphics graphics, int x, int y, float scale, double yaw, double pitch, LivingEntity entity) {
+    public static void renderEntity(GuiGraphics graphics, int x, int y, float scale, double yaw, double pitch, Entity entity) {
         PoseStack matrixStack = graphics.pose();
         matrixStack.pushPose();
         // Translate the entity to right position
@@ -337,7 +318,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
             matrixStack.translate(x, y, -50F);
             matrixStack.scale(scale, -scale, -scale);
             matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
-            CagedMobs.LOGGER.error("[CagedMobs] Error with rendering entity in JEI!", e);
+            LOGGER.error("[CagedMobs] Error with rendering entity in JEI!", e);
         }
         buff.endBatch();
         matrixStack.popPose();
@@ -381,7 +362,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         };
     }
 
-    private float getScaleForEntityType(LivingEntity entity){
+    private float getScaleForEntityType(Entity entity){
         float width = entity.getBbWidth();
         float height = entity.getBbHeight();
         // Some hardcoded values
@@ -422,7 +403,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         return 20.0F;
     }
 
-    private int getOffsetForEntityType(LivingEntity entity){
+    private int getOffsetForEntityType(Entity entity){
         if(entity instanceof Phantom ||
                 entity instanceof AbstractFish ||
                 entity instanceof EnderDragon ||

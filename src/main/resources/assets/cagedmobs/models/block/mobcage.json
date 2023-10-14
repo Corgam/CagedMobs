@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"render_type": "cutout",
 	"textures": {
 		"0": "cagedmobs:block/mobcage_side",
 		"1": "cagedmobs:block/mobcage_bottom",

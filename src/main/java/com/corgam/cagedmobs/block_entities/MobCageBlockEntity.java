@@ -18,12 +18,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.WorldlyContainerHolder;
 import net.minecraft.world.entity.Entity;
@@ -200,9 +198,11 @@ public class MobCageBlockEntity extends BlockEntity {
             }
         }
         // Check if the cage has cooking upgrade and spawn particles
-        if(CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
-            for(ItemStack upgrade : blockEntity.getUpgradesAsItemStacks()){
-                blockEntity.emitUpgradeParticles(upgrade, blockEntity);
+        if(level != null && level.isClientSide()){
+            if(CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
+                for(ItemStack upgrade : blockEntity.getUpgradesAsItemStacks()){
+                    blockEntity.emitUpgradeParticles(upgrade, blockEntity);
+                }
             }
         }
     }
@@ -221,7 +221,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param item item to drop
      */
     private void dropItem(ItemStack item) {
-        if(this.level != null && !this.level.isClientSide) {
+        if(this.level != null && !this.level.isClientSide()) {
             final double offsetX = (double) (level.random.nextFloat() * 0.7F) + (double) 0.15F;
             final double offsetY = (double) (level.random.nextFloat() * 0.7F) + (double) 0.060000002F + 0.6D;
             final double offsetZ = (double) (level.random.nextFloat() * 0.7F) + (double) 0.15F;
@@ -747,7 +747,7 @@ public class MobCageBlockEntity extends BlockEntity {
             if(!this.hasUpgrades(CagedItems.ARROW_UPGRADE.get(), 1) && loot.isArrow()){
                 continue;
             }
-            if(this.level != null && this.level.random.nextFloat() <= loot.getChance()) {
+            if(this.level != null && !this.level.isClientSide() && this.level.random.nextFloat() <= loot.getChance()) {
                 // Roll the amount of items
                 int range = loot.getMaxAmount() - loot.getMinAmount() + 1;
                 int amount = this.level.random.nextInt(range) + loot.getMinAmount();
