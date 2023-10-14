@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.blocks;
+package com.corgam.cagedmobs.blocks.mob_cage;
 
 public class HoppingMobCageBlock extends MobCageBlock {
     public HoppingMobCageBlock(Properties pProperties) {

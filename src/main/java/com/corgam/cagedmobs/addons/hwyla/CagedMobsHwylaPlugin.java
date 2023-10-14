@@ -1,6 +1,6 @@
 //package com.corgam.cagedmobs.addons.hwyla;
 //
-//import com.corgam.cagedmobs.blocks.MobCageBlock;
+//import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlock;
 //import mcp.mobius.waila.api.IRegistrar;
 //import mcp.mobius.waila.api.IWailaPlugin;
 //import mcp.mobius.waila.api.TooltipPosition;

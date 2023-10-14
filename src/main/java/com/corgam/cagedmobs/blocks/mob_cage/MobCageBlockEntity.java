@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.block_entities;
+package com.corgam.cagedmobs.blocks.mob_cage;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.helpers.AdaptedItemHandler;
@@ -52,7 +52,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
-import static com.corgam.cagedmobs.blocks.MobCageBlock.HOPPING;
+import static com.corgam.cagedmobs.blocks.mob_cage.MobCageBlock.HOPPING;
 import static com.corgam.cagedmobs.helpers.UpgradeItemsParticles.*;
 
 public class MobCageBlockEntity extends BlockEntity {

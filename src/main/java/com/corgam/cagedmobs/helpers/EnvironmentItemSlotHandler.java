@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.helpers;
 
-import com.corgam.cagedmobs.block_entities.MobCageBlockEntity;
+import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;

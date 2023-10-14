@@ -1,7 +1,7 @@
 package com.corgam.cagedmobs.addons.jei;
 
 import com.corgam.cagedmobs.CagedMobs;
-import com.corgam.cagedmobs.block_entities.MobCageBlockEntity;
+import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity;
 import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;

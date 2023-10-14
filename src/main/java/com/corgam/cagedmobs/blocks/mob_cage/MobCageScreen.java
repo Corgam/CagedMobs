@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.block_entities;
+package com.corgam.cagedmobs.blocks.mob_cage;
 
 import com.corgam.cagedmobs.setup.Constants;
 import net.minecraft.client.gui.GuiGraphics;

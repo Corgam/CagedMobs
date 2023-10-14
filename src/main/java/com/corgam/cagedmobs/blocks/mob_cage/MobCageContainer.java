@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.block_entities;
+package com.corgam.cagedmobs.blocks.mob_cage;
 
 import com.corgam.cagedmobs.helpers.EnvironmentItemSlotHandler;
 import com.corgam.cagedmobs.helpers.UpgradeItemSlotHandler;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 
-import static com.corgam.cagedmobs.block_entities.MobCageBlockEntity.*;
+import static com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity.*;
 
 public class MobCageContainer extends AbstractContainerMenu {
 

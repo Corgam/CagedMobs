@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.registers;
 
-import com.corgam.cagedmobs.block_entities.MobCageContainer;
+import com.corgam.cagedmobs.blocks.mob_cage.MobCageContainer;
 import com.corgam.cagedmobs.setup.Constants;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;

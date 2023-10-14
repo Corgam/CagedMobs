@@ -1,7 +1,7 @@
 package com.corgam.cagedmobs.setup;
 
-import com.corgam.cagedmobs.block_entities.MobCageRenderer;
-import com.corgam.cagedmobs.block_entities.MobCageScreen;
+import com.corgam.cagedmobs.blocks.mob_cage.MobCageRenderer;
+import com.corgam.cagedmobs.blocks.mob_cage.MobCageScreen;
 import com.corgam.cagedmobs.registers.CagedBlockEntities;
 import com.corgam.cagedmobs.registers.CagedBlocks;
 import com.corgam.cagedmobs.registers.CagedContainers;

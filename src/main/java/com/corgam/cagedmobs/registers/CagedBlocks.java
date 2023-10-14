@@ -1,6 +1,8 @@
 package com.corgam.cagedmobs.registers;
 
 import com.corgam.cagedmobs.blocks.*;
+import com.corgam.cagedmobs.blocks.mob_cage.HoppingMobCageBlock;
+import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlock;
 import com.corgam.cagedmobs.setup.Constants;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;

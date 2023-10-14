@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.registers;
 
-import com.corgam.cagedmobs.block_entities.MobCageBlockEntity;
+import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity;
 import com.corgam.cagedmobs.setup.Constants;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;

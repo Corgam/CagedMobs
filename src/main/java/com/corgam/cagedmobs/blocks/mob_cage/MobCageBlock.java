@@ -1,9 +1,7 @@
-package com.corgam.cagedmobs.blocks;
+package com.corgam.cagedmobs.blocks.mob_cage;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.addons.theoneprobe.ITopInfoProvider;
-import com.corgam.cagedmobs.block_entities.MobCageBlockEntity;
-import com.corgam.cagedmobs.block_entities.MobCageContainer;
 import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
 import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
@@ -60,7 +58,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.corgam.cagedmobs.block_entities.MobCageBlockEntity.ENVIRONMENT_SLOT;
+import static com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity.ENVIRONMENT_SLOT;
 
 public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBlock, ITopInfoProvider {
 
