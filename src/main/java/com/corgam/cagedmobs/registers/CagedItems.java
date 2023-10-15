@@ -40,7 +40,7 @@ public class CagedItems {
     public final static RegistryObject<Item> SPONGE_FRAGMENT = ITEMS_REG.register("sponge_fragment", () -> new Item(new Item.Properties()));
     public final static RegistryObject<Item> HONEY_DROP = ITEMS_REG.register("honey_drop", () -> new Item(new Item.Properties()));
     public final static RegistryObject<Item> MILK_DROP = ITEMS_REG.register("milk_drop", () -> new Item(new Item.Properties()));
-    public final static RegistryObject<Item> EXPERIENCE_ORB = ITEMS_REG.register("experience_orb", () -> new Item(new Item.Properties()));
+    public final static RegistryObject<Item> EXPERIENCE_ORB = ITEMS_REG.register("experience_orb", () -> new ExperienceOrb(new Item.Properties()));
     public final static RegistryObject<Item> EMPTY_SPAWN_EGG = ITEMS_REG.register("empty_spawn_egg", () -> new EmptySpawnEggItem(new Item.Properties()));
     public final static RegistryObject<Item> STAR_INFUSED_NETHERITE_INGOT = ITEMS_REG.register("star_infused_netherite_ingot", () -> new SimpleFoiledItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public final static RegistryObject<Item> STAR_INFUSED_NETHERITE_NUGGET = ITEMS_REG.register("star_infused_netherite_nugget", () -> new SimpleFoiledItem(new Item.Properties().rarity(Rarity.UNCOMMON)));

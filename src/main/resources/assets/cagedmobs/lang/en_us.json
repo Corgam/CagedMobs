@@ -47,6 +47,9 @@
 	"item.cagedmobs.star_infused_netherite_ingot": "Star Infused Netherite Ingot",
 	"item.cagedmobs.star_infused_netherite_nugget": "Star Infused Netherite Nugget",
 
+	"item.cagedmobs.experience_orb.info": "Right click to consume",
+	"item.cagedmobs.experience_orb.info2": "Shift-right click to consume all",
+
 	"block.cagedmobs.mobcage": "Mob Cage",
 	"block.cagedmobs.hoppingmobcage": "Hopping Mob Cage",
 	"block.cagedmobs.star_infused_netherite_block": "Star Infused Netherite Block",
