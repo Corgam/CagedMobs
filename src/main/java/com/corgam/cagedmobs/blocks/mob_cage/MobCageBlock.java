@@ -115,86 +115,97 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
             }
             // Add or remove entity
             if(heldItem.getItem() instanceof DnaSamplerItem sampler){
-                if(!cageBE.hasEntity()){
-                    // Check if there exists a recipe for a given entity type,
-                    // if the environment is suitable for that entity and if it is not blacklisted.
-                    if(cageBE.existsEntityDataFromType(sampler.getEntityType(heldItem))
-                        && cageBE.isEnvironmentSuitable(player, sampler.getEntityType(heldItem), state)
-                        && !RecipesHelper.isEntityTypeBlacklisted(sampler.getEntityType(heldItem))){
-                        // Add entity
-                        cageBE.setEntityFromSampler(sampler.getEntityType(heldItem), heldItem);
-                        // Clear the sampler
-                        if(!player.isCreative()){
-                            // If single use samplers config is enabled, destroy the sampler. If not, just use its DNA.
-                            if(CagedMobs.SERVER_CONFIG.areSamplersSingleUse()){
-                                player.broadcastBreakEvent(hand);
-                                heldItem.shrink(1);
-                            }else{
-                                sampler.removeEntityType(heldItem);
+                if(!CagedMobs.SERVER_CONFIG.areSamplersDisabled()) {
+                    if (!cageBE.hasEntity()) {
+                        // Check if there exists a recipe for a given entity type,
+                        // if the environment is suitable for that entity and if it is not blacklisted.
+                        if (cageBE.existsEntityDataFromType(sampler.getEntityType(heldItem))
+                                && cageBE.isEnvironmentSuitable(player, sampler.getEntityType(heldItem), state)
+                                && !RecipesHelper.isEntityTypeBlacklisted(sampler.getEntityType(heldItem))) {
+                            // Add entity
+                            cageBE.setEntityFromSampler(sampler.getEntityType(heldItem), heldItem);
+                            // Clear the sampler
+                            if (!player.isCreative()) {
+                                // If single use samplers config is enabled, destroy the sampler. If not, just use its DNA.
+                                if (CagedMobs.SERVER_CONFIG.areSamplersSingleUse()) {
+                                    player.broadcastBreakEvent(hand);
+                                    heldItem.shrink(1);
+                                } else {
+                                    sampler.removeEntityType(heldItem);
+                                }
                             }
+                            return InteractionResult.SUCCESS;
                         }
+                        return InteractionResult.FAIL;
+                        // Retrieve entity from the cage
+                    } else {
+                        if (!DnaSamplerItem.containsEntityType(heldItem)) {
+                            // Check if sampler's tier is sufficient
+                            if (cageBE.getEntity().getSamplerTier() >= 3 && !(heldItem.getItem() instanceof DnaSamplerNetheriteItem)) {
+                                player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
+                                return InteractionResult.FAIL;
+                            }
+                            if (cageBE.getEntity().getSamplerTier() >= 2 && !((heldItem.getItem() instanceof DnaSamplerNetheriteItem) || (heldItem.getItem() instanceof DnaSamplerDiamondItem))) {
+                                player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
+                                return InteractionResult.FAIL;
+                            }
+                            // Get back the entity
+                            sampler.setEntityTypeFromCage(cageBE, heldItem, player, hand);
+                            cageBE.setChanged();
+                        } else {
+                            player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
+                            return InteractionResult.FAIL;
+                        }
+                        cageBE.removeEntity();
                         return InteractionResult.SUCCESS;
                     }
-                    return InteractionResult.FAIL;
-                // Retrieve entity from the cage
-                }else{
-                    if(!DnaSamplerItem.containsEntityType(heldItem)){
-                        // Check if sampler's tier is sufficient
-                        if(cageBE.getEntity().getSamplerTier() >= 3  && !(heldItem.getItem() instanceof DnaSamplerNetheriteItem)){
-                            player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
-                            return InteractionResult.FAIL;
-                        }
-                        if(cageBE.getEntity().getSamplerTier() >= 2  && !((heldItem.getItem() instanceof DnaSamplerNetheriteItem) || (heldItem.getItem() instanceof DnaSamplerDiamondItem))){
-                            player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
-                            return InteractionResult.FAIL;
-                        }
-                        // Get back the entity
-                        sampler.setEntityTypeFromCage(cageBE, heldItem, player, hand);
-                        cageBE.setChanged();
-                    }else{
-                        player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
-                        return InteractionResult.FAIL;
-                    }
-                    cageBE.removeEntity();
-                    return InteractionResult.SUCCESS;
                 }
             }
             // Add entity from spawn egg
             if(heldItem.getItem() instanceof SpawnEggItem spawnEggItem){
-                if(!cageBE.hasEntity()){
-                    EntityType<?> entityType = spawnEggItem.getType(heldItem.getOrCreateTag());
-                    // Check if there exists a recipe for a given entity type,
-                    // if the environment is suitable for that entity and if it is not blacklisted.
-                    if(cageBE.existsEntityDataFromType(entityType)
-                            && cageBE.isEnvironmentSuitable(player, entityType, state)
-                            && !RecipesHelper.isEntityTypeBlacklisted(entityType)){
-                        // Add entity
-                        cageBE.setEntityFromSampler(entityType, heldItem);
-                        // Clear the sampler
-                        if(!player.isCreative()){
-                            heldItem.shrink(1);
-                            player.addItem(new ItemStack(CagedItems.EMPTY_SPAWN_EGG.get()));
+                if(!CagedMobs.SERVER_CONFIG.areSpawnEggsDisabled()) {
+                    if (!cageBE.hasEntity()) {
+                        EntityType<?> entityType = spawnEggItem.getType(heldItem.getOrCreateTag());
+                        // Check if there exists a recipe for a given entity type,
+                        // if the environment is suitable for that entity and if it is not blacklisted.
+                        if (cageBE.existsEntityDataFromType(entityType)
+                                && cageBE.isEnvironmentSuitable(player, entityType, state)
+                                && !RecipesHelper.isEntityTypeBlacklisted(entityType)) {
+                            // Add entity
+                            cageBE.setEntityFromSampler(entityType, heldItem);
+                            // Clear the sampler
+                            if (!player.isCreative()) {
+                                heldItem.shrink(1);
+                                player.addItem(new ItemStack(CagedItems.EMPTY_SPAWN_EGG.get()));
+                            }
+                            return InteractionResult.SUCCESS;
                         }
-                        return InteractionResult.SUCCESS;
+                    } else {
+                        player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
                     }
                 }else{
-                    player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
+                    player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.spawnEggsDisabled").withStyle(ChatFormatting.RED), true);
                 }
                 return InteractionResult.CONSUME;
             }
             // Retrieve entity from the cage with empty spawn egg
             if(heldItem.getItem() instanceof EmptySpawnEggItem){
-                if(cageBE.hasEntity()){
-                    SpawnEggItem spawnEgg = ForgeSpawnEggItem.fromEntityType(cageBE.getEntityType());
-                    if(spawnEgg != null){
-                        if(!player.isCreative()){
-                            player.addItem(new ItemStack(spawnEgg));
-                            heldItem.shrink(1);
+                if(!CagedMobs.SERVER_CONFIG.areSpawnEggsDisabled()){
+                    if(cageBE.hasEntity()){
+                        SpawnEggItem spawnEgg = ForgeSpawnEggItem.fromEntityType(cageBE.getEntityType());
+                        if(spawnEgg != null){
+                            if(!player.isCreative()){
+                                player.addItem(new ItemStack(spawnEgg));
+                                heldItem.shrink(1);
+                            }
+                            cageBE.removeEntity();
+                            return InteractionResult.SUCCESS;
                         }
-                        cageBE.removeEntity();
-                        return InteractionResult.SUCCESS;
+                       return InteractionResult.FAIL;
                     }
-                   return InteractionResult.FAIL;
+                }else{
+                    player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.spawnEggsDisabled").withStyle(ChatFormatting.RED), true);
+                    return InteractionResult.FAIL;
                 }
             }
             // Try to harvest the cage with sword

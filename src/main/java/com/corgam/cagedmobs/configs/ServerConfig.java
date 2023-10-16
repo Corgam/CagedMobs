@@ -18,6 +18,8 @@ public class ServerConfig {
     private final ForgeConfigSpec.ConfigValue<List<? extends String>> itemsList;
 
     private final ForgeConfigSpec.BooleanValue singleUseSamplers;
+    private final ForgeConfigSpec.BooleanValue disableSamplers;
+    private final ForgeConfigSpec.BooleanValue disableSpawnEggs;
 
     private final ForgeConfigSpec.DoubleValue cagesSpeed;
 
@@ -33,6 +35,14 @@ public class ServerConfig {
         // Single use samplers
         builder.comment("Makes all samplers (all tiers) only single use. After a mob is sampled and put into the cage the sampler will break.");
         this.singleUseSamplers = builder.define("singleUseSamplers", false);
+
+        // Disable samplers
+        builder.comment("Disables all samplers, requiring the player to use only the spawn eggs.");
+        this.disableSamplers = builder.define("disableSamplers", false);
+
+        // Disable Spawn Eggs
+        builder.comment("Disables the ability to use spawn eggs on mob cages, requiring the player to use only the samplers.");
+        this.disableSpawnEggs = builder.define("disableSpawnEggs", false);
 
         // Cage speed
         builder.comment("Sets the speed of all cages. The bigger the value the faster the cages will work (by default: 1.00).");
@@ -88,6 +98,10 @@ public class ServerConfig {
     }
 
     public boolean areSamplersSingleUse(){return this.singleUseSamplers.get();}
+
+    public boolean areSamplersDisabled(){return this.disableSamplers.get();}
+
+    public boolean areSpawnEggsDisabled(){return this.disableSpawnEggs.get();}
 
     public Double getSpeedOfCages(){return this.cagesSpeed.get();}
 }

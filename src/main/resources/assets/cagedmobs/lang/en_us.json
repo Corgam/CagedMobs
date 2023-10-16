@@ -14,6 +14,7 @@
 	"item.cagedmobs.dnasampler.not_cachable": "This type of entity cannot be sampled",
 	"item.cagedmobs.dnasampler.not_sufficient": "This DNA sampler is not strong enough to sample this entity",
 	"item.cagedmobs.dnasampler.unknown_entity": "Unknown entity",
+	"item.cagedmobs.dnasampler.disabled": "Disabled",
 
 	"item.cagedmobs.speed_i_upgrade": "Speed I Cage Upgrade",
 	"item.cagedmobs.speed_ii_upgrade": "Speed II Cage Upgrade",
@@ -65,6 +66,8 @@
 	"block.cagedmobs.mobcage.cageAlreadyUsed": "This cage has another entity's DNA inside.",
 	"block.cagedmobs.mobcage.samplerNotSufficient": "This sampler is not strong enough to get back entity from the cage.",
 	"block.cagedmobs.mobcage.upgradesFull": "The cage has the max amount of upgrades!",
+	"block.cagedmobs.mobcage.spawnEggsDisabled": "Spawn Eggs usage is disabled.",
+
 	"block.cagedmobs.starinfusednetheriteblock.beacon": "Can be used as a beacon base block.",
 
 	"jei.category.cagedmobs.entity": "Caged Entities Drops",

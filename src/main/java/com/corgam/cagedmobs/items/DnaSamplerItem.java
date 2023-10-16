@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.items;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
@@ -36,36 +37,38 @@ public class DnaSamplerItem extends Item {
     // Called on left-click on an entity to get it's sample
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if(target.level().isClientSide() || !(attacker instanceof Player)) return false;
-        Player player = (Player) attacker;
-        // Select the hand where the sampler is
-        InteractionHand hand;
-        if(player.getMainHandItem().equals(stack)){
-            hand = InteractionHand.MAIN_HAND;
-        }else if(player.getOffhandItem().equals(stack)){
-            hand = InteractionHand.OFF_HAND;
-        }else{
-            return false;
-        }
-        // Try to sample the target
-        if (canBeCached(target) && !RecipesHelper.isEntityTypeBlacklisted(target.getType())) {
-            if(samplerTierSufficient(stack, target)) {
-                CompoundTag nbt = new CompoundTag();
-                SerializationHelper.serializeEntityTypeNBT(nbt, target.getType());
-                // If sheep add it's color to nbt
-                if(target instanceof Sheep){
-                    Sheep sheep = (Sheep) target;
-                    DyeColor color = sheep.getColor();
-                    nbt.putInt("Color",color.getId());
-                }
-                stack.setTag(nbt);
-                player.setItemInHand(hand, stack);
-                return true;
-            }else{
-                player.displayClientMessage(Component.translatable("item.cagedmobs.dnasampler.not_sufficient").withStyle(ChatFormatting.RED), true);
+        if(!CagedMobs.SERVER_CONFIG.areSamplersDisabled()) {
+            if (target.level().isClientSide() || !(attacker instanceof Player)) return false;
+            Player player = (Player) attacker;
+            // Select the hand where the sampler is
+            InteractionHand hand;
+            if (player.getMainHandItem().equals(stack)) {
+                hand = InteractionHand.MAIN_HAND;
+            } else if (player.getOffhandItem().equals(stack)) {
+                hand = InteractionHand.OFF_HAND;
+            } else {
+                return false;
             }
-        }else{
-            player.displayClientMessage(Component.translatable("item.cagedmobs.dnasampler.not_cachable").withStyle(ChatFormatting.RED), true);
+            // Try to sample the target
+            if (canBeCached(target) && !RecipesHelper.isEntityTypeBlacklisted(target.getType())) {
+                if (samplerTierSufficient(stack, target)) {
+                    CompoundTag nbt = new CompoundTag();
+                    SerializationHelper.serializeEntityTypeNBT(nbt, target.getType());
+                    // If sheep add it's color to nbt
+                    if (target instanceof Sheep) {
+                        Sheep sheep = (Sheep) target;
+                        DyeColor color = sheep.getColor();
+                        nbt.putInt("Color", color.getId());
+                    }
+                    stack.setTag(nbt);
+                    player.setItemInHand(hand, stack);
+                    return true;
+                } else {
+                    player.displayClientMessage(Component.translatable("item.cagedmobs.dnasampler.not_sufficient").withStyle(ChatFormatting.RED), true);
+                }
+            } else {
+                player.displayClientMessage(Component.translatable("item.cagedmobs.dnasampler.not_cachable").withStyle(ChatFormatting.RED), true);
+            }
         }
         return false;
     }
@@ -135,6 +138,9 @@ public class DnaSamplerItem extends Item {
         tooltip.add(getInformationForTier().withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.translatable("item.cagedmobs.dnasampler.makeEmpty").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.translatable("item.cagedmobs.dnasampler.getBackEntity").withStyle(ChatFormatting.GRAY));
+        if(CagedMobs.SERVER_CONFIG.areSamplersDisabled()){
+            tooltip.add(Component.translatable("item.cagedmobs.dnasampler.disabled").withStyle(ChatFormatting.RED));
+        }
     }
 
     private MutableComponent getInformationForTier(){

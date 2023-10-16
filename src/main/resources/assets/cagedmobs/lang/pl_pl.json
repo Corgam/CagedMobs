@@ -14,6 +14,7 @@
   "item.cagedmobs.dnasampler.not_cachable": "Nie można pobrać próbki DNA z tego typu stworzenia",
   "item.cagedmobs.dnasampler.not_sufficient": "Ta strzykawka nie jest wystarczająco silna, aby pobrać próbkę DNA z tego stworzenia",
   "item.cagedmobs.dnasampler.unknown_entity": "Nieznane stworzenie",
+  "item.cagedmobs.dnasampler.disabled": "Zablokowane",
 
   "item.cagedmobs.speed_i_upgrade": "Ulepszenie: Szybkość I",
   "item.cagedmobs.speed_ii_upgrade": "Ulepszenie: Szybkość II",
@@ -65,6 +66,8 @@
   "block.cagedmobs.mobcage.cageAlreadyUsed": "Ta klatka ma w środku DNA innego stworzenia.",
   "block.cagedmobs.mobcage.samplerNotSufficient": "Ta strzykawka nie jest wystarczająco silna, aby odzyskać stworzenie z klatki.",
   "block.cagedmobs.mobcage.upgradesFull": "Klatka ma już maksymalną ilość ulepszeń!",
+  "block.cagedmobs.mobcage.spawnEggsDisabled": "Jajka przyzywające są zablokowane.",
+
   "block.cagedmobs.starinfusednetheriteblock.beacon": "Może być użyty jako blok do piramidy magicznej latarni.",
 
   "jei.category.cagedmobs.entity": "Łupy klatek na stworzenia",

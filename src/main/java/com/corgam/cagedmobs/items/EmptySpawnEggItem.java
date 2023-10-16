@@ -1,5 +1,6 @@
 package com.corgam.cagedmobs.items;
 
+import com.corgam.cagedmobs.CagedMobs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -21,5 +22,8 @@ public class EmptySpawnEggItem extends Item {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(Component.translatable("item.cagedmobs.dnasampler.getBackEntity").withStyle(ChatFormatting.GRAY));
+        if(CagedMobs.SERVER_CONFIG.areSpawnEggsDisabled()){
+            tooltip.add(Component.translatable("item.cagedmobs.dnasampler.disabled").withStyle(ChatFormatting.RED));
+        }
     }
 }
