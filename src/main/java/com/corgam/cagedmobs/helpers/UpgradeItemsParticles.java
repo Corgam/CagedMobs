@@ -22,7 +22,7 @@ public class UpgradeItemsParticles {
     public static void emitCookingParticles(MobCageBlockEntity blockEntity){
         Level level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
-            if (level.random.nextInt(10) == 0) {
+            if (level.random.nextInt(20) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + (level.random.nextDouble()/3);
@@ -48,7 +48,7 @@ public class UpgradeItemsParticles {
     public static void emitLightningParticles(MobCageBlockEntity blockEntity){
         Level level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
-            if (level.random.nextInt(15) == 0) {
+            if (level.random.nextInt(25) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + level.random.nextDouble();
@@ -65,7 +65,7 @@ public class UpgradeItemsParticles {
     public static void emitArrowParticles(MobCageBlockEntity blockEntity){
         Level level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
-            if (level.random.nextInt(30) == 0) {
+            if (level.random.nextInt(40) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + 0.4 + (level.random.nextDouble()/5);
                 double d4 = (double) blockpos.getY() + 0.8;
@@ -82,7 +82,7 @@ public class UpgradeItemsParticles {
     public static void emitExperienceParticles(MobCageBlockEntity blockEntity){
         Level level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
-            if (level.random.nextInt(20) == 0) {
+            if (level.random.nextInt(40) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + 0.9;
@@ -99,7 +99,7 @@ public class UpgradeItemsParticles {
     public static void emitFortuneParticles(MobCageBlockEntity blockEntity){
         Level level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
-            if (level.random.nextInt(20) == 0) {
+            if (level.random.nextInt(25) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + (level.random.nextDouble()/2);
@@ -117,7 +117,7 @@ public class UpgradeItemsParticles {
     public static void emitSpeedParticles(MobCageBlockEntity blockEntity){
         Level level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
-            if (level.random.nextInt(25) == 0) {
+            if (level.random.nextInt(40) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + (level.random.nextDouble()/2);

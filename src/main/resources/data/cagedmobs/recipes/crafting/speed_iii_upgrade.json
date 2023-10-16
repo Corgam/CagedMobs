@@ -19,7 +19,7 @@
       "item": "minecraft:blackstone"
     },
     "Q": {
-      "tag": "forge:storage_blocks/quartz"
+      "tag": "cagedmobs:ingots/star_infused_netherite"
     }
   },
   "result": {

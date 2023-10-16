@@ -30,6 +30,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
@@ -127,6 +128,8 @@ public class MobCageBlockEntity extends BlockEntity {
                 // Update the environment
                 if(slot == ENVIRONMENT_SLOT){
                     updateEnvironment();
+                }else{
+                    calculateTotalGrowTicks();
                 }
                 // Notify client and server
                 setChanged();
@@ -188,7 +191,7 @@ public class MobCageBlockEntity extends BlockEntity {
         //Tick only when env and mob is inside
         if(blockEntity.hasEnvAndEntity() && !blockEntity.waitingForHarvest) {
             // Check if ready to harvest
-            if(blockEntity.currentGrowTicks >= blockEntity.getTotalGrowTicks()) {
+            if(blockEntity.currentGrowTicks >= blockEntity.totalGrowTicks) {
                 blockEntity.attemptHarvest(state);
             }else {
                 // Add one tick (if entity requires water-logging check for it)
@@ -381,9 +384,8 @@ public class MobCageBlockEntity extends BlockEntity {
         MobData mobData = getMobDataFromType(entityType);
         this.entity = mobData;
         this.entityType = entityType;
-        // Calculate required ticks (take into account growthModifier from env)
-        int basicTotalGrowTicks = Math.round(mobData.getTotalGrowTicks()/this.environmentData.getGrowModifier());
-        this.totalGrowTicks = (int) Math.round(basicTotalGrowTicks/ CagedMobs.SERVER_CONFIG.getSpeedOfCages());
+        // Calculate required ticks
+        this.totalGrowTicks = this.calculateTotalGrowTicks();
         // Sync with client
         if(this.level != null){
             this.level.sendBlockUpdated(this.worldPosition, getBlockState(), getBlockState(), 3);
@@ -558,11 +560,20 @@ public class MobCageBlockEntity extends BlockEntity {
     }
 
     /**
-     * Checks if the cage has a given amount or more of a specific upgrades.
+     * Return the amount of a specific upgrade.
      * @param upgradeItem the upgrade to check for
-     * @param requiredCount the required minimal count
-     * @return if the cage has a given amount or more of a specific upgrades
+     * @return the amount of specific upgrade
      */
+    public int getUpgradeCount(Item upgradeItem){
+        int currentCount = 0;
+        for (int i = 0; i < this.items.getSlots(); i++) {
+            if(this.items.getStackInSlot(i).getItem().equals(upgradeItem)){
+                currentCount++;
+            }
+        }
+        return currentCount;
+    }
+
     public boolean hasUpgrades(Item upgradeItem, int requiredCount){
         int currentCount = 0;
         for (int i = 0; i < this.items.getSlots(); i++) {
@@ -650,12 +661,12 @@ public class MobCageBlockEntity extends BlockEntity {
             if(this.autoHarvest()){
                 this.currentGrowTicks = 0;
             }else{
-                this.currentGrowTicks = this.getTotalGrowTicks();
+                this.currentGrowTicks = this.totalGrowTicks;
             }
         }else {
             // Lock
             waitingForHarvest = true;
-            this.currentGrowTicks = this.getTotalGrowTicks();
+            this.currentGrowTicks = this.totalGrowTicks;
         }
         // Sync with client
         if(this.level != null){
@@ -754,16 +765,49 @@ public class MobCageBlockEntity extends BlockEntity {
                 if(amount > 0) {
                     // Add copied item stack to the drop list
                     ItemStack stack = loot.getItem().copy();
-                    // Replace the item if there is a cooking upgrade
-                    if(this.hasUpgrades(CagedItems.COOKING_UPGRADE.get(), 1) && loot.isCooking()){
+                    // Replace the item if there is a cooking upgrade.
+                    if(this.hasUpgrades(CagedItems.COOKING_UPGRADE.get(), 3) && loot.isCooking()){
+                        stack = new ItemStack(Items.COAL);
+                    }else if(this.hasUpgrades(CagedItems.COOKING_UPGRADE.get(), 1) && loot.isCooking()){
                         stack = loot.getCookedItem().copy();
                     }
                     stack.setCount(amount);
                     drops.add(stack);
+                    if(this.hasUpgrades(CagedItems.FORTUNE_UPGRADE.get(),1 )){
+                        this.calculateFortune(drops, stack);
+                    }
                 }
             }
         }
+        // Add experience orb if the experience upgrade is present
+        if(this.hasUpgrades(CagedItems.EXPERIENCE_UPGRADE.get(), 1)){
+            if(this.level != null && !this.level.isClientSide() && this.level.random.nextFloat() <= 0.7){
+                ItemStack experienceOrbItem = new ItemStack(CagedItems.EXPERIENCE_ORB.get());
+                experienceOrbItem.setCount(this.getUpgradeCount(CagedItems.EXPERIENCE_UPGRADE.get()));
+                drops.add(experienceOrbItem);
+                // Take fortune upgrade into account
+               if(this.hasUpgrades(CagedItems.FORTUNE_UPGRADE.get(),1 )){
+                    this.calculateFortune(drops, experienceOrbItem);
+               }
+            }
+        }
         return drops;
+    }
+
+    /**
+     * Takes into account the fortune upgrade, multiplying the item drop by 2,3 or 4.
+     * Each fortune upgrade adds 20% chance for the fortune effect to take place.
+     * @param dropList the main drop list to add items to
+     * @param item item to duplicate
+     */
+    private void calculateFortune(NonNullList<ItemStack> dropList, ItemStack item){
+        double fortuneChance = this.getUpgradeCount(CagedItems.FORTUNE_UPGRADE.get()) * 0.2;
+        if(this.level != null && !this.level.isClientSide() && this.level.random.nextFloat() < fortuneChance){
+            int countMultiplayer = this.level.random.nextInt(2) + 2;
+            for(int i = 0; i < countMultiplayer - 1; i++){
+                dropList.add(item);
+            }
+        }
     }
 
     /**
@@ -771,7 +815,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return if the cage is ready to be harvested
      */
     private boolean canPlayerHarvest() {
-        return this.hasEnvAndEntity() && this.getTotalGrowTicks() > 0 && this.getCurrentGrowTicks() >= this.getTotalGrowTicks();
+        return this.hasEnvAndEntity() && this.totalGrowTicks > 0 && this.currentGrowTicks >= this.totalGrowTicks;
     }
 
     /**
@@ -788,7 +832,7 @@ public class MobCageBlockEntity extends BlockEntity {
      */
     public float getGrowthPercentage() {
         if(this.totalGrowTicks != 0) {
-            return (float) this.getCurrentGrowTicks() / this.getTotalGrowTicks();
+            return (float) this.currentGrowTicks / this.totalGrowTicks;
         }else{
             return 0;
         }
@@ -798,22 +842,25 @@ public class MobCageBlockEntity extends BlockEntity {
      * Returns the total grow ticks
      * @return total grow ticks
      */
-    private int getTotalGrowTicks() {
-        if(this.environmentData != null){
-            int basicTotalGrowTicks = Math.round(this.getEntity().getTotalGrowTicks()/this.environmentData.getGrowModifier());
-            return this.totalGrowTicks = (int) Math.round(basicTotalGrowTicks/CagedMobs.SERVER_CONFIG.getSpeedOfCages());
+    private int calculateTotalGrowTicks() {
+        if(this.environmentData != null && this.getEntity() != null){
+            float growModifier = this.environmentData.getGrowModifier();
+            // Take into account speed upgrades
+            for(int i=0; i < this.getUpgradeCount(CagedItems.SPEED_I_UPGRADE.get()); i++){
+                growModifier *= 1.5F;
+            }
+            for(int i=0; i < this.getUpgradeCount(CagedItems.SPEED_II_UPGRADE.get()); i++){
+                growModifier *= 2F;
+            }
+            for(int i=0; i < this.getUpgradeCount(CagedItems.SPEED_III_UPGRADE.get()); i++){
+                growModifier *= 3F;
+            }
+            int basicTotalGrowTicks = Math.round(this.getEntity().getTotalGrowTicks()/growModifier);
+            this.totalGrowTicks = (int) Math.round(basicTotalGrowTicks/CagedMobs.SERVER_CONFIG.getSpeedOfCages());
+            return this.totalGrowTicks;
         }
         return 0;
     }
-
-    /**
-     * Returns the current grow ticks
-     * @return current grow ticks
-     */
-    private int getCurrentGrowTicks() {
-        return this.currentGrowTicks;
-    }
-
 
     // COLOR FUNCTIONS
 
@@ -888,7 +935,7 @@ public class MobCageBlockEntity extends BlockEntity {
         this.waitingForHarvest = tag.getBoolean("waitingForHarvest");
         this.currentGrowTicks = tag.getInt("currentGrowTicks");
         if(hasEntity()){
-            this.totalGrowTicks = Math.round( this.entity.getTotalGrowTicks()/this.environmentData.getGrowModifier());
+            this.totalGrowTicks = this.calculateTotalGrowTicks();
         }
         // If env or entity changed, refresh model data
         if(!Objects.equals(oldEnv, this.items.getStackInSlot(ENVIRONMENT_SLOT)) || !Objects.equals(oldEntityType,this.entityType)){

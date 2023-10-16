@@ -31,7 +31,7 @@
 				"maxAmount": 2
 		},
 		{
-			"chance": 0.5,
+			"chance": 0.3,
 			"output": {
 				"item": "cagedmobs:milk_drop"
 			},

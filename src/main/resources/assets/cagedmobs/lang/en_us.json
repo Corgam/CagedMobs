@@ -18,7 +18,7 @@
 	"item.cagedmobs.speed_i_upgrade": "Speed I Cage Upgrade",
 	"item.cagedmobs.speed_ii_upgrade": "Speed II Cage Upgrade",
 	"item.cagedmobs.speed_iii_upgrade": "Speed III Cage Upgrade",
-	"item.cagedmobs.speed_i_upgrade.info": "Increases cage speed by 20%",
+	"item.cagedmobs.speed_i_upgrade.info": "Increases cage speed by 50%",
 	"item.cagedmobs.speed_ii_upgrade.info": "Increases cage speed by 100%",
 	"item.cagedmobs.speed_iii_upgrade.info": "Increases cage speed by 200%",
 
