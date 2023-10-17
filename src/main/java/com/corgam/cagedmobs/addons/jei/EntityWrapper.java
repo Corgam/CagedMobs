@@ -29,8 +29,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -231,42 +229,34 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }
     }
 
-    public void draw(IRecipeSlotsView view, GuiGraphics graphics, double mouseX, double mouseY, IGuiHelper guiHelper, IDrawable background, int width, int height) {
+    public void draw(IRecipeSlotsView view, GuiGraphics pGuiGraphics, double mouseX, double mouseY, IGuiHelper guiHelper, IDrawable background) {
         // Draw Seed & Soil
-        guiHelper.getSlotDrawable().draw(graphics, 14, 62+19);
-        guiHelper.getSlotDrawable().draw(graphics, 14+20, 62 + 19);
+        guiHelper.getSlotDrawable().draw(pGuiGraphics, 14, 62+19);
+        guiHelper.getSlotDrawable().draw(pGuiGraphics, 14+20, 62 + 19);
         // Draw Drops
         for (int nextSlotId = 2; nextSlotId < 22; nextSlotId++) {
             final int relativeSlotId = nextSlotId - 2;
-            guiHelper.getSlotDrawable().draw(graphics, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
+            guiHelper.getSlotDrawable().draw(pGuiGraphics, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
         }
-        // Draw entity
-        this.drawEntity(graphics, background.getWidth(), background.getHeight(), mouseX, mouseY, width, height);
-        // Draw entity name
-        if(this.getEntity() != null && this.getEntity().getEntityType() != null) {
-            graphics.drawString(Minecraft.getInstance().font, this.getEntity().getEntityType().getDescription(), 5, 2, 8, false);
-        }
-        // Draw required ticks
-        graphics.drawString(Minecraft.getInstance().font, Component.translatable("jei.tooltip.cagedmobs.entity.ticks", this.getSeconds()), 10, 102, 8, false);
-        // Draw waterlogged info if it requires water
-        if(this.ifRequiresWater()){
-            graphics.drawString(Minecraft.getInstance().font, Component.translatable("jei.tooltip.cagedmobs.entity.requiresWater", this.getSeconds()).withStyle(ChatFormatting.BLUE), 5, 112, 8, false);
-        }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public void drawEntity(GuiGraphics graphics, int recipeWidth, int recipeHeight, double mouseX, double mouseY, int width, int height) {
         // Create the entity object to render
         Level level = Minecraft.getInstance().level;
         Optional<Entity> entity = EntityRendererHelper.createEntity(level, this.getEntity().getEntityType());
         // Render the entity if created correctly
-        if (entity.isPresent()) {
-            // Calculate rotation
+        if(entity.isPresent()){
             rotation = (rotation+ 0.5f)% 360;
-            // Render the entity
-            EntityRendererHelper.renderEntity(graphics, 33, 120, 38 - yaw, 70, rotation, entity.get());
+            EntityRendererHelper.renderEntity(pGuiGraphics, 33, 120, 38 - yaw, 70, rotation, entity.get() );
             // Update yaw
             yaw = (yaw + 1.5) % 720.0F;
+        }
+        // Draw entity name
+        if(this.getEntity() != null && this.getEntity().getEntityType() != null) {
+            pGuiGraphics.drawString(Minecraft.getInstance().font, this.getEntity().getEntityType().getDescription(), 5, 2, 8, false);
+        }
+        // Draw required ticks
+        pGuiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("jei.tooltip.cagedmobs.entity.ticks", this.getSeconds()), 10, 102, 8, false);
+        // Draw waterlogged info if it requires water
+        if(this.ifRequiresWater()){
+            pGuiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("jei.tooltip.cagedmobs.entity.requiresWater", this.getSeconds()).withStyle(ChatFormatting.BLUE), 5, 112, 8, false);
         }
     }
 

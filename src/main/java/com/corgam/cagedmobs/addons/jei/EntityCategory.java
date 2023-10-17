@@ -62,6 +62,6 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
 
     @Override
     public void draw(EntityWrapper recipe, IRecipeSlotsView view, GuiGraphics graphics, double mouseX, double mouseY) {
-        recipe.draw(view, graphics, mouseX, mouseY, this.guiHelper, this.background, this.getWidth(), this.getHeight());
+        recipe.draw(view, graphics, mouseX, mouseY, this.guiHelper, this.background);
     }
 }
