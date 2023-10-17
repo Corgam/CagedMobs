@@ -398,8 +398,8 @@ public class MobCageBlockEntity extends BlockEntity {
      * Returns the current entity data.
      * @return entity data
      */
-    public MobData getEntity() {
-        return this.entity;
+    public Optional<MobData> getEntity() {
+        return Optional.ofNullable(this.entity);
     }
 
     /**
@@ -843,7 +843,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return total grow ticks
      */
     private int calculateTotalGrowTicks() {
-        if(this.environmentData != null && this.getEntity() != null){
+        if(this.environmentData != null && this.getEntity().isPresent()){
             float growModifier = this.environmentData.getGrowModifier();
             // Take into account speed upgrades
             for(int i=0; i < this.getUpgradeCount(CagedItems.SPEED_I_UPGRADE.get()); i++){
@@ -855,7 +855,7 @@ public class MobCageBlockEntity extends BlockEntity {
             for(int i=0; i < this.getUpgradeCount(CagedItems.SPEED_III_UPGRADE.get()); i++){
                 growModifier *= 3F;
             }
-            int basicTotalGrowTicks = Math.round(this.getEntity().getTotalGrowTicks()/growModifier);
+            int basicTotalGrowTicks = Math.round(this.getEntity().get().getTotalGrowTicks()/growModifier);
             this.totalGrowTicks = (int) Math.round(basicTotalGrowTicks/CagedMobs.SERVER_CONFIG.getSpeedOfCages());
             return this.totalGrowTicks;
         }

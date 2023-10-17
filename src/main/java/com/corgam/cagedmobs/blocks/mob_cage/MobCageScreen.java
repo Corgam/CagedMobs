@@ -1,12 +1,17 @@
 package com.corgam.cagedmobs.blocks.mob_cage;
 
+import com.corgam.cagedmobs.helpers.EntityRendererHelper;
 import com.corgam.cagedmobs.setup.Constants;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.level.block.entity.BlockEntity;
+
+import java.util.Optional;
 
 public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
 
@@ -15,6 +20,8 @@ public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
     private final ResourceLocation UPGRADE_SLOT_OUTLINE = new ResourceLocation(Constants.MOD_ID, "textures/gui/upgrade_slot.png");
     private final ResourceLocation ENVIRONMENT_SLOT_OUTLINE = new ResourceLocation(Constants.MOD_ID, "textures/gui/environment_slot.png");
 
+    private static float rotation = 0.0f;
+    private static double yaw = 0;
 
     /**
      * Creates the cage screen rendered on the client side.
@@ -39,6 +46,19 @@ public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        // Render entity
+        BlockEntity blockEntity = this.menu.player.level().getBlockEntity(this.menu.pos);
+        if(blockEntity instanceof MobCageBlockEntity cageBE && cageBE.getEntity().isPresent()){
+            Optional<Entity> entity = EntityRendererHelper.createEntity(this.menu.player.level(), cageBE.getEntity().get().getEntityType());
+            if(entity.isPresent()){
+                rotation = (rotation+ 0.5f)% 360;
+                pGuiGraphics.enableScissor(this.leftPos+62, this.topPos+17, this.leftPos+114, this.topPos+87);
+                EntityRendererHelper.renderEntity(pGuiGraphics, this.leftPos + 87, this.topPos + 125, yaw, 70, rotation, entity.get() );
+                pGuiGraphics.disableScissor();
+                // Update yaw
+                yaw = (yaw + 1.5) % 720.0F;
+            }
+        }
         this.renderTooltip(pGuiGraphics, pMouseX, pMouseY);
     }
 

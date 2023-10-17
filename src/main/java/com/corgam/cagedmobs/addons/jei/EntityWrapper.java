@@ -2,6 +2,7 @@ package com.corgam.cagedmobs.addons.jei;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity;
+import com.corgam.cagedmobs.helpers.EntityRendererHelper;
 import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
@@ -9,8 +10,6 @@ import com.corgam.cagedmobs.serializers.env.EnvironmentData;
 import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -23,21 +22,9 @@ import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.AbstractFish;
-import net.minecraft.world.entity.animal.Dolphin;
-import net.minecraft.world.entity.animal.Squid;
-import net.minecraft.world.entity.animal.Turtle;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.monster.ElderGuardian;
-import net.minecraft.world.entity.monster.Ghast;
-import net.minecraft.world.entity.monster.Guardian;
-import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -51,8 +38,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.corgam.cagedmobs.CagedMobs.LOGGER;
-
 public class EntityWrapper implements IRecipeCategoryExtension {
 
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
@@ -64,8 +49,8 @@ public class EntityWrapper implements IRecipeCategoryExtension {
     private final List<Integer> cookedIDs = new ArrayList<Integer>();
     private final boolean requiresWater;
     private final int ticks;
-    public static float rotation = 0.0f;
 
+    public static float rotation = 0.0f;
     private static double yaw = 0;
 
     public EntityWrapper(MobData entity){
@@ -271,57 +256,18 @@ public class EntityWrapper implements IRecipeCategoryExtension {
 
     @OnlyIn(Dist.CLIENT)
     public void drawEntity(GuiGraphics graphics, int recipeWidth, int recipeHeight, double mouseX, double mouseY, int width, int height) {
-        // Create the nbt tag
-        CompoundTag nbt = new CompoundTag();
-        nbt.putString("id", EntityType.getKey(this.getEntity().getEntityType()).toString());
         // Create the entity object to render
-        Optional<Entity> entity = Optional.empty();
         Level level = Minecraft.getInstance().level;
-        if(level != null && level.isClientSide()){
-            entity = EntityType.create(nbt, level);
-        }
+        Optional<Entity> entity = EntityRendererHelper.createEntity(level, this.getEntity().getEntityType());
         // Render the entity if created correctly
         if (entity.isPresent()) {
-            float scale = getScaleForEntityType(entity.get());
-            int offsetY = getOffsetForEntityType(entity.get());
-            // Add rotation
+            // Calculate rotation
             rotation = (rotation+ 0.5f)% 360;
             // Render the entity
-            renderEntity(
-                    graphics,
-                    33, 120 - offsetY, scale,
-                    38 - yaw,
-                    70 - offsetY,
-                    entity.get()
-            );
+            EntityRendererHelper.renderEntity(graphics, 33, 120, 38 - yaw, 70, rotation, entity.get());
             // Update yaw
             yaw = (yaw + 1.5) % 720.0F;
         }
-    }
-
-    public static void renderEntity(GuiGraphics graphics, int x, int y, float scale, double yaw, double pitch, Entity entity) {
-        PoseStack matrixStack = graphics.pose();
-        matrixStack.pushPose();
-        // Translate the entity to right position
-        matrixStack.translate(x, y, 50F);
-        // Scale the entity
-        matrixStack.scale(-scale, scale, scale);
-        // Rotate the entity so it's not upside down
-        matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
-        // Rotate the entity around
-        matrixStack.mulPose(Axis.YP.rotationDegrees(rotation));
-        // Render the entity
-        MultiBufferSource.BufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
-        try{
-            Minecraft.getInstance().getEntityRenderDispatcher().render(entity,0.0D,0.0D,0.0D,0.0F,0.0F,matrixStack,buff,15728880);
-        }catch (Exception e){
-            matrixStack.translate(x, y, -50F);
-            matrixStack.scale(scale, -scale, -scale);
-            matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
-            LOGGER.error("[CagedMobs] Error with rendering entity in JEI!", e);
-        }
-        buff.endBatch();
-        matrixStack.popPose();
     }
 
     private IRecipeSlotTooltipCallback getEnvTooltip() {
@@ -360,62 +306,6 @@ public class EntityWrapper implements IRecipeCategoryExtension {
                 }
             }
         };
-    }
-
-    private float getScaleForEntityType(Entity entity){
-        float width = entity.getBbWidth();
-        float height = entity.getBbHeight();
-        // Some hardcoded values
-        if(entity.getType().toString().contains("twilightforest.ur_ghast")){return 2.0F;}
-        if(entity.getType().toString().contains("greekfantasy.charybdis")){return 3.0F;}
-        if(entity.getType().toString().contains("twilightforest.hydra")){return 3.2F;}
-        if(entity.getType().toString().contains("twilightforest.yeti_alpha")){return 6.0F;}
-        if(entity.getType().toString().contains("minecraft.ender_dragon")) {return 5.0F;}
-        if(entity.getType().toString().contains("twilightforest.armored_giant")) {return 6.0F;}
-        if(entity.getType().toString().contains("twilightforest.giant_miner")) {return 6.0F;}
-        if(entity.getType().toString().contains("twilightforest.mini_ghast")) {return 10.0F;}
-        if(entity.getType().toString().contains("outvoted:kraken")) {return 2.0F;}
-        if(entity.getType().toString().contains("mowziesmobs:frostmaw")) {return 10.0F;}
-        if(entity.getType().toString().contains("alexsmobs:cachalot_whale")) {return 0.2F;}
-        if(entity.getType().toString().contains("greekfantasy:giant_boar")) {return 10.0F;}
-        if(entity.getType().toString().contains("alexsmobs:crocodile")) {return 6.0F;}
-        if(entity.getType().toString().contains("alexsmobs:hammerhead_shark")) {return 6.0F;}
-        if(entity.getType().toString().contains("upgrade_aquatic:great_thrasher")) {return 2.0F;}
-        if(entity.getType().toString().contains("fireandice:cyclops")) {return 2.0F;}
-        if(entity.getType().toString().contains("alexsmobs:cachalot_whale")) {return 0.5F;}
-        if(entity.getType().toString().contains("alexsmobs:laviathan")) {return 0.5F;}
-        if(entity.getType().toString().contains("alexsmobs:void_worm")) {return 1.0F;}
-        if(entity instanceof ElderGuardian) {return 10.0F;}
-        if(entity instanceof  AbstractFish) {return 25.0F;}
-        if(entity instanceof Ghast) {return 5.2F;}
-
-        // Handling some of the other cases
-        if(width <= height){
-            if(height >= 3){
-                return 10.0f;
-            }else if(height >= 2.5){
-                return 15.0f;
-            }
-            else if(height >= 1.9){
-                return 18.0F;
-            }
-        }
-        return 20.0F;
-    }
-
-    private int getOffsetForEntityType(Entity entity){
-        if(entity instanceof Phantom ||
-                entity instanceof AbstractFish ||
-                entity instanceof EnderDragon ||
-                entity instanceof Dolphin ||
-                entity instanceof Guardian ||
-                entity instanceof Turtle
-        ){
-            return 60;
-        }else if(entity instanceof Ghast || entity instanceof Squid){
-            return 65;
-        }
-        return 50;
     }
 }
 

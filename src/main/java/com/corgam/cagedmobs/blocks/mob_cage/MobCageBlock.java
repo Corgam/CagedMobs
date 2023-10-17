@@ -137,15 +137,15 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                             return InteractionResult.SUCCESS;
                         }
                         return InteractionResult.FAIL;
-                        // Retrieve entity from the cage
+                    // Retrieve entity from the cage
                     } else {
-                        if (!DnaSamplerItem.containsEntityType(heldItem)) {
+                        if (!DnaSamplerItem.containsEntityType(heldItem) && cageBE.getEntity().isPresent()) {
                             // Check if sampler's tier is sufficient
-                            if (cageBE.getEntity().getSamplerTier() >= 3 && !(heldItem.getItem() instanceof DnaSamplerNetheriteItem)) {
+                            if (cageBE.getEntity().get().getSamplerTier() >= 3 && !(heldItem.getItem() instanceof DnaSamplerNetheriteItem)) {
                                 player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
                                 return InteractionResult.FAIL;
                             }
-                            if (cageBE.getEntity().getSamplerTier() >= 2 && !((heldItem.getItem() instanceof DnaSamplerNetheriteItem) || (heldItem.getItem() instanceof DnaSamplerDiamondItem))) {
+                            if (cageBE.getEntity().get().getSamplerTier() >= 2 && !((heldItem.getItem() instanceof DnaSamplerNetheriteItem) || (heldItem.getItem() instanceof DnaSamplerDiamondItem))) {
                                 player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
                                 return InteractionResult.FAIL;
                             }

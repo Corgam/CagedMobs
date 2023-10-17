@@ -21,7 +21,8 @@ import static com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity.*;
 
 public class MobCageContainer extends AbstractContainerMenu {
 
-    private final BlockPos pos;
+    public final BlockPos pos;
+    public final Player player;
     private Slot environmentSlot = null;
 
     private final ArrayList<Slot> upgradeSlots = new ArrayList<>();
@@ -35,6 +36,7 @@ public class MobCageContainer extends AbstractContainerMenu {
     public MobCageContainer(int pWindowId, Player pPlayer, BlockPos pPos) {
         super(CagedContainers.CAGE_CONTAINER.get(), pWindowId);
         this.pos = pPos;
+        this.player = pPlayer;
         if(pPlayer.level().getBlockEntity(pos) instanceof MobCageBlockEntity cage){
             // Environment
             this.environmentSlot = addSlot(new EnvironmentItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT, 26, 44));
