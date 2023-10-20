@@ -1,0 +1,56 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "twilightforest"
+		}
+	],
+	"entity": "twilightforest:knight_phantom",
+	"samplerTier": 3,
+	"environments": ["cave"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "twilightforest:knightmetal_sword"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "twilightforest:knightmetal_pickaxe"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "twilightforest:knightmetal_axe"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "twilightforest:knightmetal_chestplate"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "twilightforest:knightmetal_helmet"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}
