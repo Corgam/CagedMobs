@@ -829,7 +829,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param stack item stack
      */
     public ItemStack applyRandomDurability(ItemStack stack){
-        if(this.level != null && !this.level.isClientSide()){
+        if(this.level != null && !this.level.isClientSide() && stack.getMaxDamage() > 0){
             int randomDurability = Math.max(1,this.level.random.nextInt(stack.getMaxDamage()));
             stack.setDamageValue(randomDurability);
         }
