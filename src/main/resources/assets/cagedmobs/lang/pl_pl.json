@@ -82,8 +82,10 @@
   "jei.tooltip.cagedmobs.entity.colorItem": "Wypada jedynie z farbowanych stworzeń",
   "jei.tooltip.cagedmobs.entity.requiresWater": "Klatka musi być wypełniona wodą",
 
-  "HWYLA.tooltip.cagedmobs.cage.entity": "Byt: ",
-  "HWYLA.tooltip.cagedmobs.cage.environment": "Środowisko: ",
-  "HWYLA.tooltip.cagedmobs.cage.progress": "Postęp: ",
-  "TOP.tooltip.cagedmobs.cage.upgrades": "Ulepszenia:"
+  "JADE.tooltip.cagedmobs.cage.entity": "Byt: ",
+  "JADE.tooltip.cagedmobs.cage.environment": "Środowisko: ",
+  "JADE.tooltip.cagedmobs.cage.progress": "Postęp: ",
+  "TOP.tooltip.cagedmobs.cage.upgrades": "Ulepszenia:",
+
+  "config.jade.plugin_cagedmobs.cagedmobs_jade": "Caged Mobs"
 }

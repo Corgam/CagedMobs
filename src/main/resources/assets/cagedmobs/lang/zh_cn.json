@@ -59,8 +59,10 @@
 	"jei.tooltip.cagedmobs.entity.colorItem": "仅由被染色的生物掉落",
 	"jei.tooltip.cagedmobs.entity.requiresWater": "需要 浸水生物笼",
 
-	"HWYLA.tooltip.cagedmobs.cage.entity": "生物: ",
-	"HWYLA.tooltip.cagedmobs.cage.environment": "环境: ",
-	"HWYLA.tooltip.cagedmobs.cage.progress": "进度: ",
-	"TOP.tooltip.cagedmobs.cage.upgrades": "升级:"
+	"JADE.tooltip.cagedmobs.cage.entity": "生物: ",
+	"JADE.tooltip.cagedmobs.cage.environment": "环境: ",
+	"JADE.tooltip.cagedmobs.cage.progress": "进度: ",
+	"TOP.tooltip.cagedmobs.cage.upgrades": "升级:",
+
+	"config.jade.plugin_cagedmobs.cagedmobs_jade": "笼中生物"
 }

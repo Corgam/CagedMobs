@@ -82,8 +82,10 @@
 	"jei.tooltip.cagedmobs.entity.colorItem": "Drops only from dyed entities",
 	"jei.tooltip.cagedmobs.entity.requiresWater": "Requires waterlogged cage",
 
-	"HWYLA.tooltip.cagedmobs.cage.entity": "Entity: ",
-	"HWYLA.tooltip.cagedmobs.cage.environment": "Environment: ",
-	"HWYLA.tooltip.cagedmobs.cage.progress": "Progress: ",
-	"TOP.tooltip.cagedmobs.cage.upgrades": "Upgrades:"
+	"JADE.tooltip.cagedmobs.cage.entity": "Entity: ",
+	"JADE.tooltip.cagedmobs.cage.environment": "Environment: ",
+	"JADE.tooltip.cagedmobs.cage.progress": "Progress: ",
+	"TOP.tooltip.cagedmobs.cage.upgrades": "Upgrades:",
+
+	"config.jade.plugin_cagedmobs.cagedmobs_jade": "Caged Mobs"
 }

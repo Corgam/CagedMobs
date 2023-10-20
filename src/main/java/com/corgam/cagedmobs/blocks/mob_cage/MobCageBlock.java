@@ -329,14 +329,14 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                 probeInfo.progress((int) (tile.getGrowthPercentage() * 100), 100, probeInfo.defaultProgressStyle().suffix("%").filledColor(0xff44AA44).alternateFilledColor(0xff44AA44).backgroundColor(0xff836953));
             }
             if (tile.hasEnvironment()) {
-                probeInfo.horizontal().text(Component.translatable("HWYLA.tooltip.cagedmobs.cage.environment"));
+                probeInfo.horizontal().text(Component.translatable("JADE.tooltip.cagedmobs.cage.environment"));
                 ItemStack envItem = tile.getInventoryHandler().getStackInSlot(ENVIRONMENT_SLOT);
                 if(!envItem.isEmpty()){
                     probeInfo.horizontal().item(envItem).itemLabel(envItem);
                 }
             }
             if(tile.hasEntity()){
-                probeInfo.horizontal().text(Component.translatable("HWYLA.tooltip.cagedmobs.cage.entity").withStyle(ChatFormatting.GRAY).getString() +
+                probeInfo.horizontal().text(Component.translatable("JADE.tooltip.cagedmobs.cage.entity").withStyle(ChatFormatting.GRAY).getString() +
                         Component.translatable(tile.getEntityType().getDescriptionId()).withStyle(ChatFormatting.GRAY).getString());
             }
             // Upgrades

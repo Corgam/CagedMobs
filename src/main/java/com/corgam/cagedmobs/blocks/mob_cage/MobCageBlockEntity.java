@@ -312,6 +312,14 @@ public class MobCageBlockEntity extends BlockEntity {
     }
 
     /**
+     * Returns the current environment item stack
+     * @return environment item stack
+     */
+    public ItemStack getEnvironmentItemStack(){
+        return this.items.getStackInSlot(ENVIRONMENT_SLOT);
+    }
+
+    /**
      * Checks if the block entity has environment data.
      * @return if block entity has environment data.
      */
