@@ -41,16 +41,18 @@
 				"output": {
 					"item": "minecraft:trident"
 				},
-				"minAmount": 1,
-				"maxAmount": 1
+			"randomDurability": true,
+			"minAmount": 1,
+			"maxAmount": 1
 		},
 		{
 			"chance": 0.01,
-				"output": {
-					"item": "minecraft:fishing_rod"
-				},
-				"minAmount": 1,
-				"maxAmount": 1
+			"output": {
+				"item": "minecraft:fishing_rod"
+			},
+			"randomDurability": true,
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

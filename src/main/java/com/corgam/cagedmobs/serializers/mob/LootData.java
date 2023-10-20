@@ -17,9 +17,10 @@ public class LootData {
     private final int maxAmount;
     private final boolean lighting;
     private final boolean arrow;
-    private int color;
+    private final int color;
+    private final boolean randomDurability;
 
-    public LootData(ItemStack item, ItemStack cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color){
+    public LootData(ItemStack item, ItemStack cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color, boolean randomDurability){
         this.chance = chance;
         this.item = item;
         this.cookedItem = cookedItem;
@@ -28,6 +29,7 @@ public class LootData {
         this.lighting = lighting;
         this.arrow = arrow;
         this.color = color;
+        this.randomDurability = randomDurability;
 
         if (min < 0 || max < 0) {
             throw new IllegalArgumentException("Amounts must not be negative!");
@@ -42,28 +44,53 @@ public class LootData {
         final Item item = ShapedRecipe.itemFromJson(json.getAsJsonObject("output"));
         final int min = GsonHelper.getAsInt(json, "minAmount");
         final int max = GsonHelper.getAsInt(json, "maxAmount");
-
+        // Cooked item
         Item cookedItem = Items.AIR;
         if(json.has("output_cooked")){
             cookedItem = ShapedRecipe.itemFromJson(json.getAsJsonObject("output_cooked"));
         }
-
+        // Requires lightning upgrade
         boolean isLighting = false;
         if(json.has("lightning")){
             isLighting = GsonHelper.getAsBoolean(json, "lightning");
         }
-
+        // Requires arrow upgrade
         boolean isArrow = false;
         if(json.has("needsArrow")){
             isArrow = GsonHelper.getAsBoolean(json, "needsArrow");
         }
-
+        // Color NBT
         int color = -1;
         if(json.has("color")){
             color = GsonHelper.getAsInt(json, "color");
         }
+        // Random Durability
+        boolean randomDurability = false;
+        if(json.has("randomDurability")){
+            randomDurability = GsonHelper.getAsBoolean(json, "randomDurability");
+        }
+        return new LootData(new ItemStack(item), new ItemStack(cookedItem), chance, min, max, isLighting, isArrow, color, randomDurability);
+    }
 
-        return new LootData(new ItemStack(item), new ItemStack(cookedItem), chance, min, max, isLighting, isArrow, color);
+    public static void serializeBuffer(FriendlyByteBuf buffer, LootData lootData) {
+        // Chance
+        buffer.writeFloat(lootData.getChance());
+        // Item
+        buffer.writeItemStack(lootData.getItem(),true);
+        // Min amount
+        buffer.writeInt(lootData.getMinAmount());
+        // Max amount
+        buffer.writeInt(lootData.getMaxAmount());
+        // Lightning
+        buffer.writeBoolean(lootData.isLighting());
+        // Arrow
+        buffer.writeBoolean(lootData.isArrow());
+        // Cooking
+        buffer.writeItemStack(lootData.getCookedItem(),true);
+        // Color
+        buffer.writeInt(lootData.getColor());
+        // Random durability
+        buffer.writeBoolean(lootData.randomDurability);
     }
 
     public static LootData deserializeBuffer(FriendlyByteBuf buffer) {
@@ -83,27 +110,10 @@ public class LootData {
         final ItemStack cookedItem = buffer.readItem();
         // Color
         final int color = buffer.readInt();
+        // Random durability
+        final boolean randomDurability = buffer.readBoolean();
 
-        return new LootData(item, cookedItem, chance, min, max, isLightning, isArrow, color);
-    }
-
-    public static void serializeBuffer(FriendlyByteBuf buffer, LootData info) {
-        // Chance
-        buffer.writeFloat(info.getChance());
-        // Item
-        buffer.writeItemStack(info.getItem(),true);
-        // Min amount
-        buffer.writeInt(info.getMinAmount());
-        // Max amount
-        buffer.writeInt(info.getMaxAmount());
-        // Lightning
-        buffer.writeBoolean(info.isLighting());
-        // Arrow
-        buffer.writeBoolean(info.isArrow());
-        // Cooking
-        buffer.writeItemStack(info.getCookedItem(),true);
-        // Color
-        buffer.writeInt(info.getColor());
+        return new LootData(item, cookedItem, chance, min, max, isLightning, isArrow, color, randomDurability);
     }
 
     @Override
@@ -150,5 +160,7 @@ public class LootData {
     public int getColor(){
         return this.color;
     }
+
+    public boolean ifRandomDurability(){return this.randomDurability;}
 
 }

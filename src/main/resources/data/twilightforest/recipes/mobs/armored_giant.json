@@ -16,6 +16,7 @@
 			"output": {
 				"item": "twilightforest:giant_sword"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		}

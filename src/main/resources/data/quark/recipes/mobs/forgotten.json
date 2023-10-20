@@ -32,6 +32,7 @@
 			"output": {
 				"item": "quark:forgotten_hat"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		}

@@ -16,16 +16,17 @@
 				"output": {
 					"item": "minecraft:crossbow"
 				},
-				"minAmount": 1,
-				"maxAmount": 1
+			"randomDurability": true,
+			"minAmount": 1,
+			"maxAmount": 1
 		},
 		{
 			"chance": 0.7,
-				"output": {
-					"item": "minecraft:arrow"
-				},
-				"minAmount": 1,
-				"maxAmount": 2
+			"output": {
+				"item": "minecraft:arrow"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
 		}
 	]
 	

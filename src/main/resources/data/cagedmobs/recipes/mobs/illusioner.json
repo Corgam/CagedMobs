@@ -16,8 +16,9 @@
 				"output": {
 					"item": "minecraft:bow"
 				},
-				"minAmount": 1,
-				"maxAmount": 1
+			"randomDurability": true,
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

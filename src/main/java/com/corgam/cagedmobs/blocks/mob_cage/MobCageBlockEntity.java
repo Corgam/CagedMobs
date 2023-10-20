@@ -780,9 +780,12 @@ public class MobCageBlockEntity extends BlockEntity {
                         stack = loot.getCookedItem().copy();
                     }
                     stack.setCount(amount);
+                    if(loot.ifRandomDurability()){
+                        stack = applyRandomDurability(stack);
+                    }
                     drops.add(stack);
                     if(this.hasUpgrades(CagedItems.FORTUNE_UPGRADE.get(),1 )){
-                        this.calculateFortune(drops, stack);
+                        this.calculateFortune(loot, drops, stack);
                     }
                 }
             }
@@ -795,7 +798,7 @@ public class MobCageBlockEntity extends BlockEntity {
                 drops.add(experienceOrbItem);
                 // Take fortune upgrade into account
                if(this.hasUpgrades(CagedItems.FORTUNE_UPGRADE.get(),1 )){
-                    this.calculateFortune(drops, experienceOrbItem);
+                    this.calculateFortune(null, drops, experienceOrbItem);
                }
             }
         }
@@ -808,14 +811,29 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param dropList the main drop list to add items to
      * @param item item to duplicate
      */
-    private void calculateFortune(NonNullList<ItemStack> dropList, ItemStack item){
+    private void calculateFortune(@Nullable LootData lootData, NonNullList<ItemStack> dropList, ItemStack item){
         double fortuneChance = this.getUpgradeCount(CagedItems.FORTUNE_UPGRADE.get()) * 0.2;
         if(this.level != null && !this.level.isClientSide() && this.level.random.nextFloat() < fortuneChance){
             int countMultiplayer = this.level.random.nextInt(2) + 2;
             for(int i = 0; i < countMultiplayer - 1; i++){
+                if(lootData !=null && lootData.ifRandomDurability()){
+                    item = applyRandomDurability(item.copy());
+                }
                 dropList.add(item);
             }
         }
+    }
+
+    /**
+     * Applies random durability to the item stack
+     * @param stack item stack
+     */
+    public ItemStack applyRandomDurability(ItemStack stack){
+        if(this.level != null && !this.level.isClientSide()){
+            int randomDurability = Math.max(1,this.level.random.nextInt(stack.getMaxDamage()));
+            stack.setDamageValue(randomDurability);
+        }
+        return stack;
     }
 
     /**
