@@ -4,18 +4,18 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<EnvironmentData>{
+public class EnvironmentDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<EnvironmentData>{
 
     public static final EnvironmentDataSerializer INSTANCE = new EnvironmentDataSerializer();
 
@@ -31,7 +31,7 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
         // Block to render
         final BlockState renderState = SerializationHelper.deserializeBlockState(json.getAsJsonPrimitive("render"));
         // Grow modifier
-        final float growModifier = JSONUtils.getAsFloat(json, "growModifier");
+        final float growModifier = GsonHelper.getAsFloat(json, "growModifier");
         // Categories
         final Set<String> categories = new HashSet<>();
         for(final JsonElement e : json.getAsJsonArray("categories")){
@@ -45,7 +45,7 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
     }
 
     @Override
-    public EnvironmentData fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+    public EnvironmentData fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
         try {
             // Input item
             final Ingredient inputItem = Ingredient.fromNetwork(buffer);
@@ -65,7 +65,7 @@ public class EnvironmentDataSerializer extends ForgeRegistryEntry<IRecipeSeriali
     }
 
     @Override
-    public void toNetwork(PacketBuffer buffer, EnvironmentData recipe) {
+    public void toNetwork(FriendlyByteBuf buffer, EnvironmentData recipe) {
         try{
             // Input item
             recipe.getInputItem().toNetwork(buffer);

@@ -1,0 +1,14 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+		}
+	],
+	"entity": "minecraft:wolf",
+	"samplerTier": 1,
+	"environments": ["farm","snow"],
+	"growTicks": 1200,
+	"results": []
+}

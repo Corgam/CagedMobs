@@ -19,6 +19,14 @@
 			},
 			"minAmount": 1,
 			"maxAmount": 1
+		},
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "minecraft:seagrass"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

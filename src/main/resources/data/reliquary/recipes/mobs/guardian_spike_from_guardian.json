@@ -1,0 +1,21 @@
+{
+	"type": "cagedmobs:additional_loot_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "reliquary"
+		}
+	],
+	"entity": "minecraft:guardian",
+	"results": [
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "reliquary:guardian_spike"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}

@@ -49,6 +49,9 @@
 				"output": {
 					"item": "minecraft:potato"
 				},
+				"output_cooked": {
+					"item": "minecraft:baked_potato"
+				},
 				"minAmount": 1,
 				"maxAmount": 1
 		}

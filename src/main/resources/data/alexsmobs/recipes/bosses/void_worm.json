@@ -1,0 +1,32 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:void_worm",
+	"samplerTier": 3,
+	"environments": ["end"],
+	"growTicks": 2100,
+	"results": [
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "alexsmobs:void_worm_eye"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.5,
+			"output": {
+				"item": "alexsmobs:void_worm_mandible"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}

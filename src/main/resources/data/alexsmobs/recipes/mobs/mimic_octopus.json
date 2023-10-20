@@ -1,0 +1,25 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:mimic_octopus",
+	"samplerTier": 2,
+	"environments": ["sand"],
+	"growTicks": 1200,
+	"requiresWater": true,
+	"results": [
+		{
+			"chance": 0.7,
+			"output": {
+				"item": "minecraft:ink_sac"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+	
+}

@@ -9,7 +9,7 @@
 	"entity": "alexsmobs:warped_mosco",
 	"samplerTier": 3,
 	"environments": ["nether"],
-	"growTicks": 3000,
+	"growTicks": 2100,
 	"results": [
 		{
 			"chance": 0.2,

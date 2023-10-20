@@ -18,6 +18,14 @@
 			},
 			"minAmount": 1,
 			"maxAmount": 2
+		},
+		{
+			"chance": 0.3,
+			"output": {
+				"item": "alexsmobs:bear_dust"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

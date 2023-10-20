@@ -27,6 +27,15 @@
 			},
 			"minAmount": 1,
 			"maxAmount": 5
+		},
+		{
+			"chance": 0.05,
+			"lightning": true,
+			"output": {
+				"item": "alexsmobs:fedora"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

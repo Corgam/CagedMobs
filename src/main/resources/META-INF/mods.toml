@@ -12,10 +12,7 @@ logoFile="cagedmobs.png" #optional
 #credits="Thanks!" #optional
 authors="Corgam" #optional
 #Description #mandatory
-description='''
-This mod adds Mob Cages, in which you can imprison all entities, bosses and kill them over and over,
-while collecting their drops! Sounds like fun, right?
-'''
+description='''This mod adds Mob Cages, in which you can imprison all entities, bosses and kill them over and over, while collecting their drops! Sounds like fun, right?'''
 [[dependencies.examplemod]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
@@ -26,6 +23,6 @@ while collecting their drops! Sounds like fun, right?
 [[dependencies.examplemod]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.2]"
+    versionRange="[1.18.1]"
     ordering="NONE"
     side="BOTH"

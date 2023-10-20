@@ -1,0 +1,24 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"entity": "alexsmobs:centipede_body",
+	"samplerTier": 2,
+	"environments": ["cave"],
+	"growTicks": 1300,
+	"results": [
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "alexsmobs:centipede_leg"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}

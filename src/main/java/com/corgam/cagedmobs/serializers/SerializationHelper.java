@@ -2,13 +2,13 @@ package com.corgam.cagedmobs.serializers;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Optional;
@@ -17,15 +17,14 @@ import java.util.Set;
 public class SerializationHelper {
 
     //String collection
-
-    public static void serializeStringCollection(PacketBuffer buffer, Set<String> categories) {
+    public static void serializeStringCollection(FriendlyByteBuf buffer, Set<String> categories) {
         buffer.writeInt(categories.size());
         for(String s : categories){
             buffer.writeUtf(s);
         }
     }
 
-    public static void deserializeStringCollection(PacketBuffer buffer, Set<String> categories) {
+    public static void deserializeStringCollection(FriendlyByteBuf buffer, Set<String> categories) {
         final int len = buffer.readInt();
         for(int i=0 ; i < len ; i++){
             categories.add(buffer.readUtf());
@@ -34,14 +33,14 @@ public class SerializationHelper {
 
     //Block state
 
-    public static void serializeBlockState(PacketBuffer buffer, BlockState renderState) {
+    public static void serializeBlockState(FriendlyByteBuf buffer, BlockState renderState) {
         //TODO Non default states
         Block block = renderState.getBlock();
         String locationString = ForgeRegistries.BLOCKS.getKey(block).toString();
         buffer.writeUtf(locationString);
     }
 
-    public static BlockState deserializeBlockState(PacketBuffer buffer) {
+    public static BlockState deserializeBlockState(FriendlyByteBuf buffer) {
         //TODO Non default states
         String locationString = buffer.readUtf();
         ResourceLocation location = new ResourceLocation(locationString);
@@ -63,7 +62,7 @@ public class SerializationHelper {
 
     // EntityType
 
-    public static EntityType<?> deserializeEntityType(ResourceLocation id, PacketBuffer buffer) {
+    public static EntityType<?> deserializeEntityType(ResourceLocation id, FriendlyByteBuf buffer) {
         final String entityTypeString = buffer.readUtf();
         ResourceLocation res = new ResourceLocation(entityTypeString);
         if(EntityType.byString(res.toString()).isPresent()) {
@@ -73,18 +72,18 @@ public class SerializationHelper {
         }
     }
 
-    public static void serializeEntityType(PacketBuffer buffer, EntityType<?> entityType) {
+    public static void serializeEntityType(FriendlyByteBuf buffer, EntityType<?> entityType) {
         final String entityTypeString= EntityType.getKey(entityType).toString();
         buffer.writeUtf(entityTypeString);
     }
 
-    public static CompoundNBT serializeEntityTypeNBT(CompoundNBT nbt, EntityType<?> entityType) {
+    public static CompoundTag serializeEntityTypeNBT(CompoundTag nbt, EntityType<?> entityType) {
         nbt.putString("entity", EntityType.getKey(entityType).toString());
         return nbt;
     }
 
 
-    public static EntityType<?> deserializeEntityTypeNBT(CompoundNBT nbt) {
+    public static EntityType<?> deserializeEntityTypeNBT(CompoundTag nbt) {
         // Prepare the resourceLocation
         String resString = nbt.getString("entity");
         if(resString.isEmpty()){return null;}

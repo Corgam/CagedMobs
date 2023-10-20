@@ -1,10 +1,12 @@
 package com.corgam.cagedmobs.addons.theoneprobe;
 
+import com.corgam.cagedmobs.setup.Constants;
 import com.google.common.base.Function;
 import mcjty.theoneprobe.api.*;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class CagedMobsTOPSupport implements Function<ITheOneProbe, Void> {
 
@@ -13,12 +15,12 @@ public class CagedMobsTOPSupport implements Function<ITheOneProbe, Void> {
     public Void apply(ITheOneProbe probe){
         probe.registerProvider(new IProbeInfoProvider() {
             @Override
-            public String getID() {
-                return "cagedmobs:default";
+            public ResourceLocation getID() {
+                return new ResourceLocation(Constants.MOD_ID,"default");
             }
 
             @Override
-            public void addProbeInfo(ProbeMode probeMode, IProbeInfo iProbeInfo, PlayerEntity playerEntity, World world, BlockState blockState, IProbeHitData iProbeHitData) {
+            public void addProbeInfo(ProbeMode probeMode, IProbeInfo iProbeInfo, Player playerEntity, Level world, BlockState blockState, IProbeHitData iProbeHitData) {
                 if(blockState.getBlock() instanceof ITopInfoProvider){
                     ITopInfoProvider provider = (ITopInfoProvider) blockState.getBlock();
                     provider.addProbeInfo(probeMode,iProbeInfo,playerEntity,world,blockState,iProbeHitData);

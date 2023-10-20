@@ -1,19 +1,20 @@
 package com.corgam.cagedmobs.setup;
 
-import com.corgam.cagedmobs.tileEntities.MobCageRenderer;
+import com.corgam.cagedmobs.blockEntities.MobCageRenderer;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ClientSetup {
     // Set the render type of blocks
     public static void renderLayerSetup(FMLClientSetupEvent event) {
 
-        RenderTypeLookup.setRenderLayer(CagedBlocks.MOB_CAGE.get(), RenderType.cutout());
-        RenderTypeLookup.setRenderLayer(CagedBlocks.HOPPING_MOB_CAGE.get(), RenderType.cutout());
+        // Set the render layers for blocks
+        ItemBlockRenderTypes.setRenderLayer(CagedBlocks.MOB_CAGE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(CagedBlocks.HOPPING_MOB_CAGE.get(), RenderType.cutout());
 
-        // Bind Tile Entity Renderers
-        ClientRegistry.bindTileEntityRenderer(CagedTE.MOB_CAGE.get(), MobCageRenderer::new);
+        // Register the block entities renderers
+        BlockEntityRenderers.register(CagedBlockEntity.MOB_CAGE.get(), MobCageRenderer::new);
     }
 }

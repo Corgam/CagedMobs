@@ -21,12 +21,34 @@
 			"maxAmount": 1
 		},
 		{
-			"chance": 0.5,
+			"chance": 0.4,
 			"output": {
 				"item": "minecraft:sand"
 			},
+			"output_cooked": {
+				"item": "minecraft:glass"
+			},
 			"minAmount": 1,
-			"maxAmount": 3
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "minecraft:red_sand"
+			},
+			"output_cooked": {
+				"item": "minecraft:glass"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		},
+		{
+			"chance": 0.4,
+			"output": {
+				"item": "minecraft:soul_sand"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
 		}
 	]
 	
