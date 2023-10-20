@@ -10,6 +10,7 @@
 	"item.cagedmobs.dnasampler.tier2Info": "可用于提取更强的生物",
 	"item.cagedmobs.dnasampler.tier3Info": "可用于提取Boss",
 	"item.cagedmobs.dnasampler.makeEmpty": "Shift+右键 以清空DNA采样器",
+	"item.cagedmobs.dnasampler.getBackEntity": "右键 以取回存储的DNA样本",
 	"item.cagedmobs.dnasampler.not_cachable": "无法对此类生物进行采样",
 	"item.cagedmobs.dnasampler.not_sufficient": "该DNA采样器不足以对该生物进行取样",
 	"item.cagedmobs.dnasampler.unknown_entity": "未知生物",
@@ -28,6 +29,7 @@
 	"item.cagedmobs.nether_star_fragment": "下界之星碎片",
 	"item.cagedmobs.honey_drop": "蜂蜜滴",
 	"item.cagedmobs.star_infused_netherite_ingot": "下界之星灌注下界合金锭",
+	"item.cagedmobs.star_infused_netherite_nugget": "下界之星灌注下界合金粒",
 	
 	"block.cagedmobs.mobcage": "生物笼",
 	"block.cagedmobs.hoppingmobcage": "漏斗生物笼",
@@ -40,6 +42,10 @@
 	"block.cagedmobs.mobcage.hoppingCagesDisabled2": "漏斗生物笼与无漏斗生物笼工作原理一致.",
 	"block.cagedmobs.mobcage.requiresWater": "这个生物需要一个浸水的笼子环境.",
 	"block.cagedmobs.mobcage.envRequired": "你需要先设置一个环境.",
+	"block.cagedmobs.mobcage.samplerAlreadyUsed": "这个采样器中已包含另一个生物的样本.",
+	"block.cagedmobs.mobcage.samplerNotSufficient": "该DNA采样器不足以取回该DNA样本.",
+	"block.cagedmobs.star_infused_netherite_block": "下界之星灌注下界合金块",
+	"block.cagedmobs.starinfusednetheriteblock.beacon": "可以用作信标的地基方块.",
 
 	"jei.category.cagedmobs.entity": "笼中生物掉落物",
 	"jei.tooltip.cagedmobs.entity.chance": "概率: %d%%",
