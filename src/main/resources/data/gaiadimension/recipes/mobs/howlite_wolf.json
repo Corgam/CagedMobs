@@ -1,0 +1,15 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "gaiadimension"
+		}
+	],
+	"entity": "gaiadimension:howlite_wolf",
+	"samplerTier": 1,
+	"environments": ["gaia"],
+	"growTicks": 1200,
+	"results": [
+	]
+	

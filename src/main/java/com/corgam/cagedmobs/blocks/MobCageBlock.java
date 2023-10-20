@@ -155,6 +155,31 @@ public class MobCageBlock extends BaseEntityBlock implements ITopInfoProvider, S
                     return InteractionResult.SUCCESS;
                 }
             }
+            // Try to get back entity
+            if(cage.hasEntity()){
+                // Restore the entity to the sampler
+                if(heldItem.getItem() instanceof DnaSamplerItem) {
+                    DnaSamplerItem sampler = (DnaSamplerItem) heldItem.getItem();
+                    if(!DnaSamplerItem.containsEntityType(heldItem)){
+                        // Check if sampler's tier is sufficient
+                        if(cage.getEntity().getSamplerTier() >= 3  && !(heldItem.getItem() instanceof DnaSamplerNetheriteItem)){
+                            player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(TextFormatting.RED), true);
+                            return ActionResultType.FAIL;
+                        }
+                        if(cage.getEntity().getSamplerTier() >= 2  && !((heldItem.getItem() instanceof DnaSamplerNetheriteItem) || (heldItem.getItem() instanceof DnaSamplerDiamondItem))){
+                            player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(TextFormatting.RED), true);
+                            return ActionResultType.FAIL;
+                        }
+                        // Get back the entity
+                        sampler.setEntityTypeFromCage(cage, heldItem, player, handIn);
+                    }else{
+                        player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mobcage.samplerAlreadyUsed").withStyle(TextFormatting.RED), true);
+                        return ActionResultType.FAIL;
+                    }
+                    cage.onEntityRemoval();
+                    return ActionResultType.SUCCESS;
+                }
+            }
             //Try to add an upgrade
             if(!cage.isCooking() || !cage.isLightning() || !cage.isArrow()){
                 if(heldItem.getItem() instanceof UpgradeItem) {

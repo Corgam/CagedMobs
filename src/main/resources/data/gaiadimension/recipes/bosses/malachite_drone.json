@@ -1,0 +1,16 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "gaiadimension"
+		}
+	],
+	"entity": "gaiadimension:agate_golem",
+	"samplerTier": 3,
+	"environments": ["gaia"],
+	"growTicks": 2400,
+	"results": [
+	]
+	
+}

@@ -1,0 +1,24 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "gaiadimension"
+		}
+	],
+	"entity": "gaiadimension:nutrient_sapper",
+	"samplerTier": 1,
+	"environments": ["gaia"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.95,
+			"output": {
+				"item": "gaiadimension:green_geode"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		}
+	]
+	
+}
