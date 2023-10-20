@@ -6,6 +6,7 @@ import com.corgam.cagedmobs.helpers.EntityRendererHelper;
 import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
+import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
 import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.mob.LootData;
@@ -23,12 +24,17 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -44,7 +50,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
     private final List<ItemStack> envs = NonNullList.create();
     private final List<LootData> drops = NonNullList.create();
     private final List<ItemStack> samplers = NonNullList.create();
-    private final List<Integer> cookedIDs = new ArrayList<Integer>();
+    private final List<Integer> cookedIDs = new ArrayList<>();
     private final boolean requiresWater;
     private final int ticks;
 
@@ -186,13 +192,23 @@ public class EntityWrapper implements IRecipeCategoryExtension {
     }
 
     public void setRecipe(IRecipeLayoutBuilder builder, IFocusGroup focuses) {
-        // DNA Samplers
+
+        // Add samplers without NBT for easier search
+        builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addItemStacks(this.getSamplers());
+
+        // Add DNA Samplers with the specific NBT data
         final IRecipeSlotBuilder samplersSlot = builder.addSlot(RecipeIngredientRole.INPUT, 15, 62+20);
-        samplersSlot.addItemStacks(this.getSamplers());
+        samplersSlot.addItemStacks(this.getSampledSamplers()).setSlotName("samplers");
+        if(!CagedMobs.SERVER_CONFIG.areSpawnEggsDisabled()){
+            SpawnEggItem spawnEgg = ForgeSpawnEggItem.fromEntityType(entity.getEntityType());
+            if(spawnEgg != null){
+                samplersSlot.addItemStack(spawnEgg.getDefaultInstance());
+            }
+        }
 
         // Soil Inputs
         final IRecipeSlotBuilder environmentsSlot = builder.addSlot(RecipeIngredientRole.INPUT, 15 + 20, 62+20);
-        environmentsSlot.addItemStacks(this.getEnvsItems());
+        environmentsSlot.addItemStacks(this.getEnvsItems()).setSlotName("environments");
         environmentsSlot.addTooltipCallback(this.getEnvTooltip());
 
         int nextSlotId = 2;
@@ -258,6 +274,20 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         if(this.ifRequiresWater()){
             pGuiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("jei.tooltip.cagedmobs.entity.requiresWater", this.getSeconds()).withStyle(ChatFormatting.BLUE), 5, 112, 8, false);
         }
+    }
+
+    public List<ItemStack> getSampledSamplers() {
+        List<ItemStack> ret = NonNullList.create();
+        for (ItemStack stack : samplers) {
+            stack = stack.copy();
+            EntityType<?> type = entity.getEntityType();
+            CompoundTag nbt = new CompoundTag();
+            SerializationHelper.serializeEntityTypeNBT(nbt, type);
+            stack.setTag(nbt);
+
+            ret.add(stack);
+        }
+        return ret;
     }
 
     private IRecipeSlotTooltipCallback getEnvTooltip() {
