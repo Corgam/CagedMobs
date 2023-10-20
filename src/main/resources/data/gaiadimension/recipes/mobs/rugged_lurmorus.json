@@ -1,0 +1,28 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "gaiadimension"
+		}
+	],
+	"entity": "gaiadimension:rugged_lurmorus",
+	"samplerTier": 2,
+	"environments": ["gaia"],
+	"growTicks": 1800,
+	"requiresWater": true,
+	"results": [
+		{
+			"chance": 0.75,
+			"output": {
+				"item": "gaiadimension:lurmorus_meat"
+			},
+			"output_cooked": {
+				"item": "gaiadimension:lurmorus_steak"
+			},
+			"minAmount": 1,
+			"maxAmount": 3
+		}
+	]
+	
+}

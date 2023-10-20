@@ -1,0 +1,16 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "gaiadimension"
+		}
+	],
+	"entity": "gaiadimension:spellbound_elemental",
+	"samplerTier": 1,
+	"environments": ["gaia"],
+	"growTicks": 1200,
+	"results": [
+	]
+	
+}

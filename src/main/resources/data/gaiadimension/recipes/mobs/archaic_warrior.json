@@ -1,0 +1,32 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "gaiadimension"
+		}
+	],
+	"entity": "gaiadimension:archaic_warrior",
+	"samplerTier": 1,
+	"environments": ["gaia"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.02,
+			"output": {
+				"item": "gaiadimension:scaynyx_ingot"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.6,
+			"output": {
+				"item": "gaiadimension:shiny_bone"
+			},
+			"minAmount": 1,
+			"maxAmount": 2
+		}
+	]
+	
+}

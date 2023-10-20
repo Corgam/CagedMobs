@@ -1,0 +1,56 @@
+{
+	"type": "cagedmobs:mob_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "gaiadimension"
+		}
+	],
+	"entity": "gaiadimension:malachite_guard",
+	"samplerTier": 3,
+	"environments": ["gaia"],
+	"growTicks": 2400,
+	"results": [
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "gaiadimension:malachite_guard_headgear"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "gaiadimension:malachite_guard_brace"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "gaiadimension:malachite_guard_gear"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "gaiadimension:malachite_guard_boots"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "gaiadimension:malachite_guard_baton"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+	
+}
