@@ -6,26 +6,26 @@
 			"modid": "twilightforest"
 		}
 	],
-	"entity": "twilightforest:minoshroom",
+	"entity": "twilightforest:alpha_yeti",
 	"samplerTier": 3,
-	"environments": ["maze"],
+	"environments": ["snow"],
 	"growTicks": 3000,
 	"results": [
 		{
-			"chance": 0.4,
+			"chance": 0.08,
 				"output": {
-					"item": "twilightforest:meef_stroganoff"
+					"item": "twilightforest:alpha_yeti_fur"
 				},
 				"minAmount": 1,
 				"maxAmount": 1
 		},
 		{
-			"chance": 0.01,
-			"output": {
-				"item": "twilightforest:diamond_minotaur_axe"
-			},
-			"minAmount": 1,
-			"maxAmount": 1
+			"chance": 0.1,
+				"output": {
+					"item": "twilightforest:ice_bomb"
+				},
+				"minAmount": 1,
+				"maxAmount": 1
 		}
 	]
 	
