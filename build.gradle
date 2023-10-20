@@ -168,6 +168,10 @@ dependencies {
     //The One Probe
     compileOnly fg.deobf("curse.maven:top-245211:3671753")
     runtimeOnly fg.deobf("curse.maven:top-245211:3671753")
+
+    //Jade
+    compileOnly fg.deobf("curse.maven:jade-324717:3822510")
+    runtimeOnly fg.deobf("curse.maven:jade-324717:3822510")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
