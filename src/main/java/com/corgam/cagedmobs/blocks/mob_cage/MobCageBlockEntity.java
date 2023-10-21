@@ -495,11 +495,9 @@ public class MobCageBlockEntity extends BlockEntity {
         MobData finalMobData = null;
         // Get the mobData
         for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.MOB_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
-            if(recipe instanceof MobData) {
-                final MobData mobData = (MobData) recipe;
+            if(recipe instanceof MobData mobData) {
                 // Check for null exception
-                if(mobData.getEntityType() == null){continue;}
-                if(mobData.getEntityType().equals(type)) {
+                if(mobData.getEntityType() != null && mobData.getEntityType().equals(type)){
                     finalMobData = mobData;
                     break;
                 }
@@ -507,22 +505,37 @@ public class MobCageBlockEntity extends BlockEntity {
         }
         // Add additional Loot
         if(finalMobData != null){
-            for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
-                if(recipe instanceof AdditionalLootData) {
-                    final AdditionalLootData additionalLootData = (AdditionalLootData) recipe;
-                    // Check for null exception
-                    if(finalMobData.getEntityType() == null){continue;}
-                    if(finalMobData.getEntityType().equals(additionalLootData.getEntityType())) {
+            addAdditionalLootData(finalMobData);
+        }
+        return finalMobData;
+    }
+
+    /**
+     * Adds all loot to the additional loot data object
+     * @param mobData the object to add items to
+     */
+    private static void addAdditionalLootData(MobData mobData){
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof AdditionalLootData additionalLootData) {
+                // Check for null exception
+                if(mobData.getEntityType() != null){
+                    // If entity types are equal
+                    if(mobData.getEntityType().equals(additionalLootData.getEntityType())) {
                         for(LootData data : additionalLootData.getResults()){
-                            if(!finalMobData.getResults().contains(data)){
-                                finalMobData.getResults().add(data);
+                            // Add loot
+                            if(!additionalLootData.isRemoveFromEntity()){
+                                if(!mobData.getResults().contains(data)){
+                                    mobData.getResults().add(data);
+                                }
+                            // Remove loot
+                            }else{
+                                mobData.getResults().removeIf(lootData -> lootData.getItem().getItem().equals(data.getItem().getItem()));
                             }
                         }
                     }
                 }
             }
         }
-        return finalMobData;
     }
 
     // UPGRADES FUNCTIONS

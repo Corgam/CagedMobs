@@ -113,7 +113,7 @@ public class MobDataSerializer implements RecipeSerializer<MobData> {
     }
 
     // Deserializes loot data
-    private static List<LootData> deserializeLootData (ResourceLocation ownerId, JsonObject json, EntityType<?> entityType) {
+    static List<LootData> deserializeLootData(ResourceLocation ownerId, JsonObject json, EntityType<?> entityType) {
         final List<LootData> loots = new ArrayList<>();
         for (final JsonElement elem : json.getAsJsonArray("results")) {
             if (elem.isJsonObject()) {

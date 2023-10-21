@@ -57,11 +57,11 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, EntityWrapper recipe, IFocusGroup focuses) {
-        recipe.setRecipe(builder, focuses);
+        recipe.setRecipe(builder);
     }
 
     @Override
     public void draw(EntityWrapper recipe, IRecipeSlotsView view, GuiGraphics graphics, double mouseX, double mouseY) {
-        recipe.draw(view, graphics, mouseX, mouseY, this.guiHelper, this.background);
+        recipe.draw(graphics, this.guiHelper);
     }
 }

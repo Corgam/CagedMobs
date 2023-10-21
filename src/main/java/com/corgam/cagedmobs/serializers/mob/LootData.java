@@ -12,7 +12,7 @@ public class LootData {
 
     private final float chance;
     private ItemStack item;
-    private final ItemStack cookedItem;
+    private ItemStack cookedItem;
     private final int minAmount;
     private final int maxAmount;
     private final boolean lighting;
@@ -135,6 +135,10 @@ public class LootData {
 
     public ItemStack getCookedItem() {
         return this.cookedItem;
+    }
+
+    public void setCookedItem(ItemStack item){
+        this.cookedItem = item;
     }
 
     public int getMinAmount() {

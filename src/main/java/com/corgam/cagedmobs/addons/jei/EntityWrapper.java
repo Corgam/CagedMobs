@@ -13,11 +13,8 @@ import com.corgam.cagedmobs.serializers.mob.LootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
 import net.minecraft.ChatFormatting;
@@ -115,40 +112,47 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof AdditionalLootData additionalLootData) {
                 // Check for null exceptions
-                if(additionalLootData.getEntityType() == null){continue;}
-                if(this.entity.getEntityType() == null){ continue;}
-                if(this.entity.getEntityType().equals(additionalLootData.getEntityType())) {
-                    for(LootData data : additionalLootData.getResults()){
-                        if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
-                            if(!blacklistedItems.contains(data.getItem().getItem())){
-                                if(!this.drops.contains(data)){
-                                    this.drops.add(data);
-                                    lootIndex++;
-                                    // If it has a cooked variant add one more LootData
-                                    if(data.isCooking()){
-                                        this.drops.add(data);
-                                        // If added cooked variant keep track of cooked IDs
-                                        this.cookedIDs.add(lootIndex);
-                                        lootIndex++;
+                if(additionalLootData.getEntityType() != null && this.entity.getEntityType() != null){
+                    // Check if the same entity type
+                    if(this.entity.getEntityType().equals(additionalLootData.getEntityType())) {
+                        // For each loot data
+                        for(LootData data : additionalLootData.getResults()){
+                            // Add loot
+                            if(!additionalLootData.isRemoveFromEntity()){
+                                if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
+                                    if(!blacklistedItems.contains(data.getItem().getItem())){
+                                        if(!this.drops.contains(data)){
+                                            this.drops.add(data);
+                                            lootIndex++;
+                                            // If it has a cooked variant add one more LootData
+                                            if(data.isCooking()){
+                                                this.drops.add(data);
+                                                // If added cooked variant keep track of cooked IDs
+                                                this.cookedIDs.add(lootIndex);
+                                                lootIndex++;
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    if(blacklistedItems.contains(data.getItem().getItem())){
+                                        if(!this.drops.contains(data)){
+                                            this.drops.add(data);
+                                            lootIndex++;
+                                            // If it has a cooked variant add one more LootData
+                                            if(data.isCooking()){
+                                                this.drops.add(data);
+                                                // If added cooked variant keep track of cooked IDs
+                                                this.cookedIDs.add(lootIndex);
+                                                lootIndex++;
+                                            }
+                                        }
                                     }
                                 }
-                            }
-                        }else{
-                            if(blacklistedItems.contains(data.getItem().getItem())){
-                                if(!this.drops.contains(data)){
-                                    this.drops.add(data);
-                                    lootIndex++;
-                                    // If it has a cooked variant add one more LootData
-                                    if(data.isCooking()){
-                                        this.drops.add(data);
-                                        // If added cooked variant keep track of cooked IDs
-                                        this.cookedIDs.add(lootIndex);
-                                        lootIndex++;
-                                    }
-                                }
+                            // Remove loot
+                            }else{
+                                this.drops.removeIf(drop -> drop.getItem().getItem().equals(data.getItem().getItem()));
                             }
                         }
-
                     }
                 }
             }
@@ -191,8 +195,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         return this.requiresWater;
     }
 
-    public void setRecipe(IRecipeLayoutBuilder builder, IFocusGroup focuses) {
-
+    public void setRecipe(IRecipeLayoutBuilder builder) {
         // Add samplers without NBT for easier search
         builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addItemStacks(this.getSamplers());
 
@@ -245,7 +248,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }
     }
 
-    public void draw(IRecipeSlotsView view, GuiGraphics pGuiGraphics, double mouseX, double mouseY, IGuiHelper guiHelper, IDrawable background) {
+    public void draw(GuiGraphics pGuiGraphics, IGuiHelper guiHelper) {
         // Draw Seed & Soil
         guiHelper.getSlotDrawable().draw(pGuiGraphics, 14, 62+19);
         guiHelper.getSlotDrawable().draw(pGuiGraphics, 14+20, 62 + 19);

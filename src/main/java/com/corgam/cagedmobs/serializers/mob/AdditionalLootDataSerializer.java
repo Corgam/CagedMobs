@@ -7,12 +7,15 @@ import com.google.gson.JsonObject;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.corgam.cagedmobs.serializers.mob.MobDataSerializer.deserializeLootData;
 
 public class AdditionalLootDataSerializer implements RecipeSerializer<AdditionalLootData> {
 
@@ -25,7 +28,13 @@ public class AdditionalLootDataSerializer implements RecipeSerializer<Additional
         final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
         // Loot Data
         final List<LootData> results = deserializeLootData(id, json, entityType);
-        return new AdditionalLootData(id, entityType, results);
+        // Remove from entity
+        boolean removeFromEntity = false;
+        if(json.has("removeFromEntity")) {
+            removeFromEntity = GsonHelper.getAsBoolean(json, "removeFromEntity");
+        }
+        // Return results
+        return new AdditionalLootData(id, entityType, results, removeFromEntity);
     }
 
     @Override
@@ -39,7 +48,10 @@ public class AdditionalLootDataSerializer implements RecipeSerializer<Additional
             for (int i = 0; i < length; i++) {
                 results.add(LootData.deserializeBuffer(buffer));
             }
-            return new AdditionalLootData(id, entityType, results);
+            // Remove from entity
+            final boolean removeFromEntity = buffer.readBoolean();
+            // Return final object
+            return new AdditionalLootData(id, entityType, results, removeFromEntity);
         }catch(final Exception e){
             CagedMobs.LOGGER.catching(e);
             throw new IllegalStateException("Failed to read additionalLootData with id: " + id.toString() + " from packet buffer.");
@@ -56,35 +68,11 @@ public class AdditionalLootDataSerializer implements RecipeSerializer<Additional
             for( final LootData data : recipe.getResults()){
                 LootData.serializeBuffer(buffer, data);
             }
+            // Remove from entity
+            buffer.writeBoolean(recipe.isRemoveFromEntity());
         }catch (final Exception e) {
             CagedMobs.LOGGER.catching(e);
             throw new IllegalStateException("Failed to write additionalLootData with id: " + recipe.getId().toString() + " to the packet buffer.");
         }
     }
-
-
-    // Deserializes loot data
-    private static List<LootData> deserializeLootData (ResourceLocation ownerId, JsonObject json, EntityType<?> entityType) {
-        final List<LootData> loots = new ArrayList<>();
-        for (final JsonElement elem : json.getAsJsonArray("results")) {
-            if (elem.isJsonObject()) {
-                final LootData lootData = LootData.deserialize(elem.getAsJsonObject());
-                // Check for NBT data for item
-                if(elem.getAsJsonObject().has("nbtName") && elem.getAsJsonObject().has("nbtData")){
-                    ItemStack newItem = writeNBTtoItem(elem.getAsJsonObject().getAsJsonPrimitive("nbtName").getAsString(), elem.getAsJsonObject().getAsJsonPrimitive("nbtData").getAsString(), lootData.getItem());
-                    lootData.setItem(newItem);
-                }
-                loots.add(lootData);
-            }
-        }
-        return loots;
-    }
-
-    private static ItemStack writeNBTtoItem(String nbtName, String nbtData, ItemStack stack){
-        CompoundTag nbt = new CompoundTag();
-        nbt.putString(nbtName,nbtData);
-        stack.setTag(nbt);
-        return stack;
-    }
-
 }

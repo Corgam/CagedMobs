@@ -18,13 +18,15 @@ import java.util.List;
 public class AdditionalLootData implements Recipe<Inventory> {
 
     private final ResourceLocation id;
-    private EntityType<?> entityType;
+    private final EntityType<?> entityType;
     private final List<LootData> results;
+    private final boolean removeFromEntity;
 
-    public AdditionalLootData(ResourceLocation id, EntityType<?> entityType, List<LootData> results){
+    public AdditionalLootData(ResourceLocation id, EntityType<?> entityType, List<LootData> results, boolean removeFromEntity){
         this.id = id;
         this.entityType = entityType;
         this.results = results;
+        this.removeFromEntity = removeFromEntity;
         // Add the id to the list of loaded recipes
         if(id != null && CagedMobs.LOGGER != null){
             CagedMobs.LOGGER.info("Loaded AdditionalLootData recipe with id: " + id.toString());
@@ -74,8 +76,8 @@ public class AdditionalLootData implements Recipe<Inventory> {
         return this.entityType;
     }
 
-    public void setEntityType(EntityType<?> entityType){
-        this.entityType = entityType;
+    public boolean isRemoveFromEntity(){
+        return this.removeFromEntity;
     }
 
     @Override
