@@ -59,6 +59,7 @@
 	"block.cagedmobs.mobcage.envInfo": "Needs to have a suitable environment for the entity",
 	"block.cagedmobs.mobcage.hoppingInfo": "Puts produced drops into inventory below",
 	"block.cagedmobs.mobcage.upgrading": "Can be upgraded",
+	"block.cagedmobs.mobcage.rightClickHarvest": "Right-click with a sword to harvest",
 	"block.cagedmobs.mobcage.hoppingCagesDisabled1": "Automatic harvest is disabled.",
 	"block.cagedmobs.mobcage.hoppingCagesDisabled2": "Hopping Cages will work the same as non-hopping variant.",
 	"block.cagedmobs.mobcage.requiresWater": "This entity requires a waterlogged cage.",

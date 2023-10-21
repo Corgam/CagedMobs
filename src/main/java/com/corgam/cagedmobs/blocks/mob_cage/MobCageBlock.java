@@ -212,6 +212,9 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
             if(heldItem.getItem() instanceof SwordItem){
                 if((!state.getValue(HOPPING) || CagedMobs.SERVER_CONFIG.ifHoppingCagesDisabled()) && cageBE.isWaitingForHarvest()){
                     cageBE.onPlayerHarvest(cageBE.getBlockState());
+                    if(!player.isCreative() && !level.isClientSide()){
+                        heldItem.hurt(1, level.random, null);
+                    }
                     return InteractionResult.SUCCESS;
                 }
             }
@@ -273,17 +276,16 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
     }
 
     // Block item description
-
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack item, @javax.annotation.Nullable BlockGetter getter, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("block.cagedmobs.mobcage.mainInfo").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("block.cagedmobs.mobcage.rightClickHarvest").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.translatable("block.cagedmobs.mobcage.envInfo").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.translatable("block.cagedmobs.mobcage.upgrading").withStyle(ChatFormatting.GRAY));
     }
 
     // Block shape
-
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
@@ -295,7 +297,6 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
     }
 
     // Water-logging
-
     @javax.annotation.Nullable
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos());

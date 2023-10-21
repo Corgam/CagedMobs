@@ -121,8 +121,6 @@ public class MobCageBlockEntity extends BlockEntity {
     @Nonnull
     private ItemStackHandler createItemHandler(){
         return new ItemStackHandler(SLOT_COUNT){
-
-
             @Override
             protected void onContentsChanged(int slot){
                 // Update the environment
@@ -298,7 +296,8 @@ public class MobCageBlockEntity extends BlockEntity {
         envItem.setCount(1);
         if(envItem.isEmpty()){
             this.removeEnvironment();
-        }else if(this.environmentData == null){
+        }else if(this.environmentData == null
+                || !this.environmentData.getInputItem().getItems()[0].getItem().equals(envItem.getItem())){
             this.setEnvironment(envItem);
         }
     }
