@@ -10,6 +10,6 @@ For more info about the mod visit the [CurseForge Mod Page](https://www.cursefor
 
 - Go to [Datapack support](https://github.com/Corgam/CagedMobs/wiki/Datapack-support) wiki page if you want to add Caged Mobs support for your mod, or you want to create your own datapack with CagedMobs' recipes.
 
-<img src="https://i.imgur.com/NEfcgp0.png" alt="Discord Logo">
+<img src="https://i.imgur.com/NEfcgp0.png" alt="Discord Logo" width="300">
 
 Join my official [Discord server](https://discord.gg/V4ezDH45SZ) for discussion and share your feedback, ideas, bugs and datapacks!
