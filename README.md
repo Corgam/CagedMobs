@@ -1,5 +1,6 @@
-# CagedMobs
-Welcome to Caged Mobs repository!
+<img src="https://i.imgur.com/nI7aNax.png" alt="Caged Mobs Banner" style="align-self: center">
+
+Welcome to the official Caged Mobs mod repository!
 
 For more info about the mod visit curseforge page: https://www.curseforge.com/minecraft/mc-mods/caged-mobs
 
