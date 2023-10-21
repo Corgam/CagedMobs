@@ -89,25 +89,30 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    // Craft Tweaker
+    maven {
+        url = 'https://maven.blamejared.com'
+        name = 'BlameJared Maven'
+    }
 }
 
 dependencies {
     // Forge
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
     // JEI
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
-
     // The One Probe
     implementation fg.deobf(project.dependencies.create("mcjty.theoneprobe:theoneprobe:${top_version}") {
         transitive = false
     })
-
     //Jade
     compileOnly fg.deobf("curse.maven:jade-324717:4801177")
     runtimeOnly fg.deobf("curse.maven:jade-324717:4801177")
+    // Craft Tweaker
+    compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${craft_tweaker_version}")
+    runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${craft_tweaker_version}")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

@@ -18,9 +18,9 @@ import java.util.List;
 public class AdditionalLootData implements Recipe<Inventory> {
 
     private final ResourceLocation id;
-    private final EntityType<?> entityType;
+    private EntityType<?> entityType;
     private final List<LootData> results;
-    private final boolean removeFromEntity;
+    private boolean removeFromEntity;
 
     public AdditionalLootData(ResourceLocation id, EntityType<?> entityType, List<LootData> results, boolean removeFromEntity){
         this.id = id;
@@ -76,8 +76,16 @@ public class AdditionalLootData implements Recipe<Inventory> {
         return this.entityType;
     }
 
+    public void setEntityType(EntityType<?> entityType){
+        this.entityType = entityType;
+    }
+
     public boolean isRemoveFromEntity(){
         return this.removeFromEntity;
+    }
+
+    public void setRemoveFromEntity(boolean removeFromEntity){
+        this.removeFromEntity = removeFromEntity;
     }
 
     @Override
