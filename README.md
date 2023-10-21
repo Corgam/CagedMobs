@@ -8,8 +8,8 @@ For more info about the mod visit the [CurseForge Mod Page](https://www.cursefor
 
 - Go to [CraftTweaker support](https://github.com/Corgam/CagedMobs/wiki/CraftTweaker-support) wiki page if you want to use Craft Tweaker mod to modify existing recipes from Caged Mobs or add your own ones.
 
-- Go to [Datapack support](https://github.com/Corgam/CagedMobs/wiki/Datapack-support) wiki page if you want to add Caged Mobs support for your mod, or you want to create your own datapack with CagedMobs' recipes.
+- Go to [Datapack support](https://github.com/Corgam/CagedMobs/wiki/Datapack-support) wiki page, if you want to add Caged Mobs' support for your mod, or you want to create your own datapack with CagedMobs' recipes.
 
-<img src="https://i.imgur.com/NEfcgp0.png" alt="Discord Logo" width="300">
+<img src="https://i.imgur.com/NEfcgp0.png" alt="Discord Logo" width="400">
 
-Join my official [Discord server](https://discord.gg/V4ezDH45SZ) for discussion and share your feedback, ideas, bugs and datapacks!
+Join my official [Discord server](https://discord.gg/V4ezDH45SZ) for discussion and share your feedback, ideas, bugs, and datapacks!
