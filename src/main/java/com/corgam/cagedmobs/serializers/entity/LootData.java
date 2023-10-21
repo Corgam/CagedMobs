@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.serializers.mob;
+package com.corgam.cagedmobs.serializers.entity;
 
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;

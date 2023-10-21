@@ -1,35 +1,38 @@
-package com.corgam.cagedmobs.serializers.mob;
+package com.corgam.cagedmobs.serializers.environment;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.List;
+import java.util.Set;
 
-public class AdditionalLootData implements Recipe<Inventory> {
+public class EnvironmentData implements Recipe<Inventory> {
 
     private final ResourceLocation id;
-    private EntityType<?> entityType;
-    private final List<LootData> results;
-    private boolean removeFromEntity;
+    private Ingredient inputItem;
+    private BlockState renderState;
+    private float growModifier;
+    private final Set<String> environments;
 
-    public AdditionalLootData(ResourceLocation id, EntityType<?> entityType, List<LootData> results, boolean removeFromEntity){
+    public EnvironmentData(ResourceLocation id, Ingredient item, BlockState renderState, float growModifier, Set<String> categories){
         this.id = id;
-        this.entityType = entityType;
-        this.results = results;
-        this.removeFromEntity = removeFromEntity;
+        this.inputItem = item;
+        this.renderState = renderState;
+        this.growModifier = growModifier;
+        this.environments = categories;
         // Add the id to the list of loaded recipes
         if(id != null && CagedMobs.LOGGER != null){
-            CagedMobs.LOGGER.info("Loaded AdditionalLootData recipe with id: " + id.toString());
+            CagedMobs.LOGGER.info("Loaded EnvironmentData recipe with id: " + id.toString());
         }
     }
 
@@ -60,37 +63,44 @@ public class AdditionalLootData implements Recipe<Inventory> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return CagedRecipeSerializers.ADDITIONAL_LOOT_RECIPE_SERIALIZER.get();
+        return CagedRecipeSerializers.ENVIRONMENT_RECIPE_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
-        return CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get();
+        return CagedRecipeTypes.ENVIRONMENT_RECIPE.get();
     }
 
-    public List<LootData> getResults () {
-        return this.results;
+    public Ingredient getInputItem() {
+        return inputItem;
     }
 
-    public EntityType<?> getEntityType(){
-        return this.entityType;
+    public BlockState getRenderState() {
+        return renderState;
     }
 
-    public void setEntityType(EntityType<?> entityType){
-        this.entityType = entityType;
+    public float getGrowModifier() {
+        return growModifier;
     }
 
-    public boolean isRemoveFromEntity(){
-        return this.removeFromEntity;
+    public Set<String> getEnvironments() {
+        return environments;
     }
 
-    public void setRemoveFromEntity(boolean removeFromEntity){
-        this.removeFromEntity = removeFromEntity;
+    public void setGrowthModifier(float modifier) {
+        this.growModifier = modifier;
+    }
+
+    public void setRenderState(BlockState state) {
+        this.renderState = state;
+    }
+
+    public void setInputItem(Ingredient item) {
+        this.inputItem = item;
     }
 
     @Override
     public boolean isSpecial() {
         return true;
     }
-
 }

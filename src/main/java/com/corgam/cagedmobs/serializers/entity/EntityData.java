@@ -1,9 +1,8 @@
-package com.corgam.cagedmobs.serializers.mob;
+package com.corgam.cagedmobs.serializers.entity;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
-import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.registers.CagedItems;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +16,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.*;
 
-public class MobData implements Recipe<Inventory> {
+public class EntityData implements Recipe<Inventory> {
 
     private final ResourceLocation id;
     private EntityType<?> entityType;
@@ -27,7 +26,7 @@ public class MobData implements Recipe<Inventory> {
     private final List<LootData> results;
     private int samplerTier;
 
-    public MobData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
+    public EntityData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
         this.id = id;
         this.environments = environments;
         this.entityType = entityType;
@@ -37,7 +36,7 @@ public class MobData implements Recipe<Inventory> {
         this.samplerTier = tier;
         // Add the id to the list of loaded recipes
         if(id != null && CagedMobs.LOGGER != null){
-            CagedMobs.LOGGER.info("Loaded MobData recipe with id: " + id.toString());
+            CagedMobs.LOGGER.info("Loaded EntityData recipe with id: " + id.toString());
         }
     }
 
@@ -87,12 +86,12 @@ public class MobData implements Recipe<Inventory> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return CagedRecipeSerializers.MOB_RECIPE_SERIALIZER.get();
+        return CagedRecipeSerializers.ENTITY_RECIPE_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
-        return CagedRecipeTypes.MOB_RECIPE.get();
+        return CagedRecipeTypes.ENTITY_RECIPE.get();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.serializers.mob;
+package com.corgam.cagedmobs.serializers.entity;
 
 import net.minecraft.world.item.crafting.RecipeType;
 

@@ -15,18 +15,18 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public class EntityCategory implements IRecipeCategory<EntityWrapper> {
+public class EntityDataCategory implements IRecipeCategory<EntityDataWrapper> {
 
     public static final ResourceLocation ID = new ResourceLocation(CagedMobs.MOD_ID, "entity");
 
     private static final int BG_PADDING = 5, BG_WIDTH = 166, BG_HEIGHT = 111;
     private final IDrawable icon;
     private final IDrawable background;
-    private final RecipeType<EntityWrapper> type;
+    private final RecipeType<EntityDataWrapper> type;
     private final IGuiHelper guiHelper;
     private final Component title;
 
-    public EntityCategory(IGuiHelper gui, RecipeType<EntityWrapper> type){
+    public EntityDataCategory(IGuiHelper gui, RecipeType<EntityDataWrapper> type){
         this.guiHelper = gui;
         this.icon = gui.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CagedItems.MOB_CAGE.get()));
         ResourceLocation backgroundRL = new ResourceLocation(CagedMobs.MOD_ID, "textures/gui/jei_recipe.png");
@@ -36,7 +36,7 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
     }
 
     @Override
-    public RecipeType<EntityWrapper> getRecipeType() {
+    public RecipeType<EntityDataWrapper> getRecipeType() {
         return this.type;
     }
 
@@ -56,12 +56,12 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, EntityWrapper recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, EntityDataWrapper recipe, IFocusGroup focuses) {
         recipe.setRecipe(builder);
     }
 
     @Override
-    public void draw(EntityWrapper recipe, IRecipeSlotsView view, GuiGraphics graphics, double mouseX, double mouseY) {
+    public void draw(EntityDataWrapper recipe, IRecipeSlotsView view, GuiGraphics graphics, double mouseX, double mouseY) {
         recipe.draw(graphics, this.guiHelper);
     }
 }

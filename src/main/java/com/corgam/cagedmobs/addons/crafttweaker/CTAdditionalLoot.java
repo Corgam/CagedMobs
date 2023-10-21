@@ -1,11 +1,10 @@
 package com.corgam.cagedmobs.addons.crafttweaker;
 
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
-import com.blamejared.crafttweaker.api.entity.CTEntityIngredient;
 import com.blamejared.crafttweaker.api.ingredient.IIngredient;
 import com.blamejared.crafttweaker.api.item.IItemStack;
-import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
-import com.corgam.cagedmobs.serializers.mob.LootData;
+import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
+import com.corgam.cagedmobs.serializers.entity.LootData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;

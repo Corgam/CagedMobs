@@ -5,7 +5,7 @@ import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
-import com.corgam.cagedmobs.serializers.mob.MobData;
+import com.corgam.cagedmobs.serializers.entity.EntityData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -77,12 +77,12 @@ public class DnaSamplerItem extends Item {
     private static boolean samplerTierSufficient(ItemStack stack, Entity target) {
         EntityType<?> type = target.getType();
         boolean sufficient = false;
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.MOB_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
-            if(recipe instanceof MobData) {
-                final MobData mobData = (MobData) recipe;
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof EntityData) {
+                final EntityData entityData = (EntityData) recipe;
                 // Check for null exception
-                if(mobData.getEntityType() == null){continue;}
-                if(mobData.getEntityType().equals(type) && mobData.getSamplerTier() <= getSamplerTierInt(stack.getItem())) {
+                if(entityData.getEntityType() == null){continue;}
+                if(entityData.getEntityType().equals(type) && entityData.getSamplerTier() <= getSamplerTierInt(stack.getItem())) {
                     sufficient = true;
                     break;
                 }
@@ -105,12 +105,12 @@ public class DnaSamplerItem extends Item {
     // Check if entity can be cached based on the list of cachable entities
     private static boolean canBeCached(Entity clickedEntity) {
         boolean contains = false;
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.MOB_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
-            if(recipe instanceof MobData) {
-                final MobData mobData = (MobData) recipe;
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof EntityData) {
+                final EntityData entityData = (EntityData) recipe;
                 // Check for null exception
-                if(mobData.getEntityType() == null){continue;}
-                if(mobData.getEntityType().equals(clickedEntity.getType())) {
+                if(entityData.getEntityType() == null){continue;}
+                if(entityData.getEntityType().equals(clickedEntity.getType())) {
                     contains = true;
                     break;
                 }

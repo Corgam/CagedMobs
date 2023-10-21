@@ -4,7 +4,7 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.items.DnaSamplerItem;
 import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
-import com.corgam.cagedmobs.serializers.mob.MobData;
+import com.corgam.cagedmobs.serializers.entity.EntityData;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @JeiPlugin
 public class CagedMobsPlugin implements IModPlugin {
 
-    public static final RecipeType<EntityWrapper> ENTITY_RECIPE = RecipeType.create(CagedMobs.MOD_ID, "entity", EntityWrapper.class);
+    public static final RecipeType<EntityDataWrapper> ENTITY_RECIPE = RecipeType.create(CagedMobs.MOD_ID, "entity", EntityDataWrapper.class);
 
     @Override
     public ResourceLocation getPluginUid () {
@@ -45,7 +45,7 @@ public class CagedMobsPlugin implements IModPlugin {
     @Override
     public void registerRecipes (IRecipeRegistration registration) {
         final RecipeManager recipeManager = RecipesHelper.getRecipeManager();
-        final List<MobData> entities = new ArrayList<>(RecipesHelper.getEntitiesRecipesList(recipeManager));
+        final List<EntityData> entities = new ArrayList<>(RecipesHelper.getEntitiesRecipesList(recipeManager));
         // Subtract the blacklisted entities
         List<EntityType<?>> blacklistedEntities = RecipesHelper.getEntityTypesFromConfigList();
         if(!CagedMobs.SERVER_CONFIG.isEntitiesListInWhitelistMode()) {
@@ -56,13 +56,13 @@ public class CagedMobsPlugin implements IModPlugin {
             entities.removeIf(data -> !blacklistedEntities.contains(data.getEntityType()));
         }
         // Create JEI recipes
-        registration.addRecipes(ENTITY_RECIPE, entities.stream().map(EntityWrapper::new).collect(Collectors.toList()));
+        registration.addRecipes(ENTITY_RECIPE, entities.stream().map(EntityDataWrapper::new).collect(Collectors.toList()));
     }
 
     @Override
     public void registerCategories (IRecipeCategoryRegistration registration) {
         final IGuiHelper guiHelper = registration.getJeiHelpers().getGuiHelper();
-        registration.addRecipeCategories(new EntityCategory(guiHelper, ENTITY_RECIPE));
+        registration.addRecipeCategories(new EntityDataCategory(guiHelper, ENTITY_RECIPE));
     }
 
     // Subtype interpreter for samplers

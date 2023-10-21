@@ -2,9 +2,9 @@ package com.corgam.cagedmobs.serializers;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
-import com.corgam.cagedmobs.serializers.env.EnvironmentData;
-import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
-import com.corgam.cagedmobs.serializers.mob.MobData;
+import com.corgam.cagedmobs.serializers.environment.EnvironmentData;
+import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
+import com.corgam.cagedmobs.serializers.entity.EntityData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -29,10 +29,10 @@ public class RecipesHelper {
         return recipesMap.get(recipeType);
     }
 
-    public static List<MobData> getEntitiesRecipesList (RecipeManager manager) {
+    public static List<EntityData> getEntitiesRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.getAllRecipesFor(CagedRecipeTypes.MOB_RECIPE.get());
+            return manager.getAllRecipesFor(CagedRecipeTypes.ENTITY_RECIPE.get());
         }
 
         return Collections.emptyList();
@@ -79,7 +79,7 @@ public class RecipesHelper {
         return ServerLifecycleHooks.getCurrentServer().getRecipeManager();
     }
 
-    public static boolean isEnvValidForEntity(MobData entity, EnvironmentData env) {
+    public static boolean isEnvValidForEntity(EntityData entity, EnvironmentData env) {
         for(String s : entity.getValidEnvs()){
             for(String s2 : env.getEnvironments()){
                 if(s.matches(s2)){

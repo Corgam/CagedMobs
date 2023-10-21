@@ -10,10 +10,10 @@ import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
-import com.corgam.cagedmobs.serializers.env.EnvironmentData;
-import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
-import com.corgam.cagedmobs.serializers.mob.LootData;
-import com.corgam.cagedmobs.serializers.mob.MobData;
+import com.corgam.cagedmobs.serializers.entity.EntityData;
+import com.corgam.cagedmobs.serializers.environment.EnvironmentData;
+import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
+import com.corgam.cagedmobs.serializers.entity.LootData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -60,7 +60,7 @@ public class MobCageBlockEntity extends BlockEntity {
 
     // Entity and Environment data
     private EnvironmentData environmentData = null;
-    private MobData entity = null;
+    private EntityData entity = null;
     private EntityType<?> entityType = null;
     private Entity cachedEntity;
     private SpawnData renderedEntity;
@@ -356,7 +356,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return if environment is suitable
      */
     public boolean isEnvironmentSuitable(Player player, EntityType<?> entityType, BlockState state) {
-        MobData recipe = getMobDataFromType(entityType);
+        EntityData recipe = getMobDataFromType(entityType);
         // Check if entity needs waterlogged cage
         if(recipe.ifRequiresWater() && !state.getValue(BlockStateProperties.WATERLOGGED)){
             player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.requiresWater").withStyle(ChatFormatting.RED), true);
@@ -388,8 +388,8 @@ public class MobCageBlockEntity extends BlockEntity {
             }
         }
         // Load the mob data
-        MobData mobData = getMobDataFromType(entityType);
-        this.entity = mobData;
+        EntityData entityData = getMobDataFromType(entityType);
+        this.entity = entityData;
         this.entityType = entityType;
         // Calculate required ticks
         this.totalGrowTicks = this.calculateTotalGrowTicks();
@@ -405,7 +405,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * Returns the current entity data.
      * @return entity data
      */
-    public Optional<MobData> getEntity() {
+    public Optional<EntityData> getEntity() {
         return Optional.ofNullable(this.entity);
     }
 
@@ -455,12 +455,12 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return if there exists mob data
      */
     public boolean existsEntityDataFromType(EntityType<?> entityType) {
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.MOB_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
-            if(recipe instanceof MobData) {
-                final MobData mobData = (MobData) recipe;
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof EntityData) {
+                final EntityData entityData = (EntityData) recipe;
                 // Check for null exception
-                if(mobData.getEntityType() == null){continue;}
-                if(mobData.getEntityType().equals(entityType)) {
+                if(entityData.getEntityType() == null){continue;}
+                if(entityData.getEntityType().equals(entityType)) {
                     return true;
                 }
             }
@@ -490,45 +490,45 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param type entity type
      * @return mob data
      */
-    private static MobData getMobDataFromType(EntityType<?> type){
-        MobData finalMobData = null;
+    private static EntityData getMobDataFromType(EntityType<?> type){
+        EntityData finalEntityData = null;
         // Get the mobData
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.MOB_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
-            if(recipe instanceof MobData mobData) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof EntityData entityData) {
                 // Check for null exception
-                if(mobData.getEntityType() != null && mobData.getEntityType().equals(type)){
-                    finalMobData = mobData;
+                if(entityData.getEntityType() != null && entityData.getEntityType().equals(type)){
+                    finalEntityData = entityData;
                     break;
                 }
             }
         }
         // Add additional Loot
-        if(finalMobData != null){
-            addAdditionalLootData(finalMobData);
+        if(finalEntityData != null){
+            addAdditionalLootData(finalEntityData);
         }
-        return finalMobData;
+        return finalEntityData;
     }
 
     /**
      * Adds all loot to the additional loot data object
-     * @param mobData the object to add items to
+     * @param entityData the object to add items to
      */
-    private static void addAdditionalLootData(MobData mobData){
+    private static void addAdditionalLootData(EntityData entityData){
         for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof AdditionalLootData additionalLootData) {
                 // Check for null exception
-                if(mobData.getEntityType() != null){
+                if(entityData.getEntityType() != null){
                     // If entity types are equal
-                    if(mobData.getEntityType().equals(additionalLootData.getEntityType())) {
+                    if(entityData.getEntityType().equals(additionalLootData.getEntityType())) {
                         for(LootData data : additionalLootData.getResults()){
                             // Add loot
                             if(!additionalLootData.isRemoveFromEntity()){
-                                if(!mobData.getResults().contains(data)){
-                                    mobData.getResults().add(data);
+                                if(!entityData.getResults().contains(data)){
+                                    entityData.getResults().add(data);
                                 }
                             // Remove loot
                             }else{
-                                mobData.getResults().removeIf(lootData -> lootData.getItem().getItem().equals(data.getItem().getItem()));
+                                entityData.getResults().removeIf(lootData -> lootData.getItem().getItem().equals(data.getItem().getItem()));
                             }
                         }
                     }

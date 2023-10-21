@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.serializers.mob;
+package com.corgam.cagedmobs.serializers.entity;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
@@ -14,14 +14,14 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.*;
 
-public class MobDataSerializer implements RecipeSerializer<MobData> {
+public class EntityDataSerializer implements RecipeSerializer<EntityData> {
 
-    public MobDataSerializer(){
+    public EntityDataSerializer(){
     }
 
     // Used to serialize all MobData recipes from JSON files
     @Override
-    public MobData fromJson(ResourceLocation id, JsonObject json) {
+    public EntityData fromJson(ResourceLocation id, JsonObject json) {
         // Entity
         final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
         // Envs
@@ -46,11 +46,11 @@ public class MobDataSerializer implements RecipeSerializer<MobData> {
             throw new IllegalArgumentException("MobDataRecipe with id: " + id.toString() + " has an invalid sampler tier. It must use tiers: 1,2 or 3.");
         }
 
-        return new MobData(id, entityType, validEnvs, growTicks, requiresWater, results, samplerTier);
+        return new EntityData(id, entityType, validEnvs, growTicks, requiresWater, results, samplerTier);
     }
 
     @Override
-    public MobData fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+    public EntityData fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
         try {
             // Entity
             final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, buffer);
@@ -70,7 +70,7 @@ public class MobDataSerializer implements RecipeSerializer<MobData> {
             // Sampler tier
             final int tier = buffer.readInt();
 
-            return new MobData(id, entityType, validEnvs, growTicks, requiresWater, results, tier);
+            return new EntityData(id, entityType, validEnvs, growTicks, requiresWater, results, tier);
 
         }catch(final Exception e){
             CagedMobs.LOGGER.catching(e);
@@ -79,7 +79,7 @@ public class MobDataSerializer implements RecipeSerializer<MobData> {
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer, MobData recipe) {
+    public void toNetwork(FriendlyByteBuf buffer, EntityData recipe) {
         try {
             // Entity
             SerializationHelper.serializeEntityType(buffer, recipe.getEntityType());

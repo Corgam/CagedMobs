@@ -7,10 +7,10 @@ import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
-import com.corgam.cagedmobs.serializers.env.EnvironmentData;
-import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
-import com.corgam.cagedmobs.serializers.mob.LootData;
-import com.corgam.cagedmobs.serializers.mob.MobData;
+import com.corgam.cagedmobs.serializers.entity.EntityData;
+import com.corgam.cagedmobs.serializers.environment.EnvironmentData;
+import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
+import com.corgam.cagedmobs.serializers.entity.LootData;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
@@ -38,11 +38,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class EntityWrapper implements IRecipeCategoryExtension {
+public class EntityDataWrapper implements IRecipeCategoryExtension {
 
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
-    private final MobData entity;
+    private final EntityData entityData;
     private final List<ItemStack> envs = NonNullList.create();
     private final List<LootData> drops = NonNullList.create();
     private final List<ItemStack> samplers = NonNullList.create();
@@ -53,18 +53,18 @@ public class EntityWrapper implements IRecipeCategoryExtension {
     public static float rotation = 0.0f;
     private static double yaw = 0;
 
-    public EntityWrapper(MobData entity){
-        this.entity = entity;
+    public EntityDataWrapper(EntityData entityData){
+        this.entityData = entityData;
         // Read valid envs based on entity
         for(EnvironmentData env : RecipesHelper.getEnvsRecipesList(RecipesHelper.getRecipeManager())){
-            if(RecipesHelper.isEnvValidForEntity(entity,env)){
+            if(RecipesHelper.isEnvValidForEntity(entityData,env)){
                 this.envs.addAll(Arrays.asList(env.getInputItem().getItems()));
             }
         }
         // Add DNA samplers to the recipe based on the tier of recipe
-        if(entity.getSamplerTier() >= 3){
+        if(entityData.getSamplerTier() >= 3){
             this.samplers.add(new ItemStack(CagedItems.NETHERITE_DNA_SAMPLER.get()));
-        }else if(entity.getSamplerTier() == 2){
+        }else if(entityData.getSamplerTier() == 2){
             this.samplers.add(new ItemStack(CagedItems.NETHERITE_DNA_SAMPLER.get()));
             this.samplers.add(new ItemStack(CagedItems.DIAMOND_DNA_SAMPLER.get()));
         }else{
@@ -75,7 +75,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         // Add loot
         int lootIndex = 0;
         List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
-        for(LootData data : entity.getResults()){
+        for(LootData data : entityData.getResults()){
             if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
                 if(!blacklistedItems.contains(data.getItem().getItem())){
                     if(!this.drops.contains(data)) {
@@ -111,9 +111,9 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof AdditionalLootData additionalLootData) {
                 // Check for null exceptions
-                if(additionalLootData.getEntityType() != null && this.entity.getEntityType() != null){
+                if(additionalLootData.getEntityType() != null && this.entityData.getEntityType() != null){
                     // Check if the same entity type
-                    if(this.entity.getEntityType().equals(additionalLootData.getEntityType())) {
+                    if(this.entityData.getEntityType().equals(additionalLootData.getEntityType())) {
                         // For each loot data
                         for(LootData data : additionalLootData.getResults()){
                             // Add loot
@@ -157,9 +157,9 @@ public class EntityWrapper implements IRecipeCategoryExtension {
             }
         }
         // Set up required ticks
-        this.ticks = entity.getTotalGrowTicks();
+        this.ticks = entityData.getTotalGrowTicks();
         // Set up if the recipe requires water
-        this.requiresWater = entity.ifRequiresWater();
+        this.requiresWater = entityData.ifRequiresWater();
     }
 
     public List<LootData> getDrops() {
@@ -170,8 +170,8 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         return this.envs;
     }
 
-    public MobData getEntity() {
-        return entity;
+    public EntityData getEntityData() {
+        return entityData;
     }
 
     public List<ItemStack> getSamplers() {
@@ -202,7 +202,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         final IRecipeSlotBuilder samplersSlot = builder.addSlot(RecipeIngredientRole.INPUT, 15, 62+20);
         samplersSlot.addItemStacks(this.getSampledSamplers()).setSlotName("samplers");
         if(!CagedMobs.SERVER_CONFIG.areSpawnEggsDisabled()){
-            SpawnEggItem spawnEgg = ForgeSpawnEggItem.fromEntityType(entity.getEntityType());
+            SpawnEggItem spawnEgg = ForgeSpawnEggItem.fromEntityType(entityData.getEntityType());
             if(spawnEgg != null){
                 samplersSlot.addItemStack(spawnEgg.getDefaultInstance());
             }
@@ -258,7 +258,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }
         // Create the entity object to render
         Level level = Minecraft.getInstance().level;
-        Optional<Entity> entity = EntityRendererHelper.createEntity(level, this.getEntity().getEntityType());
+        Optional<Entity> entity = EntityRendererHelper.createEntity(level, this.getEntityData().getEntityType());
         // Render the entity if created correctly
         if(entity.isPresent()){
             rotation = (rotation+ 0.5f)% 360;
@@ -267,8 +267,8 @@ public class EntityWrapper implements IRecipeCategoryExtension {
             yaw = (yaw + 1.5) % 720.0F;
         }
         // Draw entity name
-        if(this.getEntity() != null && this.getEntity().getEntityType() != null) {
-            pGuiGraphics.drawString(Minecraft.getInstance().font, this.getEntity().getEntityType().getDescription(), 5, 2, 8, false);
+        if(this.getEntityData() != null && this.getEntityData().getEntityType() != null) {
+            pGuiGraphics.drawString(Minecraft.getInstance().font, this.getEntityData().getEntityType().getDescription(), 5, 2, 8, false);
         }
         // Draw required ticks
         pGuiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("jei.tooltip.cagedmobs.entity.ticks", this.getSeconds()), 10, 102, 8, false);
@@ -282,7 +282,7 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         List<ItemStack> ret = NonNullList.create();
         for (ItemStack stack : samplers) {
             stack = stack.copy();
-            EntityType<?> type = entity.getEntityType();
+            EntityType<?> type = entityData.getEntityType();
             CompoundTag nbt = new CompoundTag();
             SerializationHelper.serializeEntityTypeNBT(nbt, type);
             stack.setTag(nbt);

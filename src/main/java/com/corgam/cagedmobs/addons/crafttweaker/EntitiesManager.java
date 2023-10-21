@@ -6,7 +6,7 @@ import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker.api.recipe.manager.base.IRecipeManager;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
-import com.corgam.cagedmobs.serializers.mob.MobData;
+import com.corgam.cagedmobs.serializers.entity.EntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -14,7 +14,7 @@ import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
 @ZenCodeType.Name("mods.cagedmobs.EntitiesManager")
-public class EntitiesManager implements IRecipeManager<MobData> {
+public class EntitiesManager implements IRecipeManager<EntityData> {
 
     public EntitiesManager() {}
 
@@ -36,7 +36,7 @@ public class EntitiesManager implements IRecipeManager<MobData> {
     public CTEntity getEntity(String id){
         ResourceLocation resource = ResourceLocation.tryParse(id);
         if(resource != null) {
-            final MobData recipe = this.getRecipes().get(resource);
+            final EntityData recipe = this.getRecipes().get(resource);
             if (recipe != null) {
                 return new CTEntity(recipe);
             }
@@ -46,12 +46,12 @@ public class EntitiesManager implements IRecipeManager<MobData> {
 
     @Override
     public ResourceLocation getBracketResourceLocation () {
-        return CagedRecipeSerializers.MOB_RECIPE_SERIALIZER.getId();
+        return CagedRecipeSerializers.ENTITY_RECIPE_SERIALIZER.getId();
     }
 
     @Override
-    public RecipeType<MobData> getRecipeType () {
-        return CagedRecipeTypes.MOB_RECIPE.get();
+    public RecipeType<EntityData> getRecipeType () {
+        return CagedRecipeTypes.ENTITY_RECIPE.get();
     }
 }
 

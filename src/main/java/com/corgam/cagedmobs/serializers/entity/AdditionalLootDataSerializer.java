@@ -1,21 +1,18 @@
-package com.corgam.cagedmobs.serializers.mob;
+package com.corgam.cagedmobs.serializers.entity;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.corgam.cagedmobs.serializers.mob.MobDataSerializer.deserializeLootData;
+import static com.corgam.cagedmobs.serializers.entity.EntityDataSerializer.deserializeLootData;
 
 public class AdditionalLootDataSerializer implements RecipeSerializer<AdditionalLootData> {
 

@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.serializers.env;
+package com.corgam.cagedmobs.serializers.environment;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;

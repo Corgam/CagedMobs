@@ -2,7 +2,7 @@ package com.corgam.cagedmobs.addons.crafttweaker;
 
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker.api.ingredient.IIngredient;
-import com.corgam.cagedmobs.serializers.env.EnvironmentData;
+import com.corgam.cagedmobs.serializers.environment.EnvironmentData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import org.openzen.zencode.java.ZenCodeType;
