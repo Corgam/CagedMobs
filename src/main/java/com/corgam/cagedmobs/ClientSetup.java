@@ -1,4 +1,4 @@
-package com.corgam.cagedmobs.setup;
+package com.corgam.cagedmobs;
 
 import com.corgam.cagedmobs.blocks.mob_cage.MobCageRenderer;
 import com.corgam.cagedmobs.blocks.mob_cage.MobCageScreen;
