@@ -1,9 +1,7 @@
 package com.corgam.cagedmobs.addons.jade;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity;
-import com.corgam.cagedmobs.registers.CagedBlocks;
-import com.corgam.cagedmobs.setup.Constants;
-import mcjty.theoneprobe.api.IProbeInfo;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -74,6 +72,6 @@ public class CagedMobsComponentProvider implements IBlockComponentProvider {
 
     @Override
     public ResourceLocation getUid() {
-        return new ResourceLocation(Constants.MOD_ID, "cagedmobs_jade");
+        return new ResourceLocation(CagedMobs.MOD_ID, "cagedmobs_jade");
     }
 }

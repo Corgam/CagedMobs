@@ -261,7 +261,7 @@ public class MobCageBlockEntity extends BlockEntity {
      */
     public static EnvironmentData getEnvironmentDataFromItemStack(ItemStack heldItem) {
         EnvironmentData finalEnvData = null;
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENV_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENVIRONMENT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof EnvironmentData) {
                 final EnvironmentData envData = (EnvironmentData) recipe;
                 if(envData.getInputItem().test(heldItem)) {
@@ -337,7 +337,7 @@ public class MobCageBlockEntity extends BlockEntity {
             return false;
         }
         // Check the recipes
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENV_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENVIRONMENT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof EnvironmentData) {
                 final EnvironmentData envData = (EnvironmentData) recipe;
                 if(envData.getInputItem().test(heldItem)) {

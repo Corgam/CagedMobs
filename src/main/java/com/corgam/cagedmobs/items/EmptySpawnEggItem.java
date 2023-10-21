@@ -21,9 +21,9 @@ public class EmptySpawnEggItem extends Item {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(Component.translatable("item.cagedmobs.dnasampler.getBackEntity").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("item.cagedmobs.dna_sampler.getBackEntity").withStyle(ChatFormatting.GRAY));
         if(CagedMobs.SERVER_CONFIG.areSpawnEggsDisabled()){
-            tooltip.add(Component.translatable("item.cagedmobs.dnasampler.disabled").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("item.cagedmobs.dna_sampler.disabled").withStyle(ChatFormatting.RED));
         }
     }
 }

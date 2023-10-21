@@ -1,7 +1,7 @@
 package com.corgam.cagedmobs.addons.jei;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedItems;
-import com.corgam.cagedmobs.setup.Constants;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class EntityCategory implements IRecipeCategory<EntityWrapper> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Constants.MOD_ID, "entity");
+    public static final ResourceLocation ID = new ResourceLocation(CagedMobs.MOD_ID, "entity");
 
     private static final int BG_PADDING = 5, BG_WIDTH = 166, BG_HEIGHT = 111;
     private final IDrawable icon;
@@ -29,7 +29,7 @@ public class EntityCategory implements IRecipeCategory<EntityWrapper> {
     public EntityCategory(IGuiHelper gui, RecipeType<EntityWrapper> type){
         this.guiHelper = gui;
         this.icon = gui.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CagedItems.MOB_CAGE.get()));
-        ResourceLocation backgroundRL = new ResourceLocation(Constants.MOD_ID, "textures/gui/jei_recipe.png");
+        ResourceLocation backgroundRL = new ResourceLocation(CagedMobs.MOD_ID, "textures/gui/jei_recipe.png");
         this.background = gui.createDrawable(backgroundRL,0,0,BG_WIDTH+BG_PADDING*2,BG_HEIGHT+BG_PADDING*2);
         this.type = type;
         this.title = Component.translatable("jei.category.cagedmobs.entity");

@@ -1,0 +1,15 @@
+{
+	"type": "cagedmobs:environment_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "alexsmobs"
+		}
+	],
+	"input": {
+		"item": "minecraft:bone_block"
+	},
+	"render": "minecraft:bone_block",
+	"growModifier": 1.0,
+	"categories": ["bone"]
+}

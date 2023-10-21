@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.addons.theoneprobe;
 
-import com.corgam.cagedmobs.setup.Constants;
+import com.corgam.cagedmobs.CagedMobs;
 import com.google.common.base.Function;
 import mcjty.theoneprobe.api.*;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +16,7 @@ public class CagedMobsTOPSupport implements Function<ITheOneProbe, Void> {
         probe.registerProvider(new IProbeInfoProvider() {
             @Override
             public ResourceLocation getID() {
-                return new ResourceLocation(Constants.MOD_ID,"default");
+                return new ResourceLocation(CagedMobs.MOD_ID,"default");
             }
 
             @Override

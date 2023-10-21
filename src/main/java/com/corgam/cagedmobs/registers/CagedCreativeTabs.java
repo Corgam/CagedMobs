@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.registers;
 
-import com.corgam.cagedmobs.setup.Constants;
+import com.corgam.cagedmobs.CagedMobs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -9,10 +9,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CagedCreativeTabs {
-    public static final DeferredRegister<CreativeModeTab> CAGED_CREATIVE_TABS_REG = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Constants.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> CAGED_CREATIVE_TABS_REG = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CagedMobs.MOD_ID);
 
-    public static final RegistryObject<CreativeModeTab> MAIN_TAB = CAGED_CREATIVE_TABS_REG.register("cagemobs_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.cagedmobstab"))
+    public static final RegistryObject<CreativeModeTab> MAIN_TAB = CAGED_CREATIVE_TABS_REG.register("cagedmobs_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.cagedmobs_tab"))
             .icon(() -> new ItemStack(CagedItems.HOPPING_MOB_CAGE.get()))
             .displayItems(((pParameters, pOutput) -> {
                 // Cages
@@ -20,8 +20,8 @@ public class CagedCreativeTabs {
                 pOutput.accept(CagedItems.HOPPING_MOB_CAGE.get());
                 // Samplers
                 pOutput.accept(CagedItems.DNA_SAMPLER.get());
-                pOutput.accept(CagedItems.DNA_SAMPLER_DIAMOND.get());
-                pOutput.accept(CagedItems.DNA_SAMPLER_NETHERITE.get());
+                pOutput.accept(CagedItems.DIAMOND_DNA_SAMPLER.get());
+                pOutput.accept(CagedItems.NETHERITE_DNA_SAMPLER.get());
                 // Upgrades
                 pOutput.accept(CagedItems.SPEED_I_UPGRADE.get());
                 pOutput.accept(CagedItems.SPEED_II_UPGRADE.get());

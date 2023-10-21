@@ -1,0 +1,15 @@
+{
+	"type": "cagedmobs:environment_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+		}
+	],
+	"input": {
+		"item": "minecraft:sculk_shrieker"
+	},
+	"render": "minecraft:sculk_shrieker",
+	"growModifier": 1.15,
+	"categories": ["sculk"]
+}

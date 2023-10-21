@@ -3,7 +3,6 @@ package com.corgam.cagedmobs.serializers.env;
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
-import com.corgam.cagedmobs.serializers.RecipesHelper;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -64,12 +63,12 @@ public class EnvironmentData implements Recipe<Inventory> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return CagedRecipeSerializers.ENV_RECIPE_SERIALIZER.get();
+        return CagedRecipeSerializers.ENVIRONMENT_RECIPE_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
-        return CagedRecipeTypes.ENV_RECIPE.get();
+        return CagedRecipeTypes.ENVIRONMENT_RECIPE.get();
     }
 
     public Ingredient getInputItem() {

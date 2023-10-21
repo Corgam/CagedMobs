@@ -1,7 +1,7 @@
 package com.corgam.cagedmobs.blocks.mob_cage;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.helpers.EntityRendererHelper;
-import com.corgam.cagedmobs.setup.Constants;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -16,9 +16,9 @@ import java.util.Optional;
 public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
 
     // The path to the GUI image
-    private final ResourceLocation GUI = new ResourceLocation(Constants.MOD_ID, "textures/gui/mob_cage.png");
-    private final ResourceLocation UPGRADE_SLOT_OUTLINE = new ResourceLocation(Constants.MOD_ID, "textures/gui/upgrade_slot.png");
-    private final ResourceLocation ENVIRONMENT_SLOT_OUTLINE = new ResourceLocation(Constants.MOD_ID, "textures/gui/environment_slot.png");
+    private final ResourceLocation GUI = new ResourceLocation(CagedMobs.MOD_ID, "textures/gui/mob_cage.png");
+    private final ResourceLocation UPGRADE_SLOT_OUTLINE = new ResourceLocation(CagedMobs.MOD_ID, "textures/gui/upgrade_slot.png");
+    private final ResourceLocation ENVIRONMENT_SLOT_OUTLINE = new ResourceLocation(CagedMobs.MOD_ID, "textures/gui/environment_slot.png");
 
     private static float rotation = 0.0f;
     private static double yaw = 0;

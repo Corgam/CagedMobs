@@ -41,7 +41,7 @@ public class EntitiesManager implements IRecipeManager<MobData> {
                 return new CTEntity(recipe);
             }
         }
-        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker entityRecipe ID: " + id);
+        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker Entity recipe ID: " + id);
     }
 
     @Override

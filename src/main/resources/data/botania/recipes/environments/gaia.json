@@ -1,0 +1,15 @@
+{
+	"type": "cagedmobs:environment_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "botania"
+		}
+	],
+	"input": {
+		"item": "botania:gaia_ingot"
+	},
+	"growModifier": 1.0,
+	"render": "botania:shimmerrock",
+	"categories": ["gaia"]
+}

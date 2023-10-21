@@ -27,7 +27,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
@@ -64,13 +63,13 @@ public class EntityWrapper implements IRecipeCategoryExtension {
         }
         // Add DNA samplers to the recipe based on the tier of recipe
         if(entity.getSamplerTier() >= 3){
-            this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER_NETHERITE.get()));
+            this.samplers.add(new ItemStack(CagedItems.NETHERITE_DNA_SAMPLER.get()));
         }else if(entity.getSamplerTier() == 2){
-            this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER_NETHERITE.get()));
-            this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER_DIAMOND.get()));
+            this.samplers.add(new ItemStack(CagedItems.NETHERITE_DNA_SAMPLER.get()));
+            this.samplers.add(new ItemStack(CagedItems.DIAMOND_DNA_SAMPLER.get()));
         }else{
-            this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER_NETHERITE.get()));
-            this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER_DIAMOND.get()));
+            this.samplers.add(new ItemStack(CagedItems.NETHERITE_DNA_SAMPLER.get()));
+            this.samplers.add(new ItemStack(CagedItems.DIAMOND_DNA_SAMPLER.get()));
             this.samplers.add(new ItemStack(CagedItems.DNA_SAMPLER.get()));
         }
         // Add loot

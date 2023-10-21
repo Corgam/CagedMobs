@@ -64,10 +64,10 @@ public class DnaSamplerItem extends Item {
                     player.setItemInHand(hand, stack);
                     return true;
                 } else {
-                    player.displayClientMessage(Component.translatable("item.cagedmobs.dnasampler.not_sufficient").withStyle(ChatFormatting.RED), true);
+                    player.displayClientMessage(Component.translatable("item.cagedmobs.dna_sampler.not_sufficient").withStyle(ChatFormatting.RED), true);
                 }
             } else {
-                player.displayClientMessage(Component.translatable("item.cagedmobs.dnasampler.not_cachable").withStyle(ChatFormatting.RED), true);
+                player.displayClientMessage(Component.translatable("item.cagedmobs.dna_sampler.not_cachable").withStyle(ChatFormatting.RED), true);
             }
         }
         return false;
@@ -136,26 +136,26 @@ public class DnaSamplerItem extends Item {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         tooltip.add(getTooltip(stack));
         tooltip.add(getInformationForTier().withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("item.cagedmobs.dnasampler.makeEmpty").withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("item.cagedmobs.dnasampler.getBackEntity").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("item.cagedmobs.dna_sampler.makeEmpty").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("item.cagedmobs.dna_sampler.getBackEntity").withStyle(ChatFormatting.GRAY));
         if(CagedMobs.SERVER_CONFIG.areSamplersDisabled()){
-            tooltip.add(Component.translatable("item.cagedmobs.dnasampler.disabled").withStyle(ChatFormatting.RED));
+            tooltip.add(Component.translatable("item.cagedmobs.dna_sampler.disabled").withStyle(ChatFormatting.RED));
         }
     }
 
     private MutableComponent getInformationForTier(){
         if(this instanceof DnaSamplerNetheriteItem){
-            return Component.translatable("item.cagedmobs.dnasampler.tier3Info");
+            return Component.translatable("item.cagedmobs.dna_sampler.tier3Info");
         }else if(this instanceof DnaSamplerDiamondItem){
-            return Component.translatable("item.cagedmobs.dnasampler.tier2Info");
+            return Component.translatable("item.cagedmobs.dna_sampler.tier2Info");
         }else{
-            return Component.translatable("item.cagedmobs.dnasampler.tier1Info");
+            return Component.translatable("item.cagedmobs.dna_sampler.tier1Info");
         }
     }
 
     private Component getTooltip(ItemStack stack) {
         if(!DnaSamplerItem.containsEntityType(stack)) {
-            return Component.translatable("item.cagedmobs.dnasampler.empty").withStyle(ChatFormatting.YELLOW);
+            return Component.translatable("item.cagedmobs.dna_sampler.empty").withStyle(ChatFormatting.YELLOW);
         }else {
             EntityType<?> type = SerializationHelper.deserializeEntityTypeNBT(stack.getTag());
             // Add the text component
@@ -163,7 +163,7 @@ public class DnaSamplerItem extends Item {
                 return Component.translatable(type.getDescriptionId()).withStyle(ChatFormatting.YELLOW);
             }else{
                 // If not found say Unknown entity for crash prevention
-                return Component.translatable("item.cagedmobs.dnasampler.unknown_entity").withStyle(ChatFormatting.YELLOW);
+                return Component.translatable("item.cagedmobs.dna_sampler.unknown_entity").withStyle(ChatFormatting.YELLOW);
             }
         }
     }

@@ -142,18 +142,18 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                         if (!DnaSamplerItem.containsEntityType(heldItem) && cageBE.getEntity().isPresent()) {
                             // Check if sampler's tier is sufficient
                             if (cageBE.getEntity().get().getSamplerTier() >= 3 && !(heldItem.getItem() instanceof DnaSamplerNetheriteItem)) {
-                                player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
+                                player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
                                 return InteractionResult.FAIL;
                             }
                             if (cageBE.getEntity().get().getSamplerTier() >= 2 && !((heldItem.getItem() instanceof DnaSamplerNetheriteItem) || (heldItem.getItem() instanceof DnaSamplerDiamondItem))) {
-                                player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
+                                player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
                                 return InteractionResult.FAIL;
                             }
                             // Get back the entity
                             sampler.setEntityTypeFromCage(cageBE, heldItem, player, hand);
                             cageBE.setChanged();
                         } else {
-                            player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
+                            player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
                             return InteractionResult.FAIL;
                         }
                         cageBE.removeEntity();
@@ -181,10 +181,10 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                             return InteractionResult.SUCCESS;
                         }
                     } else {
-                        player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
+                        player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
                     }
                 }else{
-                    player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.spawnEggsDisabled").withStyle(ChatFormatting.RED), true);
+                    player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.spawnEggsDisabled").withStyle(ChatFormatting.RED), true);
                 }
                 return InteractionResult.CONSUME;
             }
@@ -204,7 +204,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                        return InteractionResult.FAIL;
                     }
                 }else{
-                    player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.spawnEggsDisabled").withStyle(ChatFormatting.RED), true);
+                    player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.spawnEggsDisabled").withStyle(ChatFormatting.RED), true);
                     return InteractionResult.FAIL;
                 }
             }
@@ -230,7 +230,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
             MenuProvider containerProvider = new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return state.getValue(HOPPING) ? Component.translatable("block.cagedmobs.hoppingmobcage") : Component.translatable("block.cagedmobs.mobcage");
+                    return state.getValue(HOPPING) ? Component.translatable("block.cagedmobs.hopping_mob_cage") : Component.translatable("block.cagedmobs.mobcage");
                 }
                 @Nullable
                 @Override
@@ -279,10 +279,10 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack item, @javax.annotation.Nullable BlockGetter getter, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("block.cagedmobs.mobcage.mainInfo").withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("block.cagedmobs.mobcage.rightClickHarvest").withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("block.cagedmobs.mobcage.envInfo").withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("block.cagedmobs.mobcage.upgrading").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("block.cagedmobs.mob_cage.mainInfo").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("block.cagedmobs.mob_cage.rightClickHarvest").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("block.cagedmobs.mob_cage.envInfo").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("block.cagedmobs.mob_cage.upgrading").withStyle(ChatFormatting.GRAY));
     }
 
     // Block shape

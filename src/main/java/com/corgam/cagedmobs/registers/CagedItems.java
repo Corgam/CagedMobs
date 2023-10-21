@@ -1,8 +1,8 @@
 package com.corgam.cagedmobs.registers;
 
+import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.items.*;
 import com.corgam.cagedmobs.items.upgrades.*;
-import com.corgam.cagedmobs.setup.Constants;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -13,23 +13,23 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CagedItems {
     //Registry
-    public static final DeferredRegister<Item> ITEMS_REG = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS_REG = DeferredRegister.create(ForgeRegistries.ITEMS, CagedMobs.MOD_ID);
 
     // CAGES
-    public final static RegistryObject<Item> MOB_CAGE = ITEMS_REG.register("mobcage", () -> new BlockItem(CagedBlocks.MOB_CAGE.get(), new Item.Properties()));
-    public final static RegistryObject<Item> HOPPING_MOB_CAGE = ITEMS_REG.register("hoppingmobcage", () -> new BlockItem(CagedBlocks.HOPPING_MOB_CAGE.get(), new Item.Properties()));
+    public final static RegistryObject<Item> MOB_CAGE = ITEMS_REG.register("mob_cage", () -> new BlockItem(CagedBlocks.MOB_CAGE.get(), new Item.Properties()));
+    public final static RegistryObject<Item> HOPPING_MOB_CAGE = ITEMS_REG.register("hopping_mob_cage", () -> new BlockItem(CagedBlocks.HOPPING_MOB_CAGE.get(), new Item.Properties()));
     // SAMPLER
-    public final static RegistryObject<Item> DNA_SAMPLER = ITEMS_REG.register("dnasampler", () -> new DnaSamplerItem(new Item.Properties().stacksTo(1)));
-    public final static RegistryObject<Item> DNA_SAMPLER_DIAMOND = ITEMS_REG.register("dnasamplerdiamond", () -> new DnaSamplerDiamondItem(new Item.Properties().stacksTo(1)));
-    public final static RegistryObject<Item> DNA_SAMPLER_NETHERITE = ITEMS_REG.register("dnasamplernetherite", () -> new DnaSamplerNetheriteItem(new Item.Properties().stacksTo(1)));
+    public final static RegistryObject<Item> DNA_SAMPLER = ITEMS_REG.register("dna_sampler", () -> new DnaSamplerItem(new Item.Properties().stacksTo(1)));
+    public final static RegistryObject<Item> DIAMOND_DNA_SAMPLER = ITEMS_REG.register("diamond_dna_sampler", () -> new DnaSamplerDiamondItem(new Item.Properties().stacksTo(1)));
+    public final static RegistryObject<Item> NETHERITE_DNA_SAMPLER = ITEMS_REG.register("netherite_dna_sampler", () -> new DnaSamplerNetheriteItem(new Item.Properties().stacksTo(1)));
     // UPGRADES
     public final static RegistryObject<Item> SPEED_I_UPGRADE = ITEMS_REG.register("speed_i_upgrade", () -> new SpeedIUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> SPEED_II_UPGRADE = ITEMS_REG.register("speed_ii_upgrade", () -> new SpeedIIUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> SPEED_III_UPGRADE = ITEMS_REG.register("speed_iii_upgrade", () -> new SpeedIIIUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> FORTUNE_UPGRADE = ITEMS_REG.register("fortune_upgrade", () -> new FortuneUpgradeItem(new Item.Properties()));
-    public final static RegistryObject<Item> COOKING_UPGRADE = ITEMS_REG.register("cookingupgrade", () -> new CookingUpgradeItem(new Item.Properties()));
-    public final static RegistryObject<Item> LIGHTNING_UPGRADE = ITEMS_REG.register("lightningupgrade", () -> new LightningUpgradeItem(new Item.Properties()));
-    public final static RegistryObject<Item> ARROW_UPGRADE = ITEMS_REG.register("arrowupgrade", () -> new ArrowUpgradeItem(new Item.Properties()));
+    public final static RegistryObject<Item> COOKING_UPGRADE = ITEMS_REG.register("cooking_upgrade", () -> new CookingUpgradeItem(new Item.Properties()));
+    public final static RegistryObject<Item> LIGHTNING_UPGRADE = ITEMS_REG.register("lightning_upgrade", () -> new LightningUpgradeItem(new Item.Properties()));
+    public final static RegistryObject<Item> ARROW_UPGRADE = ITEMS_REG.register("arrow_upgrade", () -> new ArrowUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> EXPERIENCE_UPGRADE = ITEMS_REG.register("experience_upgrade", () -> new ExperienceUpgradeItem(new Item.Properties()));
 
 

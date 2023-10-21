@@ -1,0 +1,15 @@
+{
+	"type": "cagedmobs:environment_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "gaiadimension"
+		}
+	],
+	"input": {
+		"item": "gaiadimension:gaia_stone"
+	},
+	"render": "gaiadimension:gaia_stone",
+	"growModifier": 1,
+	"categories": ["gaia"]
+}

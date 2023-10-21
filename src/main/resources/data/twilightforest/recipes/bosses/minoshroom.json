@@ -24,6 +24,7 @@
 			"output": {
 				"item": "twilightforest:diamond_minotaur_axe"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		}

@@ -22,12 +22,16 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(Constants.MOD_ID)
+@Mod(CagedMobs.MOD_ID)
 public class CagedMobs
 {
-    // Directly reference a log4j logger.
+    // Mod ID
+    public static final String MOD_ID = "cagedmobs";
+    // Logger
     public static final Logger LOGGER = LogManager.getLogger();
+    // Eventbus
     final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    // Configs
     public static final ClientConfig CLIENT_CONFIG = new ClientConfig();
     public static final ServerConfig SERVER_CONFIG = new ServerConfig();
 
@@ -57,8 +61,8 @@ public class CagedMobs
      */
     private void addPropertiesToItems(final FMLClientSetupEvent event) {
         ItemProperties.register(CagedItems.DNA_SAMPLER.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
-        ItemProperties.register(CagedItems.DNA_SAMPLER_DIAMOND.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerDiamondItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
-        ItemProperties.register(CagedItems.DNA_SAMPLER_NETHERITE.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerNetheriteItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
+        ItemProperties.register(CagedItems.DIAMOND_DNA_SAMPLER.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerDiamondItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
+        ItemProperties.register(CagedItems.NETHERITE_DNA_SAMPLER.get(), new ResourceLocation("cagedmobs:full"), (itemStack, clientWorld, livingEntity, unusedInt) -> DnaSamplerNetheriteItem.containsEntityType(itemStack) ? 1.0F : 0.0F);
     }
 
     /**

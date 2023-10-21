@@ -1,0 +1,15 @@
+{
+  "type": "cagedmobs:environment_data",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "input": {
+    "item": "tconstruct:sky_congealed_slime"
+  },
+  "render": "tconstruct:sky_congealed_slime",
+  "growModifier": 1.15,
+  "categories": ["slime"]
+}

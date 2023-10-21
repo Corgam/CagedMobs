@@ -1,0 +1,15 @@
+{
+	"type": "cagedmobs:environment_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+		}
+	],
+	"input": {
+		"item": "minecraft:gilded_blackstone"
+	},
+	"render": "minecraft:gilded_blackstone",
+	"growModifier": 1.15,
+	"categories": ["nether"]
+}

@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "cagedmobs:block/hopping_mob_cage" }
+  }
+}

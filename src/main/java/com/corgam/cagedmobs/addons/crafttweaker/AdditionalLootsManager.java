@@ -36,7 +36,7 @@ public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData
                 return new CTAdditionalLoot(recipe);
             }
         }
-        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker additionalLootRecipe ID: " + id);
+        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker Additional Loot Data recipe ID: " + id);
     }
 
     @Override

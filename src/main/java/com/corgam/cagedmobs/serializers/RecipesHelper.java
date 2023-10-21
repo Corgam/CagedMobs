@@ -3,11 +3,8 @@ package com.corgam.cagedmobs.serializers;
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.env.EnvironmentData;
-import com.corgam.cagedmobs.serializers.env.RecipeTypeEnvData;
 import com.corgam.cagedmobs.serializers.mob.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.mob.MobData;
-import com.corgam.cagedmobs.serializers.mob.RecipeAdditionalLoot;
-import com.corgam.cagedmobs.serializers.mob.RecipeTypeMobData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -44,7 +41,7 @@ public class RecipesHelper {
     public static List<EnvironmentData> getEnvsRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.getAllRecipesFor(CagedRecipeTypes.ENV_RECIPE.get());
+            return manager.getAllRecipesFor(CagedRecipeTypes.ENVIRONMENT_RECIPE.get());
         }
 
         return Collections.emptyList();

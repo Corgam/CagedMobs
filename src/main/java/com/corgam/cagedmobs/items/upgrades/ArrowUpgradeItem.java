@@ -20,7 +20,7 @@ public class ArrowUpgradeItem extends UpgradeItem{
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(Component.translatable("item.cagedmobs.arrowupgrade.info").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("item.cagedmobs.arrow_upgrade.info").withStyle(ChatFormatting.GRAY));
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 

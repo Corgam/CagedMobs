@@ -40,16 +40,16 @@ public class EnvironmentsManager implements IRecipeManager<EnvironmentData> {
                 return new CTEnvironment(recipe);
             }
         }
-        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker environmentRecipe ID: " + id);
+        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker Environment recipe ID: " + id);
     }
 
     @Override
     public ResourceLocation getBracketResourceLocation () {
-        return CagedRecipeSerializers.ENV_RECIPE_SERIALIZER.getId();
+        return CagedRecipeSerializers.ENVIRONMENT_RECIPE_SERIALIZER.getId();
     }
 
     @Override
     public RecipeType<EnvironmentData> getRecipeType () {
-        return CagedRecipeTypes.ENV_RECIPE.get();
+        return CagedRecipeTypes.ENVIRONMENT_RECIPE.get();
     }
 }

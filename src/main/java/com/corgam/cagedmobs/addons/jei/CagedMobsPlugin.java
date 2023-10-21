@@ -5,7 +5,6 @@ import com.corgam.cagedmobs.items.DnaSamplerItem;
 import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.mob.MobData;
-import com.corgam.cagedmobs.setup.Constants;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -20,8 +19,6 @@ import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.crafting.RecipeManager;
 
 import java.util.ArrayList;
@@ -31,11 +28,11 @@ import java.util.stream.Collectors;
 @JeiPlugin
 public class CagedMobsPlugin implements IModPlugin {
 
-    public static final RecipeType<EntityWrapper> ENTITY_RECIPE = RecipeType.create(Constants.MOD_ID, "entity", EntityWrapper.class);
+    public static final RecipeType<EntityWrapper> ENTITY_RECIPE = RecipeType.create(CagedMobs.MOD_ID, "entity", EntityWrapper.class);
 
     @Override
     public ResourceLocation getPluginUid () {
-        return new ResourceLocation(Constants.MOD_ID, "jei");
+        return new ResourceLocation(CagedMobs.MOD_ID, "jei");
     }
 
 
@@ -86,8 +83,8 @@ public class CagedMobsPlugin implements IModPlugin {
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
         DnaSamplerSubtypeInterpreter interpreter = new DnaSamplerSubtypeInterpreter();
-        registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, CagedItems.DNA_SAMPLER_NETHERITE.get(), interpreter);
-        registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, CagedItems.DNA_SAMPLER_DIAMOND.get(), interpreter);
+        registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, CagedItems.NETHERITE_DNA_SAMPLER.get(), interpreter);
+        registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, CagedItems.DIAMOND_DNA_SAMPLER.get(), interpreter);
         registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, CagedItems.DNA_SAMPLER.get(), interpreter);
     }
 
