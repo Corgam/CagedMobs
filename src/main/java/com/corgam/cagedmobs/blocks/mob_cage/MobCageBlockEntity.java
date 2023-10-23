@@ -882,6 +882,11 @@ public class MobCageBlockEntity extends BlockEntity {
      */
     private int calculateTotalGrowTicks() {
         if(this.environmentData != null && this.getEntity().isPresent()){
+            // Take into account creative upgrade
+            if(this.hasUpgrades(CagedItems.CREATIVE_UPGRADE.get(), 1)){
+                this.totalGrowTicks = 1;
+                return this.totalGrowTicks;
+            }
             float growModifier = this.environmentData.getGrowModifier();
             // Take into account speed upgrades
             for(int i=0; i < this.getUpgradeCount(CagedItems.SPEED_I_UPGRADE.get()); i++){

@@ -28,11 +28,13 @@
 	"item.cagedmobs.arrow_upgrade": "Arrow Cage Upgrade",
 	"item.cagedmobs.experience_upgrade": "Experience Cage Upgrade",
 	"item.cagedmobs.fortune_upgrade": "Fortune Cage Upgrade",
+	"item.cagedmobs.creative_upgrade": "Creative Cage Upgrade",
 	"item.cagedmobs.cooking_upgrade.info": "Automatically cooks cookable entity drops",
 	"item.cagedmobs.lightning_upgrade.info": "Kills entities inside the cage with lightning",
 	"item.cagedmobs.arrow_upgrade.info": "Kills entities inside the cage with arrows",
 	"item.cagedmobs.experience_upgrade.info": "Entities killed inside the cage drop Experience Orbs",
 	"item.cagedmobs.fortune_upgrade.info": "Applies Fortune III to the cage drops",
+	"item.cagedmobs.creative_upgrade.info": "Makes the entities grow instantly",
 
 	"item.cagedmobs.upgrades.attach": "Can be attached to the Mob Cages",
 	"item.cagedmobs.upgrades.stack": "Upgrades can stack",

@@ -31,6 +31,7 @@ public class CagedCreativeTabs {
                 pOutput.accept(CagedItems.COOKING_UPGRADE.get());
                 pOutput.accept(CagedItems.LIGHTNING_UPGRADE.get());
                 pOutput.accept(CagedItems.EXPERIENCE_UPGRADE.get());
+                pOutput.accept(CagedItems.CREATIVE_UPGRADE.get());
                 // Drop Items
                 pOutput.accept(CagedItems.DRAGON_SCALE.get());
                 pOutput.accept(CagedItems.NETHER_STAR_FRAGMENT.get());

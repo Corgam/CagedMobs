@@ -31,6 +31,7 @@ public class CagedItems {
     public final static RegistryObject<Item> LIGHTNING_UPGRADE = ITEMS_REG.register("lightning_upgrade", () -> new LightningUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> ARROW_UPGRADE = ITEMS_REG.register("arrow_upgrade", () -> new ArrowUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> EXPERIENCE_UPGRADE = ITEMS_REG.register("experience_upgrade", () -> new ExperienceUpgradeItem(new Item.Properties()));
+    public final static RegistryObject<Item> CREATIVE_UPGRADE = ITEMS_REG.register("creative_upgrade", () -> new CreativeUpgradeItem(new Item.Properties()));
 
 
     // MISC
