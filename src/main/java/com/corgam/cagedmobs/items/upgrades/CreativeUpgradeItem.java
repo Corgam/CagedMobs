@@ -7,6 +7,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -20,10 +21,12 @@ public class CreativeUpgradeItem extends UpgradeItem{
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(Component.translatable("item.cagedmobs.creative_upgrade.info").withStyle(ChatFormatting.GRAY));
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        tooltip.add(Component.translatable("item.cagedmobs.upgrades.attach").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("item.cagedmobs.creative_upgrade.info2").withStyle(ChatFormatting.YELLOW));
     }
 
-    public boolean isFoil(ItemStack itemStack) {
+    @Override
+    public boolean isFoil(@NotNull ItemStack itemStack) {
         return true;
     }
 }

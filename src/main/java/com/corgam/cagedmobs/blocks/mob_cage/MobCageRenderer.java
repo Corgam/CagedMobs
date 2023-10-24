@@ -1,6 +1,7 @@
 package com.corgam.cagedmobs.blocks.mob_cage;
 
 import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.registers.CagedItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -48,6 +49,10 @@ public class MobCageRenderer implements BlockEntityRenderer<MobCageBlockEntity> 
                 matrix.translate(0.0D, (double)0.1F, 0.0D);
                 if(CagedMobs.CLIENT_CONFIG.shouldGrowthRender()){
                     float growthPercentage = tile.getGrowthPercentage() * maxSize;
+                    // Replace growth percentage if creative upgrade is inside to prevent rendering flickering
+                    if(tile.hasUpgrades(CagedItems.CREATIVE_UPGRADE.get(),1 )){
+                        growthPercentage = maxSize;
+                    }
                     matrix.scale(growthPercentage,growthPercentage,growthPercentage);
                 }else{
                     matrix.scale(maxSize, maxSize, maxSize);

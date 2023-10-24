@@ -635,9 +635,10 @@ public class MobCageBlockEntity extends BlockEntity {
         upgrade.getItem() instanceof SpeedIIUpgradeItem ||
         upgrade.getItem() instanceof SpeedIIIUpgradeItem){
             emitSpeedParticles(blockEntity);
+        }else if(upgrade.getItem().equals(CagedItems.CREATIVE_UPGRADE.get())){
+            emitCreativeParticles(blockEntity);
         }
     }
-
     // HARVESTING FUNCTIONS
 
     /**

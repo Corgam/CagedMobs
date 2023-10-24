@@ -126,4 +126,21 @@ public class UpgradeItemsParticles {
             }
         }
     }
+
+    /**
+     * Emits creative upgrade particles from the cage.
+     * @param blockEntity the block entity to emit particles from
+     */
+    public static void emitCreativeParticles(MobCageBlockEntity blockEntity) {
+        Level level = blockEntity.getLevel();
+        if (level != null && level.isClientSide()) {
+            if (level.random.nextInt(20) == 0) {
+                BlockPos blockpos = blockEntity.getBlockPos();
+                double d3 = (double) blockpos.getX() + level.random.nextDouble();
+                double d4 = (double) blockpos.getY() + 1.0;
+                double d5 = (double) blockpos.getZ() + level.random.nextDouble();
+                level.addParticle(ParticleTypes.CHERRY_LEAVES, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+            }
+        }
+    }
 }

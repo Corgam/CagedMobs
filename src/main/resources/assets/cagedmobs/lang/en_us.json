@@ -35,6 +35,7 @@
 	"item.cagedmobs.experience_upgrade.info": "Entities killed inside the cage drop Experience Orbs",
 	"item.cagedmobs.fortune_upgrade.info": "Applies Fortune III to the cage drops",
 	"item.cagedmobs.creative_upgrade.info": "Makes the entities grow instantly",
+	"item.cagedmobs.creative_upgrade.info2": "Creative mode only",
 
 	"item.cagedmobs.upgrades.attach": "Can be attached to the Mob Cages",
 	"item.cagedmobs.upgrades.stack": "Upgrades can stack",

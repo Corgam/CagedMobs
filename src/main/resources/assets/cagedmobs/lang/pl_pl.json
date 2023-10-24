@@ -35,6 +35,7 @@
   "item.cagedmobs.experience_upgrade.info": "Stworzenia zabite w klatce dają kule doświadczenia",
   "item.cagedmobs.fortune_upgrade.info": "Aplikuje Szczęście III dla przedmiotów z klatki",
   "item.cagedmobs.creative_upgrade.info": "Stworzenia w klatce rosną natychmiastowo",
+  "item.cagedmobs.creative_upgrade.info2": "Wyłącznie dla trybu kreatywnego",
 
   "item.cagedmobs.upgrades.attach": "Może zostać zamontowane w klatce na stworzenia",
   "item.cagedmobs.upgrades.stack": "Ulepszenia mogą się kumulować",
