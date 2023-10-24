@@ -1,4 +1,6 @@
-<img src="https://i.imgur.com/nI7aNax.png" alt="Caged Mobs Banner" style="align-self: center">
+<p align="center">
+  <img src="https://i.imgur.com/t97UImX.png" alt="Caged Mobs Banner">
+</p>
 
 <h3 align="center"> Welcome to the official Caged Mobs mod repository! </h3>
 
