@@ -865,12 +865,17 @@ public class MobCageBlockEntity extends BlockEntity {
     }
 
     /**
-     * Returns the current growth percentage.
-     * @return growth percentage
+     * Returns the current growth percentage as float between 0.0F and 1.0F,
+     * where 1.0F is the fully grown entity.
+     * @return the current growth percentage
      */
     public float getGrowthPercentage() {
         if(this.totalGrowTicks != 0) {
-            return (float) this.currentGrowTicks / this.totalGrowTicks;
+            if(this.currentGrowTicks >= this.totalGrowTicks){
+                return 1.0F;
+            }else{
+                return (float) this.currentGrowTicks / this.totalGrowTicks;
+            }
         }else{
             return 0;
         }
@@ -885,6 +890,10 @@ public class MobCageBlockEntity extends BlockEntity {
             // Take into account creative upgrade
             if(this.hasUpgrades(CagedItems.CREATIVE_UPGRADE.get(), 1)){
                 this.totalGrowTicks = 1;
+                // Take into account current growth ticks
+                if(this.currentGrowTicks > this.totalGrowTicks){
+                    this.currentGrowTicks = this.totalGrowTicks;
+                }
                 return this.totalGrowTicks;
             }
             float growModifier = this.environmentData.getGrowModifier();
@@ -900,6 +909,10 @@ public class MobCageBlockEntity extends BlockEntity {
             }
             int basicTotalGrowTicks = Math.round(this.getEntity().get().getTotalGrowTicks()/growModifier);
             this.totalGrowTicks = (int) Math.round(basicTotalGrowTicks/CagedMobs.SERVER_CONFIG.getSpeedOfCages());
+            // Take into account current growth ticks
+            if(this.currentGrowTicks > this.totalGrowTicks){
+                this.currentGrowTicks = this.totalGrowTicks;
+            }
             return this.totalGrowTicks;
         }
         return 0;
