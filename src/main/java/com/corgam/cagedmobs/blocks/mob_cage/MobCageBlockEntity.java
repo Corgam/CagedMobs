@@ -359,7 +359,7 @@ public class MobCageBlockEntity extends BlockEntity {
         EntityData recipe = getMobDataFromType(entityType);
         // Check if entity needs waterlogged cage
         if(recipe.ifRequiresWater() && !state.getValue(BlockStateProperties.WATERLOGGED)){
-            player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.requiresWater").withStyle(ChatFormatting.RED), true);
+            player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.requiresWater").withStyle(ChatFormatting.RED), true);
             return false;
         }
         if(this.environmentData != null){
@@ -369,7 +369,7 @@ public class MobCageBlockEntity extends BlockEntity {
                 }
             }
         }
-        player.displayClientMessage(Component.translatable("block.cagedmobs.mobcage.envNotSuitable").withStyle(ChatFormatting.RED), true);
+        player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.envNotSuitable").withStyle(ChatFormatting.RED), true);
         return false;
     }
 

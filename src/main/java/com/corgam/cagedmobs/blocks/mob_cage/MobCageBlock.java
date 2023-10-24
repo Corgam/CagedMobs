@@ -230,7 +230,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
             MenuProvider containerProvider = new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return state.getValue(HOPPING) ? Component.translatable("block.cagedmobs.hopping_mob_cage") : Component.translatable("block.cagedmobs.mobcage");
+                    return state.getValue(HOPPING) ? Component.translatable("block.cagedmobs.hopping_mob_cage") : Component.translatable("block.cagedmobs.mob_cage");
                 }
                 @Nullable
                 @Override
