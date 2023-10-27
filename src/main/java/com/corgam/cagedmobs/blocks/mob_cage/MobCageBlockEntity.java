@@ -261,11 +261,10 @@ public class MobCageBlockEntity extends BlockEntity {
      */
     public static EnvironmentData getEnvironmentDataFromItemStack(ItemStack heldItem) {
         EnvironmentData finalEnvData = null;
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENVIRONMENT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
-            if(recipe instanceof EnvironmentData) {
-                final EnvironmentData envData = (EnvironmentData) recipe;
-                if(envData.getInputItem().test(heldItem)) {
-                    finalEnvData = envData;
+        for(final EnvironmentData recipe : RecipesHelper.getEnvironmentRecipesList(RecipesHelper.getRecipeManager())) {
+            if(recipe != null) {
+                if(recipe.getInputItem().equals(heldItem)) {
+                    finalEnvData = recipe;
                     break;
                 }
             }
@@ -337,10 +336,9 @@ public class MobCageBlockEntity extends BlockEntity {
             return false;
         }
         // Check the recipes
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENVIRONMENT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
-            if(recipe instanceof EnvironmentData) {
-                final EnvironmentData envData = (EnvironmentData) recipe;
-                if(envData.getInputItem().test(heldItem)) {
+        for(final EnvironmentData recipe : RecipesHelper.getEnvironmentRecipesList(RecipesHelper.getRecipeManager())) {
+            if(recipe != null) {
+                if(recipe.getInputItem().equals(heldItem)) {
                     return true;
                 }
             }
@@ -363,8 +361,8 @@ public class MobCageBlockEntity extends BlockEntity {
             return false;
         }
         if(this.environmentData != null){
-            for(String env : this.environmentData.getEnvironments()){
-                if(recipe.getValidEnvs().contains(env)){
+            for(String env : this.environmentData.getCategories()){
+                if(recipe.getEnvironments().contains(env)){
                     return true;
                 }
             }
@@ -455,12 +453,10 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return if there exists mob data
      */
     public boolean existsEntityDataFromType(EntityType<?> entityType) {
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
-            if(recipe instanceof EntityData) {
-                final EntityData entityData = (EntityData) recipe;
-                // Check for null exception
-                if(entityData.getEntityType() == null){continue;}
-                if(entityData.getEntityType().equals(entityType)) {
+        for(final EntityData recipe : RecipesHelper.getEntitiesRecipesList(RecipesHelper.getRecipeManager())) {
+            if(recipe != null) {
+                if(recipe.getEntityType() == null){continue;}
+                if(recipe.getEntityType().equals(entityType)) {
                     return true;
                 }
             }
@@ -493,7 +489,7 @@ public class MobCageBlockEntity extends BlockEntity {
     private static EntityData getMobDataFromType(EntityType<?> type){
         EntityData finalEntityData = null;
         // Get the mobData
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getEntitiesRecipesList(RecipesHelper.getRecipeManager())) {
             if(recipe instanceof EntityData entityData) {
                 // Check for null exception
                 if(entityData.getEntityType() != null && entityData.getEntityType().equals(type)){
@@ -514,7 +510,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param entityData the object to add items to
      */
     private static void addAdditionalLootData(EntityData entityData){
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getAdditionalLootRecipesList(RecipesHelper.getRecipeManager())) {
             if(recipe instanceof AdditionalLootData additionalLootData) {
                 // Check for null exception
                 if(entityData.getEntityType() != null){

@@ -14,49 +14,41 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class EntityData implements Recipe<Inventory> {
 
-    private final ResourceLocation id;
-    private EntityType<?> entityType;
-    private final Set<String> environments;
+    private final ResourceLocation entityID;
+    private final List<String> environments;
     private int growTicks;
     private boolean requiresWater;
     private final List<LootData> results;
     private int samplerTier;
 
-    public EntityData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
-        this.id = id;
+    public EntityData(ResourceLocation entityID, List<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
         this.environments = environments;
-        this.entityType = entityType;
+        this.entityID = entityID;
         this.growTicks = growTicks;
         this.requiresWater = requiresWater;
         this.results = results;
         this.samplerTier = tier;
         // Add the id to the list of loaded recipes
-        if(id != null && CagedMobs.LOGGER != null){
-            CagedMobs.LOGGER.info("Loaded EntityData recipe with id: " + id.toString());
+        if(CagedMobs.LOGGER != null){
+            CagedMobs.LOGGER.info("Loaded EntityData recipe for EntityType: " + this.entityID.toString());
         }
     }
 
-    public EntityType<?> getEntityType(){
-        // Try to find again entity type if it's null
-        if(this.entityType == null){
-            Optional<EntityType<?>> entityType = EntityType.byString(this.id.toString());
-            if(entityType.isPresent()) {
-                this.entityType = entityType.get();
-                return entityType.get();
-            }
-        }
-        return this.entityType;
+    public @Nullable EntityType<?> getEntityType(){
+        Optional<EntityType<?>> entityType = EntityType.byString(this.entityID.toString());
+        return entityType.orElse(null);
     }
 
-    public void setEntityType(EntityType<?> entityType){
-        this.entityType = entityType;
+    public ResourceLocation getEntityID(){
+        return this.entityID;
     }
 
-    public Set<String> getValidEnvs(){
+    public List<String> getEnvironments(){
         return this.environments;
     }
 
@@ -77,11 +69,6 @@ public class EntityData implements Recipe<Inventory> {
     @Override
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
         return ItemStack.EMPTY;
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -14,25 +13,25 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class EnvironmentData implements Recipe<Inventory> {
 
-    private final ResourceLocation id;
     private Ingredient inputItem;
     private BlockState renderState;
     private float growModifier;
-    private final Set<String> environments;
+    private final List<String> categories;
 
-    public EnvironmentData(ResourceLocation id, Ingredient item, BlockState renderState, float growModifier, Set<String> categories){
-        this.id = id;
+    public EnvironmentData(Ingredient item, BlockState renderState, float growModifier, List<String> categories){
         this.inputItem = item;
         this.renderState = renderState;
         this.growModifier = growModifier;
-        this.environments = categories;
+        this.categories = categories;
         // Add the id to the list of loaded recipes
-        if(id != null && CagedMobs.LOGGER != null){
-            CagedMobs.LOGGER.info("Loaded EnvironmentData recipe with id: " + id.toString());
+        if(CagedMobs.LOGGER != null){
+            CagedMobs.LOGGER.info("Loaded EnvironmentData recipe for item: " + this.inputItem.toString());
         }
     }
 
@@ -57,11 +56,6 @@ public class EnvironmentData implements Recipe<Inventory> {
     }
 
     @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Override
     public RecipeSerializer<?> getSerializer() {
         return CagedRecipeSerializers.ENVIRONMENT_RECIPE_SERIALIZER.get();
     }
@@ -83,8 +77,8 @@ public class EnvironmentData implements Recipe<Inventory> {
         return growModifier;
     }
 
-    public Set<String> getEnvironments() {
-        return environments;
+    public List<String> getCategories() {
+        return categories;
     }
 
     public void setGrowthModifier(float modifier) {

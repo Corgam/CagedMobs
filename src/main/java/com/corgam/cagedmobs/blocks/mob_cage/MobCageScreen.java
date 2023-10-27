@@ -44,7 +44,7 @@ public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
      * @param pPartialTick partial tick
      */
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        this.renderBackground(pGuiGraphics);
+        this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         // Render entity
         BlockEntity blockEntity = this.menu.player.level().getBlockEntity(this.menu.pos);

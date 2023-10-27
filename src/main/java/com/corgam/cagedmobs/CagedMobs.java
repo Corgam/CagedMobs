@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs;
 
-import com.corgam.cagedmobs.addons.theoneprobe.CagedMobsTOPSupport;
+//import com.corgam.cagedmobs.addons.theoneprobe.CagedMobsTOPSupport;
 import com.corgam.cagedmobs.configs.ClientConfig;
 import com.corgam.cagedmobs.configs.ServerConfig;
 import com.corgam.cagedmobs.items.DnaSamplerDiamondItem;
@@ -10,7 +10,7 @@ import com.corgam.cagedmobs.registers.*;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.InterModComms;
+//import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -70,7 +70,7 @@ public class CagedMobs
      */
     private void initTOPSupport(final InterModEnqueueEvent event){
         if(ModList.get().isLoaded("theoneprobe")){
-            InterModComms.sendTo("theoneprobe","getTheOneProbe", CagedMobsTOPSupport::new);
+//            InterModComms.sendTo("theoneprobe","getTheOneProbe", CagedMobsTOPSupport::new);
         }
     }
 }
