@@ -14,7 +14,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'parchment', version: '2023.06.26-1.19.4'
+    mappings channel: 'parchment', version: '2022.11.27-1.19.2'
     runs {
         client {
             workingDirectory project.file('run')
@@ -111,17 +111,17 @@ repositories {
 
 dependencies {
     // Forge
-    minecraft 'net.minecraftforge:forge:1.19.4-45.2.0'
+    minecraft 'net.minecraftforge:forge:1.19.2-43.3.0'
     // JEI
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     // The One Probe
-    compileOnly fg.deobf("curse.maven:top-245211:4442439")
-    runtimeOnly fg.deobf("curse.maven:top-245211:4442439")
+    compileOnly fg.deobf("curse.maven:top-245211:3965693")
+    runtimeOnly fg.deobf("curse.maven:top-245211:3965693")
     // Jade
-    compileOnly fg.deobf("curse.maven:jade-324717:4573063")
-    runtimeOnly fg.deobf("curse.maven:jade-324717:4573063")
+    compileOnly fg.deobf("curse.maven:jade-324717:4800904")
+    runtimeOnly fg.deobf("curse.maven:jade-324717:4800904")
     // Craft Tweaker
     compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${craft_tweaker_version}")
     runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${craft_tweaker_version}")

@@ -1,7 +1,7 @@
 package com.corgam.cagedmobs.helpers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
@@ -11,7 +11,6 @@ import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.animal.Turtle;
-import net.minecraft.world.entity.animal.sniffer.Sniffer;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.ElderGuardian;
 import net.minecraft.world.entity.monster.Ghast;
@@ -57,9 +56,9 @@ public class EntityRendererHelper {
         // Scale the entity
         graphics.scale(-scale, scale, scale);
         // Rotate the entity so it's not upside down
-        graphics.mulPose(Axis.ZP.rotationDegrees(180));
+        graphics.mulPose(Vector3f.ZP.rotationDegrees(180));
         // Rotate the entity around
-        graphics.mulPose(Axis.YP.rotationDegrees(rotation));
+        graphics.mulPose(Vector3f.YP.rotationDegrees(rotation));
         // Render the entity
         MultiBufferSource.BufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
         try{
@@ -67,7 +66,7 @@ public class EntityRendererHelper {
         }catch (Exception e){
             graphics.translate(x, y, -50F);
             graphics.scale(scale, -scale, -scale);
-            graphics.mulPose(Axis.ZP.rotationDegrees(180));
+            graphics.mulPose(Vector3f.ZP.rotationDegrees(180));
             LOGGER.error("[CagedMobs] Error with rendering entity in JEI!", e);
         }
         buff.endBatch();
@@ -105,7 +104,6 @@ public class EntityRendererHelper {
         if(entity instanceof ElderGuardian) {return 10.0F;}
         if(entity instanceof AbstractFish) {return 25.0F;}
         if(entity instanceof Ghast) {return 5.2F;}
-        if(entity instanceof Sniffer) {return 16F;}
         // Handling some of the other cases
         if(width <= height){
             if(height >= 3){

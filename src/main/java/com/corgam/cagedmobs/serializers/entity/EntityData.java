@@ -66,16 +66,17 @@ public class EntityData implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack assemble(Inventory pContainer, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(Inventory pContainer) {
         return ItemStack.EMPTY;
     }
+
     @Override
     public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
+    public ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 

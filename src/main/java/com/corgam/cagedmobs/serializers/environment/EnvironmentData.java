@@ -42,7 +42,7 @@ public class EnvironmentData implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack assemble(Inventory pContainer, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(Inventory pContainer) {
         return ItemStack.EMPTY;
     }
 
@@ -52,7 +52,7 @@ public class EnvironmentData implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
+    public ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 

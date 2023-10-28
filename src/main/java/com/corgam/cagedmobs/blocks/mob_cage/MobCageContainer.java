@@ -102,20 +102,22 @@ public class MobCageContainer extends AbstractContainerMenu {
             } else if (slotItem.getItem() instanceof UpgradeItem) {
                 for(int i = ENVIRONMENT_SLOT+1; i < SLOT_COUNT; i++){
                     if (!this.slots.get(i).hasItem() && this.slots.get(i).mayPlace(slotItem)) {
-                        ItemStack itemstack2 = slotItem.copyWithCount(1);
+                        ItemStack itemstack2 = slotItem.copy();
+                        itemstack2.setCount(1);
                         slotItem.shrink(1);
-                        this.slots.get(i).setByPlayer(itemstack2);
+                        this.slots.get(i).set(itemstack2);
                     }
                 }
             } else if(existsEnvironmentFromItemStack(slotItem)){
                 if (!this.slots.get(ENVIRONMENT_SLOT).hasItem() && this.slots.get(ENVIRONMENT_SLOT).mayPlace(slotItem)) {
-                    ItemStack itemstack2 = slotItem.copyWithCount(1);
+                    ItemStack itemstack2 = slotItem.copy();
+                    itemstack2.setCount(1);
                     slotItem.shrink(1);
-                    this.slots.get(ENVIRONMENT_SLOT).setByPlayer(itemstack2);
+                    this.slots.get(ENVIRONMENT_SLOT).set(itemstack2);
                 }
             }
             if (slotItem.isEmpty()) {
-                slot.setByPlayer(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
                 slot.setChanged();
             }
