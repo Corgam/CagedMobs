@@ -16,8 +16,8 @@ public class CagedItems {
     public static final DeferredRegister<Item> ITEMS_REG = DeferredRegister.create(ForgeRegistries.ITEMS, CagedMobs.MOD_ID);
 
     // CAGES
-    public final static RegistryObject<Item> MOB_CAGE = ITEMS_REG.register("mob_cage", () -> new BlockItem(CagedBlocks.MOB_CAGE.get(), new Item.Properties()));
-    public final static RegistryObject<Item> HOPPING_MOB_CAGE = ITEMS_REG.register("hopping_mob_cage", () -> new BlockItem(CagedBlocks.HOPPING_MOB_CAGE.get(), new Item.Properties()));
+    public final static RegistryObject<Item> MOB_CAGE = ITEMS_REG.register("mob_cage", () -> new BlockItem(CagedBlocks.MOB_CAGE.get(), new Item.Properties().tab(CagedCreativeTab.CAGED_MAIN)));
+    public final static RegistryObject<Item> HOPPING_MOB_CAGE = ITEMS_REG.register("hopping_mob_cage", () -> new BlockItem(CagedBlocks.HOPPING_MOB_CAGE.get(), new Item.Properties().tab(CagedCreativeTab.CAGED_MAIN)));
     // SAMPLER
     public final static RegistryObject<Item> DNA_SAMPLER = ITEMS_REG.register("dna_sampler", () -> new DnaSamplerItem(new Item.Properties().tab(CagedCreativeTab.CAGED_MAIN).stacksTo(1)));
     public final static RegistryObject<Item> DIAMOND_DNA_SAMPLER = ITEMS_REG.register("diamond_dna_sampler", () -> new DnaSamplerDiamondItem(new Item.Properties().tab(CagedCreativeTab.CAGED_MAIN).stacksTo(1)));

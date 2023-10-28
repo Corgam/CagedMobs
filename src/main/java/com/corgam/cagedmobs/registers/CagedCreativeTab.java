@@ -6,7 +6,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 public class CagedCreativeTab extends CreativeModeTab {
-    public static final CagedCreativeTab CAGED_MAIN = new CagedCreativeTab(CreativeModeTab.getGroupCountSafe(), CagedMobs.MOD_ID + "tab");
+    public static final CagedCreativeTab CAGED_MAIN = new CagedCreativeTab(CreativeModeTab.getGroupCountSafe(), CagedMobs.MOD_ID + "_tab");
 
     private CagedCreativeTab(int index, String label) {
         super(index, label);
