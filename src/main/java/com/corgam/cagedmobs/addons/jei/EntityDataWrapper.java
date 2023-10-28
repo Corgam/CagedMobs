@@ -11,6 +11,7 @@ import com.corgam.cagedmobs.serializers.entity.EntityData;
 import com.corgam.cagedmobs.serializers.environment.EnvironmentData;
 import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.entity.LootData;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
@@ -19,7 +20,6 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -247,7 +247,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
         }
     }
 
-    public void draw(GuiGraphics pGuiGraphics, IGuiHelper guiHelper) {
+    public void draw(PoseStack pGuiGraphics, IGuiHelper guiHelper) {
         // Draw Seed & Soil
         guiHelper.getSlotDrawable().draw(pGuiGraphics, 14, 62+19);
         guiHelper.getSlotDrawable().draw(pGuiGraphics, 14+20, 62 + 19);
@@ -268,13 +268,13 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
         }
         // Draw entity name
         if(this.getEntityData() != null && this.getEntityData().getEntityType() != null) {
-            pGuiGraphics.drawString(Minecraft.getInstance().font, this.getEntityData().getEntityType().getDescription(), 5, 2, 8, false);
+            Minecraft.getInstance().font.draw(pGuiGraphics, this.getEntityData().getEntityType().getDescription(), 5, 2, 8);
         }
         // Draw required ticks
-        pGuiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("jei.tooltip.cagedmobs.entity.ticks", this.getSeconds()), 10, 102, 8, false);
+        Minecraft.getInstance().font.draw(pGuiGraphics, Component.translatable("jei.tooltip.cagedmobs.entity.ticks", this.getSeconds()), 10, 102, 8);
         // Draw waterlogged info if it requires water
         if(this.ifRequiresWater()){
-            pGuiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("jei.tooltip.cagedmobs.entity.requiresWater", this.getSeconds()).withStyle(ChatFormatting.BLUE), 5, 112, 8, false);
+            Minecraft.getInstance().font.draw(pGuiGraphics, Component.translatable("jei.tooltip.cagedmobs.entity.requiresWater").withStyle(ChatFormatting.BLUE), 5, 112, 8);
         }
     }
 

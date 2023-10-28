@@ -2,8 +2,11 @@ package com.corgam.cagedmobs.blocks.mob_cage;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.helpers.EntityRendererHelper;
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -43,18 +46,18 @@ public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
      * @param pMouseY y coord of the mouse
      * @param pPartialTick partial tick
      */
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(PoseStack pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         // Render entity
-        BlockEntity blockEntity = this.menu.player.level().getBlockEntity(this.menu.pos);
+        BlockEntity blockEntity = this.menu.player.level.getBlockEntity(this.menu.pos);
         if(blockEntity instanceof MobCageBlockEntity cageBE && cageBE.getEntity().isPresent()){
-            Optional<Entity> entity = EntityRendererHelper.createEntity(this.menu.player.level(), cageBE.getEntity().get().getEntityType());
+            Optional<Entity> entity = EntityRendererHelper.createEntity(this.menu.player.level, cageBE.getEntity().get().getEntityType());
             if(entity.isPresent()){
                 rotation = (rotation+ 0.5f)% 360;
-                pGuiGraphics.enableScissor(this.leftPos+62, this.topPos+17, this.leftPos+114, this.topPos+87);
+                enableScissor(this.leftPos+62, this.topPos+17, this.leftPos+114, this.topPos+87);
                 EntityRendererHelper.renderEntity(pGuiGraphics, this.leftPos + 87, this.topPos + 125, yaw, 70, rotation, entity.get() );
-                pGuiGraphics.disableScissor();
+                disableScissor();
                 // Update yaw
                 yaw = (yaw + 1.5) % 720.0F;
             }
@@ -70,20 +73,29 @@ public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
      * @param pMouseY y coord of the mouse
      */
     @Override
-    protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(PoseStack pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         int leftPos = (this.width - this.imageWidth) / 2;
         int topPos = (this.height - this.imageHeight) / 2;
-        pGuiGraphics.blit(GUI, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, this.GUI);
+        blit(pGuiGraphics, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
         // Render item outline for environment slot
         Slot envSlot = this.menu.getEnvironmentSlot();
         if(!envSlot.hasItem()){
-            pGuiGraphics.blit(ENVIRONMENT_SLOT_OUTLINE, leftPos+envSlot.x, topPos+envSlot.y, 0, 0, 16, 16, 16, 16);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShaderTexture(0, this.ENVIRONMENT_SLOT_OUTLINE);
+            blit(pGuiGraphics, leftPos+envSlot.x, topPos+envSlot.y, 0, 0, 16, 16, 16, 16);
         }
         // Render item outlines for upgrade slots
         int i = 1;
         for(Slot slot : this.menu.getUpgradeSlots()){
             if (!slot.hasItem()) {
-                pGuiGraphics.blit(UPGRADE_SLOT_OUTLINE, leftPos+slot.x, topPos+slot.y, this.imageWidth + (16* (i-1)), 0, 16, 16, 16, 16);
+                RenderSystem.setShader(GameRenderer::getPositionTexShader);
+                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                RenderSystem.setShaderTexture(0, this.UPGRADE_SLOT_OUTLINE);
+                blit(pGuiGraphics, leftPos+slot.x, topPos+slot.y, this.imageWidth + (16* (i-1)), 0, 16, 16, 16, 16);
                 i++;
             }
         }

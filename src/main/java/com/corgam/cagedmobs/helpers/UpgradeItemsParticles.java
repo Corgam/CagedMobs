@@ -139,7 +139,7 @@ public class UpgradeItemsParticles {
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + 1.0;
                 double d5 = (double) blockpos.getZ() + level.random.nextDouble();
-                level.addParticle(ParticleTypes.CHERRY_LEAVES, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                level.addParticle(ParticleTypes.PORTAL, d3, d4, d5, 0.0D, 0.0D, 0.0D);
             }
         }
     }

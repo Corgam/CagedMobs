@@ -38,7 +38,7 @@ public class DnaSamplerItem extends Item {
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if(!CagedMobs.SERVER_CONFIG.areSamplersDisabled()) {
-            if (target.level().isClientSide() || !(attacker instanceof Player)) return false;
+            if (target.level.isClientSide() || !(attacker instanceof Player)) return false;
             Player player = (Player) attacker;
             // Select the hand where the sampler is
             InteractionHand hand;

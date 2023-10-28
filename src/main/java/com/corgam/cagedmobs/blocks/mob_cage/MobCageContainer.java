@@ -37,7 +37,7 @@ public class MobCageContainer extends AbstractContainerMenu {
         super(CagedContainers.CAGE_CONTAINER.get(), pWindowId);
         this.pos = pPos;
         this.player = pPlayer;
-        if(pPlayer.level().getBlockEntity(pos) instanceof MobCageBlockEntity cage){
+        if(pPlayer.level.getBlockEntity(pos) instanceof MobCageBlockEntity cage){
             // Environment
             this.environmentSlot = addSlot(new EnvironmentItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT, 26, 44));
             // Upgrades
@@ -130,8 +130,8 @@ public class MobCageContainer extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player pPlayer) {
-        return stillValid(ContainerLevelAccess.create(pPlayer.level(), pos), pPlayer, CagedBlocks.MOB_CAGE.get())
-                || stillValid(ContainerLevelAccess.create(pPlayer.level(), pos), pPlayer, CagedBlocks.HOPPING_MOB_CAGE.get());
+        return stillValid(ContainerLevelAccess.create(pPlayer.level, pos), pPlayer, CagedBlocks.MOB_CAGE.get())
+                || stillValid(ContainerLevelAccess.create(pPlayer.level, pos), pPlayer, CagedBlocks.HOPPING_MOB_CAGE.get());
     }
 
     public Slot getEnvironmentSlot() {

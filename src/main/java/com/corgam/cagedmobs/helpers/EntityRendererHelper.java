@@ -3,10 +3,8 @@ package com.corgam.cagedmobs.helpers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.AbstractFish;
@@ -47,34 +45,33 @@ public class EntityRendererHelper {
     /**
      * Renders entity inside GUI.
      */
-    public static void renderEntity(GuiGraphics graphics, int x, int y, double yaw, double pitch, float rotation, Entity entity) {
+    public static void renderEntity(PoseStack graphics, int x, int y, double yaw, double pitch, float rotation, Entity entity) {
         // Push pose
-        PoseStack matrixStack = graphics.pose();
-        matrixStack.pushPose();
+        graphics.pushPose();
         // Get offset and scale
         float scale = EntityRendererHelper.getScaleForEntityType(entity);
         y -= EntityRendererHelper.getOffsetForEntityType(entity);
         rotation -= EntityRendererHelper.getOffsetForEntityType(entity);
         // Translate the entity to right position
-        matrixStack.translate(x, y, 50F);
+        graphics.translate(x, y, 50F);
         // Scale the entity
-        matrixStack.scale(-scale, scale, scale);
+        graphics.scale(-scale, scale, scale);
         // Rotate the entity so it's not upside down
-        matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
+        graphics.mulPose(Axis.ZP.rotationDegrees(180));
         // Rotate the entity around
-        matrixStack.mulPose(Axis.YP.rotationDegrees(rotation));
+        graphics.mulPose(Axis.YP.rotationDegrees(rotation));
         // Render the entity
         MultiBufferSource.BufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
         try{
-            Minecraft.getInstance().getEntityRenderDispatcher().render(entity,0.0D,0.0D,0.0D,0.0F,0.0F,matrixStack,buff,15728880);
+            Minecraft.getInstance().getEntityRenderDispatcher().render(entity,0.0D,0.0D,0.0D,0.0F,0.0F, graphics,buff,15728880);
         }catch (Exception e){
-            matrixStack.translate(x, y, -50F);
-            matrixStack.scale(scale, -scale, -scale);
-            matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
+            graphics.translate(x, y, -50F);
+            graphics.scale(scale, -scale, -scale);
+            graphics.mulPose(Axis.ZP.rotationDegrees(180));
             LOGGER.error("[CagedMobs] Error with rendering entity in JEI!", e);
         }
         buff.endBatch();
-        matrixStack.popPose();
+        graphics.popPose();
     }
 
     /**

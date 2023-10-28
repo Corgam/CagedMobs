@@ -2,6 +2,7 @@ package com.corgam.cagedmobs.addons.jei;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedItems;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -10,7 +11,6 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -61,7 +61,7 @@ public class EntityDataCategory implements IRecipeCategory<EntityDataWrapper> {
     }
 
     @Override
-    public void draw(EntityDataWrapper recipe, IRecipeSlotsView view, GuiGraphics graphics, double mouseX, double mouseY) {
+    public void draw(EntityDataWrapper recipe, IRecipeSlotsView view, PoseStack graphics, double mouseX, double mouseY) {
         recipe.draw(graphics, this.guiHelper);
     }
 }
