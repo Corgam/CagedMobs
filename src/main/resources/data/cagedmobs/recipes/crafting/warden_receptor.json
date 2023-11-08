@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "Dd ",
+    "dBb",
+    " bg"
+  ],
+  "key": {
+    "D": {
+      "tag": "forge:gems/diamond"
+    },
+    "B": {
+      "item": "minecraft:twisting_vines"
+    },
+    "d": {
+      "item": "minecraft:light_blue_dye"
+    },
+    "b": {
+      "item": "minecraft:blue_dye"
+    },
+    "g": {
+      "item": "minecraft:glow_ink_sac"
+    }
+  },
+  "result": {
+    "item": "cagedmobs:warden_receptor"
+  }
+}

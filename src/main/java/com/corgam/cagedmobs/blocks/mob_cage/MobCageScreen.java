@@ -57,9 +57,9 @@ public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
             Optional<Entity> entity = EntityRendererHelper.createEntity(this.menu.player.level, cageBE.getEntity().get().getEntityType());
             if(entity.isPresent()){
                 rotation = (rotation+ 0.5f)% 360;
-                enableScissor(this.leftPos+62, this.topPos+17, this.leftPos+114, this.topPos+87);
+                //enableScissor(this.leftPos+62, this.topPos+17, this.leftPos+114, this.topPos+87);
                 EntityRendererHelper.renderEntity(pGuiGraphics, this.leftPos + 87, this.topPos + 125, yaw, 70, rotation, entity.get() );
-                disableScissor();
+                //disableScissor();
                 // Update yaw
                 yaw = (yaw + 1.5) % 720.0F;
             }
