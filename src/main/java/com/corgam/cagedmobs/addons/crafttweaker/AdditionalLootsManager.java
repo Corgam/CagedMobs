@@ -45,6 +45,6 @@ public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData
 
     @Override
     public RecipeType<AdditionalLootData> getRecipeType () {
-        return CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get();
+        return CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE;
     }
 }

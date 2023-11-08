@@ -10,14 +10,14 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class EnvironmentDataSerializer implements RecipeSerializer<EnvironmentData>{
+public class EnvironmentDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<EnvironmentData>{
 
-    public EnvironmentDataSerializer(){
-    }
+    public EnvironmentDataSerializer(){}
 
     // Used to serialize all EnvData recipes from JSON files
     @Override

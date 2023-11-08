@@ -23,6 +23,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -108,7 +109,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
 
         }
         // Add additional Loot
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof AdditionalLootData additionalLootData) {
                 // Check for null exceptions
                 if(additionalLootData.getEntityType() != null && this.entityData.getEntityType() != null){
@@ -271,10 +272,10 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
             Minecraft.getInstance().font.draw(pGuiGraphics, this.getEntityData().getEntityType().getDescription(), 5, 2, 8);
         }
         // Draw required ticks
-        Minecraft.getInstance().font.draw(pGuiGraphics, Component.translatable("jei.tooltip.cagedmobs.entity.ticks", this.getSeconds()), 10, 102, 8);
+        Minecraft.getInstance().font.draw(pGuiGraphics, new TranslatableComponent("jei.tooltip.cagedmobs.entity.ticks", this.getSeconds()), 10, 102, 8);
         // Draw waterlogged info if it requires water
         if(this.ifRequiresWater()){
-            Minecraft.getInstance().font.draw(pGuiGraphics, Component.translatable("jei.tooltip.cagedmobs.entity.requiresWater").withStyle(ChatFormatting.BLUE), 5, 112, 8);
+            Minecraft.getInstance().font.draw(pGuiGraphics, new TranslatableComponent("jei.tooltip.cagedmobs.entity.requiresWater").withStyle(ChatFormatting.BLUE), 5, 112, 8);
         }
     }
 
@@ -298,7 +299,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
                 ItemStack displayedItem = view.getDisplayedItemStack().get();
                 EnvironmentData env = MobCageBlockEntity.getEnvironmentDataFromItemStack(displayedItem);
                 if(env != null){
-                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.growModifier",  DECIMAL_FORMAT.format(env.getGrowModifier() * 100 - 100)));
+                    tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.growModifier",  DECIMAL_FORMAT.format(env.getGrowModifier() * 100 - 100)));
                 }
             }
         };
@@ -308,23 +309,23 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
         return (view, tooltip) -> {
             if (view.getDisplayedItemStack().isPresent()){
                 ItemStack displayedItem = view.getDisplayedItemStack().get();
-                tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.chance",  DECIMAL_FORMAT.format(entry.getChance() * 100)));
+                tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.chance",  DECIMAL_FORMAT.format(entry.getChance() * 100)));
                 if(entry.getMinAmount() == entry.getMaxAmount()){
-                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.amountEqual",entry.getMinAmount()));
+                    tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.amountEqual",entry.getMinAmount()));
                 }else{
-                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.amount",entry.getMinAmount(), entry.getMaxAmount()));
+                    tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.amount",entry.getMinAmount(), entry.getMaxAmount()));
                 }
                 if(entry.isLighting()){
-                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.lightning_upgrade").withStyle(ChatFormatting.YELLOW));
+                    tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.lightning_upgrade").withStyle(ChatFormatting.YELLOW));
                 }
                 if(entry.isCooking() && displayedItem.getItem().equals(entry.getCookedItem().getItem())){
-                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.cooking_upgrade").withStyle(ChatFormatting.YELLOW));
+                    tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.cooking_upgrade").withStyle(ChatFormatting.YELLOW));
                 }
                 if(entry.isArrow()){
-                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.arrow_upgrade").withStyle(ChatFormatting.YELLOW));
+                    tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.arrow_upgrade").withStyle(ChatFormatting.YELLOW));
                 }
                 if(entry.hasColor()){
-                    tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.colorItem").withStyle(ChatFormatting.YELLOW));
+                    tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.colorItem").withStyle(ChatFormatting.YELLOW));
                 }
             }
         };

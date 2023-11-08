@@ -3,6 +3,7 @@ package com.corgam.cagedmobs.items;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -27,8 +28,8 @@ public class ExperienceOrb extends Item {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(Component.translatable("item.cagedmobs.experience_orb.info").withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("item.cagedmobs.experience_orb.info2").withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("item.cagedmobs.experience_orb.info").withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("item.cagedmobs.experience_orb.info2").withStyle(ChatFormatting.GRAY));
     }
 
     @Override

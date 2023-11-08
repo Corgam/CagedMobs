@@ -50,6 +50,6 @@ public class EnvironmentsManager implements IRecipeManager<EnvironmentData> {
 
     @Override
     public RecipeType<EnvironmentData> getRecipeType () {
-        return CagedRecipeTypes.ENVIRONMENT_RECIPE.get();
+        return CagedRecipeTypes.ENVIRONMENT_RECIPE;
     }
 }

@@ -11,13 +11,14 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.registries.ForgeRegistryEntry;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class EntityDataSerializer implements RecipeSerializer<EntityData> {
+public class EntityDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<EntityData> {
 
-    public EntityDataSerializer(){
-    }
+    public EntityDataSerializer(){}
 
     // Used to serialize all MobData recipes from JSON files
     @Override
@@ -135,5 +136,4 @@ public class EntityDataSerializer implements RecipeSerializer<EntityData> {
         stack.setTag(nbt);
         return stack;
     }
-
 }

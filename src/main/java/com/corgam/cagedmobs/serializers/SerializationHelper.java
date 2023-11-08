@@ -90,7 +90,7 @@ public class SerializationHelper {
         String[] splitted = resString.split(":");
         ResourceLocation res = new ResourceLocation(splitted[0], splitted[1]);
         // Search for the entity type in the registry and return it
-        return ForgeRegistries.ENTITY_TYPES.getValue(res);
+        return ForgeRegistries.ENTITIES.getValue(res);
     }
 
     public static EntityType<?> deserializeEntityType(ResourceLocation id, JsonObject json) {

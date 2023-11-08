@@ -65,7 +65,7 @@ public class AdditionalLootData implements Recipe<Inventory> {
 
     @Override
     public RecipeType<?> getType() {
-        return CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get();
+        return CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE;
     }
 
     public List<LootData> getResults () {

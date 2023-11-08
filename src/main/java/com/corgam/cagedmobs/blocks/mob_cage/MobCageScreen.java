@@ -4,7 +4,6 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.helpers.EntityRendererHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -15,6 +14,9 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Optional;
+
+import static com.mojang.blaze3d.systems.RenderSystem.disableScissor;
+import static com.mojang.blaze3d.systems.RenderSystem.enableScissor;
 
 public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
 

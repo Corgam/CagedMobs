@@ -12,6 +12,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -32,7 +33,7 @@ public class EntityDataCategory implements IRecipeCategory<EntityDataWrapper> {
         ResourceLocation backgroundRL = new ResourceLocation(CagedMobs.MOD_ID, "textures/gui/jei_recipe.png");
         this.background = gui.createDrawable(backgroundRL,0,0,BG_WIDTH+BG_PADDING*2,BG_HEIGHT+BG_PADDING*2);
         this.type = type;
-        this.title = Component.translatable("jei.category.cagedmobs.entity");
+        this.title = new TranslatableComponent("jei.category.cagedmobs.entity");
     }
 
     @Override
@@ -63,5 +64,15 @@ public class EntityDataCategory implements IRecipeCategory<EntityDataWrapper> {
     @Override
     public void draw(EntityDataWrapper recipe, IRecipeSlotsView view, PoseStack graphics, double mouseX, double mouseY) {
         recipe.draw(graphics, this.guiHelper);
+    }
+
+    @Override
+    public ResourceLocation getUid() {
+        return ID;
+    }
+
+    @Override
+    public Class<? extends EntityDataWrapper> getRecipeClass() {
+        return EntityDataWrapper.class;
     }
 }

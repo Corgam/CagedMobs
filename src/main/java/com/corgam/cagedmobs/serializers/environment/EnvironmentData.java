@@ -68,7 +68,7 @@ public class EnvironmentData implements Recipe<Inventory> {
 
     @Override
     public RecipeType<?> getType() {
-        return CagedRecipeTypes.ENVIRONMENT_RECIPE.get();
+        return CagedRecipeTypes.ENVIRONMENT_RECIPE;
     }
 
     public Ingredient getInputItem() {

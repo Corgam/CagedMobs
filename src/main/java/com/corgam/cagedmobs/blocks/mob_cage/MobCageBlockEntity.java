@@ -21,6 +21,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.WorldlyContainerHolder;
@@ -39,8 +40,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.EmptyHandler;
@@ -166,7 +167,7 @@ public class MobCageBlockEntity extends BlockEntity {
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if(cap == ForgeCapabilities.ITEM_HANDLER){
+        if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
             if (side == null){
                 return itemHandler.cast();
             }else {
@@ -261,7 +262,7 @@ public class MobCageBlockEntity extends BlockEntity {
      */
     public static EnvironmentData getEnvironmentDataFromItemStack(ItemStack heldItem) {
         EnvironmentData finalEnvData = null;
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENVIRONMENT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENVIRONMENT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof EnvironmentData) {
                 final EnvironmentData envData = (EnvironmentData) recipe;
                 if(envData.getInputItem().test(heldItem)) {
@@ -337,7 +338,7 @@ public class MobCageBlockEntity extends BlockEntity {
             return false;
         }
         // Check the recipes
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENVIRONMENT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENVIRONMENT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof EnvironmentData) {
                 final EnvironmentData envData = (EnvironmentData) recipe;
                 if(envData.getInputItem().test(heldItem)) {
@@ -359,7 +360,7 @@ public class MobCageBlockEntity extends BlockEntity {
         EntityData recipe = getMobDataFromType(entityType);
         // Check if entity needs waterlogged cage
         if(recipe.ifRequiresWater() && !state.getValue(BlockStateProperties.WATERLOGGED)){
-            player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.requiresWater").withStyle(ChatFormatting.RED), true);
+            player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mob_cage.requiresWater").withStyle(ChatFormatting.RED), true);
             return false;
         }
         if(this.environmentData != null){
@@ -369,7 +370,7 @@ public class MobCageBlockEntity extends BlockEntity {
                 }
             }
         }
-        player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.envNotSuitable").withStyle(ChatFormatting.RED), true);
+        player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mob_cage.envNotSuitable").withStyle(ChatFormatting.RED), true);
         return false;
     }
 
@@ -455,7 +456,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return if there exists mob data
      */
     public boolean existsEntityDataFromType(EntityType<?> entityType) {
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof EntityData) {
                 final EntityData entityData = (EntityData) recipe;
                 // Check for null exception
@@ -493,7 +494,7 @@ public class MobCageBlockEntity extends BlockEntity {
     private static EntityData getMobDataFromType(EntityType<?> type){
         EntityData finalEntityData = null;
         // Get the mobData
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof EntityData entityData) {
                 // Check for null exception
                 if(entityData.getEntityType() != null && entityData.getEntityType().equals(type)){
@@ -514,7 +515,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param entityData the object to add items to
      */
     private static void addAdditionalLootData(EntityData entityData){
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof AdditionalLootData additionalLootData) {
                 // Check for null exception
                 if(entityData.getEntityType() != null){
@@ -733,7 +734,7 @@ public class MobCageBlockEntity extends BlockEntity {
         final BlockEntity te = world.getBlockEntity(pos);
         // Capability system
         if(te != null){
-            final LazyOptional<IItemHandler> invCap = te.getCapability(ForgeCapabilities.ITEM_HANDLER, side);
+            final LazyOptional<IItemHandler> invCap = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
             return invCap.orElse(EmptyHandler.INSTANCE);
         }else{
             // When block doesn't use capability system

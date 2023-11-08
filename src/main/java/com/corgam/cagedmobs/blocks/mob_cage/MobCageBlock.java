@@ -17,6 +17,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -142,18 +143,18 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                         if (!DnaSamplerItem.containsEntityType(heldItem) && cageBE.getEntity().isPresent()) {
                             // Check if sampler's tier is sufficient
                             if (cageBE.getEntity().get().getSamplerTier() >= 3 && !(heldItem.getItem() instanceof DnaSamplerNetheriteItem)) {
-                                player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
+                                player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mob_cage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
                                 return InteractionResult.FAIL;
                             }
                             if (cageBE.getEntity().get().getSamplerTier() >= 2 && !((heldItem.getItem() instanceof DnaSamplerNetheriteItem) || (heldItem.getItem() instanceof DnaSamplerDiamondItem))) {
-                                player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
+                                player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mob_cage.samplerNotSufficient").withStyle(ChatFormatting.RED), true);
                                 return InteractionResult.FAIL;
                             }
                             // Get back the entity
                             sampler.setEntityTypeFromCage(cageBE, heldItem, player, hand);
                             cageBE.setChanged();
                         } else {
-                            player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
+                            player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mob_cage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
                             return InteractionResult.FAIL;
                         }
                         cageBE.removeEntity();
@@ -181,10 +182,10 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                             return InteractionResult.SUCCESS;
                         }
                     } else {
-                        player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
+                        player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mob_cage.cageAlreadyUsed").withStyle(ChatFormatting.RED), true);
                     }
                 }else{
-                    player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.spawnEggsDisabled").withStyle(ChatFormatting.RED), true);
+                    player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mob_cage.spawnEggsDisabled").withStyle(ChatFormatting.RED), true);
                 }
                 return InteractionResult.CONSUME;
             }
@@ -204,7 +205,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                        return InteractionResult.FAIL;
                     }
                 }else{
-                    player.displayClientMessage(Component.translatable("block.cagedmobs.mob_cage.spawnEggsDisabled").withStyle(ChatFormatting.RED), true);
+                    player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mob_cage.spawnEggsDisabled").withStyle(ChatFormatting.RED), true);
                     return InteractionResult.FAIL;
                 }
             }
@@ -230,7 +231,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
             MenuProvider containerProvider = new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return state.getValue(HOPPING) ? Component.translatable("block.cagedmobs.hopping_mob_cage") : Component.translatable("block.cagedmobs.mob_cage");
+                    return state.getValue(HOPPING) ? new TranslatableComponent("block.cagedmobs.hopping_mob_cage") : new TranslatableComponent("block.cagedmobs.mob_cage");
                 }
                 @Nullable
                 @Override
@@ -249,7 +250,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                     return menu;
                 }
             };
-            NetworkHooks.openScreen((ServerPlayer) player, containerProvider, cageBE.getBlockPos());
+            NetworkHooks.openGui((ServerPlayer) player, containerProvider, cageBE.getBlockPos());
             return InteractionResult.SUCCESS;
         } else {
         throw new IllegalStateException("Mob Cage container provider is missing!");
@@ -279,10 +280,10 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack item, @javax.annotation.Nullable BlockGetter getter, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("block.cagedmobs.mob_cage.mainInfo").withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("block.cagedmobs.mob_cage.rightClickHarvest").withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("block.cagedmobs.mob_cage.envInfo").withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("block.cagedmobs.mob_cage.upgrading").withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("block.cagedmobs.mob_cage.mainInfo").withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("block.cagedmobs.mob_cage.rightClickHarvest").withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("block.cagedmobs.mob_cage.envInfo").withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("block.cagedmobs.mob_cage.upgrading").withStyle(ChatFormatting.GRAY));
     }
 
     // Block shape
@@ -330,20 +331,20 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                 probeInfo.progress((int) (tile.getGrowthPercentage() * 100), 100, probeInfo.defaultProgressStyle().suffix("%").filledColor(0xff44AA44).alternateFilledColor(0xff44AA44).backgroundColor(0xff836953));
             }
             if (tile.hasEnvironment()) {
-                probeInfo.horizontal().text(Component.translatable("JADE.tooltip.cagedmobs.cage.environment"));
+                probeInfo.horizontal().text(new TranslatableComponent("JADE.tooltip.cagedmobs.cage.environment"));
                 ItemStack envItem = tile.getInventoryHandler().getStackInSlot(ENVIRONMENT_SLOT);
                 if(!envItem.isEmpty()){
                     probeInfo.horizontal().item(envItem).itemLabel(envItem);
                 }
             }
             if(tile.hasEntity()){
-                probeInfo.horizontal().text(Component.translatable("JADE.tooltip.cagedmobs.cage.entity").withStyle(ChatFormatting.GRAY).getString() +
-                        Component.translatable(tile.getEntityType().getDescriptionId()).withStyle(ChatFormatting.GRAY).getString());
+                probeInfo.horizontal().text(new TranslatableComponent("JADE.tooltip.cagedmobs.cage.entity").withStyle(ChatFormatting.GRAY).getString() +
+                        new TranslatableComponent(tile.getEntityType().getDescriptionId()).withStyle(ChatFormatting.GRAY).getString());
             }
             // Upgrades
             if(tile.hasAnyUpgrades()){
                 // Add Upgrade text
-                probeInfo.horizontal().text(Component.translatable("TOP.tooltip.cagedmobs.cage.upgrades"));
+                probeInfo.horizontal().text(new TranslatableComponent("TOP.tooltip.cagedmobs.cage.upgrades"));
                 IProbeInfo hor = probeInfo.horizontal();
                 for(ItemStack upgrade : tile.getUpgradesAsItemStacks()){
                     if(!upgrade.isEmpty()){

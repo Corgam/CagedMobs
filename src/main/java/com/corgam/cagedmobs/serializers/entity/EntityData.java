@@ -92,7 +92,7 @@ public class EntityData implements Recipe<Inventory> {
 
     @Override
     public RecipeType<?> getType() {
-        return CagedRecipeTypes.ENTITY_RECIPE.get();
+        return CagedRecipeTypes.ENTITY_RECIPE;
     }
 
     @Override

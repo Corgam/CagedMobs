@@ -51,7 +51,7 @@ public class EntitiesManager implements IRecipeManager<EntityData> {
 
     @Override
     public RecipeType<EntityData> getRecipeType () {
-        return CagedRecipeTypes.ENTITY_RECIPE.get();
+        return CagedRecipeTypes.ENTITY_RECIPE;
     }
 }
 

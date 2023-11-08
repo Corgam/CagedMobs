@@ -2,6 +2,7 @@ package com.corgam.cagedmobs.blocks;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -19,6 +20,6 @@ public class StarInfusedNetheriteBlock extends Block {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack item, @Nullable BlockGetter getter, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("block.cagedmobs.star_infused_netherite_block.beacon").withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("block.cagedmobs.star_infused_netherite_block.beacon").withStyle(ChatFormatting.GRAY));
     }
 }

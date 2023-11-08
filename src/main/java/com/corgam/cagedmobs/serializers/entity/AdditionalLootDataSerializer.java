@@ -8,16 +8,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.corgam.cagedmobs.serializers.entity.EntityDataSerializer.deserializeLootData;
 
-public class AdditionalLootDataSerializer implements RecipeSerializer<AdditionalLootData> {
+public class AdditionalLootDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<AdditionalLootData> {
 
-    public AdditionalLootDataSerializer(){
-    }
+    public AdditionalLootDataSerializer(){}
 
     @Override
     public AdditionalLootData fromJson(ResourceLocation id, JsonObject json) {

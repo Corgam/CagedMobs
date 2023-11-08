@@ -32,7 +32,7 @@ public class RecipesHelper {
     public static List<EntityData> getEntitiesRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.getAllRecipesFor(CagedRecipeTypes.ENTITY_RECIPE.get());
+            return manager.getAllRecipesFor(CagedRecipeTypes.ENTITY_RECIPE);
         }
 
         return Collections.emptyList();
@@ -41,7 +41,7 @@ public class RecipesHelper {
     public static List<EnvironmentData> getEnvsRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.getAllRecipesFor(CagedRecipeTypes.ENVIRONMENT_RECIPE.get());
+            return manager.getAllRecipesFor(CagedRecipeTypes.ENVIRONMENT_RECIPE);
         }
 
         return Collections.emptyList();
@@ -50,7 +50,7 @@ public class RecipesHelper {
     public static List<AdditionalLootData> getAdditionalLootRecipesList (RecipeManager manager) {
 
         if (manager != null) {
-            return manager.getAllRecipesFor(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get());
+            return manager.getAllRecipesFor(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE);
         }
 
         return Collections.emptyList();
