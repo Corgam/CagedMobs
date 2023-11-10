@@ -1,32 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "dXd",
+    " X ",
     "rBb",
     "bQb"
   ],
   "key": {
     "X": {
-      "type": "forge:partial_nbt",
-      "item": "minecraft:enchanted_book",
-      "nbt": {
-        "StoredEnchantments": [{"lvl": 3, "id": "minecraft:fortune"}]
-      }
+      "item": "minecraft:enchanting_table"
     },
     "r": {
       "tag": "forge:dusts/redstone"
     },
     "B": {
-      "tag": "forge:storage_blocks/coal"
+      "tag": "forge:storage_blocks/emerald"
     },
     "b": {
       "item": "minecraft:blackstone"
     },
     "Q": {
       "tag": "forge:storage_blocks/quartz"
-    },
-    "d": {
-      "tag": "forge:gems/diamond"
     }
   },
   "result": {
