@@ -1,6 +1,6 @@
 package com.corgam.cagedmobs.items;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
 
 public class DnaSamplerNetheriteItem extends DnaSamplerItem{
     public DnaSamplerNetheriteItem(Properties properties) {

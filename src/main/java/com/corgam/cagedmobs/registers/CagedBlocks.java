@@ -4,13 +4,13 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.blocks.*;
 import com.corgam.cagedmobs.blocks.mob_cage.HoppingMobCageBlock;
 import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 
 public class CagedBlocks {
     // Registries

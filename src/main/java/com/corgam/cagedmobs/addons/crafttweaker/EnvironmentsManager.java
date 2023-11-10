@@ -1,21 +1,21 @@
 package com.corgam.cagedmobs.addons.crafttweaker;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
-import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
-import com.blamejared.crafttweaker.api.annotation.ZenRegister;
-import com.blamejared.crafttweaker.api.ingredient.IIngredient;
-import com.blamejared.crafttweaker.api.recipe.manager.base.IRecipeManager;
+import com.blamejared.crafttweaker.api.annotations.ZenRegister;
+import com.blamejared.crafttweaker.api.item.IIngredient;
+import com.blamejared.crafttweaker.api.managers.IRecipeManager;
+import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.environment.EnvironmentData;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.util.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
 @ZenCodeType.Name("mods.cagedmobs.EnvironmentsManager")
-public class EnvironmentsManager implements IRecipeManager<EnvironmentData> {
+public class EnvironmentsManager implements IRecipeManager {
 
     public EnvironmentsManager() {}
 
@@ -27,7 +27,7 @@ public class EnvironmentsManager implements IRecipeManager<EnvironmentData> {
     @ZenCodeType.Method
     public CTEnvironment create (String id, IIngredient item, BlockState renderState, float growModifier, String[] categories) {
         final CTEnvironment env = new CTEnvironment(id, item, renderState, growModifier, categories);
-        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, env.getEnvironmentData(), ""));
+        CraftTweakerAPI.apply(new ActionAddRecipe(this, env.getEnvironmentData(), ""));
         return env;
     }
 
@@ -35,7 +35,7 @@ public class EnvironmentsManager implements IRecipeManager<EnvironmentData> {
     public CTEnvironment getEnvironment(String id) {
         ResourceLocation resource = ResourceLocation.tryParse(id);
         if(resource != null){
-            final EnvironmentData recipe = this.getRecipes().get(resource);
+            final EnvironmentData recipe = (EnvironmentData) this.getRecipes().get(resource);
             if (recipe != null) {
                 return new CTEnvironment(recipe);
             }
@@ -49,7 +49,7 @@ public class EnvironmentsManager implements IRecipeManager<EnvironmentData> {
     }
 
     @Override
-    public RecipeType<EnvironmentData> getRecipeType () {
+    public IRecipeType<EnvironmentData> getRecipeType () {
         return CagedRecipeTypes.ENVIRONMENT_RECIPE;
     }
 }

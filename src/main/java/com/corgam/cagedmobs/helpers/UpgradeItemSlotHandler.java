@@ -1,10 +1,9 @@
 package com.corgam.cagedmobs.helpers;
 
 import com.corgam.cagedmobs.items.upgrades.UpgradeItem;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import org.jetbrains.annotations.NotNull;
 
 public class UpgradeItemSlotHandler extends SlotItemHandler {
 
@@ -13,7 +12,7 @@ public class UpgradeItemSlotHandler extends SlotItemHandler {
     }
 
     @Override
-    public boolean mayPlace(@NotNull ItemStack stack)
+    public boolean mayPlace(ItemStack stack)
     {
         if (stack.isEmpty()){
             return false;
@@ -27,7 +26,7 @@ public class UpgradeItemSlotHandler extends SlotItemHandler {
     }
 
     @Override
-    public int getMaxStackSize(@NotNull ItemStack stack){
+    public int getMaxStackSize(ItemStack stack){
         return 1;
     }
 }

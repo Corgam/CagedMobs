@@ -1,20 +1,20 @@
 package com.corgam.cagedmobs.addons.crafttweaker;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
-import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
-import com.blamejared.crafttweaker.api.annotation.ZenRegister;
-import com.blamejared.crafttweaker.api.recipe.manager.base.IRecipeManager;
+import com.blamejared.crafttweaker.api.annotations.ZenRegister;
+import com.blamejared.crafttweaker.api.managers.IRecipeManager;
+import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.entity.EntityData;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.util.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
 @ZenCodeType.Name("mods.cagedmobs.EntitiesManager")
-public class EntitiesManager implements IRecipeManager<EntityData> {
+public class EntitiesManager implements IRecipeManager {
 
     public EntitiesManager() {}
 
@@ -28,7 +28,7 @@ public class EntitiesManager implements IRecipeManager<EntityData> {
     @ZenCodeType.Method
     public CTEntity create(String id, EntityType<?> entityType, int growTicks, boolean requiresWater, int tier, String[] environments) {
         final CTEntity entity = new CTEntity(id, entityType, growTicks, requiresWater, tier, environments );
-        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, entity.getMobData(), ""));
+        CraftTweakerAPI.apply(new ActionAddRecipe(this, entity.getMobData(), ""));
         return entity;
     }
 
@@ -36,7 +36,7 @@ public class EntitiesManager implements IRecipeManager<EntityData> {
     public CTEntity getEntity(String id){
         ResourceLocation resource = ResourceLocation.tryParse(id);
         if(resource != null) {
-            final EntityData recipe = this.getRecipes().get(resource);
+            final EntityData recipe = (EntityData) this.getRecipes().get(resource);
             if (recipe != null) {
                 return new CTEntity(recipe);
             }
@@ -50,7 +50,7 @@ public class EntitiesManager implements IRecipeManager<EntityData> {
     }
 
     @Override
-    public RecipeType<EntityData> getRecipeType () {
+    public IRecipeType<EntityData> getRecipeType () {
         return CagedRecipeTypes.ENTITY_RECIPE;
     }
 }

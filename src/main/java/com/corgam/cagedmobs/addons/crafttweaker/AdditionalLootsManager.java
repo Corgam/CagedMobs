@@ -1,20 +1,20 @@
 package com.corgam.cagedmobs.addons.crafttweaker;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
-import com.blamejared.crafttweaker.api.action.recipe.ActionAddRecipe;
-import com.blamejared.crafttweaker.api.annotation.ZenRegister;
-import com.blamejared.crafttweaker.api.recipe.manager.base.IRecipeManager;
+import com.blamejared.crafttweaker.api.annotations.ZenRegister;
+import com.blamejared.crafttweaker.api.managers.IRecipeManager;
+import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.util.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
 @ZenCodeType.Name("mods.cagedmobs.AdditionalLootsManager")
-public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData> {
+public class AdditionalLootsManager implements IRecipeManager {
 
     public AdditionalLootsManager() {}
 
@@ -22,7 +22,7 @@ public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData
     @ZenCodeType.Method
     public CTAdditionalLoot create(String id, EntityType<?> entityType, Boolean removeFromEntity) {
         final CTAdditionalLoot additionalLoot = new CTAdditionalLoot(id, entityType, removeFromEntity);
-        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, additionalLoot.getAdditionalLootData(), ""));
+        CraftTweakerAPI.apply(new ActionAddRecipe(this, additionalLoot.getAdditionalLootData(), ""));
         return additionalLoot;
     }
 
@@ -30,7 +30,7 @@ public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData
     public CTAdditionalLoot getAdditionalLoot(String id){
         ResourceLocation resource = ResourceLocation.tryParse(id);
         if(resource != null){
-            final AdditionalLootData recipe = this.getRecipes().get(resource);
+            final AdditionalLootData recipe = (AdditionalLootData) this.getRecipes().get(resource);
             if (recipe != null) {
                 return new CTAdditionalLoot(recipe);
             }
@@ -44,7 +44,7 @@ public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData
     }
 
     @Override
-    public RecipeType<AdditionalLootData> getRecipeType () {
+    public IRecipeType<AdditionalLootData> getRecipeType () {
         return CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE;
     }
 }

@@ -1,22 +1,22 @@
 package com.corgam.cagedmobs.helpers;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.AbstractFish;
-import net.minecraft.world.entity.animal.Dolphin;
-import net.minecraft.world.entity.animal.Squid;
-import net.minecraft.world.entity.animal.Turtle;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.monster.ElderGuardian;
-import net.minecraft.world.entity.monster.Ghast;
-import net.minecraft.world.entity.monster.Guardian;
-import net.minecraft.world.entity.monster.Phantom;
-import net.minecraft.world.level.Level;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.monster.ElderGuardianEntity;
+import net.minecraft.entity.monster.GhastEntity;
+import net.minecraft.entity.monster.GuardianEntity;
+import net.minecraft.entity.monster.PhantomEntity;
+import net.minecraft.entity.passive.DolphinEntity;
+import net.minecraft.entity.passive.SquidEntity;
+import net.minecraft.entity.passive.TurtleEntity;
+import net.minecraft.entity.passive.fish.AbstractFishEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.World;
 
 import java.util.Optional;
 
@@ -30,8 +30,8 @@ public class EntityRendererHelper {
      * @param level level to create entity in
      * @return optional entity
      */
-    public static Optional<Entity> createEntity(Level level, EntityType<?> entityType){
-        CompoundTag nbt = new CompoundTag();
+    public static Optional<Entity> createEntity(World level, EntityType<?> entityType){
+        CompoundNBT nbt = new CompoundNBT();
         nbt.putString("id", EntityType.getKey(entityType).toString());
         // Create the entity
         Optional<Entity> entity = Optional.empty();
@@ -44,7 +44,7 @@ public class EntityRendererHelper {
     /**
      * Renders entity inside GUI.
      */
-    public static void renderEntity(PoseStack graphics, int x, int y, double yaw, double pitch, float rotation, Entity entity) {
+    public static void renderEntity(MatrixStack graphics, int x, int y, double yaw, double pitch, float rotation, Entity entity) {
         // Push pose
         graphics.pushPose();
         // Get offset and scale
@@ -60,7 +60,7 @@ public class EntityRendererHelper {
         // Rotate the entity around
         graphics.mulPose(Vector3f.YP.rotationDegrees(rotation));
         // Render the entity
-        MultiBufferSource.BufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
+        IRenderTypeBuffer.Impl buff = Minecraft.getInstance().renderBuffers().bufferSource();
         try{
             Minecraft.getInstance().getEntityRenderDispatcher().render(entity,0.0D,0.0D,0.0D,0.0F,0.0F, graphics,buff,15728880);
         }catch (Exception e){
@@ -101,9 +101,9 @@ public class EntityRendererHelper {
         if(entity.getType().toString().contains("alexsmobs:cachalot_whale")) {return 0.5F;}
         if(entity.getType().toString().contains("alexsmobs:laviathan")) {return 0.5F;}
         if(entity.getType().toString().contains("alexsmobs:void_worm")) {return 1.0F;}
-        if(entity instanceof ElderGuardian) {return 10.0F;}
-        if(entity instanceof AbstractFish) {return 25.0F;}
-        if(entity instanceof Ghast) {return 5.2F;}
+        if(entity instanceof ElderGuardianEntity) {return 10.0F;}
+        if(entity instanceof AbstractFishEntity) {return 25.0F;}
+        if(entity instanceof GhastEntity) {return 5.2F;}
         // Handling some of the other cases
         if(width <= height){
             if(height >= 3){
@@ -124,15 +124,15 @@ public class EntityRendererHelper {
      * @return y offset
      */
     public static int getOffsetForEntityType(Entity entity){
-        if(entity instanceof Phantom ||
-                entity instanceof AbstractFish ||
-                entity instanceof EnderDragon ||
-                entity instanceof Dolphin ||
-                entity instanceof Guardian ||
-                entity instanceof Turtle
+        if(entity instanceof PhantomEntity ||
+                entity instanceof AbstractFishEntity ||
+                entity instanceof EnderDragonEntity ||
+                entity instanceof DolphinEntity ||
+                entity instanceof GuardianEntity ||
+                entity instanceof TurtleEntity
         ){
             return 60;
-        }else if(entity instanceof Ghast || entity instanceof Squid){
+        }else if(entity instanceof GhastEntity || entity instanceof SquidEntity){
             return 65;
         }
         return 50;

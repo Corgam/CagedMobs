@@ -1,12 +1,11 @@
 package com.corgam.cagedmobs.registers;
 
 import com.corgam.cagedmobs.CagedMobs;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 
-import net.minecraft.world.item.ItemStack;
-
-public class CagedCreativeTab extends CreativeModeTab {
-    public static final CagedCreativeTab CAGED_MAIN = new CagedCreativeTab(CreativeModeTab.getGroupCountSafe(), CagedMobs.MOD_ID + "_tab");
+public class CagedCreativeTab extends ItemGroup {
+    public static final CagedCreativeTab CAGED_MAIN = new CagedCreativeTab(ItemGroup.getGroupCountSafe(), CagedMobs.MOD_ID + "_tab");
 
     private CagedCreativeTab(int index, String label) {
         super(index, label);

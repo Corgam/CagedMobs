@@ -14,39 +14,37 @@ import com.corgam.cagedmobs.serializers.entity.EntityData;
 import com.corgam.cagedmobs.serializers.environment.EnvironmentData;
 import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.entity.LootData;
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.WorldlyContainerHolder;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.SpawnData;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.ISidedInventoryProvider;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.WeightedSpawnerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.EmptyHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -57,14 +55,14 @@ import java.util.function.Function;
 import static com.corgam.cagedmobs.blocks.mob_cage.MobCageBlock.HOPPING;
 import static com.corgam.cagedmobs.helpers.UpgradeItemsParticles.*;
 
-public class MobCageBlockEntity extends BlockEntity {
+public class MobCageBlockEntity extends TileEntity {
 
     // Entity and Environment data
     private EnvironmentData environmentData = null;
     private EntityData entity = null;
     private EntityType<?> entityType = null;
     private Entity cachedEntity;
-    private SpawnData renderedEntity;
+    private WeightedSpawnerEntity renderedEntity;
     // Ticks
     private int currentGrowTicks = 0;
     private int totalGrowTicks = 0;
@@ -89,7 +87,7 @@ public class MobCageBlockEntity extends BlockEntity {
          * @return empty item stack
          */
         @Override
-        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
             return ItemStack.EMPTY;
         }
 
@@ -101,18 +99,16 @@ public class MobCageBlockEntity extends BlockEntity {
          * @return the same input stack
          */
         @Override
-        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
             return stack;
         }
     });
 
     /**
      * Creates a new cage block entity
-     * @param pPos the position of the entity
-     * @param pBlockState the state of the entity
      */
-    public MobCageBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(CagedBlockEntities.MOB_CAGE_BLOCK_ENTITY.get(), pPos, pBlockState);
+    public MobCageBlockEntity() {
+        super(CagedBlockEntities.MOB_CAGE_BLOCK_ENTITY.get());
     }
 
     /**
@@ -133,7 +129,7 @@ public class MobCageBlockEntity extends BlockEntity {
                 // Notify client and server
                 setChanged();
                 if(level != null){
-                    level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
+                    level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Constants.BlockFlags.UPDATE_NEIGHBORS);
                 }
             }
         };
@@ -164,9 +160,8 @@ public class MobCageBlockEntity extends BlockEntity {
      *   <strong>CAN BE NULL</strong>. Null is defined to represent 'internal' or 'self'
      * @return the item capability
      */
-    @NotNull
     @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
         if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
             if (side == null){
                 return itemHandler.cast();
@@ -186,7 +181,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param state the state of the block entity
      * @param blockEntity the block entity class
      */
-    public static void tick(Level level, BlockPos pos, BlockState state, MobCageBlockEntity blockEntity) {
+    public static void tick(World level, BlockPos pos, BlockState state, MobCageBlockEntity blockEntity) {
         //Tick only when env and mob is inside
         if(blockEntity.hasEnvAndEntity() && !blockEntity.waitingForHarvest) {
             // Check if ready to harvest
@@ -262,7 +257,7 @@ public class MobCageBlockEntity extends BlockEntity {
      */
     public static EnvironmentData getEnvironmentDataFromItemStack(ItemStack heldItem) {
         EnvironmentData finalEnvData = null;
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENVIRONMENT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final IRecipe<?> recipe : RecipesHelper.getEnvsRecipesList(RecipesHelper.getRecipeManager())) {
             if(recipe instanceof EnvironmentData) {
                 final EnvironmentData envData = (EnvironmentData) recipe;
                 if(envData.getInputItem().test(heldItem)) {
@@ -338,7 +333,7 @@ public class MobCageBlockEntity extends BlockEntity {
             return false;
         }
         // Check the recipes
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENVIRONMENT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final IRecipe<?> recipe : RecipesHelper.getEnvsRecipesList(RecipesHelper.getRecipeManager())) {
             if(recipe instanceof EnvironmentData) {
                 final EnvironmentData envData = (EnvironmentData) recipe;
                 if(envData.getInputItem().test(heldItem)) {
@@ -356,11 +351,11 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param state block state
      * @return if environment is suitable
      */
-    public boolean isEnvironmentSuitable(Player player, EntityType<?> entityType, BlockState state) {
+    public boolean isEnvironmentSuitable(PlayerEntity player, EntityType<?> entityType, BlockState state) {
         EntityData recipe = getMobDataFromType(entityType);
         // Check if entity needs waterlogged cage
         if(recipe.ifRequiresWater() && !state.getValue(BlockStateProperties.WATERLOGGED)){
-            player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mob_cage.requiresWater").withStyle(ChatFormatting.RED), true);
+            player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mob_cage.requiresWater").withStyle(TextFormatting.RED), true);
             return false;
         }
         if(this.environmentData != null){
@@ -370,7 +365,7 @@ public class MobCageBlockEntity extends BlockEntity {
                 }
             }
         }
-        player.displayClientMessage(new TranslatableComponent("block.cagedmobs.mob_cage.envNotSuitable").withStyle(ChatFormatting.RED), true);
+        player.displayClientMessage(new TranslationTextComponent("block.cagedmobs.mob_cage.envNotSuitable").withStyle(TextFormatting.RED), true);
         return false;
     }
 
@@ -456,7 +451,7 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return if there exists mob data
      */
     public boolean existsEntityDataFromType(EntityType<?> entityType) {
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE, RecipesHelper.getRecipeManager()).values()) {
+        for(final IRecipe<?> recipe : RecipesHelper.getEntitiesRecipesList(RecipesHelper.getRecipeManager())) {
             if(recipe instanceof EntityData) {
                 final EntityData entityData = (EntityData) recipe;
                 // Check for null exception
@@ -474,14 +469,14 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param level the world of the entity
      * @return the entity
      */
-    public Entity getCachedEntity(Level level) {
+    public Entity getCachedEntity(World level) {
         if (this.cachedEntity == null) {
             if(this.renderedEntity == null){
-                CompoundTag nbt = new CompoundTag();
+                CompoundNBT nbt = new CompoundNBT();
                 nbt.putString("id", EntityType.getKey(this.entityType).toString());
-                this.renderedEntity = new SpawnData(nbt, Optional.empty());
+                this.renderedEntity = new WeightedSpawnerEntity(1, nbt);
             }
-            this.cachedEntity = EntityType.loadEntityRecursive(this.renderedEntity.getEntityToSpawn(), level, Function.identity());
+            this.cachedEntity = EntityType.loadEntityRecursive(this.renderedEntity.getTag(), level, Function.identity());
         }
         return this.cachedEntity;
     }
@@ -494,8 +489,9 @@ public class MobCageBlockEntity extends BlockEntity {
     private static EntityData getMobDataFromType(EntityType<?> type){
         EntityData finalEntityData = null;
         // Get the mobData
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE, RecipesHelper.getRecipeManager()).values()) {
-            if(recipe instanceof EntityData entityData) {
+        for(final IRecipe<?> recipe : RecipesHelper.getEntitiesRecipesList(RecipesHelper.getRecipeManager())) {
+            if(recipe instanceof EntityData) {
+                EntityData entityData = (EntityData) recipe;
                 // Check for null exception
                 if(entityData.getEntityType() != null && entityData.getEntityType().equals(type)){
                     finalEntityData = entityData;
@@ -515,15 +511,15 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param entityData the object to add items to
      */
     private static void addAdditionalLootData(EntityData entityData){
-        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE, RecipesHelper.getRecipeManager()).values()) {
-            if(recipe instanceof AdditionalLootData additionalLootData) {
+        for(final AdditionalLootData recipe : RecipesHelper.getAdditionalLootRecipesList(RecipesHelper.getRecipeManager())) {
+            if(recipe != null) {
                 // Check for null exception
                 if(entityData.getEntityType() != null){
                     // If entity types are equal
-                    if(entityData.getEntityType().equals(additionalLootData.getEntityType())) {
-                        for(LootData data : additionalLootData.getResults()){
+                    if(entityData.getEntityType().equals(recipe.getEntityType())) {
+                        for(LootData data : recipe.getResults()){
                             // Add loot
-                            if(!additionalLootData.isRemoveFromEntity()){
+                            if(!recipe.isRemoveFromEntity()){
                                 if(!entityData.getResults().contains(data)){
                                     entityData.getResults().add(data);
                                 }
@@ -730,8 +726,8 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param side the side of the block
      * @return the ItemHandler
      */
-    private IItemHandler getInv(Level world, BlockPos pos, Direction side){
-        final BlockEntity te = world.getBlockEntity(pos);
+    private IItemHandler getInv(World world, BlockPos pos, Direction side){
+        final TileEntity te = world.getBlockEntity(pos);
         // Capability system
         if(te != null){
             final LazyOptional<IItemHandler> invCap = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
@@ -739,9 +735,9 @@ public class MobCageBlockEntity extends BlockEntity {
         }else{
             // When block doesn't use capability system
             final BlockState state = world.getBlockState(pos);
-            if(state.getBlock() instanceof WorldlyContainerHolder){
-                final WorldlyContainerHolder invProvider = (WorldlyContainerHolder) state.getBlock();
-                final WorldlyContainer inv = invProvider.getContainer(state, world, pos);
+            if(state.getBlock() instanceof ISidedInventoryProvider){
+                final ISidedInventoryProvider invProvider = (ISidedInventoryProvider) state.getBlock();
+                final ISidedInventory inv = invProvider.getContainer(state, world, pos);
                 return new SidedInvWrapper(inv, side);
             }
         }
@@ -937,12 +933,13 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param tag the nbt tag to save to
      */
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag){
-        super.saveAdditional(tag);
+    public CompoundNBT save(CompoundNBT tag) {
+        super.save(tag);
         this.saveTag(tag);
+        return tag;
     }
 
-    private void saveTag(@NotNull CompoundTag tag){
+    private void saveTag(CompoundNBT tag){
         // Item capability
         tag.put(ITEMS_TAG, items.serializeNBT());
         // Put entity type
@@ -957,20 +954,12 @@ public class MobCageBlockEntity extends BlockEntity {
     }
 
     /**
-     * Loads all the additional tags of the block entity.
-     * @param tag the nbt tag to load from
-     */
-    @Override
-    public void load(@NotNull CompoundTag tag) {
-        super.load(tag);
-        this.loadTag(tag);
-    }
-
-    /**
      * Loads the block entity data from the tag.
      * @param tag the tag to load
      */
-    private void loadTag(@NotNull CompoundTag tag){
+    @Override
+    public void load(BlockState state, CompoundNBT tag){
+        super.load(state, tag);
         // Store old env and entity type
         ItemStack oldEnv = this.items.getStackInSlot(ENVIRONMENT_SLOT);
         EntityType<?> oldEntityType = this.entityType;
@@ -1012,21 +1001,21 @@ public class MobCageBlockEntity extends BlockEntity {
      * @return the update nbt tag to send
      */
     @Override
-    public @NotNull CompoundTag getUpdateTag() {
-        CompoundTag tag = super.getUpdateTag();
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tag = super.getUpdateTag();
         this.saveTag(tag);
         return tag;
     }
 
     /**
      * Reads the update tag on client side, when a new chunk is loaded.
-     * @param tag The {@link CompoundTag} sent from {@link BlockEntity#getUpdateTag()}
+     * @param tag The {@link CompoundNBT} sent from {@link TileEntity#getUpdateTag()}
      */
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        super.handleUpdateTag(tag);
+    public void handleUpdateTag(BlockState blockState, CompoundNBT tag) {
+        super.handleUpdateTag(blockState, tag);
         if(tag != null){
-            this.loadTag(tag);
+            this.load(blockState, tag);
         }
     }
 
@@ -1036,8 +1025,8 @@ public class MobCageBlockEntity extends BlockEntity {
      */
     @Nullable
     @Override
-    public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.worldPosition, 1, getUpdateTag());
     }
 
     /**
@@ -1046,10 +1035,11 @@ public class MobCageBlockEntity extends BlockEntity {
      * @param pkt The data packet
      */
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        CompoundTag tag = pkt.getTag();
-        if (tag != null) {
-            handleUpdateTag(tag);
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        CompoundNBT tag = pkt.getTag();
+        if (tag != null && this.level != null) {
+            BlockState blockState = Objects.requireNonNull(this.level.getBlockEntity(pkt.getPos())).getBlockState();
+            handleUpdateTag(blockState, tag);
         }
     }
 }

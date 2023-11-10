@@ -3,11 +3,11 @@ package com.corgam.cagedmobs.serializers.entity;
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonObject;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.JSONUtils;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 
 import static com.corgam.cagedmobs.serializers.entity.EntityDataSerializer.deserializeLootData;
 
-public class AdditionalLootDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<AdditionalLootData> {
+public class AdditionalLootDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AdditionalLootData> {
 
     public AdditionalLootDataSerializer(){}
 
@@ -28,14 +28,14 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<RecipeSeria
         // Remove from entity
         boolean removeFromEntity = false;
         if(json.has("removeFromEntity")) {
-            removeFromEntity = GsonHelper.getAsBoolean(json, "removeFromEntity");
+            removeFromEntity = JSONUtils.getAsBoolean(json, "removeFromEntity");
         }
         // Return results
         return new AdditionalLootData(id, entityType, results, removeFromEntity);
     }
 
     @Override
-    public AdditionalLootData fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+    public AdditionalLootData fromNetwork(ResourceLocation id, PacketBuffer buffer) {
         try {
             // Entity
             final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, buffer);
@@ -56,7 +56,7 @@ public class AdditionalLootDataSerializer extends ForgeRegistryEntry<RecipeSeria
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer, AdditionalLootData recipe) {
+    public void toNetwork(PacketBuffer buffer, AdditionalLootData recipe) {
         try {
             // Entity
             SerializationHelper.serializeEntityType(buffer, recipe.getEntityType());

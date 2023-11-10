@@ -4,19 +4,18 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.JSONUtils;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class EntityDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<EntityData> {
+public class EntityDataSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<EntityData> {
 
     public EntityDataSerializer(){}
 
@@ -28,16 +27,16 @@ public class EntityDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>
         // Envs
         final Set<String> validEnvs = deserializeEnvsData(id, json);
         // Total grow ticks
-        final int growTicks = GsonHelper.getAsInt(json, "growTicks");
+        final int growTicks = JSONUtils.getAsInt(json, "growTicks");
         // If it requires water
         boolean requiresWater = false;
         if(json.has("requiresWater")) {
-            requiresWater = GsonHelper.getAsBoolean(json, "requiresWater");
+            requiresWater = JSONUtils.getAsBoolean(json, "requiresWater");
         }
         // Loot Data
         final List<LootData> results = deserializeLootData(id, json, entityType);
         // Sampler tier
-        final int samplerTier = GsonHelper.getAsInt(json, "samplerTier");
+        final int samplerTier = JSONUtils.getAsInt(json, "samplerTier");
 
         //Error checks
         if (growTicks <= 0){
@@ -51,7 +50,7 @@ public class EntityDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>
     }
 
     @Override
-    public EntityData fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+    public EntityData fromNetwork(ResourceLocation id, PacketBuffer buffer) {
         try {
             // Entity
             final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, buffer);
@@ -80,7 +79,7 @@ public class EntityDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer, EntityData recipe) {
+    public void toNetwork(PacketBuffer buffer, EntityData recipe) {
         try {
             // Entity
             SerializationHelper.serializeEntityType(buffer, recipe.getEntityType());
@@ -131,7 +130,7 @@ public class EntityDataSerializer extends ForgeRegistryEntry<RecipeSerializer<?>
     }
 
     private static ItemStack writeNBTtoItem(String nbtName, String nbtData, ItemStack stack){
-        CompoundTag nbt = new CompoundTag();
+        CompoundNBT nbt = new CompoundNBT();
         nbt.putString(nbtName,nbtData);
         stack.setTag(nbt);
         return stack;

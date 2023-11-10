@@ -4,19 +4,18 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.registers.CagedItems;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.EntityType;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 import java.util.*;
 
-public class EntityData implements Recipe<Inventory> {
+public class EntityData implements IRecipe<IInventory> {
 
     private final ResourceLocation id;
     private EntityType<?> entityType;
@@ -61,12 +60,12 @@ public class EntityData implements Recipe<Inventory> {
     }
 
     @Override
-    public boolean matches(Inventory inv, Level worldIn) {
+    public boolean matches(IInventory inv, World worldIn) {
         return false;
     }
 
     @Override
-    public ItemStack assemble(Inventory pContainer) {
+    public ItemStack assemble(IInventory pContainer) {
         return ItemStack.EMPTY;
     }
 
@@ -86,12 +85,12 @@ public class EntityData implements Recipe<Inventory> {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public IRecipeSerializer<?> getSerializer() {
         return CagedRecipeSerializers.ENTITY_RECIPE_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public IRecipeType<?> getType() {
         return CagedRecipeTypes.ENTITY_RECIPE;
     }
 

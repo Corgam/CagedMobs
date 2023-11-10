@@ -1,8 +1,7 @@
 package com.corgam.cagedmobs.helpers;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Written by McJty (https://www.mcjty.eu/docs/1.20/).
@@ -16,7 +15,7 @@ public class AdaptedItemHandler implements IItemHandlerModifiable {
     }
 
     @Override
-    public void setStackInSlot(int slot, @NotNull ItemStack stack) {
+    public void setStackInSlot(int slot, ItemStack stack) {
         handler.setStackInSlot(slot, stack);
     }
 
@@ -26,17 +25,17 @@ public class AdaptedItemHandler implements IItemHandlerModifiable {
     }
 
     @Override
-    public @NotNull ItemStack getStackInSlot(int slot) {
+    public ItemStack getStackInSlot(int slot) {
         return handler.getStackInSlot(slot);
     }
 
     @Override
-    public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+    public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
         return handler.insertItem(slot, stack, simulate);
     }
 
     @Override
-    public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+    public ItemStack extractItem(int slot, int amount, boolean simulate) {
         return handler.extractItem(slot, amount, simulate);
     }
 
@@ -46,7 +45,7 @@ public class AdaptedItemHandler implements IItemHandlerModifiable {
     }
 
     @Override
-    public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+    public boolean isItemValid(int slot, ItemStack stack) {
         return handler.isItemValid(slot, stack);
     }
 }

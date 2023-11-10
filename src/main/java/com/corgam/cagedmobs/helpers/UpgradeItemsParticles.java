@@ -1,10 +1,10 @@
 package com.corgam.cagedmobs.helpers;
 
 import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -20,7 +20,7 @@ public class UpgradeItemsParticles {
      * @param blockEntity the block entity to emit particles from
      */
     public static void emitCookingParticles(MobCageBlockEntity blockEntity){
-        Level level = blockEntity.getLevel();
+        World level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
             if (level.random.nextInt(20) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
@@ -46,14 +46,14 @@ public class UpgradeItemsParticles {
      * @param blockEntity the block entity to emit particles from
      */
     public static void emitLightningParticles(MobCageBlockEntity blockEntity){
-        Level level = blockEntity.getLevel();
+        World level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
             if (level.random.nextInt(25) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
                 double d3 = (double) blockpos.getX() + level.random.nextDouble();
                 double d4 = (double) blockpos.getY() + level.random.nextDouble();
                 double d5 = (double) blockpos.getZ() + level.random.nextDouble();
-                level.addParticle(ParticleTypes.ELECTRIC_SPARK, d3, d4, d5, 0.0D, 0.0D, 0.0D);
+                level.addParticle(ParticleTypes.END_ROD, d3, d4, d5, 0.0D, 0.0D, 0.0D);
             }
         }
     }
@@ -63,7 +63,7 @@ public class UpgradeItemsParticles {
      * @param blockEntity the block entity to emit particles from
      */
     public static void emitArrowParticles(MobCageBlockEntity blockEntity){
-        Level level = blockEntity.getLevel();
+        World level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
             if (level.random.nextInt(40) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
@@ -80,7 +80,7 @@ public class UpgradeItemsParticles {
      * @param blockEntity the block entity to emit particles from
      */
     public static void emitExperienceParticles(MobCageBlockEntity blockEntity){
-        Level level = blockEntity.getLevel();
+        World level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
             if (level.random.nextInt(40) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
@@ -97,7 +97,7 @@ public class UpgradeItemsParticles {
      * @param blockEntity the block entity to emit particles from
      */
     public static void emitFortuneParticles(MobCageBlockEntity blockEntity){
-        Level level = blockEntity.getLevel();
+        World level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
             if (level.random.nextInt(25) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
@@ -115,7 +115,7 @@ public class UpgradeItemsParticles {
      * @param blockEntity the block entity to emit particles from
      */
     public static void emitSpeedParticles(MobCageBlockEntity blockEntity){
-        Level level = blockEntity.getLevel();
+        World level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
             if (level.random.nextInt(40) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();
@@ -132,7 +132,7 @@ public class UpgradeItemsParticles {
      * @param blockEntity the block entity to emit particles from
      */
     public static void emitCreativeParticles(MobCageBlockEntity blockEntity) {
-        Level level = blockEntity.getLevel();
+        World level = blockEntity.getLevel();
         if (level != null && level.isClientSide()) {
             if (level.random.nextInt(20) == 0) {
                 BlockPos blockpos = blockEntity.getBlockPos();

@@ -5,24 +5,25 @@ import com.corgam.cagedmobs.helpers.UpgradeItemSlotHandler;
 import com.corgam.cagedmobs.items.upgrades.UpgradeItem;
 import com.corgam.cagedmobs.registers.CagedBlocks;
 import com.corgam.cagedmobs.registers.CagedContainers;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.util.math.BlockPos;
 
 
 import java.util.ArrayList;
 
 import static com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity.*;
 
-public class MobCageContainer extends AbstractContainerMenu {
+public class MobCageContainer extends Container {
 
     public final BlockPos pos;
-    public final Player player;
+    public final PlayerEntity player;
     private Slot environmentSlot = null;
 
     private final ArrayList<Slot> upgradeSlots = new ArrayList<>();
@@ -33,11 +34,12 @@ public class MobCageContainer extends AbstractContainerMenu {
      * @param pPlayer the accessing player
      * @param pPos block position
      */
-    public MobCageContainer(int pWindowId, Player pPlayer, BlockPos pPos) {
+    public MobCageContainer(int pWindowId, PlayerEntity pPlayer, BlockPos pPos) {
         super(CagedContainers.CAGE_CONTAINER.get(), pWindowId);
         this.pos = pPos;
         this.player = pPlayer;
-        if(pPlayer.level.getBlockEntity(pos) instanceof MobCageBlockEntity cage){
+        if(pPlayer.level.getBlockEntity(pos) instanceof MobCageBlockEntity){
+            MobCageBlockEntity cage = (MobCageBlockEntity) pPlayer.level.getBlockEntity(pos);
             // Environment
             this.environmentSlot = addSlot(new EnvironmentItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT, 26, 44));
             // Upgrades
@@ -45,10 +47,10 @@ public class MobCageContainer extends AbstractContainerMenu {
             upgradeSlots.add(addSlot(new UpgradeItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT + 2, 134, 44)));
             upgradeSlots.add(addSlot(new UpgradeItemSlotHandler(cage.getInventoryHandler(), ENVIRONMENT_SLOT + 3, 134, 65)));
         }
-        layoutPlayerInventorySlots(pPlayer.getInventory(), 8, 101);
+        layoutPlayerInventorySlots(pPlayer.inventory, 8, 101);
     }
 
-    private void layoutPlayerInventorySlots(Inventory inventory, int leftCol, int topRow) {
+    private void layoutPlayerInventorySlots(IInventory inventory, int leftCol, int topRow) {
         // Player inventory
         addSlotBox(inventory, 9, leftCol, topRow, 9, 18, 3, 18);
         // Player Hot-bar
@@ -60,7 +62,7 @@ public class MobCageContainer extends AbstractContainerMenu {
      * Adds a box of inventory slots.
      * Written by McJty (https://www.mcjty.eu/docs/1.20/).
      */
-    private int addSlotBox(Container playerInventory, int index, int x, int y, int horAmount, int dx, int verAmount, int dy) {
+    private int addSlotBox(IInventory playerInventory, int index, int x, int y, int horAmount, int dx, int verAmount, int dy) {
         for (int j = 0 ; j < verAmount ; j++) {
             index = addSlotRange(playerInventory, index, x, y, horAmount, dx);
             y += dy;
@@ -72,7 +74,7 @@ public class MobCageContainer extends AbstractContainerMenu {
      * Adds a range of inventory slots.
      * Written by McJty (https://www.mcjty.eu/docs/1.20/).
      */
-    private int addSlotRange(Container playerInventory, int index, int x, int y, int amount, int dx) {
+    private int addSlotRange(IInventory playerInventory, int index, int x, int y, int amount, int dx) {
         for (int i = 0 ; i < amount ; i++) {
             addSlot(new Slot(playerInventory, index, x, y));
             x += dx;
@@ -88,7 +90,7 @@ public class MobCageContainer extends AbstractContainerMenu {
      * @return item stack
      */
     @Override
-    public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
+    public ItemStack quickMoveStack(PlayerEntity pPlayer, int pIndex) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(pIndex);
         if (slot.hasItem()) {
@@ -96,7 +98,7 @@ public class MobCageContainer extends AbstractContainerMenu {
             itemstack = slotItem.copy();
             // Get items from block back to the player inventory
             if (pIndex < SLOT_COUNT) {
-                if (!this.moveItemStackTo(slotItem, SLOT_COUNT, Inventory.INVENTORY_SIZE + SLOT_COUNT, true)) {
+                if (!this.moveItemStackTo(slotItem, SLOT_COUNT, 36 + SLOT_COUNT, true)) {
                     return ItemStack.EMPTY;
                 }
             } else if (slotItem.getItem() instanceof UpgradeItem) {
@@ -131,9 +133,9 @@ public class MobCageContainer extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player pPlayer) {
-        return stillValid(ContainerLevelAccess.create(pPlayer.level, pos), pPlayer, CagedBlocks.MOB_CAGE.get())
-                || stillValid(ContainerLevelAccess.create(pPlayer.level, pos), pPlayer, CagedBlocks.HOPPING_MOB_CAGE.get());
+    public boolean stillValid(PlayerEntity pPlayer) {
+        return stillValid(IWorldPosCallable.create(pPlayer.level, pos), pPlayer, CagedBlocks.MOB_CAGE.get())
+                || stillValid(IWorldPosCallable.create(pPlayer.level, pos), pPlayer, CagedBlocks.HOPPING_MOB_CAGE.get());
     }
 
     public Slot getEnvironmentSlot() {

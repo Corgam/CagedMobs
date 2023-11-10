@@ -1,12 +1,12 @@
 package com.corgam.cagedmobs.serializers.entity;
 
 import com.google.gson.JsonObject;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.ShapedRecipe;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.JSONUtils;
 
 public class LootData {
 
@@ -40,39 +40,39 @@ public class LootData {
     }
 
     public static LootData deserialize(JsonObject json) {
-        final float chance = GsonHelper.getAsFloat(json, "chance");
-        final Item item = ShapedRecipe.itemFromJson(json.getAsJsonObject("output"));
-        final int min = GsonHelper.getAsInt(json, "minAmount");
-        final int max = GsonHelper.getAsInt(json, "maxAmount");
+        final float chance = JSONUtils.getAsFloat(json, "chance");
+        final Item item = ShapedRecipe.itemFromJson(json.getAsJsonObject("output")).getItem();
+        final int min = JSONUtils.getAsInt(json, "minAmount");
+        final int max = JSONUtils.getAsInt(json, "maxAmount");
         // Cooked item
         Item cookedItem = Items.AIR;
         if(json.has("output_cooked")){
-            cookedItem = ShapedRecipe.itemFromJson(json.getAsJsonObject("output_cooked"));
+            cookedItem = ShapedRecipe.itemFromJson(json.getAsJsonObject("output_cooked")).getItem();
         }
         // Requires lightning upgrade
         boolean isLighting = false;
         if(json.has("lightning")){
-            isLighting = GsonHelper.getAsBoolean(json, "lightning");
+            isLighting = JSONUtils.getAsBoolean(json, "lightning");
         }
         // Requires arrow upgrade
         boolean isArrow = false;
         if(json.has("needsArrow")){
-            isArrow = GsonHelper.getAsBoolean(json, "needsArrow");
+            isArrow = JSONUtils.getAsBoolean(json, "needsArrow");
         }
         // Color NBT
         int color = -1;
         if(json.has("color")){
-            color = GsonHelper.getAsInt(json, "color");
+            color = JSONUtils.getAsInt(json, "color");
         }
         // Random Durability
         boolean randomDurability = false;
         if(json.has("randomDurability")){
-            randomDurability = GsonHelper.getAsBoolean(json, "randomDurability");
+            randomDurability = JSONUtils.getAsBoolean(json, "randomDurability");
         }
         return new LootData(new ItemStack(item), new ItemStack(cookedItem), chance, min, max, isLighting, isArrow, color, randomDurability);
     }
 
-    public static void serializeBuffer(FriendlyByteBuf buffer, LootData lootData) {
+    public static void serializeBuffer(PacketBuffer buffer, LootData lootData) {
         // Chance
         buffer.writeFloat(lootData.getChance());
         // Item
@@ -93,7 +93,7 @@ public class LootData {
         buffer.writeBoolean(lootData.randomDurability);
     }
 
-    public static LootData deserializeBuffer(FriendlyByteBuf buffer) {
+    public static LootData deserializeBuffer(PacketBuffer buffer) {
         // Chance
         final float chance = buffer.readFloat();
         // Item

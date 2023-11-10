@@ -1,18 +1,17 @@
 package com.corgam.cagedmobs.items;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -27,18 +26,18 @@ public class ExperienceOrb extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(new TranslatableComponent("item.cagedmobs.experience_orb.info").withStyle(ChatFormatting.GRAY));
-        tooltip.add(new TranslatableComponent("item.cagedmobs.experience_orb.info2").withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.experience_orb.info").withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.experience_orb.info2").withStyle(TextFormatting.GRAY));
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public ActionResult<ItemStack> use(World level, PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(itemStack.getItem() instanceof ExperienceOrb){
             // If on client side, just play the sound
             if(level.isClientSide()){
-                level.playSound(player, player.getX(), player.getY()+0.5,player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.1F, (level.random.nextFloat() - level.random.nextFloat()) * 0.35F + 0.9F);
+                level.playSound(player, player.getX(), player.getY()+0.5,player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (level.random.nextFloat() - level.random.nextFloat()) * 0.35F + 0.9F);
             // Do the logic on server side
             }else{
                 // Consume the whole stack
@@ -57,9 +56,9 @@ public class ExperienceOrb extends Item {
                     player.giveExperiencePoints(level.random.nextInt(2) + 1);
                 }
             }
-            InteractionResultHolder.success(itemStack);
+            ActionResult.success(itemStack);
         }
-        return InteractionResultHolder.fail(itemStack);
+        return ActionResult.fail(itemStack);
     }
 
 }

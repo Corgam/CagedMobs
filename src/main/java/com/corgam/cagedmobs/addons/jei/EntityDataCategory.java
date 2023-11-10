@@ -2,19 +2,15 @@ package com.corgam.cagedmobs.addons.jei;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedItems;
-import com.mojang.blaze3d.vertex.PoseStack;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class EntityDataCategory implements IRecipeCategory<EntityDataWrapper> {
 
@@ -23,26 +19,20 @@ public class EntityDataCategory implements IRecipeCategory<EntityDataWrapper> {
     private static final int BG_PADDING = 5, BG_WIDTH = 166, BG_HEIGHT = 111;
     private final IDrawable icon;
     private final IDrawable background;
-    private final RecipeType<EntityDataWrapper> type;
     private final IGuiHelper guiHelper;
-    private final Component title;
+    private final String title;
 
-    public EntityDataCategory(IGuiHelper gui, RecipeType<EntityDataWrapper> type){
+    public EntityDataCategory(IGuiHelper gui){
         this.guiHelper = gui;
-        this.icon = gui.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CagedItems.MOB_CAGE.get()));
+        this.icon = gui.createDrawableIngredient(new ItemStack(CagedItems.MOB_CAGE.get()));
         ResourceLocation backgroundRL = new ResourceLocation(CagedMobs.MOD_ID, "textures/gui/jei_recipe.png");
         this.background = gui.createDrawable(backgroundRL,0,0,BG_WIDTH+BG_PADDING*2,BG_HEIGHT+BG_PADDING*2);
-        this.type = type;
-        this.title = new TranslatableComponent("jei.category.cagedmobs.entity");
+        this.title = new TranslationTextComponent("jei.category.cagedmobs.entity").toString();
     }
 
-    @Override
-    public RecipeType<EntityDataWrapper> getRecipeType() {
-        return this.type;
-    }
 
     @Override
-    public Component getTitle() {
+    public String getTitle() {
         return this.title;
     }
 
@@ -57,12 +47,17 @@ public class EntityDataCategory implements IRecipeCategory<EntityDataWrapper> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, EntityDataWrapper recipe, IFocusGroup focuses) {
-        recipe.setRecipe(builder);
+    public void setIngredients(EntityDataWrapper recipe, IIngredients ingredients) {
+
     }
 
     @Override
-    public void draw(EntityDataWrapper recipe, IRecipeSlotsView view, PoseStack graphics, double mouseX, double mouseY) {
+    public void setRecipe(IRecipeLayout recipeLayout, EntityDataWrapper recipe, IIngredients ingredients) {
+        recipe.setRecipe(recipeLayout, recipe, ingredients);
+    }
+
+    @Override
+    public void draw(EntityDataWrapper recipe, MatrixStack graphics, double mouseX, double mouseY) {
         recipe.draw(graphics, this.guiHelper);
     }
 

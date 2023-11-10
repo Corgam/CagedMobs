@@ -1,8 +1,8 @@
 package com.corgam.cagedmobs.serializers.environment;
 
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.item.crafting.IRecipeType;
 
-public class RecipeTypeEnvironmentData implements RecipeType<EnvironmentData> {
+public class RecipeTypeEnvironmentData implements IRecipeType<EnvironmentData> {
 
     @Override
     public String toString () {

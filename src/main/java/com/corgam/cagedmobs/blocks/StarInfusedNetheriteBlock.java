@@ -1,12 +1,12 @@
 package com.corgam.cagedmobs.blocks;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.block.Block;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -19,7 +19,7 @@ public class StarInfusedNetheriteBlock extends Block {
     }
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack item, @Nullable BlockGetter getter, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(new TranslatableComponent("block.cagedmobs.star_infused_netherite_block.beacon").withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(ItemStack pStack, @Nullable IBlockReader pLevel, List<ITextComponent> tooltip, ITooltipFlag pFlag) {
+        tooltip.add(new TranslationTextComponent("block.cagedmobs.star_infused_netherite_block.beacon").withStyle(TextFormatting.GRAY));
     }
 }
