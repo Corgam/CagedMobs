@@ -28,6 +28,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
@@ -54,7 +55,7 @@ import java.util.function.Function;
 import static com.corgam.cagedmobs.blocks.mob_cage.MobCageBlock.HOPPING;
 import static com.corgam.cagedmobs.helpers.UpgradeItemsParticles.*;
 
-public class MobCageBlockEntity extends TileEntity {
+public class MobCageBlockEntity extends TileEntity implements ITickableTileEntity {
 
     // Entity and Environment data
     private EnvironmentData environmentData = null;
@@ -175,29 +176,26 @@ public class MobCageBlockEntity extends TileEntity {
 
     /**
      * Main method executed in every tick. Runs only on the server instance.
-     * @param level the world in which the block entity is located
-     * @param pos the position of the block entity
-     * @param state the state of the block entity
-     * @param blockEntity the block entity class
      */
-    public static void tick(World level, BlockPos pos, BlockState state, MobCageBlockEntity blockEntity) {
+    @Override
+    public void tick() {
         //Tick only when env and mob is inside
-        if(blockEntity.hasEnvAndEntity() && !blockEntity.waitingForHarvest) {
+        if(this.hasEnvAndEntity() && !this.waitingForHarvest) {
             // Check if ready to harvest
-            if(blockEntity.currentGrowTicks >= blockEntity.totalGrowTicks) {
-                blockEntity.attemptHarvest(state);
+            if(this.currentGrowTicks >= this.totalGrowTicks) {
+                this.attemptHarvest(this.getBlockState());
             }else {
                 // Add one tick (if entity requires water-logging check for it)
-                if(!blockEntity.entity.ifRequiresWater() || blockEntity.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
-                    blockEntity.currentGrowTicks++;
+                if(!this.entity.ifRequiresWater() || this.getBlockState().getValue(BlockStateProperties.WATERLOGGED)){
+                    this.currentGrowTicks++;
                 }
             }
         }
         // Check if the cage has cooking upgrade and spawn particles
         if(level != null && level.isClientSide()){
             if(CagedMobs.CLIENT_CONFIG.shouldUpgradesParticles()){
-                for(ItemStack upgrade : blockEntity.getUpgradesAsItemStacks()){
-                    blockEntity.emitUpgradeParticles(upgrade, blockEntity);
+                for(ItemStack upgrade : this.getUpgradesAsItemStacks()){
+                    this.emitUpgradeParticles(upgrade, this);
                 }
             }
         }
