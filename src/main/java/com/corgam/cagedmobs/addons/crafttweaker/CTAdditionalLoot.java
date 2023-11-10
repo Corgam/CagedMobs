@@ -3,9 +3,9 @@ package com.corgam.cagedmobs.addons.crafttweaker;
 import com.blamejared.crafttweaker.api.annotations.ZenRegister;
 import com.blamejared.crafttweaker.api.item.IIngredient;
 import com.blamejared.crafttweaker.api.item.IItemStack;
+import com.blamejared.crafttweaker.impl.entity.MCEntityType;
 import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.entity.LootData;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -20,8 +20,8 @@ public class CTAdditionalLoot {
 
     private final AdditionalLootData data;
 
-    public CTAdditionalLoot(String id, EntityType<?> entityType, Boolean removeFromEntity){
-        this(new AdditionalLootData(ResourceLocation.tryParse(id), entityType, new ArrayList<>(), removeFromEntity));
+    public CTAdditionalLoot(String id, MCEntityType entityType, Boolean removeFromEntity){
+        this(new AdditionalLootData(ResourceLocation.tryParse(id), entityType.getInternal(), new ArrayList<>(), removeFromEntity));
     }
 
     public CTAdditionalLoot(AdditionalLootData lootData){
@@ -79,8 +79,8 @@ public class CTAdditionalLoot {
     }
 
     @ZenCodeType.Method
-    public CTAdditionalLoot setEntityType(EntityType<?> entityType) {
-        this.data.setEntityType(entityType);
+    public CTAdditionalLoot setEntityType(MCEntityType entityType) {
+        this.data.setEntityType(entityType.getInternal());
         return this;
     }
 

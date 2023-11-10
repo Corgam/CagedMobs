@@ -4,10 +4,10 @@ import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.annotations.ZenRegister;
 import com.blamejared.crafttweaker.api.managers.IRecipeManager;
 import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
+import com.blamejared.crafttweaker.impl.entity.MCEntityType;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.entity.EntityData;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
@@ -20,13 +20,13 @@ public class EntitiesManager implements IRecipeManager {
 
     // Used for creating new entityRecipe with just one valid environment
     @ZenCodeType.Method
-    public CTEntity create(String id, EntityType<?> entityType, int growTicks, boolean requiresWater, int tier, String environment) {
+    public CTEntity create(String id, MCEntityType entityType, int growTicks, boolean requiresWater, int tier, String environment) {
         return this.create(id,entityType,growTicks, requiresWater, tier, new String[] {environment});
     }
 
     // Used for creating new entityRecipe with more valid environments
     @ZenCodeType.Method
-    public CTEntity create(String id, EntityType<?> entityType, int growTicks, boolean requiresWater, int tier, String[] environments) {
+    public CTEntity create(String id, MCEntityType entityType, int growTicks, boolean requiresWater, int tier, String[] environments) {
         final CTEntity entity = new CTEntity(id, entityType, growTicks, requiresWater, tier, environments );
         CraftTweakerAPI.apply(new ActionAddRecipe(this, entity.getMobData(), ""));
         return entity;

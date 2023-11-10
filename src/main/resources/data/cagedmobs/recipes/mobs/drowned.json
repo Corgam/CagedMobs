@@ -23,7 +23,7 @@
 		{
 			"chance": 0.05,
 				"output": {
-					"item": "minecraft:copper_ingot"
+					"item": "minecraft:gold_ingot"
 				},
 				"minAmount": 1,
 				"maxAmount": 1

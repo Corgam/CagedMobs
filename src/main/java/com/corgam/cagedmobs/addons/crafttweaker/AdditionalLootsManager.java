@@ -4,10 +4,10 @@ import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.annotations.ZenRegister;
 import com.blamejared.crafttweaker.api.managers.IRecipeManager;
 import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
+import com.blamejared.crafttweaker.impl.entity.MCEntityType;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
@@ -20,7 +20,7 @@ public class AdditionalLootsManager implements IRecipeManager {
 
     // Used for creating new additionalLootRecipe
     @ZenCodeType.Method
-    public CTAdditionalLoot create(String id, EntityType<?> entityType, Boolean removeFromEntity) {
+    public CTAdditionalLoot create(String id, MCEntityType entityType, Boolean removeFromEntity) {
         final CTAdditionalLoot additionalLoot = new CTAdditionalLoot(id, entityType, removeFromEntity);
         CraftTweakerAPI.apply(new ActionAddRecipe(this, additionalLoot.getAdditionalLootData(), ""));
         return additionalLoot;

@@ -3,6 +3,7 @@ package com.corgam.cagedmobs.addons.crafttweaker;
 import com.blamejared.crafttweaker.api.annotations.ZenRegister;
 import com.blamejared.crafttweaker.api.item.IIngredient;
 import com.blamejared.crafttweaker.api.item.IItemStack;
+import com.blamejared.crafttweaker.impl.entity.MCEntityType;
 import com.corgam.cagedmobs.serializers.entity.EntityData;
 import com.corgam.cagedmobs.serializers.entity.LootData;
 import net.minecraft.entity.EntityType;
@@ -22,8 +23,8 @@ public class CTEntity {
 
     private final EntityData data;
 
-    public CTEntity(String id, EntityType<?> entityType, int growTicks, boolean requiresWater, int tier, String[] environments){
-        this(new EntityData(ResourceLocation.tryParse(id),entityType,new HashSet<>(Arrays.asList(environments)),growTicks, requiresWater, new ArrayList<>(),tier));
+    public CTEntity(String id, MCEntityType entityType, int growTicks, boolean requiresWater, int tier, String[] environments){
+        this(new EntityData(ResourceLocation.tryParse(id),entityType.getInternal(),new HashSet<>(Arrays.asList(environments)),growTicks, requiresWater, new ArrayList<>(),tier));
     }
 
     public CTEntity(EntityData entityData){
@@ -105,8 +106,8 @@ public class CTEntity {
     }
 
     @ZenCodeType.Method
-    public CTEntity setEntityType(EntityType<?> entityType) {
-        this.data.setEntityType(entityType);
+    public CTEntity setEntityType(MCEntityType entityType) {
+        this.data.setEntityType(entityType.getInternal());
         return this;
     }
 
