@@ -1,0 +1,64 @@
+{
+	"type": "cagedmobs:entity_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "twilightforest"
+		}
+	],
+	"entity": "twilightforest:quest_ram",
+	"samplerTier": 3,
+	"environments": ["forest"],
+	"growTicks": 1200,
+	"results": [
+		{
+			"chance": 0.2,
+			"output": {
+				"item": "minecraft:iron_block"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.15,
+			"output": {
+				"item": "minecraft:lapis_block"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.05,
+			"output": {
+				"item": "minecraft:gold_block"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "minecraft:diamond_block"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.02,
+			"output": {
+				"item": "minecraft:emerald_block"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.01,
+			"output": {
+				"item": "twilightforest:crumble_horn"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+
+	]
+}
