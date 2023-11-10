@@ -7,7 +7,6 @@ import com.corgam.cagedmobs.items.upgrades.SpeedIIUpgradeItem;
 import com.corgam.cagedmobs.items.upgrades.SpeedIUpgradeItem;
 import com.corgam.cagedmobs.registers.CagedBlockEntities;
 import com.corgam.cagedmobs.registers.CagedItems;
-import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.entity.EntityData;
@@ -626,7 +625,7 @@ public class MobCageBlockEntity extends TileEntity {
             emitArrowParticles(blockEntity);
         }else if(upgrade.getItem().equals(CagedItems.EXPERIENCE_UPGRADE.get())){
             emitExperienceParticles(blockEntity);
-        }else if(upgrade.getItem().equals(CagedItems.FORTUNE_UPGRADE.get())){
+        }else if(upgrade.getItem().equals(CagedItems.LOOTING_UPGRADE.get())){
             emitFortuneParticles(blockEntity);
         }else if(upgrade.getItem() instanceof SpeedIUpgradeItem ||
         upgrade.getItem() instanceof SpeedIIUpgradeItem ||
@@ -794,7 +793,7 @@ public class MobCageBlockEntity extends TileEntity {
                         stack = applyRandomDurability(stack);
                     }
                     drops.add(stack);
-                    if(this.hasUpgrades(CagedItems.FORTUNE_UPGRADE.get(),1 )){
+                    if(this.hasUpgrades(CagedItems.LOOTING_UPGRADE.get(),1 )){
                         this.calculateFortune(loot, drops, stack);
                     }
                 }
@@ -807,7 +806,7 @@ public class MobCageBlockEntity extends TileEntity {
                 experienceOrbItem.setCount(this.getUpgradeCount(CagedItems.EXPERIENCE_UPGRADE.get()));
                 drops.add(experienceOrbItem);
                 // Take fortune upgrade into account
-               if(this.hasUpgrades(CagedItems.FORTUNE_UPGRADE.get(),1 )){
+               if(this.hasUpgrades(CagedItems.LOOTING_UPGRADE.get(),1 )){
                     this.calculateFortune(null, drops, experienceOrbItem);
                }
             }
@@ -822,7 +821,7 @@ public class MobCageBlockEntity extends TileEntity {
      * @param item item to duplicate
      */
     private void calculateFortune(@Nullable LootData lootData, NonNullList<ItemStack> dropList, ItemStack item){
-        double fortuneChance = this.getUpgradeCount(CagedItems.FORTUNE_UPGRADE.get()) * 0.2;
+        double fortuneChance = this.getUpgradeCount(CagedItems.LOOTING_UPGRADE.get()) * 0.2;
         if(this.level != null && !this.level.isClientSide() && this.level.random.nextFloat() < fortuneChance){
             int countMultiplayer = this.level.random.nextInt(2) + 2;
             for(int i = 0; i < countMultiplayer - 1; i++){
