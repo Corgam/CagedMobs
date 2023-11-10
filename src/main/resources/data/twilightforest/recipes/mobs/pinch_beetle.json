@@ -1,0 +1,14 @@
+{
+	"type": "cagedmobs:entity_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "twilightforest"
+		}
+	],
+	"entity": "twilightforest:pinch_beetle",
+	"samplerTier": 1,
+	"environments": ["maze"],
+	"growTicks": 1200,
+	"results": []
+}
