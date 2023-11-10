@@ -20,7 +20,7 @@ public class LootingUpgradeItem extends UpgradeItem{
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(new TranslationTextComponent("item.cagedmobs.looting_upgrade.info").withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("item.cagedmobs.looting_upgrade.info").withStyle(ChatFormatting.GRAY));
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 }

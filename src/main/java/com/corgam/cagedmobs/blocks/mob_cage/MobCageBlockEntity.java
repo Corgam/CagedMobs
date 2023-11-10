@@ -7,6 +7,7 @@ import com.corgam.cagedmobs.items.upgrades.SpeedIIUpgradeItem;
 import com.corgam.cagedmobs.items.upgrades.SpeedIUpgradeItem;
 import com.corgam.cagedmobs.registers.CagedBlockEntities;
 import com.corgam.cagedmobs.registers.CagedItems;
+import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.entity.EntityData;
