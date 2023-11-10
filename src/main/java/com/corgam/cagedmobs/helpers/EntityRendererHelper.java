@@ -71,7 +71,7 @@ public class EntityRendererHelper {
             graphics.translate(x, y, -50F);
             graphics.scale(scale, -scale, -scale);
             graphics.mulPose(Vector3f.ZP.rotationDegrees(180));
-            LOGGER.error("[CagedMobs] Error with rendering entity in JEI!", e);
+            LOGGER.error("[CagedMobs] Rendering entity in the JEI failed!", e);
         }
         buff.endBatch();
         graphics.popPose();
