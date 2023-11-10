@@ -36,14 +36,18 @@ public class EntityRendererHelper {
      * @return optional entity
      */
     public static Optional<Entity> createEntity(Level level, EntityType<?> entityType, CompoundTag startingNbt){
-        if(startingNbt == null){
-            startingNbt = new CompoundTag();
-        }
-        startingNbt.putString("id", EntityType.getKey(entityType).toString());
-        // Create the entity
-        Optional<Entity> entity = Optional.empty();
-        if(level != null && level.isClientSide()){
-            entity = EntityType.create(startingNbt, level);
+        try{
+            if(startingNbt == null){
+                startingNbt = new CompoundTag();
+            }
+            startingNbt.putString("id", EntityType.getKey(entityType).toString());
+            // Create the entity
+            Optional<Entity> entity = Optional.empty();
+            if(level != null && level.isClientSide()){
+                entity = EntityType.create(startingNbt, level);
+            }
+        }catch(Exception e){
+            LOGGER.error("[CagedMobs] Rendering entity in the JEI failed!", e);
         }
         return entity;
     }
@@ -75,7 +79,7 @@ public class EntityRendererHelper {
             matrixStack.translate(x, y, -50F);
             matrixStack.scale(scale, -scale, -scale);
             matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
-            LOGGER.error("[CagedMobs] Error with rendering entity in JEI!", e);
+            LOGGER.error("[CagedMobs] Rendering entity in the JEI failed!", e);
         }
         buff.endBatch();
         matrixStack.popPose();

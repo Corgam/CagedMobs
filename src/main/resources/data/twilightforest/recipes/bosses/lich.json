@@ -30,6 +30,7 @@
 			"output": {
 				"item": "twilightforest:zombie_scepter"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
@@ -38,6 +39,7 @@
 			"output": {
 				"item": "twilightforest:lifedrain_scepter"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
@@ -46,14 +48,16 @@
 			"output": {
 				"item": "twilightforest:twilight_scepter"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
 		{
 			"chance": 0.01,
 			"output": {
-				"item": "twilightforest:fortification_scepter"
+				"item": "twilightforest:shield_scepter"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
@@ -62,6 +66,7 @@
 			"output": {
 				"item": "minecraft:golden_sword"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
@@ -70,6 +75,7 @@
 			"output": {
 				"item": "minecraft:golden_helmet"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
@@ -78,6 +84,7 @@
 			"output": {
 				"item": "minecraft:golden_chestplate"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
@@ -86,6 +93,7 @@
 			"output": {
 				"item": "minecraft:golden_leggings"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
@@ -94,6 +102,7 @@
 			"output": {
 				"item": "minecraft:golden_boots"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		}

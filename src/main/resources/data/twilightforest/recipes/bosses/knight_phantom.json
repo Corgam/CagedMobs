@@ -14,6 +14,7 @@
 			"output": {
 				"item": "twilightforest:knightmetal_sword"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
@@ -22,6 +23,7 @@
 			"output": {
 				"item": "twilightforest:knightmetal_pickaxe"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
@@ -30,6 +32,7 @@
 			"output": {
 				"item": "twilightforest:knightmetal_axe"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
@@ -38,6 +41,7 @@
 			"output": {
 				"item": "twilightforest:knightmetal_chestplate"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		},
@@ -46,6 +50,7 @@
 			"output": {
 				"item": "twilightforest:knightmetal_helmet"
 			},
+			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
 		}
