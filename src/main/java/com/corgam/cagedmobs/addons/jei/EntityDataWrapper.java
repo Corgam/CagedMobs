@@ -22,19 +22,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class EntityDataWrapper implements IRecipeCategoryExtension {
 
@@ -192,13 +190,27 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
         return this.requiresWater;
     }
 
+    private List<ItemStack> getAllInputItemStacks(boolean includeHidden){
+        List<ItemStack> inputs = new ArrayList<>();
+        if(includeHidden){
+            inputs.addAll(this.getEnvsItems());
+            inputs.addAll(this.getSamplers());
+        }
+        inputs.addAll(this.getSampledSamplers());
+        if(!CagedMobs.SERVER_CONFIG.areSpawnEggsDisabled()){
+            SpawnEggItem spawnEgg = ForgeSpawnEggItem.fromEntityType(entityData.getEntityType());
+            if(spawnEgg != null){
+                inputs.addAll(new ArrayList<>(Collections.singleton(spawnEgg.getDefaultInstance())));
+            }
+        }
+        return inputs;
+    }
+
     @Override
     public void setIngredients(IIngredients iIngredients) {
-        // Inputs
-        final List<ItemStack> inputs = new ArrayList<>(this.envs);
-        iIngredients.setInputs(VanillaTypes.ITEM, inputs);
-
-        // Outputs
+        // Add input items
+        iIngredients.setInputs(VanillaTypes.ITEM, this.getAllInputItemStacks(true));
+        // Add outputs
         final List<ItemStack> outputs = new ArrayList<>();
         List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
         for(LootData loot : this.drops){
@@ -226,12 +238,12 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
     public void setRecipe(IRecipeLayout builder, EntityDataWrapper entityWrapper, IIngredients ingredients) {
         final IGuiItemStackGroup stacks = builder.getItemStacks();
 
-        // DNA Samplers
-        stacks.init(0, true, 19, 62+19);
-        stacks.set(0, entityWrapper.getSamplers());
+        // Input items
+        stacks.init(0, true, 14, 62+19);
+        stacks.set(0, this.getAllInputItemStacks(false));
 
         // Soil Inputs
-        stacks.init(1, true, 19 + 20, 62 + 19);
+        stacks.init(1, true, 14 + 20, 62 + 19);
         stacks.set(1, entityWrapper.getEnvsItems());
 
         int nextSlotId = 2;
@@ -263,56 +275,6 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
             }
         }
         stacks.addTooltipCallback(entityWrapper::getTooltip);
-//        // Add samplers without NBT for easier search
-//        builder.add(RecipeIngredientRole.INPUT).addItemStacks(this.getSamplers());
-//
-//        // Add DNA Samplers with the specific NBT data
-//        final IRecipeSlotBuilder samplersSlot = builder.addSlot(RecipeIngredientRole.INPUT, 15, 62+20);
-//        samplersSlot.addItemStacks(this.getSampledSamplers()).setSlotName("samplers");
-//        if(!CagedMobs.SERVER_CONFIG.areSpawnEggsDisabled()){
-//            SpawnEggItem spawnEgg = ForgeSpawnEggItem.fromEntityType(entityData.getEntityType());
-//            if(spawnEgg != null){
-//                samplersSlot.addItemStack(spawnEgg.getDefaultInstance());
-//            }
-//        }
-//
-//        // Soil Inputs
-//        final IRecipeSlotBuilder environmentsSlot = builder.addSlot(RecipeIngredientRole.INPUT, 15 + 20, 62+20);
-//        environmentsSlot.addItemStacks(this.getEnvsItems()).setSlotName("environments");
-//        environmentsSlot.addTooltipCallback(this.getEnvTooltip());
-//
-//        int nextSlotId = 2;
-//        List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
-//        for (final LootData entry : this.getDrops()) {
-//            // If items not blacklisted draw them
-//            if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
-//                if(!blacklistedItems.contains(entry.getItem().getItem())){
-//                    int relativeSlotId = nextSlotId - 2;
-//                    final IRecipeSlotBuilder lootSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 101 + 19 * (relativeSlotId % 4), 6 + 19 * (relativeSlotId / 4));
-//                    if(entry.isCooking() && this.getCookedIDs().contains(relativeSlotId)){
-//                        lootSlot.addItemStack(entry.getCookedItem());
-//                    }else{
-//                        lootSlot.addItemStack(entry.getItem());
-//                    }
-//                    nextSlotId++;
-//                    // Add tooltip
-//                    lootSlot.addTooltipCallback(this.getLootTooltip(entry));
-//                }
-//            }else{
-//                if(blacklistedItems.contains(entry.getItem().getItem())){
-//                    int relativeSlotId = nextSlotId - 2;
-//                    final IRecipeSlotBuilder lootSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
-//                    if(entry.isCooking() && this.getCookedIDs().contains(relativeSlotId)){
-//                        lootSlot.addItemStack(entry.getCookedItem());
-//                    }else{
-//                        lootSlot.addItemStack(entry.getItem());
-//                    }
-//                    nextSlotId++;
-//                    // Add tooltip
-//                    lootSlot.addTooltipCallback(this.getLootTooltip(entry));
-//                }
-//            }
-//        }
     }
 
     public void draw(MatrixStack pGuiGraphics, IGuiHelper guiHelper) {
@@ -390,44 +352,5 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
             }
         }
     }
-
-//    private IRecipeSlotTooltipCallback getEnvTooltip() {
-//        return (view, tooltip) -> {
-//            if(view.getDisplayedItemStack().isPresent()){
-//                ItemStack displayedItem = view.getDisplayedItemStack().get();
-//                EnvironmentData env = MobCageBlockEntity.getEnvironmentDataFromItemStack(displayedItem);
-//                if(env != null){
-//                    tooltip.add(new TranslatableComponent("jei.tooltip.cagedmobs.entity.growModifier",  DECIMAL_FORMAT.format(env.getGrowModifier() * 100 - 100)));
-//                }
-//            }
-//        };
-//    }
-//
-//    private IRecipeSlotTooltipCallback getLootTooltip(LootData entry) {
-//        return (view, tooltip) -> {
-//            if (view.getDisplayedItemStack().isPresent()){
-//                ItemStack displayedItem = view.getDisplayedItemStack().get();
-//                tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.chance",  DECIMAL_FORMAT.format(entry.getChance() * 100)));
-//                if(entry.getMinAmount() == entry.getMaxAmount()){
-//                    tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.amountEqual",entry.getMinAmount()));
-//                }else{
-//                    tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.amount",entry.getMinAmount(), entry.getMaxAmount()));
-//                }
-//                if(entry.isLighting()){
-//                    tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.lightning_upgrade").withStyle(TextFormatting.YELLOW));
-//                }
-//                if(entry.isCooking() && displayedItem.getItem().equals(entry.getCookedItem().getItem())){
-//                    tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.cooking_upgrade").withStyle(TextFormatting.YELLOW));
-//                }
-//                if(entry.isArrow()){
-//                    tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.arrow_upgrade").withStyle(TextFormatting.YELLOW));
-//                }
-//                if(entry.hasColor()){
-//                    tooltip.add(new TranslationTextComponent("jei.tooltip.cagedmobs.entity.colorItem").withStyle(TextFormatting.YELLOW));
-//                }
-//            }
-//        };
-//    }
-
 }
 

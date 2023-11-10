@@ -27,7 +27,7 @@ public class EntityDataCategory implements IRecipeCategory<EntityDataWrapper> {
         this.icon = gui.createDrawableIngredient(new ItemStack(CagedItems.MOB_CAGE.get()));
         ResourceLocation backgroundRL = new ResourceLocation(CagedMobs.MOD_ID, "textures/gui/jei_recipe.png");
         this.background = gui.createDrawable(backgroundRL,0,0,BG_WIDTH+BG_PADDING*2,BG_HEIGHT+BG_PADDING*2);
-        this.title = new TranslationTextComponent("jei.category.cagedmobs.entity").toString();
+        this.title = new TranslationTextComponent("jei.category.cagedmobs.entity").getString();
     }
 
 
@@ -48,7 +48,7 @@ public class EntityDataCategory implements IRecipeCategory<EntityDataWrapper> {
 
     @Override
     public void setIngredients(EntityDataWrapper recipe, IIngredients ingredients) {
-
+        recipe.setIngredients(ingredients);
     }
 
     @Override
