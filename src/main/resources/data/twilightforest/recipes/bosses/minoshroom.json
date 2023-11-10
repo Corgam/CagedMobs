@@ -22,7 +22,7 @@
 		{
 			"chance": 0.01,
 			"output": {
-				"item": "twilightforest:diamond_minotaur_axe"
+				"item": "twilightforest:minotaur_axe"
 			},
 			"randomDurability": true,
 			"minAmount": 1,

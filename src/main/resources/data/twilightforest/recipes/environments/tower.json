@@ -7,9 +7,9 @@
 		}
 	],
 	"input": {
-		"item": "twilightforest:towerwood"
+		"item": "twilightforest:tower_wood"
 	},
-	"render": "twilightforest:towerwood",
+	"render": "twilightforest:tower_wood",
 	"growModifier": 1.0,
 	"categories": ["tower"]
 }

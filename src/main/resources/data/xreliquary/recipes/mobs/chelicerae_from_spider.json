@@ -1,0 +1,21 @@
+{
+	"type": "cagedmobs:additional_loot_data",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "xreliquary"
+		}
+	],
+	"entity": "minecraft:spider",
+	"results": [
+		{
+			"chance": 0.1,
+			"output": {
+				"item": "xreliquary:chelicerae"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
+		}
+	]
+
+}
