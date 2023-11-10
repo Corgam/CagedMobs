@@ -29,22 +29,17 @@ public class CagedMobsComponentProvider implements IComponentProvider {
         MobCageBlockEntity tile = (MobCageBlockEntity) blockAccessor.getTileEntity();
         // Add growth progress
         if(tile.hasEntity() && tile.hasEnvironment()){
-//            tooltip.add(helper.progress(tile.getGrowthPercentage(),
-//                    new TextComponent(String.format("%3.0f%%", tile.getGrowthPercentage() * 100)),
-//                    helper.progressStyle().color(0xff44AA44, 0xff44AA44),
-//                    helper.borderStyle()
-//            ));
-            tooltip.add(new TranslationTextComponent(String.format("%3.0f%%", tile.getGrowthPercentage() * 100)));
+            tooltip.add(new StringTextComponent(
+                    new TranslationTextComponent("JADE.tooltip.cagedmobs.cage.progress").withStyle(TextFormatting.GRAY).getString() +
+                            String.format("%3.0f%%", tile.getGrowthPercentage() * 100)));
         }
         // Add Environment
         if(tile.hasEnvironment()){
             ItemStack representation = tile.getEnvironmentItemStack();
             if(representation != null){
-                tooltip.add(new TranslationTextComponent("JADE.tooltip.cagedmobs.cage.environment"));
-                tooltip.add(representation.getHoverName());
-//                tooltip.add(List.of(
-//                        helper.item(representation, 1.0F),
-//                        helper.text(representation.getHoverName())));
+                tooltip.add(new StringTextComponent(
+                        new TranslationTextComponent("JADE.tooltip.cagedmobs.cage.environment").withStyle(TextFormatting.GRAY).getString() +
+                                new TranslationTextComponent(representation.getDescriptionId()).withStyle(TextFormatting.GRAY).getString()));
             }
         }
         // Add Entity
@@ -61,14 +56,11 @@ public class CagedMobsComponentProvider implements IComponentProvider {
             // Add Upgrade text
             tooltip.add(new TranslationTextComponent("TOP.tooltip.cagedmobs.cage.upgrades"));
             // Iterate through upgrades
-            List<IElement> upgrades = new ArrayList<>();
             for(ItemStack upgrade : tile.getUpgradesAsItemStacks()){
                 if(!upgrade.isEmpty()){
-//                    upgrades.add(helper.item(upgrade));
+                    tooltip.add(new StringTextComponent(new TranslationTextComponent(upgrade.getDescriptionId()).withStyle(TextFormatting.GRAY).getString()));
                 }
             }
-            // Render a list of upgrades
-//            tooltip.add(upgrades);
         }
     }
 }
