@@ -6,7 +6,7 @@ public class RecipeTypeEnvironmentData implements IRecipeType<EnvironmentData> {
 
     @Override
     public String toString () {
-        return "cagedmobs:env_data";
+        return "cagedmobs:environment_data";
     }
 }
 
