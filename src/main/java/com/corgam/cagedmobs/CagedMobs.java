@@ -8,11 +8,9 @@ import com.corgam.cagedmobs.items.DnaSamplerItem;
 import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
 import com.corgam.cagedmobs.registers.*;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.item.ItemModelsProperties;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.InterModComms;
@@ -52,7 +50,7 @@ public class CagedMobs
         CagedRecipeSerializers.CAGED_RECIPE_SERIALIZERS.register(eventBus);
         CagedContainers.CAGED_MENU_TYPES.register(eventBus);
         // Register recipe types
-        eventBus.addGenericListener(IRecipeSerializer.class, this::registerRecipeSerializers);
+        eventBus.addGenericListener(RecipeSerializer.class, this::registerRecipeSerializers);
         // Add properties to items
         eventBus.addListener(this::addPropertiesToItems);
         // TheOneProbe support
@@ -62,7 +60,7 @@ public class CagedMobs
     /**
      * Register custom recipe types
      */
-    private void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event) {
+    private void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
         // Register new recipes
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(CagedRecipeTypes.ENTITY_RECIPE.toString()), CagedRecipeTypes.ENTITY_RECIPE);
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(CagedRecipeTypes.ENVIRONMENT_RECIPE.toString()), CagedRecipeTypes.ENVIRONMENT_RECIPE);

@@ -10,6 +10,7 @@ import com.corgam.cagedmobs.serializers.entity.EntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
@@ -20,13 +21,14 @@ public class EntitiesManager implements IRecipeManager<EntityData> {
 
     // Used for creating new entityRecipe with just one valid environment
     @ZenCodeType.Method
-    public CTEntity create(String id, EntityType<?> entityType, int growTicks, boolean requiresWater, int tier, String environment) {
-        return this.create(id,entityType,growTicks, requiresWater, tier, new String[] {environment});
+    public CTEntity create(String id, String entityId, int growTicks, boolean requiresWater, int tier, String environment) {
+        return this.create(id,entityId,growTicks, requiresWater, tier, new String[] {environment});
     }
 
     // Used for creating new entityRecipe with more valid environments
     @ZenCodeType.Method
-    public CTEntity create(String id, EntityType<?> entityType, int growTicks, boolean requiresWater, int tier, String[] environments) {
+    public CTEntity create(String id, String entityId, int growTicks, boolean requiresWater, int tier, String[] environments) {
+        EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(ResourceLocation.tryParse(entityId));
         final CTEntity entity = new CTEntity(id, entityType, growTicks, requiresWater, tier, environments );
         CraftTweakerAPI.apply(new ActionAddRecipe<>(this, entity.getMobData(), ""));
         return entity;

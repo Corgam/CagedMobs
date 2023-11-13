@@ -10,6 +10,7 @@ import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
@@ -20,7 +21,8 @@ public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData
 
     // Used for creating new additionalLootRecipe
     @ZenCodeType.Method
-    public CTAdditionalLoot create(String id, EntityType<?> entityType, Boolean removeFromEntity) {
+    public CTAdditionalLoot create(String id, String entityId, Boolean removeFromEntity) {
+        EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(ResourceLocation.tryParse(entityId));
         final CTAdditionalLoot additionalLoot = new CTAdditionalLoot(id, entityType, removeFromEntity);
         CraftTweakerAPI.apply(new ActionAddRecipe<>(this, additionalLoot.getAdditionalLootData(), ""));
         return additionalLoot;

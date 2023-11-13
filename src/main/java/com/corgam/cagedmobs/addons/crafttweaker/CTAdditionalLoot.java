@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.openzen.zencode.java.ZenCodeType;
 
 import java.util.ArrayList;
@@ -79,7 +80,8 @@ public class CTAdditionalLoot {
     }
 
     @ZenCodeType.Method
-    public CTAdditionalLoot setEntityType(EntityType<?> entityType) {
+    public CTAdditionalLoot setEntityType(String entityId) {
+        EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(ResourceLocation.tryParse(entityId));
         this.data.setEntityType(entityType);
         return this;
     }
