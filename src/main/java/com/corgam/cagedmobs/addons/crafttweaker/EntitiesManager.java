@@ -20,15 +20,15 @@ public class EntitiesManager implements IRecipeManager<EntityData> {
 
     // Used for creating new entityRecipe with just one valid environment
     @ZenCodeType.Method
-    public CTEntity create(String id, EntityType<?> entityType, int growTicks, boolean requiresWater, int tier, String environment) {
-        return this.create(id,entityType,growTicks, requiresWater, tier, new String[] {environment});
+    public CTEntity create(String id, String entityId, int growTicks, boolean requiresWater, int tier, String environment) {
+        return this.create(id, entityId, growTicks, requiresWater, tier, new String[] {environment});
     }
 
     // Used for creating new entityRecipe with more valid environments
     @ZenCodeType.Method
     public CTEntity create(String id, EntityType<?> entityType, int growTicks, boolean requiresWater, int tier, String[] environments) {
         final CTEntity entity = new CTEntity(id, entityType, growTicks, requiresWater, tier, environments );
-        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, entity.getMobData(), ""));
+        CraftTweakerAPI.apply(new ActionAddRecipe(this, entity.getEntityData(), ""));
         return entity;
     }
 
@@ -41,7 +41,7 @@ public class EntitiesManager implements IRecipeManager<EntityData> {
                 return new CTEntity(recipe);
             }
         }
-        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker Entity recipe ID: " + id);
+        throw new IllegalStateException("CagedMobs: Invalid CraftTweaker Entity recipe ID: " + id);
     }
 
     @Override

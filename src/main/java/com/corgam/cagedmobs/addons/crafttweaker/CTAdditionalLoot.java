@@ -18,14 +18,14 @@ import java.util.ArrayList;
 @ZenCodeType.Name("mods.cagedmobs.AdditionalLoot")
 public class CTAdditionalLoot {
 
-    private final AdditionalLootData data;
+    private final AdditionalLootData additionalLootData;
 
     public CTAdditionalLoot(String id, EntityType<?> entityType, Boolean removeFromEntity){
         this(new AdditionalLootData(ResourceLocation.tryParse(id), entityType, new ArrayList<>(), removeFromEntity));
     }
 
     public CTAdditionalLoot(AdditionalLootData lootData){
-        this.data = lootData;
+        this.additionalLootData = lootData;
     }
 
     @ZenCodeType.Method
@@ -51,47 +51,48 @@ public class CTAdditionalLoot {
     @ZenCodeType.Method
     public CTAdditionalLoot addLoot(IItemStack item, IItemStack cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color, boolean randomDurability){
         // To prevent adding the same item twice, look if it's already there
-        for(LootData loot : this.data.getResults()){
+        for(LootData loot : this.additionalLootData.getResults()){
             if(loot.getItem().equals(item.getInternal(),false)){
                 return this;
             }
         }
         // If there is a cooked variant
         if(cookedItem == null || cookedItem.getInternal().getItem().equals(Items.AIR)){
-            this.data.getResults().add(new LootData(item.getInternal(), ItemStack.EMPTY, chance, min, max, lighting, arrow, color, randomDurability));
+            this.additionalLootData.getResults().add(new LootData(item.getInternal(), ItemStack.EMPTY, chance, min, max, lighting, arrow, color, randomDurability));
         }else{
-            this.data.getResults().add(new LootData(item.getInternal(), cookedItem.getInternal(), chance, min, max, lighting, arrow, color, randomDurability));
+            this.additionalLootData.getResults().add(new LootData(item.getInternal(), cookedItem.getInternal(), chance, min, max, lighting, arrow, color, randomDurability));
         }
         return this;
     }
 
     @ZenCodeType.Method
     public CTAdditionalLoot clearLoot(){
-        this.data.getResults().clear();
+        this.additionalLootData.getResults().clear();
         return this;
     }
 
     @ZenCodeType.Method
     public CTAdditionalLoot removeLoot(IIngredient remove){
         final Ingredient ing = remove.asVanillaIngredient();
-        this.data.getResults().removeIf(drop -> ing.test(drop.getItem()));
+        this.additionalLootData.getResults().removeIf(drop -> ing.test(drop.getItem()));
         return this;
     }
 
     @ZenCodeType.Method
-    public CTAdditionalLoot setEntityType(EntityType<?> entityType) {
-        this.data.setEntityType(entityType);
+    public CTAdditionalLoot setEntityType(String entityId) {
+        EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(ResourceLocation.tryParse(entityId));
+        this.additionalLootData.setEntityType(entityType);
         return this;
     }
 
     @ZenCodeType.Method
     public CTAdditionalLoot setRemoveFromEntity(boolean removeFromEntity) {
-        this.data.setRemoveFromEntity(removeFromEntity);
+        this.additionalLootData.setRemoveFromEntity(removeFromEntity);
         return this;
     }
 
     public AdditionalLootData getAdditionalLootData () {
-        return this.data;
+        return this.additionalLootData;
     }
 
 
