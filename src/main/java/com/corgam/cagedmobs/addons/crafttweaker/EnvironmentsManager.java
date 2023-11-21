@@ -40,7 +40,7 @@ public class EnvironmentsManager implements IRecipeManager {
                 return new CTEnvironment(recipe);
             }
         }
-        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker Environment recipe ID: " + id);
+        throw new IllegalStateException("CagedMobs: Invalid CraftTweaker Environment recipe ID: " + id);
     }
 
     @Override
