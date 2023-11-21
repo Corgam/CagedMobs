@@ -17,7 +17,7 @@ issueTrackerURL="https://github.com/Corgam/CagedMobs/issues" #optional
 # The modid of the mod
 modId="cagedmobs" #mandatory
 # The version number of the mod
-version="1.19.2-2.0.1" #mandatory
+version="1.19.2-2.0.3" #mandatory
 # A display name for the mod
 displayName="Caged Mobs" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/
@@ -39,7 +39,7 @@ authors="Corgam" #optional
 #displayTest="MATCH_VERSION" # MATCH_VERSION is the default if nothing is specified (#optional)
 
 # The description text for the mod (multi line!) (#mandatory)
-description='''${mod_description}'''
+description="Tired of chasing mobs? Make it a breeze with the new Mob Cages! Imprison all those pesky mobs and easily collect their drops! Sounds like fun, right?"
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.cagedmobs]] #optional
     # the modid of the dependency
