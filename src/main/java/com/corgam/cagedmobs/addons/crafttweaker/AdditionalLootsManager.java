@@ -9,6 +9,7 @@ import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
