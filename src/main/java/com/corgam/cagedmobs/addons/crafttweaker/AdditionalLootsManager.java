@@ -10,17 +10,17 @@ import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
 @ZenCodeType.Name("mods.cagedmobs.AdditionalLootsManager")
 public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData> {
 
-    public AdditionalLootsManager() {}
-
     // Used for creating new additionalLootRecipe
     @ZenCodeType.Method
-    public CTAdditionalLoot create(String id, EntityType<?> entityType, Boolean removeFromEntity) {
+    public CTAdditionalLoot create(String id, String entityId, Boolean removeFromEntity) {
+        EntityType<?> entityType = ForgeRegistries.ENTITY_TYPES.getValue(ResourceLocation.tryParse(entityId));
         final CTAdditionalLoot additionalLoot = new CTAdditionalLoot(id, entityType, removeFromEntity);
         CraftTweakerAPI.apply(new ActionAddRecipe<>(this, additionalLoot.getAdditionalLootData(), ""));
         return additionalLoot;
@@ -35,7 +35,7 @@ public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData
                 return new CTAdditionalLoot(recipe);
             }
         }
-        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker Additional Loot Data recipe ID: " + id);
+        throw new IllegalStateException("CagedMobs: Invalid CraftTweaker Additional Loot Data recipe ID: " + id);
     }
 
     @Override
