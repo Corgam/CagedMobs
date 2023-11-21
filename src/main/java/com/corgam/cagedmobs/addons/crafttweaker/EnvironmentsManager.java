@@ -17,8 +17,6 @@ import org.openzen.zencode.java.ZenCodeType;
 @ZenCodeType.Name("mods.cagedmobs.EnvironmentsManager")
 public class EnvironmentsManager implements IRecipeManager<EnvironmentData> {
 
-    public EnvironmentsManager() {}
-
     @ZenCodeType.Method
     public CTEnvironment create (String id, IIngredient item, BlockState renderState, float growModifier, String category) {
         return this.create(id,item,renderState,growModifier, new String[]{category});
