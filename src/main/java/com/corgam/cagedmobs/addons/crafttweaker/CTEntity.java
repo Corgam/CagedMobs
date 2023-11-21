@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.openzen.zencode.java.ZenCodeType;
 
 import java.util.ArrayList;
@@ -20,31 +21,31 @@ import java.util.HashSet;
 @ZenCodeType.Name("mods.cagedmobs.Entity")
 public class CTEntity {
 
-    private final EntityData data;
+    private final EntityData entityData;
 
     public CTEntity(String id, EntityType<?> entityType, int growTicks, boolean requiresWater, int tier, String[] environments){
         this(new EntityData(ResourceLocation.tryParse(id),entityType,new HashSet<>(Arrays.asList(environments)),growTicks, requiresWater, new ArrayList<>(),tier));
     }
 
     public CTEntity(EntityData entityData){
-        this.data = entityData;
+        this.entityData = entityData;
     }
 
     @ZenCodeType.Method
     public CTEntity addEnvironment(String env){
-        this.data.getValidEnvs().add(env);
+        this.entityData.getValidEnvs().add(env);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity removeEnvironment(String env){
-        this.data.getValidEnvs().remove(env);
+        this.entityData.getValidEnvs().remove(env);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity clearEnvironments(){
-        this.data.getValidEnvs().clear();
+        this.entityData.getValidEnvs().clear();
         return this;
     }
 
@@ -71,59 +72,60 @@ public class CTEntity {
     @ZenCodeType.Method
     public CTEntity addLoot(IItemStack item, IItemStack cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color, boolean randomDurability){
         // To prevent adding the same item twice, look if it's already there
-        for(LootData loot : this.data.getResults()){
+        for(LootData loot : this.entityData.getResults()){
             if(loot.getItem().equals(item.getInternal(),false)){
                 return this;
             }
         }
         // If there is a cooked variant
         if(cookedItem == null || cookedItem.getInternal().getItem().equals(Items.AIR)){
-            this.data.getResults().add(new LootData(item.getInternal(), ItemStack.EMPTY, chance, min, max, lighting, arrow, color, randomDurability));
+            this.entityData.getResults().add(new LootData(item.getInternal(), ItemStack.EMPTY, chance, min, max, lighting, arrow, color, randomDurability));
         }else{
-            this.data.getResults().add(new LootData(item.getInternal(), cookedItem.getInternal(), chance, min, max, lighting, arrow, color, randomDurability));
+            this.entityData.getResults().add(new LootData(item.getInternal(), cookedItem.getInternal(), chance, min, max, lighting, arrow, color, randomDurability));
         }
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity clearLoot(){
-        this.data.getResults().clear();
+        this.entityData.getResults().clear();
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity removeLoot(IIngredient remove){
         final Ingredient ing = remove.asVanillaIngredient();
-        this.data.getResults().removeIf(drop -> ing.test(drop.getItem()));
+        this.entityData.getResults().removeIf(drop -> ing.test(drop.getItem()));
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity setGrowthTicks(int ticks) {
-        this.data.setTotalGrowTicks(ticks);
+        this.entityData.setTotalGrowTicks(ticks);
         return this;
     }
 
     @ZenCodeType.Method
-    public CTEntity setEntityType(EntityType<?> entityType) {
-        this.data.setEntityType(entityType);
+    public CTEntity setEntityType(String entityId) {
+        EntityType<?> entityType = ForgeRegistries.ENTITY_TYPES.getValue(ResourceLocation.tryParse(entityId));
+        this.entityData.setEntityType(entityType);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity setTier(int tier) {
-        this.data.setSamplerTier(tier);
+        this.entityData.setSamplerTier(tier);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity setIfRequiresWater(boolean requiresWater) {
-        this.data.setIfRequiresWater(requiresWater);
+        this.entityData.setIfRequiresWater(requiresWater);
         return this;
     }
 
-    public EntityData getMobData () {
-        return this.data;
+    public EntityData getEntityData() {
+        return this.entityData;
     }
 
 
