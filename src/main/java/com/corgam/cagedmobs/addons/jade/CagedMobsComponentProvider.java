@@ -11,7 +11,7 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
-import snownee.jade.api.ui.IBoxStyle;
+import snownee.jade.api.ui.BoxStyle;
 import snownee.jade.api.ui.IElement;
 import snownee.jade.api.ui.IElementHelper;
 
@@ -31,7 +31,7 @@ public class CagedMobsComponentProvider implements IBlockComponentProvider {
             tooltip.add(helper.progress(tile.getGrowthPercentage(),
                     Component.literal(String.format("%3.0f%%", tile.getGrowthPercentage() * 100)),
                     helper.progressStyle().color(0xff44AA44, 0xff44AA44),
-                    IBoxStyle.Empty.INSTANCE,
+                    BoxStyle.GradientBorder.TRANSPARENT,
                     true
             ));
         }

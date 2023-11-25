@@ -3,10 +3,9 @@ package com.corgam.cagedmobs.addons.jade;
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.Accessor;
 import snownee.jade.api.view.IServerExtensionProvider;
 import snownee.jade.api.view.ViewGroup;
 
@@ -17,7 +16,7 @@ public class HideContainerItemsProvider implements IServerExtensionProvider<MobC
     public static final ResourceLocation UID = new ResourceLocation(CagedMobs.MOD_ID,"hide_container_items");
 
     @Override
-    public @Nullable List<ViewGroup<ItemStack>> getGroups(ServerPlayer serverPlayer, ServerLevel serverLevel, MobCageBlockEntity mobCageBlockEntity, boolean b) {
+    public @Nullable List<ViewGroup<ItemStack>> getGroups(Accessor<?> accessor, MobCageBlockEntity mobCageBlockEntity) {
         return List.of();
     }
 
@@ -25,4 +24,6 @@ public class HideContainerItemsProvider implements IServerExtensionProvider<MobC
     public ResourceLocation getUid() {
         return UID;
     }
+
+
 }

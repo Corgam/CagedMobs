@@ -10,14 +10,13 @@ import com.corgam.cagedmobs.items.upgrades.UpgradeItem;
 import com.corgam.cagedmobs.registers.CagedBlockEntities;
 import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
-import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.ProbeMode;
+//import mcjty.theoneprobe.api.IProbeHitData;
+//import mcjty.theoneprobe.api.IProbeInfo;
+//import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -53,7 +52,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -249,7 +247,8 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                     return menu;
                 }
             };
-            NetworkHooks.openScreen((ServerPlayer) player, containerProvider, cageBE.getBlockPos());
+            // Open the GUI
+            player.openMenu(containerProvider);
             return InteractionResult.SUCCESS;
         } else {
         throw new IllegalStateException("Mob Cage container provider is missing!");
@@ -320,37 +319,37 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
 
     // Mods Support
 
-    /**
-     * Used for TheOneProbe mod support.
-     */
-    @Override
-    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData data) {
-        if((world.getBlockEntity(data.getPos()) instanceof MobCageBlockEntity tile)) {
-            if (tile.hasEnvironment() && tile.hasEntity()) {
-                probeInfo.progress((int) (tile.getGrowthPercentage() * 100), 100, probeInfo.defaultProgressStyle().suffix("%").filledColor(0xff44AA44).alternateFilledColor(0xff44AA44).backgroundColor(0xff836953));
-            }
-            if (tile.hasEnvironment()) {
-                probeInfo.horizontal().text(Component.translatable("JADE.tooltip.cagedmobs.cage.environment"));
-                ItemStack envItem = tile.getInventoryHandler().getStackInSlot(ENVIRONMENT_SLOT);
-                if(!envItem.isEmpty()){
-                    probeInfo.horizontal().item(envItem).itemLabel(envItem);
-                }
-            }
-            if(tile.hasEntity()){
-                probeInfo.horizontal().text(Component.translatable("JADE.tooltip.cagedmobs.cage.entity").withStyle(ChatFormatting.GRAY).getString() +
-                        Component.translatable(tile.getEntityType().getDescriptionId()).withStyle(ChatFormatting.GRAY).getString());
-            }
-            // Upgrades
-            if(tile.hasAnyUpgrades()){
-                // Add Upgrade text
-                probeInfo.horizontal().text(Component.translatable("TOP.tooltip.cagedmobs.cage.upgrades"));
-                IProbeInfo hor = probeInfo.horizontal();
-                for(ItemStack upgrade : tile.getUpgradesAsItemStacks()){
-                    if(!upgrade.isEmpty()){
-                        hor.item(upgrade);
-                    }
-                }
-            }
-        }
-    }
+//    /**
+//     * Used for TheOneProbe mod support.
+//     */
+//    @Override
+//    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData data) {
+//        if((world.getBlockEntity(data.getPos()) instanceof MobCageBlockEntity tile)) {
+//            if (tile.hasEnvironment() && tile.hasEntity()) {
+//                probeInfo.progress((int) (tile.getGrowthPercentage() * 100), 100, probeInfo.defaultProgressStyle().suffix("%").filledColor(0xff44AA44).alternateFilledColor(0xff44AA44).backgroundColor(0xff836953));
+//            }
+//            if (tile.hasEnvironment()) {
+//                probeInfo.horizontal().text(Component.translatable("JADE.tooltip.cagedmobs.cage.environment"));
+//                ItemStack envItem = tile.getInventoryHandler().getStackInSlot(ENVIRONMENT_SLOT);
+//                if(!envItem.isEmpty()){
+//                    probeInfo.horizontal().item(envItem).itemLabel(envItem);
+//                }
+//            }
+//            if(tile.hasEntity()){
+//                probeInfo.horizontal().text(Component.translatable("JADE.tooltip.cagedmobs.cage.entity").withStyle(ChatFormatting.GRAY).getString() +
+//                        Component.translatable(tile.getEntityType().getDescriptionId()).withStyle(ChatFormatting.GRAY).getString());
+//            }
+//            // Upgrades
+//            if(tile.hasAnyUpgrades()){
+//                // Add Upgrade text
+//                probeInfo.horizontal().text(Component.translatable("TOP.tooltip.cagedmobs.cage.upgrades"));
+//                IProbeInfo hor = probeInfo.horizontal();
+//                for(ItemStack upgrade : tile.getUpgradesAsItemStacks()){
+//                    if(!upgrade.isEmpty()){
+//                        hor.item(upgrade);
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
