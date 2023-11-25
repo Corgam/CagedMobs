@@ -110,8 +110,8 @@ dependencies {
 //        transitive = false
 //    })
     //Jade
-    compileOnly fg.deobf("curse.maven:jade-324717:4761986")
-    runtimeOnly fg.deobf("curse.maven:jade-324717:4761986")
+    compileOnly fg.deobf("curse.maven:jade-324717:${jade_version}")
+    runtimeOnly fg.deobf("curse.maven:jade-324717:${jade_version}")
     // Craft Tweaker
 //    compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${craft_tweaker_version}")
 //    runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${craft_tweaker_version}")
