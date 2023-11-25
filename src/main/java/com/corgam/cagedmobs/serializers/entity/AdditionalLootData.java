@@ -13,18 +13,18 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 
 public class AdditionalLootData implements Recipe<Inventory> {
 
-    private final ResourceLocation entityID;
+    private final ResourceLocation id;
+    private EntityType<?> entityType;
     private final List<LootData> results;
     private boolean removeFromEntity;
 
-    public AdditionalLootData(ResourceLocation id, List<LootData> results, boolean removeFromEntity){
-        this.entityID = id;
+    public AdditionalLootData(ResourceLocation id, EntityType<?> entityType, List<LootData> results, boolean removeFromEntity){
+        this.id = id;
+        this.entityType = entityType;
         this.results = results;
         this.removeFromEntity = removeFromEntity;
         // Add the id to the list of loaded recipes
@@ -53,8 +53,9 @@ public class AdditionalLootData implements Recipe<Inventory> {
         return ItemStack.EMPTY;
     }
 
-    public ResourceLocation getEntityID() {
-        return this.entityID;
+    @Override
+    public ResourceLocation getId() {
+        return this.id;
     }
 
     @Override
@@ -71,9 +72,12 @@ public class AdditionalLootData implements Recipe<Inventory> {
         return this.results;
     }
 
-    public @Nullable EntityType<?> getEntityType(){
-        Optional<EntityType<?>> entityType = EntityType.byString(this.entityID.toString());
-        return entityType.orElse(null);
+    public EntityType<?> getEntityType(){
+        return this.entityType;
+    }
+
+    public void setEntityType(EntityType<?> entityType){
+        this.entityType = entityType;
     }
 
     public boolean isRemoveFromEntity(){

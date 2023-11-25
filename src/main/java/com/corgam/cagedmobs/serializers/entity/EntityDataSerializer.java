@@ -4,74 +4,77 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 public class EntityDataSerializer implements RecipeSerializer<EntityData> {
 
-    public static final Codec<EntityData> CODEC =  RecordCodecBuilder.create((entityDataInstance) -> entityDataInstance
-            .group(
-                    // EntityID
-                    ResourceLocation.CODEC.fieldOf("entity").forGetter(EntityData::getEntityID),
-                    // Environments
-                    Codec.list(Codec.STRING).fieldOf("environments").orElse(new ArrayList<>()).forGetter(EntityData::getEnvironments),
-                    // Grow ticks
-                    Codec.INT.flatXmap(growTicks -> growTicks > 0 ? DataResult.success(growTicks) : DataResult.error(() -> "EntityData recipe has an invalid growth tick. It must use a positive integer ( growTicks > 0)."), DataResult::success)
-                            .fieldOf("growTicks")
-                            .forGetter(EntityData::getTotalGrowTicks),
-                    // Requires water
-                    Codec.BOOL.fieldOf("requiresWater").orElse(false).forGetter(EntityData::ifRequiresWater),
-                    // Loot data
-                    Codec.list(LootData.CODEC).fieldOf("results").orElse(new ArrayList<>()).forGetter(EntityData::getResults),
-                    // Tier
-                    Codec.INT.flatXmap(tier -> (tier >= 1 && tier <= 3) ? DataResult.success(tier) : DataResult.error(() -> "EntityData recipe has an invalid sampler tier. It must use tiers: 1,2 or 3."), DataResult::success)
-                            .fieldOf("samplerTier")
-                            .forGetter(EntityData::getSamplerTier)
-            ).apply(entityDataInstance, EntityData::new));
+    public EntityDataSerializer(){
+    }
 
+    // Used to serialize all MobData recipes from JSON files
     @Override
-    public Codec<EntityData> codec() {
-        return EntityDataSerializer.CODEC;
+    public EntityData fromJson(ResourceLocation id, JsonObject json) {
+        // Entity
+        final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
+        // Envs
+        final Set<String> validEnvs = deserializeEnvsData(id, json);
+        // Total grow ticks
+        final int growTicks = GsonHelper.getAsInt(json, "growTicks");
+        // If it requires water
+        boolean requiresWater = false;
+        if(json.has("requiresWater")) {
+            requiresWater = GsonHelper.getAsBoolean(json, "requiresWater");
+        }
+        // Loot Data
+        final List<LootData> results = deserializeLootData(id, json, entityType);
+        // Sampler tier
+        final int samplerTier = GsonHelper.getAsInt(json, "samplerTier");
+
+        //Error checks
+        if (growTicks <= 0){
+            throw new IllegalArgumentException("MobDataRecipe with id: " + id.toString() + " has an invalid growth tick rate. It must use a positive integer.");
+        }
+        if(samplerTier < 1 || samplerTier > 3){
+            throw new IllegalArgumentException("MobDataRecipe with id: " + id.toString() + " has an invalid sampler tier. It must use tiers: 1,2 or 3.");
+        }
+
+        return new EntityData(id, entityType, validEnvs, growTicks, requiresWater, results, samplerTier);
     }
 
     @Override
-    public @Nullable EntityData fromNetwork(FriendlyByteBuf pBuffer) {
+    public EntityData fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
         try {
             // Entity
-            final ResourceLocation entityID = pBuffer.readResourceLocation();
+            final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, buffer);
             // Envs
-            final List<String> validEnvs = new ArrayList<>();
-            SerializationHelper.deserializeStringCollection(pBuffer, validEnvs);
+            final Set<String> validEnvs = new HashSet<>();
+            SerializationHelper.deserializeStringCollection(buffer, validEnvs);
             // Total grow ticks
-            final int growTicks = pBuffer.readInt();
-            // If the cage requires water
-            final boolean requiresWater = pBuffer.readBoolean();
+            final int growTicks = buffer.readInt();
+            // If requires water
+            final boolean requiresWater = buffer.readBoolean();
             // Loot data
             final List<LootData> results = new ArrayList<>();
-            final int length = pBuffer.readInt();
+            final int length = buffer.readInt();
             for (int i = 0; i < length; i++) {
-                results.add(LootData.deserializeBuffer(pBuffer));
+                results.add(LootData.deserializeBuffer(buffer));
             }
             // Sampler tier
-            final int tier = pBuffer.readInt();
-            // Return object
-            return new EntityData(entityID, validEnvs, growTicks, requiresWater, results, tier);
+            final int tier = buffer.readInt();
+
+            return new EntityData(id, entityType, validEnvs, growTicks, requiresWater, results, tier);
+
         }catch(final Exception e){
             CagedMobs.LOGGER.catching(e);
-            throw new IllegalStateException("Failed to read entityData from network buffer.", e);
+            throw new IllegalStateException("Failed to read mobData with id: "+ id.toString() + " from packet buffer.", e);
         }
     }
 
@@ -79,12 +82,12 @@ public class EntityDataSerializer implements RecipeSerializer<EntityData> {
     public void toNetwork(FriendlyByteBuf buffer, EntityData recipe) {
         try {
             // Entity
-            buffer.writeResourceLocation(recipe.getEntityID());
+            SerializationHelper.serializeEntityType(buffer, recipe.getEntityType());
             // Envs
-            SerializationHelper.serializeStringCollection(buffer, recipe.getEnvironments());
+            SerializationHelper.serializeStringCollection(buffer, recipe.getValidEnvs());
             // Total  Grow Ticks
             buffer.writeInt(recipe.getTotalGrowTicks());
-            // If the cage requires water
+            // If requires water
             buffer.writeBoolean(recipe.ifRequiresWater());
             // Loot data
             buffer.writeInt(recipe.getResults().size());
@@ -96,7 +99,7 @@ public class EntityDataSerializer implements RecipeSerializer<EntityData> {
 
         }catch (final Exception e) {
             CagedMobs.LOGGER.catching(e);
-            throw new IllegalStateException("Failed to write entityData to the network buffer.",e);
+            throw new IllegalStateException("Failed to write mobData with id: "+ recipe.getId() + " to the packet buffer.",e);
         }
     }
 

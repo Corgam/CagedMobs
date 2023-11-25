@@ -56,7 +56,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
     public EntityDataWrapper(EntityData entityData){
         this.entityData = entityData;
         // Read valid envs based on entity
-        for(EnvironmentData env : RecipesHelper.getEnvironmentRecipesList(RecipesHelper.getRecipeManager())){
+        for(EnvironmentData env : RecipesHelper.getEnvsRecipesList(RecipesHelper.getRecipeManager())){
             if(RecipesHelper.isEnvValidForEntity(entityData,env)){
                 this.envs.addAll(Arrays.asList(env.getInputItem().getItems()));
             }
@@ -108,7 +108,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension {
 
         }
         // Add additional Loot
-        for(final Recipe<?> recipe : RecipesHelper.getAdditionalLootRecipesList(RecipesHelper.getRecipeManager())) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
             if(recipe instanceof AdditionalLootData additionalLootData) {
                 // Check for null exceptions
                 if(additionalLootData.getEntityType() != null && this.entityData.getEntityType() != null){

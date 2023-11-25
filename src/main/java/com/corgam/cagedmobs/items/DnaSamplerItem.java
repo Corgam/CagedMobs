@@ -77,10 +77,12 @@ public class DnaSamplerItem extends Item {
     private static boolean samplerTierSufficient(ItemStack stack, Entity target) {
         EntityType<?> type = target.getType();
         boolean sufficient = false;
-        for(final EntityData recipe : RecipesHelper.getEntitiesRecipesList(RecipesHelper.getRecipeManager())) {
-            if(recipe != null) {
-                if(recipe.getEntityType() == null){continue;}
-                if(recipe.getEntityType().equals(type) && recipe.getSamplerTier() <= getSamplerTierInt(stack.getItem())) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof EntityData) {
+                final EntityData entityData = (EntityData) recipe;
+                // Check for null exception
+                if(entityData.getEntityType() == null){continue;}
+                if(entityData.getEntityType().equals(type) && entityData.getSamplerTier() <= getSamplerTierInt(stack.getItem())) {
                     sufficient = true;
                     break;
                 }
@@ -103,8 +105,9 @@ public class DnaSamplerItem extends Item {
     // Check if entity can be cached based on the list of cachable entities
     private static boolean canBeCached(Entity clickedEntity) {
         boolean contains = false;
-        for(final Recipe<?> recipe : RecipesHelper.getEntitiesRecipesList(RecipesHelper.getRecipeManager())) {
-            if(recipe instanceof EntityData entityData) {
+        for(final Recipe<?> recipe : RecipesHelper.getRecipes(CagedRecipeTypes.ENTITY_RECIPE.get(), RecipesHelper.getRecipeManager()).values()) {
+            if(recipe instanceof EntityData) {
+                final EntityData entityData = (EntityData) recipe;
                 // Check for null exception
                 if(entityData.getEntityType() == null){continue;}
                 if(entityData.getEntityType().equals(clickedEntity.getType())) {

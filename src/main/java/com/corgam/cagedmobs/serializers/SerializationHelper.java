@@ -11,21 +11,20 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public class SerializationHelper {
 
     //String collection
-    public static void serializeStringCollection(FriendlyByteBuf buffer, List<String> categories) {
+    public static void serializeStringCollection(FriendlyByteBuf buffer, Set<String> categories) {
         buffer.writeInt(categories.size());
         for(String s : categories){
             buffer.writeUtf(s);
         }
     }
 
-    public static void deserializeStringCollection(FriendlyByteBuf buffer, List<String> categories) {
+    public static void deserializeStringCollection(FriendlyByteBuf buffer, Set<String> categories) {
         final int len = buffer.readInt();
         for(int i=0 ; i < len ; i++){
             categories.add(buffer.readUtf());
@@ -63,7 +62,7 @@ public class SerializationHelper {
 
     // EntityType
 
-    public static EntityType<?> deserializeEntityType(FriendlyByteBuf buffer) {
+    public static EntityType<?> deserializeEntityType(ResourceLocation id, FriendlyByteBuf buffer) {
         final String entityTypeString = buffer.readUtf();
         ResourceLocation res = new ResourceLocation(entityTypeString);
         if(EntityType.byString(res.toString()).isPresent()) {
