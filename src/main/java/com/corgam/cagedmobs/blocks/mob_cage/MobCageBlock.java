@@ -93,7 +93,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
             // Try to add environment
             if(!cageBE.hasEnvironment()){
                 // Check if there exists a recipe for given item
-                if(cageBE.existsEnvironmentFromItemStack(heldItem)){
+                if(MobCageBlockEntity.existsEnvironmentFromItemStack(heldItem)){
                     // Set environment
                     cageBE.setEnvironment(heldItem);
                     if(!player.isCreative()){
