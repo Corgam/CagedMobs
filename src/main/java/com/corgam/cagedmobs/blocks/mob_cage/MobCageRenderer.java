@@ -32,7 +32,7 @@ public class MobCageRenderer implements BlockEntityRenderer<MobCageBlockEntity> 
             matrix.translate(0.17, 5, 0.17);
 
             final BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
-            dispatcher.renderSingleBlock(tile.getEnvironmentData().getRenderState(), matrix, buffer, combinedLightIn, combinedOverlayIn);
+            dispatcher.renderSingleBlock(tile.getEnvironmentData().getRenderBlock().defaultBlockState(), matrix, buffer, combinedLightIn, combinedOverlayIn);
             matrix.popPose();
         }
         if(tile.hasEntity() && CagedMobs.CLIENT_CONFIG.shouldEntitiesRender()){

@@ -2,61 +2,49 @@ package com.corgam.cagedmobs.serializers.environment;
 
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EnvironmentDataSerializer implements RecipeSerializer<EnvironmentData>{
 
-    public EnvironmentDataSerializer(){
-    }
+    private final Codec<EnvironmentData> CODEC = RecordCodecBuilder.create((codecInstance) -> codecInstance.group(
+            Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(EnvironmentData::getInputItem),
+            ForgeRegistries.BLOCKS.getCodec().fieldOf("render").forGetter(EnvironmentData::getRenderBlock),
+            Codec.FLOAT.fieldOf("growModifier").forGetter(EnvironmentData::getGrowModifier),
+            Codec.list(Codec.STRING).fieldOf("categories").forGetter(EnvironmentData::getCategories))
+            .apply(codecInstance, EnvironmentData::new));
 
-    // Used to serialize all EnvData recipes from JSON files
     @Override
-    public EnvironmentData fromJson(ResourceLocation recipeId, JsonObject json) {
-        // Input item
-        final Ingredient inputItem = Ingredient.fromJson(json.getAsJsonObject("input"));
-        // Block to render
-        final BlockState renderState = SerializationHelper.deserializeBlockState(json.getAsJsonPrimitive("render"));
-        // Grow modifier
-        final float growModifier = GsonHelper.getAsFloat(json, "growModifier");
-        // Categories
-        final Set<String> categories = new HashSet<>();
-        for(final JsonElement e : json.getAsJsonArray("categories")){
-            categories.add(e.getAsString().toLowerCase());
-        }
-        // Error checks
-        if (growModifier <= -1) {
-            throw new IllegalArgumentException("Environment " + recipeId.toString() + " has an invalid grow modifier. It must be greater than -1.");
-        }
-        return new EnvironmentData(recipeId, inputItem, renderState, growModifier, categories);
+    public Codec<EnvironmentData> codec() {
+        return this.CODEC;
     }
 
     @Override
-    public EnvironmentData fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public EnvironmentData fromNetwork(FriendlyByteBuf buffer) {
         try {
             // Input item
             final Ingredient inputItem = Ingredient.fromNetwork(buffer);
             // Block to render
-            final BlockState renderState = SerializationHelper.deserializeBlockState(buffer);
+            final Block renderBlock = SerializationHelper.deserializeBlock(buffer);
             // Grow modifier
             final float growModifier = buffer.readFloat();
             // Categories
-            final Set<String> categories = new HashSet<>();
+            final List<String> categories = new ArrayList<>();
             SerializationHelper.deserializeStringCollection(buffer, categories);
 
-            return new EnvironmentData(recipeId, inputItem, renderState, growModifier, categories);
+            return new EnvironmentData(inputItem, renderBlock, growModifier, categories);
         }catch(final Exception e){
             CagedMobs.LOGGER.catching(e);
-            throw new IllegalStateException("Failed to read environmentData with id: " + recipeId.toString() + " from packet buffer.");
+            throw new IllegalStateException("Failed to read environmentData recipe from packet buffer.");
         }
     }
 
@@ -66,14 +54,14 @@ public class EnvironmentDataSerializer implements RecipeSerializer<EnvironmentDa
             // Input item
             recipe.getInputItem().toNetwork(buffer);
             // Block to render
-            SerializationHelper.serializeBlockState(buffer, recipe.getRenderState());
+            SerializationHelper.serializeBlock(buffer, recipe.getRenderBlock());
             // Grow modifier
             buffer.writeFloat(recipe.getGrowModifier());
             // Categories
-            SerializationHelper.serializeStringCollection(buffer, recipe.getEnvironments());
+            SerializationHelper.serializeStringCollection(buffer, recipe.getCategories());
         }catch (final Exception e) {
             CagedMobs.LOGGER.catching(e);
-            throw new IllegalStateException("Failed to write environmentData with id " + recipe.getId().toString() + " to the packet buffer.");
+            throw new IllegalStateException("Failed to write environmentData recipe to the packet buffer.");
         }
     }
 }

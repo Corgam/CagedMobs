@@ -14,5 +14,5 @@ public class CagedContainers {
 
     // Mob Cages
     public static final RegistryObject<MenuType<MobCageContainer>> CAGE_CONTAINER = CAGED_MENU_TYPES.register("mob_cage",
-            ()-> IForgeMenuType.create(((windowId, inv, data) -> new MobCageContainer(windowId, inv.player, data.readBlockPos()))));
+            ()-> IForgeMenuType.create(((windowId, inv, extraData) -> new MobCageContainer(windowId, inv.player, extraData.readBlockPos()))));
 }

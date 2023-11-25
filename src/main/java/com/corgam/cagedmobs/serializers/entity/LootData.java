@@ -1,14 +1,27 @@
 package com.corgam.cagedmobs.serializers.entity;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 
 public class LootData {
+
+    public static final Codec<LootData> CODEC = RecordCodecBuilder.create((builder) -> builder.group(
+            ItemStack.CODEC.fieldOf("item").forGetter(LootData::getItem),
+            ItemStack.CODEC.fieldOf("cookedItem").forGetter(LootData::getCookedItem),
+            Codec.FLOAT.fieldOf("chance").forGetter(LootData::getChance),
+            Codec.INT.fieldOf("minAmount").forGetter(LootData::getMinAmount),
+            Codec.INT.fieldOf("maxAmount").forGetter(LootData::getMaxAmount),
+            Codec.BOOL.fieldOf("lighting").orElse(false).forGetter(LootData::isLighting),
+            Codec.BOOL.fieldOf("needsArrow").orElse(false).forGetter(LootData::isArrow),
+            Codec.INT.fieldOf("color").orElse(-1).forGetter(LootData::getColor),
+            Codec.BOOL.fieldOf("randomDurability").orElse(false).forGetter(LootData::ifRandomDurability)
+    ).apply(builder, LootData::new));
 
     private final float chance;
     private ItemStack item;
@@ -41,13 +54,13 @@ public class LootData {
 
     public static LootData deserialize(JsonObject json) {
         final float chance = GsonHelper.getAsFloat(json, "chance");
-        final Item item = ShapedRecipe.itemFromJson(json.getAsJsonObject("output"));
+        final Item item = GsonHelper.getAsItem(json, "output").get();
         final int min = GsonHelper.getAsInt(json, "minAmount");
         final int max = GsonHelper.getAsInt(json, "maxAmount");
         // Cooked item
         Item cookedItem = Items.AIR;
         if(json.has("output_cooked")){
-            cookedItem = ShapedRecipe.itemFromJson(json.getAsJsonObject("output_cooked"));
+            cookedItem = GsonHelper.getAsItem(json, "output_cooked").get();
         }
         // Requires lightning upgrade
         boolean isLighting = false;

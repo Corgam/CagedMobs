@@ -14,22 +14,23 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AdditionalLootData implements Recipe<Inventory> {
 
-    private final ResourceLocation id;
+    private final String entityId;
     private EntityType<?> entityType;
     private final List<LootData> results;
     private boolean removeFromEntity;
 
-    public AdditionalLootData(ResourceLocation id, EntityType<?> entityType, List<LootData> results, boolean removeFromEntity){
-        this.id = id;
-        this.entityType = entityType;
+    public AdditionalLootData(String entityId, List<LootData> results, boolean removeFromEntity){
+        this.entityId = entityId;
+        this.entityType = this.getEntityType();
         this.results = results;
         this.removeFromEntity = removeFromEntity;
         // Add the id to the list of loaded recipes
-        if(id != null && CagedMobs.LOGGER != null){
-            CagedMobs.LOGGER.info("Loaded AdditionalLootData recipe with id: " + id.toString());
+        if(!entityId.isEmpty() && CagedMobs.LOGGER != null){
+            CagedMobs.LOGGER.info("Loaded AdditionalLootData recipe for entity: " + entityId);
         }
     }
 
@@ -53,9 +54,8 @@ public class AdditionalLootData implements Recipe<Inventory> {
         return ItemStack.EMPTY;
     }
 
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
+    public String getEntityId() {
+        return this.entityId;
     }
 
     @Override
@@ -63,21 +63,29 @@ public class AdditionalLootData implements Recipe<Inventory> {
         return CagedRecipeSerializers.ADDITIONAL_LOOT_RECIPE_SERIALIZER.get();
     }
 
-    @Override
-    public RecipeType<?> getType() {
-        return CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get();
-    }
-
-    public List<LootData> getResults () {
-        return this.results;
-    }
-
     public EntityType<?> getEntityType(){
+        // Try to find again entity type if it's null
+        if(this.entityType == null){
+            Optional<EntityType<?>> entityType = EntityType.byString(this.entityId);
+            if(entityType.isPresent()) {
+                this.entityType = entityType.get();
+                return entityType.get();
+            }
+        }
         return this.entityType;
     }
 
     public void setEntityType(EntityType<?> entityType){
         this.entityType = entityType;
+    }
+
+    @Override
+    public RecipeType<?> getType() {
+        return CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get();
+    }
+
+    public List<LootData> getResults() {
+        return this.results;
     }
 
     public boolean isRemoveFromEntity(){

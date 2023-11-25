@@ -3,6 +3,8 @@ package com.corgam.cagedmobs.serializers.entity;
 import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -16,29 +18,25 @@ import static com.corgam.cagedmobs.serializers.entity.EntityDataSerializer.deser
 
 public class AdditionalLootDataSerializer implements RecipeSerializer<AdditionalLootData> {
 
-    public AdditionalLootDataSerializer(){
+    public static final Codec<AdditionalLootData> CODEC =  RecordCodecBuilder.create((entityDataInstance) -> entityDataInstance.group(
+            // EntityID
+            Codec.STRING.fieldOf("entity").orElse("minecraft:pig").forGetter(AdditionalLootData::getEntityId),
+            // Loot
+            Codec.list(LootData.CODEC).fieldOf("results").orElse(new ArrayList<>()).forGetter(AdditionalLootData::getResults),
+            // Remove from entity
+            Codec.BOOL.fieldOf("removeFromEntity").orElse(false).forGetter(AdditionalLootData::isRemoveFromEntity)
+    ).apply(entityDataInstance, AdditionalLootData::new));
+
+    @Override
+    public Codec<AdditionalLootData> codec() {
+        return CODEC;
     }
 
     @Override
-    public AdditionalLootData fromJson(ResourceLocation id, JsonObject json) {
-        // Entity
-        final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, json);
-        // Loot Data
-        final List<LootData> results = deserializeLootData(id, json, entityType);
-        // Remove from entity
-        boolean removeFromEntity = false;
-        if(json.has("removeFromEntity")) {
-            removeFromEntity = GsonHelper.getAsBoolean(json, "removeFromEntity");
-        }
-        // Return results
-        return new AdditionalLootData(id, entityType, results, removeFromEntity);
-    }
-
-    @Override
-    public AdditionalLootData fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+    public AdditionalLootData fromNetwork(FriendlyByteBuf buffer) {
         try {
-            // Entity
-            final EntityType<?> entityType = SerializationHelper.deserializeEntityType(id, buffer);
+            // EntityId
+            final String entityId = buffer.readUtf();
             // Loot data
             final List<LootData> results = new ArrayList<>();
             final int length = buffer.readInt();
@@ -48,28 +46,28 @@ public class AdditionalLootDataSerializer implements RecipeSerializer<Additional
             // Remove from entity
             final boolean removeFromEntity = buffer.readBoolean();
             // Return final object
-            return new AdditionalLootData(id, entityType, results, removeFromEntity);
+            return new AdditionalLootData(entityId, results, removeFromEntity);
         }catch(final Exception e){
             CagedMobs.LOGGER.catching(e);
-            throw new IllegalStateException("Failed to read additionalLootData with id: " + id.toString() + " from packet buffer.");
+            throw new IllegalStateException("Failed to read additionalLootData recipe from network buffer.");
         }
     }
 
     @Override
     public void toNetwork(FriendlyByteBuf buffer, AdditionalLootData recipe) {
         try {
-            // Entity
-            SerializationHelper.serializeEntityType(buffer, recipe.getEntityType());
+            // EntityId
+            buffer.writeUtf(recipe.getEntityId());
             // Loot data
             buffer.writeInt(recipe.getResults().size());
-            for( final LootData data : recipe.getResults()){
+            for(final LootData data : recipe.getResults()){
                 LootData.serializeBuffer(buffer, data);
             }
             // Remove from entity
             buffer.writeBoolean(recipe.isRemoveFromEntity());
         }catch (final Exception e) {
             CagedMobs.LOGGER.catching(e);
-            throw new IllegalStateException("Failed to write additionalLootData with id: " + recipe.getId().toString() + " to the packet buffer.");
+            throw new IllegalStateException("Failed to write additionalLootData recipe to the network buffer.");
         }
     }
 }

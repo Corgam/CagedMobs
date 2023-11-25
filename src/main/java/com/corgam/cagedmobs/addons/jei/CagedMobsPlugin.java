@@ -44,8 +44,7 @@ public class CagedMobsPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes (IRecipeRegistration registration) {
-        final RecipeManager recipeManager = RecipesHelper.getRecipeManager();
-        final List<EntityData> entities = new ArrayList<>(RecipesHelper.getEntitiesRecipesList(recipeManager));
+        final List<EntityData> entities = new ArrayList<>(RecipesHelper.getEntitiesRecipesList());
         // Subtract the blacklisted entities
         List<EntityType<?>> blacklistedEntities = RecipesHelper.getEntityTypesFromConfigList();
         if(!CagedMobs.SERVER_CONFIG.isEntitiesListInWhitelistMode()) {

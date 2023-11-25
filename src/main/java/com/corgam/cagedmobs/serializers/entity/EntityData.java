@@ -5,7 +5,6 @@ import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.registers.CagedItems;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -18,32 +17,32 @@ import java.util.*;
 
 public class EntityData implements Recipe<Inventory> {
 
-    private final ResourceLocation id;
+    private String entityId;
     private EntityType<?> entityType;
-    private final Set<String> environments;
+    private final List<String> environments;
     private int growTicks;
     private boolean requiresWater;
     private final List<LootData> results;
     private int samplerTier;
 
-    public EntityData(ResourceLocation id, EntityType<?> entityType, Set<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
-        this.id = id;
+    public EntityData(String entityId, List<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
+        this.entityId = entityId;
         this.environments = environments;
-        this.entityType = entityType;
+        this.entityType = this.getEntityType();
         this.growTicks = growTicks;
         this.requiresWater = requiresWater;
         this.results = results;
         this.samplerTier = tier;
         // Add the id to the list of loaded recipes
-        if(id != null && CagedMobs.LOGGER != null){
-            CagedMobs.LOGGER.info("Loaded EntityData recipe with id: " + id.toString());
+        if(!entityId.isEmpty() && CagedMobs.LOGGER != null){
+            CagedMobs.LOGGER.info("Loaded EntityData recipe for entity: " + entityId);
         }
     }
 
     public EntityType<?> getEntityType(){
         // Try to find again entity type if it's null
         if(this.entityType == null){
-            Optional<EntityType<?>> entityType = EntityType.byString(this.id.toString());
+            Optional<EntityType<?>> entityType = EntityType.byString(this.entityId);
             if(entityType.isPresent()) {
                 this.entityType = entityType.get();
                 return entityType.get();
@@ -56,7 +55,7 @@ public class EntityData implements Recipe<Inventory> {
         this.entityType = entityType;
     }
 
-    public Set<String> getValidEnvs(){
+    public List<String> getEnvironments(){
         return this.environments;
     }
 
@@ -79,9 +78,12 @@ public class EntityData implements Recipe<Inventory> {
         return ItemStack.EMPTY;
     }
 
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
+    public String getEntityId() {
+        return this.entityId;
+    }
+
+    public void setEntityId(String entityId){
+        this.entityId = entityId;
     }
 
     @Override

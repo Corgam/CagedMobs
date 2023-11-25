@@ -11,6 +11,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
@@ -23,36 +24,27 @@ import java.util.*;
 public class RecipesHelper {
 
     // Some helper functions
-
-    public static Map<ResourceLocation, Recipe<?>> getRecipes (RecipeType<?> recipeType, RecipeManager manager) {
-        final Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipesMap = ObfuscationReflectionHelper.getPrivateValue(RecipeManager.class, manager, "f_44007_");
-        return recipesMap.get(recipeType);
-    }
-
-    public static List<EntityData> getEntitiesRecipesList (RecipeManager manager) {
-
+    public static List<EntityData> getEntitiesRecipesList() {
+        RecipeManager manager = getRecipeManager();
         if (manager != null) {
-            return manager.getAllRecipesFor(CagedRecipeTypes.ENTITY_RECIPE.get());
+            return manager.getAllRecipesFor(CagedRecipeTypes.ENTITY_RECIPE.get()).stream().map(RecipeHolder::value).toList();
         }
-
         return Collections.emptyList();
     }
 
-    public static List<EnvironmentData> getEnvsRecipesList (RecipeManager manager) {
-
+    public static List<EnvironmentData> getEnvironmentRecipesList() {
+        RecipeManager manager = getRecipeManager();
         if (manager != null) {
-            return manager.getAllRecipesFor(CagedRecipeTypes.ENVIRONMENT_RECIPE.get());
+            return manager.getAllRecipesFor(CagedRecipeTypes.ENVIRONMENT_RECIPE.get()).stream().map(RecipeHolder::value).toList();
         }
-
         return Collections.emptyList();
     }
 
-    public static List<AdditionalLootData> getAdditionalLootRecipesList (RecipeManager manager) {
-
+    public static List<AdditionalLootData> getAdditionalLootRecipesList() {
+        RecipeManager manager = getRecipeManager();
         if (manager != null) {
-            return manager.getAllRecipesFor(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get());
+            return manager.getAllRecipesFor(CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get()).stream().map(RecipeHolder::value).toList();
         }
-
         return Collections.emptyList();
     }
 
@@ -80,8 +72,8 @@ public class RecipesHelper {
     }
 
     public static boolean isEnvValidForEntity(EntityData entity, EnvironmentData env) {
-        for(String s : entity.getValidEnvs()){
-            for(String s2 : env.getEnvironments()){
+        for(String s : entity.getEnvironments()){
+            for(String s2 : env.getCategories()){
                 if(s.matches(s2)){
                     return true;
                 }
