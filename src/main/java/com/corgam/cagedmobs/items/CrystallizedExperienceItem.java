@@ -18,23 +18,24 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ExperienceOrb extends Item {
+public class CrystallizedExperienceItem extends Item {
 
-    public ExperienceOrb(Properties properties) {
+    public CrystallizedExperienceItem(Properties properties) {
         super(properties);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new TranslationTextComponent("item.cagedmobs.experience_orb.info").withStyle(TextFormatting.GRAY));
-        tooltip.add(new TranslationTextComponent("item.cagedmobs.experience_orb.info2").withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.crystallized_experience.info").withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.crystallized_experience.info2").withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("item.cagedmobs.crystallized_experience.info3").withStyle(TextFormatting.GRAY));
     }
 
     @Override
     public ActionResult<ItemStack> use(World level, PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if(itemStack.getItem() instanceof ExperienceOrb){
+        if(itemStack.getItem() instanceof CrystallizedExperienceItem){
             // If on client side, just play the sound
             if(level.isClientSide()){
                 level.playSound(player, player.getX(), player.getY()+0.5,player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (level.random.nextFloat() - level.random.nextFloat()) * 0.35F + 0.9F);
@@ -43,7 +44,7 @@ public class ExperienceOrb extends Item {
                 // Consume the whole stack
                 if (player.isCrouching()) {
                     for(int i = 0; i < itemStack.getCount(); i++){
-                        player.giveExperiencePoints(level.random.nextInt(3) + 1);
+                        player.giveExperiencePoints(level.random.nextInt(2) + 1);
                     }
                     if(!player.isCreative()) {
                         itemStack.setCount(0);

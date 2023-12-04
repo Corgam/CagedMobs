@@ -17,6 +17,7 @@ public class ClientSetup {
         // Set the render layers for blocks
         RenderTypeLookup.setRenderLayer(CagedBlocks.MOB_CAGE.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(CagedBlocks.HOPPING_MOB_CAGE.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(CagedBlocks.CRYSTALLIZED_EXPERIENCE_BLOCK.get(), RenderType.translucent());
         // Register the block entities renderers
         ClientRegistry.bindTileEntityRenderer(CagedBlockEntities.MOB_CAGE_BLOCK_ENTITY.get(), MobCageRenderer::new);
         event.enqueueWork(() -> {

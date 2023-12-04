@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -50,8 +51,15 @@ public class MobCageScreen extends ContainerScreen<MobCageContainer> {
         // Render entity
         TileEntity blockEntity = this.menu.player.level.getBlockEntity(this.menu.pos);
         if(blockEntity instanceof MobCageBlockEntity && ((MobCageBlockEntity) blockEntity).getEntity().isPresent()){
+            Optional<Entity> entity;
             MobCageBlockEntity cageBE = (MobCageBlockEntity) blockEntity;
-            Optional<Entity> entity = EntityRendererHelper.createEntity(this.menu.player.level, cageBE.getEntity().get().getEntityType());
+            if(cageBE.getColor() != -1){
+                CompoundNBT nbt = new CompoundNBT();
+                nbt.putInt("Color",cageBE.getColor());
+                entity = EntityRendererHelper.createEntity(this.menu.player.level, cageBE.getEntity().get().getEntityType(), nbt);
+            }else{
+                entity = EntityRendererHelper.createEntity(this.menu.player.level, cageBE.getEntity().get().getEntityType(), null);
+            }
             if(entity.isPresent()){
                 rotation = (rotation+ 0.5f)% 360;
                 //enableScissor(this.leftPos+62, this.topPos+17, this.leftPos+114, this.topPos+87);
