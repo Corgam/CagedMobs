@@ -9,9 +9,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CagedCreativeTabs {
-    public static final DeferredRegister<CreativeModeTab> CAGED_CREATIVE_TABS_REG = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CagedMobs.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> CAGED_CREATIVE_TABS_REGISTER = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CagedMobs.MOD_ID);
 
-    public static final RegistryObject<CreativeModeTab> MAIN_TAB = CAGED_CREATIVE_TABS_REG.register("cagedmobs_tab", () -> CreativeModeTab.builder()
+    public static final RegistryObject<CreativeModeTab> MAIN_TAB = CAGED_CREATIVE_TABS_REGISTER.register("cagedmobs_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.cagedmobs_tab"))
             .icon(() -> new ItemStack(CagedItems.HOPPING_MOB_CAGE.get()))
             .displayItems(((pParameters, pOutput) -> {
@@ -39,7 +39,8 @@ public class CagedCreativeTabs {
                 pOutput.accept(CagedItems.SPONGE_FRAGMENT.get());
                 pOutput.accept(CagedItems.HONEY_DROP.get());
                 pOutput.accept(CagedItems.MILK_DROP.get());
-                pOutput.accept(CagedItems.EXPERIENCE_ORB.get());
+                pOutput.accept(CagedItems.CRYSTALLIZED_EXPERIENCE.get());
+                pOutput.accept(CagedItems.CRYSTALLIZED_EXPERIENCE_BLOCK.get());
                 // Star-infused Netherite
                 pOutput.accept(CagedItems.STAR_INFUSED_NETHERITE_NUGGET.get());
                 pOutput.accept(CagedItems.STAR_INFUSED_NETHERITE_INGOT.get());

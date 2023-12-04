@@ -1,0 +1,31 @@
+{   "parent": "block/block",
+  "textures": {
+    "particle": "cagedmobs:block/crystallized_experience_block_outer",
+    "texture_outer": "cagedmobs:block/crystallized_experience_block_outer",
+    "texture_inner": "cagedmobs:block/crystallized_experience_block_inner"
+  },
+  "elements": [
+    {   "from": [ 3, 3, 3 ],
+      "to": [ 13, 13, 13 ],
+      "faces": {
+        "down":  { "uv": [ 0, 0, 10, 10 ], "texture": "#texture_inner" },
+        "up":    { "uv": [ 0, 0, 10, 10 ], "texture": "#texture_inner" },
+        "north": { "uv": [ 0, 0, 10, 10 ], "texture": "#texture_inner" },
+        "south": { "uv": [ 0, 0, 10, 10 ], "texture": "#texture_inner" },
+        "west":  { "uv": [ 0, 0, 10, 10 ], "texture": "#texture_inner" },
+        "east":  { "uv": [ 0, 0, 10, 10 ], "texture": "#texture_inner" }
+      }
+    },
+    {   "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture_outer", "cullface": "down" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#texture_outer", "cullface": "up" },
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture_outer", "cullface": "north" },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture_outer", "cullface": "south" },
+        "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture_outer", "cullface": "west" },
+        "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#texture_outer", "cullface": "east" }
+      }
+    }
+  ]
+}
