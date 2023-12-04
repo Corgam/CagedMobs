@@ -26,42 +26,37 @@ public class CTEnvironment {
 
     @ZenCodeType.Method
     public CTEnvironment addCategory (String category) {
-
         this.environmentData.getEnvironments().add(category);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEnvironment removeCategory (String category) {
-
         this.environmentData.getEnvironments().remove(category);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEnvironment clearCategories () {
-
         this.environmentData.getEnvironments().clear();
         return this;
     }
 
     @ZenCodeType.Method
-    public CTEnvironment setInputItem (IIngredient ingredient) {
-
-        this.environmentData.setInputItem(ingredient.asVanillaIngredient());
+    public CTEnvironment setInputItem (IIngredient inputIngredient) {
+        this.environmentData.setInputItem(inputIngredient.asVanillaIngredient());
         return this;
     }
 
     @ZenCodeType.Method
-    public CTEnvironment setDisplay (BlockState state) {
-
-        this.environmentData.setRenderState(state);
+    public CTEnvironment setDisplay (BlockState displayBlockState) {
+        this.environmentData.setRenderState(displayBlockState);
         return this;
     }
 
     @ZenCodeType.Method
-    public CTEnvironment setGrowthModifier (float modifier) {
-        this.environmentData.setGrowthModifier(modifier);
+    public CTEnvironment setGrowthModifier (float growthModifier) {
+        this.environmentData.setGrowthModifier(growthModifier);
         return this;
     }
 

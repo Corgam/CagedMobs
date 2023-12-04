@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " X ",
+    "XXX",
     "XBX",
-    " X "
+    "XXX"
   ],
   "key": {
     "X": {
-      "item": "cagedmobs:experience_orb"
+      "item": "cagedmobs:crystallized_experience"
     },
     "B": {
       "item": "minecraft:glass_bottle"
