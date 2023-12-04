@@ -1,0 +1,13 @@
+{
+	"type": "cagedmobs:environment_data",
+	"forge:condition": {
+			"type": "forge:mod_loaded",
+			"modid": "cagedmobs"
+	},
+	"input": {
+		"item": "minecraft:warped_nylium"
+	},
+	"render": "minecraft:warped_nylium",
+	"growModifier": 1.0,
+	"categories": ["warped_nylium"]
+}

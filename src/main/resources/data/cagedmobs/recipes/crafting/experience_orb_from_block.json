@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "cagedmobs:storage_blocks/crystallized_experience"
+    }
+  ],
+  "result": {
+    "item": "cagedmobs:crystallized_experience",
+    "count": 9
+  }
+}

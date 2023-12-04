@@ -44,12 +44,12 @@ public class CagedMobs
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG.getForgeConfigSpec());
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG.getForgeConfigSpec());
         // Registries
-        CagedBlocks.BLOCKS_REG.register(eventBus);
-        CagedItems.ITEMS_REG.register(eventBus);
-        CagedBlockEntities.TE_REG.register(eventBus);
-        CagedRecipeTypes.CAGED_RECIPE_TYPES.register(eventBus);
-        CagedRecipeSerializers.CAGED_RECIPE_SERIALIZERS.register(eventBus);
-        CagedContainers.CAGED_MENU_TYPES.register(eventBus);
+        CagedBlocks.CAGED_BLOCKS_REGISTER.register(eventBus);
+        CagedItems.CAGED_ITEMS_REGISTER.register(eventBus);
+        CagedBlockEntities.CAGED_BLOCK_ENTITIES_REGISTER.register(eventBus);
+        CagedRecipeTypes.CAGED_RECIPE_TYPES_REGISTER.register(eventBus);
+        CagedRecipeSerializers.CAGED_RECIPE_SERIALIZERS_REGISTER.register(eventBus);
+        CagedContainers.CAGED_MENU_TYPES_REGISTER.register(eventBus);
         // Add properties to items
         eventBus.addListener(this::addPropertiesToItems);
         // TheOneProbe support
@@ -108,7 +108,8 @@ public class CagedMobs
                             pOutput.accept(CagedItems.SPONGE_FRAGMENT.get());
                             pOutput.accept(CagedItems.HONEY_DROP.get());
                             pOutput.accept(CagedItems.MILK_DROP.get());
-                            pOutput.accept(CagedItems.EXPERIENCE_ORB.get());
+                            pOutput.accept(CagedItems.CRYSTALLIZED_EXPERIENCE.get());
+                            pOutput.accept(CagedItems.CRYSTALLIZED_EXPERIENCE_BLOCK.get());
                             // Star-infused Netherite
                             pOutput.accept(CagedItems.STAR_INFUSED_NETHERITE_NUGGET.get());
                             pOutput.accept(CagedItems.STAR_INFUSED_NETHERITE_INGOT.get());
