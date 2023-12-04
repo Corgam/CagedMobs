@@ -41,12 +41,12 @@ public class CagedMobs
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG.getForgeConfigSpec());
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG.getForgeConfigSpec());
         // Registries
-        CagedBlocks.BLOCKS_REG.register(eventBus);
-        CagedItems.ITEMS_REG.register(eventBus);
-        CagedBlockEntities.TE_REG.register(eventBus);
-        CagedRecipeTypes.CAGED_RECIPE_TYPES.register(eventBus);
-        CagedRecipeSerializers.CAGED_RECIPE_SERIALIZERS.register(eventBus);
-        CagedContainers.CAGED_MENU_TYPES.register(eventBus);
+        CagedBlocks.CAGED_BLOCKS_REGISTER.register(eventBus);
+        CagedItems.CAGED_ITEMS_REGISTER.register(eventBus);
+        CagedBlockEntities.CAGED_BLOCK_ENTITIES_REGISTER.register(eventBus);
+        CagedRecipeTypes.CAGED_RECIPE_TYPES_REGISTER.register(eventBus);
+        CagedRecipeSerializers.CAGED_RECIPE_SERIALIZERS_REGISTER.register(eventBus);
+        CagedContainers.CAGED_MENU_TYPES_REGISTER.register(eventBus);
         // Add properties to items
         eventBus.addListener(this::addPropertiesToItems);
         // TheOneProbe support

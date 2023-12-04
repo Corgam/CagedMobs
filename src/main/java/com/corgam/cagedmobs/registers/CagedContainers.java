@@ -10,9 +10,9 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CagedContainers {
 
-    public static final DeferredRegister<MenuType<?>> CAGED_MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES, CagedMobs.MOD_ID);
+    public static final DeferredRegister<MenuType<?>> CAGED_MENU_TYPES_REGISTER = DeferredRegister.create(ForgeRegistries.MENU_TYPES, CagedMobs.MOD_ID);
 
     // Mob Cages
-    public static final RegistryObject<MenuType<MobCageContainer>> CAGE_CONTAINER = CAGED_MENU_TYPES.register("mob_cage",
+    public static final RegistryObject<MenuType<MobCageContainer>> CAGE_CONTAINER = CAGED_MENU_TYPES_REGISTER.register("mob_cage",
             ()-> IForgeMenuType.create(((windowId, inv, data) -> new MobCageContainer(windowId, inv.player, data.readBlockPos()))));
 }

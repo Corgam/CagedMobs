@@ -12,6 +12,16 @@ For more info about the mod visit the [CurseForge Mod Page](https://www.cursefor
 
 - Go to [Datapack support](https://github.com/Corgam/CagedMobs/wiki/Datapack-support) wiki page, if you want to add Caged Mobs' support for your mod, or you want to create your own datapack with CagedMobs' recipes.
 
+<p align="center">
 <img src="https://i.imgur.com/NEfcgp0.png" alt="Discord Logo" width="400">
+</p>
 
 Join my official [Discord server](https://discord.gg/V4ezDH45SZ) for discussion and share your feedback, ideas, bugs, and datapacks!
+
+<a href="https://www.akliz.net/corgam">
+<p align="center">
+  <img src="https://i.imgur.com/ZulIfrr.png" alt="Caged Mobs Logo" width=700>
+</p>
+</a>
+
+**Looking for a server?** Caged Mobs Mod is an official Akliz partner, which provides high-performance game hosting for games like Minecraft, Valheim, Satisfactory, ARK, and more! Use the [discount code](https://www.akliz.net/corgam) to get yourself 20% off your first month and support us!

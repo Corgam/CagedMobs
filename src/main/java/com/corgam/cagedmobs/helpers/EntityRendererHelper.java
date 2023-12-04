@@ -28,16 +28,20 @@ public class EntityRendererHelper {
     /**
      * Tries to create an entity inside a given level.
      * @param level level to create entity in
+     * @param entityType type of the entity to create
+     * @param startingNbt additional nbt data to start from
      * @return optional entity
      */
-    public static Optional<Entity> createEntity(Level level, EntityType<?> entityType){
+    public static Optional<Entity> createEntity(Level level, EntityType<?> entityType, CompoundTag startingNbt){
         Optional<Entity> entity = Optional.empty();
         try{
-            CompoundTag nbt = new CompoundTag();
-            nbt.putString("id", EntityType.getKey(entityType).toString());
+            if(startingNbt == null){
+                startingNbt = new CompoundTag();
+            }
+            startingNbt.putString("id", EntityType.getKey(entityType).toString());
             // Create the entity
             if(level != null && level.isClientSide()){
-                entity = EntityType.create(nbt, level);
+                entity = EntityType.create(startingNbt, level);
             }
         }catch(Exception e){
             LOGGER.error("[CagedMobs] Rendering entity in the JEI failed!", e);

@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -52,7 +53,14 @@ public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
         // Render entity
         BlockEntity blockEntity = this.menu.player.level.getBlockEntity(this.menu.pos);
         if(blockEntity instanceof MobCageBlockEntity cageBE && cageBE.getEntity().isPresent()){
-            Optional<Entity> entity = EntityRendererHelper.createEntity(this.menu.player.level, cageBE.getEntity().get().getEntityType());
+            Optional<Entity> entity;
+            if(cageBE.getColor() != -1){
+                CompoundTag nbt = new CompoundTag();
+                nbt.putInt("Color",cageBE.getColor());
+                entity = EntityRendererHelper.createEntity(this.menu.player.level, cageBE.getEntity().get().getEntityType(), nbt);
+            }else{
+                entity = EntityRendererHelper.createEntity(this.menu.player.level, cageBE.getEntity().get().getEntityType(), null);
+            }
             if(entity.isPresent()){
                 rotation = (rotation+ 0.5f)% 360;
                 enableScissor(this.leftPos+62, this.topPos+17, this.leftPos+114, this.topPos+87);
