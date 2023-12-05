@@ -12,6 +12,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class EnvironmentData implements Recipe<Inventory> {
         this.growModifier = growModifier;
         this.categories = categories;
         // Add the id to the list of loaded recipes
-        if(CagedMobs.LOGGER != null){
-            CagedMobs.LOGGER.info("Loaded EnvironmentData recipe for input item: " + this.inputItem.getItems()[0].toString());
+        if(CagedMobs.LOGGER != null && ForgeRegistries.ITEMS.getKey(item.getItems()[0].getItem()) != null){
+            CagedMobs.LOGGER.info("Loaded EnvironmentData recipe for input item: " + ForgeRegistries.ITEMS.getKey(item.getItems()[0].getItem()));
         }
     }
 

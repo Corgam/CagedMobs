@@ -1,39 +1,42 @@
 package com.corgam.cagedmobs.serializers.entity;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public class LootData {
 
     public static final Codec<LootData> CODEC = RecordCodecBuilder.create((builder) -> builder.group(
-            ItemStack.CODEC.fieldOf("item").forGetter(LootData::getItem),
-            ItemStack.CODEC.fieldOf("cookedItem").forGetter(LootData::getCookedItem),
+            Ingredient.CODEC.fieldOf("output").forGetter(LootData::getItem),
+            Ingredient.CODEC.optionalFieldOf("output_cooked", Ingredient.of(Items.AIR)).forGetter(LootData::getCookedItem),
             Codec.FLOAT.fieldOf("chance").forGetter(LootData::getChance),
             Codec.INT.fieldOf("minAmount").forGetter(LootData::getMinAmount),
             Codec.INT.fieldOf("maxAmount").forGetter(LootData::getMaxAmount),
             Codec.BOOL.fieldOf("lighting").orElse(false).forGetter(LootData::isLighting),
             Codec.BOOL.fieldOf("needsArrow").orElse(false).forGetter(LootData::isArrow),
             Codec.INT.fieldOf("color").orElse(-1).forGetter(LootData::getColor),
-            Codec.BOOL.fieldOf("randomDurability").orElse(false).forGetter(LootData::ifRandomDurability)
+            Codec.BOOL.fieldOf("randomDurability").orElse(false).forGetter(LootData::ifRandomDurability),
+            Codec.STRING.fieldOf("nbtName").orElse("").forGetter(LootData::getNbtName),
+            Codec.STRING.fieldOf("nbtData").orElse("").forGetter(LootData::getNbtData)
     ).apply(builder, LootData::new));
 
     private final float chance;
-    private ItemStack item;
-    private ItemStack cookedItem;
+    private Ingredient item;
+    private final Ingredient cookedItem;
     private final int minAmount;
     private final int maxAmount;
     private final boolean lighting;
     private final boolean arrow;
     private final int color;
     private final boolean randomDurability;
+    private final String nbtName;
+    private final String nbtData;
 
-    public LootData(ItemStack item, ItemStack cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color, boolean randomDurability){
+    public LootData(Ingredient item, Ingredient cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color, boolean randomDurability, String nbtName, String nbtData){
         this.chance = chance;
         this.item = item;
         this.cookedItem = cookedItem;
@@ -43,53 +46,27 @@ public class LootData {
         this.arrow = arrow;
         this.color = color;
         this.randomDurability = randomDurability;
-
+        this.nbtName = nbtName;
+        this.nbtData = nbtData;
+        // Check for errors
         if (min < 0 || max < 0) {
             throw new IllegalArgumentException("Amounts must not be negative!");
         }
         if (min > max) {
             throw new IllegalArgumentException("Min amount must not be greater than max amount!");
         }
-    }
-
-    public static LootData deserialize(JsonObject json) {
-        final float chance = GsonHelper.getAsFloat(json, "chance");
-        final Item item = GsonHelper.getAsItem(json, "output").get();
-        final int min = GsonHelper.getAsInt(json, "minAmount");
-        final int max = GsonHelper.getAsInt(json, "maxAmount");
-        // Cooked item
-        Item cookedItem = Items.AIR;
-        if(json.has("output_cooked")){
-            cookedItem = GsonHelper.getAsItem(json, "output_cooked").get();
+        // Apply NBT data
+        if(!nbtName.isEmpty() && !nbtData.isEmpty()){
+            ItemStack newItem = writeNBTtoItem(nbtName, nbtData, item.getItems()[0]);
+            this.item = Ingredient.of(newItem);
         }
-        // Requires lightning upgrade
-        boolean isLighting = false;
-        if(json.has("lightning")){
-            isLighting = GsonHelper.getAsBoolean(json, "lightning");
-        }
-        // Requires arrow upgrade
-        boolean isArrow = false;
-        if(json.has("needsArrow")){
-            isArrow = GsonHelper.getAsBoolean(json, "needsArrow");
-        }
-        // Color NBT
-        int color = -1;
-        if(json.has("color")){
-            color = GsonHelper.getAsInt(json, "color");
-        }
-        // Random Durability
-        boolean randomDurability = false;
-        if(json.has("randomDurability")){
-            randomDurability = GsonHelper.getAsBoolean(json, "randomDurability");
-        }
-        return new LootData(new ItemStack(item), new ItemStack(cookedItem), chance, min, max, isLighting, isArrow, color, randomDurability);
     }
 
     public static void serializeBuffer(FriendlyByteBuf buffer, LootData lootData) {
         // Chance
         buffer.writeFloat(lootData.getChance());
         // Item
-        buffer.writeItemStack(lootData.getItem(),true);
+        buffer.writeItemStack(lootData.getItem().getItems()[0], true);
         // Min amount
         buffer.writeInt(lootData.getMinAmount());
         // Max amount
@@ -99,18 +76,22 @@ public class LootData {
         // Arrow
         buffer.writeBoolean(lootData.isArrow());
         // Cooking
-        buffer.writeItemStack(lootData.getCookedItem(),true);
+        buffer.writeItemStack(lootData.getCookedItem().getItems()[0], true);
         // Color
         buffer.writeInt(lootData.getColor());
         // Random durability
-        buffer.writeBoolean(lootData.randomDurability);
+        buffer.writeBoolean(lootData.ifRandomDurability());
+        // NBT Name
+        buffer.writeUtf(lootData.getNbtName());
+        // NBT Data
+        buffer.writeUtf(lootData.getNbtData());
     }
 
     public static LootData deserializeBuffer(FriendlyByteBuf buffer) {
         // Chance
         final float chance = buffer.readFloat();
         // Item
-        final ItemStack item = buffer.readItem();
+        final Ingredient item = Ingredient.of(buffer.readItem());
         // Min amount
         final int min = buffer.readInt();
         // Max amount
@@ -120,13 +101,31 @@ public class LootData {
         // Arrow
         final boolean isArrow = buffer.readBoolean();
         // Cooked item
-        final ItemStack cookedItem = buffer.readItem();
+        final Ingredient cookedItem = Ingredient.of(buffer.readItem());
         // Color
         final int color = buffer.readInt();
         // Random durability
         final boolean randomDurability = buffer.readBoolean();
+        // NBT Name
+        final String nbtName = buffer.readUtf();
+        // NBT Data
+        final String nbtData = buffer.readUtf();
 
-        return new LootData(item, cookedItem, chance, min, max, isLightning, isArrow, color, randomDurability);
+        return new LootData(item, cookedItem, chance, min, max, isLightning, isArrow, color, randomDurability, nbtName, nbtData);
+    }
+
+    /**
+     * Writes NBT data to an item stack
+     * @param nbtName the name of the NBT variable
+     * @param nbtData the data for the NBT variable
+     * @param stack the item stack to write to
+     * @return the updated item stack reference
+     */
+    public static ItemStack writeNBTtoItem(String nbtName, String nbtData, ItemStack stack){
+        CompoundTag nbt = new CompoundTag();
+        nbt.putString(nbtName,nbtData);
+        stack.setTag(nbt);
+        return stack;
     }
 
     @Override
@@ -138,20 +137,12 @@ public class LootData {
         return this.chance;
     }
 
-    public ItemStack getItem() {
+    public Ingredient getItem() {
         return this.item;
     }
 
-    public void setItem(ItemStack item) {
-        this.item = item;
-    }
-
-    public ItemStack getCookedItem() {
+    public Ingredient getCookedItem() {
         return this.cookedItem;
-    }
-
-    public void setCookedItem(ItemStack item){
-        this.cookedItem = item;
     }
 
     public int getMinAmount() {
@@ -168,7 +159,9 @@ public class LootData {
     public boolean isCooking(){
         return !this.cookedItem.isEmpty();
     }
-    public boolean isArrow(){return this.arrow;}
+    public boolean isArrow(){
+        return this.arrow;
+    }
 
     public boolean hasColor(){
         return this.getColor() != -1;
@@ -178,6 +171,15 @@ public class LootData {
         return this.color;
     }
 
-    public boolean ifRandomDurability(){return this.randomDurability;}
+    public boolean ifRandomDurability(){
+        return this.randomDurability;
+    }
 
+    public String getNbtName(){
+        return this.nbtName;
+    }
+
+    public String getNbtData(){
+        return this.nbtData;
+    }
 }

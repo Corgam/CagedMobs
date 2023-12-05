@@ -4,7 +4,6 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity;
 import com.corgam.cagedmobs.helpers.EntityRendererHelper;
 import com.corgam.cagedmobs.registers.CagedItems;
-import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.RecipesHelper;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.corgam.cagedmobs.serializers.entity.EntityData;
@@ -77,7 +76,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension<EntityData> {
         List<Item> blacklistedItems = RecipesHelper.getItemsFromConfigList();
         for(LootData data : entityData.getResults()){
             if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
-                if(!blacklistedItems.contains(data.getItem().getItem())){
+                if(!blacklistedItems.contains(data.getItem().getItems()[0].getItem())){
                     if(!this.drops.contains(data)) {
                         this.drops.add(data);
                         lootIndex++;
@@ -91,7 +90,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension<EntityData> {
                     }
                 }
             }else{
-                if(blacklistedItems.contains(data.getItem().getItem())){
+                if(blacklistedItems.contains(data.getItem().getItems()[0].getItem())){
                     if(!this.drops.contains(data)) {
                         this.drops.add(data);
                         lootIndex++;
@@ -119,7 +118,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension<EntityData> {
                             // Add loot
                             if(!additionalLootData.isRemoveFromEntity()){
                                 if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
-                                    if(!blacklistedItems.contains(data.getItem().getItem())){
+                                    if(!blacklistedItems.contains(data.getItem().getItems()[0].getItem())){
                                         if(!this.drops.contains(data)){
                                             this.drops.add(data);
                                             lootIndex++;
@@ -133,7 +132,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension<EntityData> {
                                         }
                                     }
                                 }else{
-                                    if(blacklistedItems.contains(data.getItem().getItem())){
+                                    if(blacklistedItems.contains(data.getItem().getItems()[0].getItem())){
                                         if(!this.drops.contains(data)){
                                             this.drops.add(data);
                                             lootIndex++;
@@ -149,7 +148,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension<EntityData> {
                                 }
                             // Remove loot
                             }else{
-                                this.drops.removeIf(drop -> drop.getItem().getItem().equals(data.getItem().getItem()));
+                                this.drops.removeIf(drop -> drop.getItem().getItems()[0].getItem().equals(data.getItem().getItems()[0].getItem()));
                             }
                         }
                     }
@@ -218,26 +217,26 @@ public class EntityDataWrapper implements IRecipeCategoryExtension<EntityData> {
         for (final LootData entry : this.getDrops()) {
             // If items not blacklisted draw them
             if(!CagedMobs.SERVER_CONFIG.isItemsListInWhitelistMode()){
-                if(!blacklistedItems.contains(entry.getItem().getItem())){
+                if(!blacklistedItems.contains(entry.getItem().getItems()[0].getItem())){
                     int relativeSlotId = nextSlotId - 2;
                     final IRecipeSlotBuilder lootSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 101 + 19 * (relativeSlotId % 4), 6 + 19 * (relativeSlotId / 4));
                     if(entry.isCooking() && this.getCookedIDs().contains(relativeSlotId)){
-                        lootSlot.addItemStack(entry.getCookedItem());
+                        lootSlot.addItemStack(entry.getCookedItem().getItems()[0]);
                     }else{
-                        lootSlot.addItemStack(entry.getItem());
+                        lootSlot.addItemStack(entry.getItem().getItems()[0]);
                     }
                     nextSlotId++;
                     // Add tooltip
                     lootSlot.addTooltipCallback(this.getLootTooltip(entry));
                 }
             }else{
-                if(blacklistedItems.contains(entry.getItem().getItem())){
+                if(blacklistedItems.contains(entry.getItem().getItems()[0].getItem())){
                     int relativeSlotId = nextSlotId - 2;
                     final IRecipeSlotBuilder lootSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 100 + 19 * (relativeSlotId % 4), 5 + 19 * (relativeSlotId / 4));
                     if(entry.isCooking() && this.getCookedIDs().contains(relativeSlotId)){
-                        lootSlot.addItemStack(entry.getCookedItem());
+                        lootSlot.addItemStack(entry.getCookedItem().getItems()[0]);
                     }else{
-                        lootSlot.addItemStack(entry.getItem());
+                        lootSlot.addItemStack(entry.getItem().getItems()[0]);
                     }
                     nextSlotId++;
                     // Add tooltip
@@ -317,7 +316,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension<EntityData> {
                 if(entry.isLighting()){
                     tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.lightning_upgrade").withStyle(ChatFormatting.YELLOW));
                 }
-                if(entry.isCooking() && displayedItem.getItem().equals(entry.getCookedItem().getItem())){
+                if(entry.isCooking() && displayedItem.getItem().equals(entry.getCookedItem().getItems()[0].getItem())){
                     tooltip.add(Component.translatable("jei.tooltip.cagedmobs.entity.cooking_upgrade").withStyle(ChatFormatting.YELLOW));
                 }
                 if(entry.isArrow()){

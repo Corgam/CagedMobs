@@ -1,19 +1,13 @@
 package com.corgam.cagedmobs.serializers;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 public class SerializationHelper {
 
@@ -43,24 +37,6 @@ public class SerializationHelper {
         String locationString = buffer.readUtf();
         ResourceLocation location = new ResourceLocation(locationString);
         return ForgeRegistries.BLOCKS.getValue(location);
-    }
-
-    //Block state
-
-    public static void serializeBlockState(FriendlyByteBuf buffer, BlockState renderState) {
-        Block block = renderState.getBlock();
-        String locationString = ForgeRegistries.BLOCKS.getKey(block).toString();
-        buffer.writeUtf(locationString);
-    }
-
-    public static BlockState deserializeBlockState(FriendlyByteBuf buffer) {
-        String locationString = buffer.readUtf();
-        ResourceLocation location = new ResourceLocation(locationString);
-        final Block block = ForgeRegistries.BLOCKS.getValue(location);
-        if(block != null){
-            return block.defaultBlockState();
-        }
-        return Blocks.AIR.defaultBlockState();
     }
 
     // Entity Type

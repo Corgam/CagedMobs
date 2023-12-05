@@ -8,7 +8,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class EnvironmentDataSerializer implements RecipeSerializer<EnvironmentDa
             // Categories
             final List<String> categories = new ArrayList<>();
             SerializationHelper.deserializeStringCollection(buffer, categories);
-
+            // Create the environment data
             return new EnvironmentData(inputItem, renderBlock, growModifier, categories);
         }catch(final Exception e){
             CagedMobs.LOGGER.catching(e);

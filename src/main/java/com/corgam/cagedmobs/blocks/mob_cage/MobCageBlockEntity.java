@@ -523,7 +523,7 @@ public class MobCageBlockEntity extends BlockEntity {
                                 }
                             // Remove loot
                             }else{
-                                entityData.getResults().removeIf(lootData -> lootData.getItem().getItem().equals(data.getItem().getItem()));
+                                entityData.getResults().removeIf(lootData -> lootData.getItem().getItems()[0].getItem().equals(data.getItem().getItems()[0].getItem()));
                             }
                         }
                     }
@@ -751,11 +751,11 @@ public class MobCageBlockEntity extends BlockEntity {
         for(LootData loot : this.entity.getResults()) {
             // Skip item if it's blacklisted or whitelisted
             if(!CagedMobs.SERVER_CONFIG.isEntitiesListInWhitelistMode()){
-                if(blacklistedItems.contains(loot.getItem().getItem())){
+                if(blacklistedItems.contains(loot.getItem().getItems()[0].getItem())){
                     continue;
                 }
             }else{
-                if(!blacklistedItems.contains(loot.getItem().getItem())){
+                if(!blacklistedItems.contains(loot.getItem().getItems()[0].getItem())){
                     continue;
                 }
             }
@@ -779,12 +779,12 @@ public class MobCageBlockEntity extends BlockEntity {
                 int amount = this.level.random.nextInt(range) + loot.getMinAmount();
                 if(amount > 0) {
                     // Add copied item stack to the drop list
-                    ItemStack stack = loot.getItem().copy();
+                    ItemStack stack = loot.getItem().getItems()[0].copy();
                     // Replace the item if there is a cooking upgrade.
                     if(this.hasUpgrades(CagedItems.COOKING_UPGRADE.get(), 3) && loot.isCooking()){
                         stack = new ItemStack(Items.COAL);
                     }else if(this.hasUpgrades(CagedItems.COOKING_UPGRADE.get(), 1) && loot.isCooking()){
-                        stack = loot.getCookedItem().copy();
+                        stack = loot.getCookedItem().getItems()[0].copy();
                     }
                     stack.setCount(amount);
                     if(loot.ifRandomDurability()){
