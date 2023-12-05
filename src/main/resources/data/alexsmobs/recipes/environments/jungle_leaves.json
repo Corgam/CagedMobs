@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:environment_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "alexsmobs"
-		}
-	],
+	},
 	"input": {
 		"item": "minecraft:jungle_leaves"
 	},

@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:entity_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "gaiadimension"
-		}
-	],
+	},
 	"entity": "gaiadimension:blue_howlite_wolf",
 	"samplerTier": 2,
 	"environments": ["gaia"],

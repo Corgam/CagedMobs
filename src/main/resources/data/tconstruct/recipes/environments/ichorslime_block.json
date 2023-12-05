@@ -1,15 +1,13 @@
 {
-  "type": "cagedmobs:environment_data",
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "tconstruct"
-    }
-  ],
-  "input": {
-    "item": "tconstruct:ichor_congealed_slime"
-  },
-  "render": "tconstruct:ichor_congealed_slime",
-  "growModifier": 1.3,
-  "categories": ["slime"]
+    "type": "cagedmobs:environment_data",
+    "forge:condition": {
+        "type": "forge:mod_loaded",
+        "modid": "tconstruct"
+    },
+    "input": {
+      "item": "tconstruct:ichor_congealed_slime"
+    },
+    "render": "tconstruct:ichor_congealed_slime",
+    "growModifier": 1.3,
+    "categories": ["slime"]
 }

@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:entity_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "cagedmobs"
-		}
-	],
+	},
 	"entity": "minecraft:polar_bear",
 	"samplerTier": 1,
 	"environments": ["snow"],

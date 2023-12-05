@@ -1,21 +1,18 @@
 {
-  "type": "cagedmobs:additional_loot_data",
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "bountifulbaubles"
-    }
-  ],
-  "entity": "minecraft:elder_guardian",
-  "results": [
-    {
-      "chance": 0.005,
-      "output": {
-        "item": "bountifulbaubles:vitamins"
-      },
-      "minAmount": 1,
-      "maxAmount": 1
-    }
-  ]
-
+    "type": "cagedmobs:additional_loot_data",
+    "forge:condition": {
+        "type": "forge:mod_loaded",
+        "modid": "bountifulbaubles"
+    },
+    "entity": "minecraft:elder_guardian",
+    "results": [
+      {
+        "chance": 0.005,
+        "output": {
+          "item": "bountifulbaubles:vitamins"
+        },
+        "minAmount": 1,
+        "maxAmount": 1
+      }
+    ]
 }

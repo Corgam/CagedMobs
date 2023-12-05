@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:additional_loot_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "reliquary"
-		}
-	],
+	},
 	"entity": "minecraft:stray",
 	"results": [
 		{

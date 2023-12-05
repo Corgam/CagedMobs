@@ -1,24 +1,21 @@
 {
-  "type": "cagedmobs:entity_data",
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "tconstruct"
-    }
-  ],
-  "entity": "tconstruct:ender_slime",
-  "samplerTier": 2,
-  "environments": ["slime"],
-  "growTicks": 1200,
-  "results": [
-    {
-      "chance": 0.7,
-      "output": {
-        "item": "tconstruct:ender_slime_ball"
-      },
-      "minAmount": 1,
-      "maxAmount": 2
-    }
-  ]
-
+    "type": "cagedmobs:entity_data",
+    "forge:condition": {
+        "type": "forge:mod_loaded",
+        "modid": "tconstruct"
+    },
+    "entity": "tconstruct:ender_slime",
+    "samplerTier": 2,
+    "environments": ["slime"],
+    "growTicks": 1200,
+    "results": [
+      {
+        "chance": 0.7,
+        "output": {
+          "item": "tconstruct:ender_slime_ball"
+        },
+        "minAmount": 1,
+        "maxAmount": 2
+      }
+    ]
 }

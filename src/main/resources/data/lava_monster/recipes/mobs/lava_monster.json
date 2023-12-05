@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:entity_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "lava_monster"
-		}
-	],
+	},
 	"entity": "lava_monster:lava_monster",
 	"samplerTier": 2,
 	"environments": ["cave"],

@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:entity_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "mysticalworld"
-		}
-	],
+	},
 	"entity": "mysticalworld:hell_sprout",
 	"samplerTier": 2,
 	"environments": ["nether"],

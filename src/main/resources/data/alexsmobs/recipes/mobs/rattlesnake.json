@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:entity_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "alexsmobs"
-		}
-	],
+	},
 	"entity": "alexsmobs:rattlesnake",
 	"samplerTier": 1,
 	"environments": ["sand"],

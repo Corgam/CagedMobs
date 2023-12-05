@@ -1,25 +1,22 @@
 {
-  "type": "cagedmobs:entity_data",
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "upgrade_aquatic"
-    }
-  ],
-  "entity": "upgrade_aquatic:ululu",
-  "samplerTier": 2,
-  "environments": ["sand"],
-  "requiresWater": true,
-  "growTicks": 1800,
-  "results": [
-    {
-      "chance": 0.3,
-      "output": {
-        "item": "cagedmobs:sponge_fragment"
-      },
-      "minAmount": 1,
-      "maxAmount": 2
-    }
-  ]
-
+    "type": "cagedmobs:entity_data",
+    "forge:condition": {
+        "type": "forge:mod_loaded",
+        "modid": "upgrade_aquatic"
+    },
+    "entity": "upgrade_aquatic:ululu",
+    "samplerTier": 2,
+    "environments": ["sand"],
+    "requiresWater": true,
+    "growTicks": 1800,
+    "results": [
+      {
+        "chance": 0.3,
+        "output": {
+          "item": "cagedmobs:sponge_fragment"
+        },
+        "minAmount": 1,
+        "maxAmount": 2
+      }
+    ]
 }

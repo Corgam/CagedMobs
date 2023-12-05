@@ -1,24 +1,21 @@
 {
-  "type": "cagedmobs:entity_data",
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "upgrade_aquatic"
-    }
-  ],
-  "entity": "upgrade_aquatic:flare",
-  "samplerTier": 2,
-  "environments": ["end"],
-  "growTicks": 1800,
-  "results": [
-    {
-      "chance": 0.7,
-      "output": {
-        "item": "minecraft:phantom_membrane"
-      },
-      "minAmount": 1,
-      "maxAmount": 1
-    }
-  ]
-
+    "type": "cagedmobs:entity_data",
+    "forge:condition": {
+        "type": "forge:mod_loaded",
+        "modid": "upgrade_aquatic"
+    },
+    "entity": "upgrade_aquatic:flare",
+    "samplerTier": 2,
+    "environments": ["end"],
+    "growTicks": 1800,
+    "results": [
+      {
+        "chance": 0.7,
+        "output": {
+          "item": "minecraft:phantom_membrane"
+        },
+        "minAmount": 1,
+        "maxAmount": 1
+      }
+    ]
 }

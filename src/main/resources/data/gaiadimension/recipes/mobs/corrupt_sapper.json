@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:entity_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "gaiadimension"
-		}
-	],
+	},
 	"entity": "gaiadimension:corrupt_sapper",
 	"samplerTier": 1,
 	"environments": ["gaia"],

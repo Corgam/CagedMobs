@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:entity_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "twilightforest"
-		}
-	],
+	},
 	"entity": "twilightforest:knight_phantom",
 	"samplerTier": 3,
 	"environments": ["cave"],

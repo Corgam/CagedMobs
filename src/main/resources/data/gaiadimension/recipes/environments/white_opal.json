@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:environment_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "gaiadimension"
-		}
-	],
+	},
 	"input": {
 		"item": "gaiadimension:opal_ore_white"
 	},

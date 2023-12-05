@@ -1,15 +1,13 @@
 {
-  "type": "cagedmobs:environment_data",
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "tconstruct"
-    }
-  ],
-  "input": {
-    "item": "tconstruct:earth_congealed_slime"
-  },
-  "render": "tconstruct:earth_congealed_slime",
-  "growModifier": 1,
-  "categories": ["slime"]
+    "type": "cagedmobs:environment_data",
+    "forge:condition": {
+        "type": "forge:mod_loaded",
+        "modid": "tconstruct"
+    },
+    "input": {
+      "item": "tconstruct:earth_congealed_slime"
+    },
+    "render": "tconstruct:earth_congealed_slime",
+    "growModifier": 1,
+    "categories": ["slime"]
 }

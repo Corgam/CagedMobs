@@ -1,36 +1,33 @@
 {
-  "type": "cagedmobs:entity_data",
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "upgrade_aquatic"
-    }
-  ],
-  "entity": "upgrade_aquatic:perch",
-  "samplerTier": 1,
-  "environments": ["sand"],
-  "growTicks": 1200,
-  "requiresWater": true,
-  "results": [
-    {
-      "chance": 0.7,
-      "output": {
-        "item": "upgrade_aquatic:perch"
-      },
-      "output_cooked": {
-        "item": "upgrade_aquatic:cooked_perch"
-      },
-      "minAmount": 1,
-      "maxAmount": 1
+    "type": "cagedmobs:entity_data",
+    "forge:condition": {
+        "type": "forge:mod_loaded",
+        "modid": "upgrade_aquatic"
     },
-    {
-      "chance": 0.15,
-      "output": {
-        "item": "minecraft:bone_meal"
+    "entity": "upgrade_aquatic:perch",
+    "samplerTier": 1,
+    "environments": ["sand"],
+    "growTicks": 1200,
+    "requiresWater": true,
+    "results": [
+      {
+        "chance": 0.7,
+        "output": {
+          "item": "upgrade_aquatic:perch"
+        },
+        "output_cooked": {
+          "item": "upgrade_aquatic:cooked_perch"
+        },
+        "minAmount": 1,
+        "maxAmount": 1
       },
-      "minAmount": 1,
-      "maxAmount": 1
-    }
-  ]
-
+      {
+        "chance": 0.15,
+        "output": {
+          "item": "minecraft:bone_meal"
+        },
+        "minAmount": 1,
+        "maxAmount": 1
+      }
+    ]
 }

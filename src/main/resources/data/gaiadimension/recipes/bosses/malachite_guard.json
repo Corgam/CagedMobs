@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:entity_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "gaiadimension"
-		}
-	],
+	},
 	"entity": "gaiadimension:malachite_guard",
 	"samplerTier": 3,
 	"environments": ["gaia"],
