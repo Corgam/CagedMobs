@@ -21,7 +21,7 @@ public class EnvironmentData implements Recipe<Inventory> {
     private Ingredient inputItem;
     private Block renderBlock;
     private float growModifier;
-    private final List<String> categories;
+    private List<String> categories;
 
     public EnvironmentData(Ingredient item, Block renderBlock, float growModifier, List<String> categories){
         this.inputItem = item;
@@ -78,6 +78,10 @@ public class EnvironmentData implements Recipe<Inventory> {
 
     public List<String> getCategories() {
         return this.categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 
     public void setGrowthModifier(float modifier) {

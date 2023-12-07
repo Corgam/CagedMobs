@@ -4,7 +4,6 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -13,14 +12,13 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class AdditionalLootData implements Recipe<Inventory> {
 
-    private final String entityId;
+    private String entityId;
     private EntityType<?> entityType;
-    private final List<LootData> results;
+    private List<LootData> results;
     private boolean removeFromEntity;
 
     public AdditionalLootData(String entityId, List<LootData> results, boolean removeFromEntity){
@@ -58,6 +56,13 @@ public class AdditionalLootData implements Recipe<Inventory> {
         return this.entityId;
     }
 
+    public void setEntityId(String entityId){
+        this.entityId = entityId;
+        // Change entity type
+        Optional<EntityType<?>> entityType = EntityType.byString(this.entityId);
+        entityType.ifPresent(type -> this.entityType = type);
+    }
+
     @Override
     public RecipeSerializer<?> getSerializer() {
         return CagedRecipeSerializers.ADDITIONAL_LOOT_RECIPE_SERIALIZER.get();
@@ -75,10 +80,6 @@ public class AdditionalLootData implements Recipe<Inventory> {
         return this.entityType;
     }
 
-    public void setEntityType(EntityType<?> entityType){
-        this.entityType = entityType;
-    }
-
     @Override
     public RecipeType<?> getType() {
         return CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get();
@@ -86,6 +87,10 @@ public class AdditionalLootData implements Recipe<Inventory> {
 
     public List<LootData> getResults() {
         return this.results;
+    }
+
+    public void setResults(List<LootData> results) {
+        this.results = results;
     }
 
     public boolean isRemoveFromEntity(){

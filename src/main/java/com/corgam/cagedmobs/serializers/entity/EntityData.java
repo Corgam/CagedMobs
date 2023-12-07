@@ -19,10 +19,10 @@ public class EntityData implements Recipe<Inventory> {
 
     private String entityId;
     private EntityType<?> entityType;
-    private final List<String> environments;
+    private List<String> environments;
     private int growTicks;
     private boolean requiresWater;
-    private final List<LootData> results;
+    private List<LootData> results;
     private int samplerTier;
 
     public EntityData(String entityId, List<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
@@ -51,12 +51,12 @@ public class EntityData implements Recipe<Inventory> {
         return this.entityType;
     }
 
-    public void setEntityType(EntityType<?> entityType){
-        this.entityType = entityType;
-    }
-
     public List<String> getEnvironments(){
         return this.environments;
+    }
+
+    public void setEnvironments(List<String> environments){
+        this.environments = environments;
     }
 
     @Override
@@ -84,6 +84,9 @@ public class EntityData implements Recipe<Inventory> {
 
     public void setEntityId(String entityId){
         this.entityId = entityId;
+        // Change entity type
+        Optional<EntityType<?>> entityType = EntityType.byString(this.entityId);
+        entityType.ifPresent(type -> this.entityType = type);
     }
 
     @Override
@@ -117,8 +120,12 @@ public class EntityData implements Recipe<Inventory> {
         this.requiresWater = requiresWater;
     }
 
-    public List<LootData> getResults () {
+    public List<LootData> getResults() {
         return this.results;
+    }
+
+    public void setResults(ArrayList<LootData> results) {
+        this.results = results;
     }
 
     public int getSamplerTier() {
