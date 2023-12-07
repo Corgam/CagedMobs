@@ -48,20 +48,20 @@ public class CTEnvironment {
     }
 
     @ZenCodeType.Method
-    public CTEnvironment setInputItem(IIngredient ingredient) {
-        this.data.setInputItem(ingredient.asVanillaIngredient());
+    public CTEnvironment setInputItem(IIngredient inputIngredient) {
+        this.data.setInputItem(inputIngredient.asVanillaIngredient());
         return this;
     }
 
     @ZenCodeType.Method
-    public CTEnvironment setDisplay(Block state) {
-        this.data.setRenderBlock(state);
+    public CTEnvironment setDisplay(Block displayBlock) {
+        this.data.setRenderBlock(displayBlock);
         return this;
     }
 
     @ZenCodeType.Method
-    public CTEnvironment setGrowthModifier(float modifier) {
-        this.data.setGrowthModifier(modifier);
+    public CTEnvironment setGrowthModifier(float growthModifier) {
+        this.data.setGrowthModifier(growthModifier);
         return this;
     }
 
