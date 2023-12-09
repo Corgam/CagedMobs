@@ -257,7 +257,7 @@ public class EntityDataWrapper implements IRecipeCategoryExtension<EntityData> {
         }
         // Create the entity object to render
         Level level = Minecraft.getInstance().level;
-        Optional<Entity> entity = EntityRendererHelper.createEntity(level, this.getEntityData().getEntityType());
+        Optional<Entity> entity = EntityRendererHelper.createEntity(level, this.getEntityData().getEntityType(), null);
         // Render the entity if created correctly
         if(entity.isPresent()){
             rotation = (rotation+ 0.5f)% 360;
