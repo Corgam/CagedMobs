@@ -902,11 +902,16 @@ public class MobCageBlockEntity extends BlockEntity {
             for(int i=0; i < this.getUpgradeCount(CagedItems.SPEED_III_UPGRADE.get()); i++){
                 growModifier *= 3F;
             }
+            // Get grow ticks from the entity
             int basicTotalGrowTicks = Math.round(this.getEntity().get().getTotalGrowTicks()/growModifier);
+            // Take into account the config speed of cages
             this.totalGrowTicks = (int) Math.round(basicTotalGrowTicks/CagedMobs.SERVER_CONFIG.getSpeedOfCages());
-            // Take into account current growth ticks
-            if(this.currentGrowTicks > this.totalGrowTicks){
+            // Round up the ticks to the max amount
+            if(this.currentGrowTicks >= this.totalGrowTicks){
                 this.currentGrowTicks = this.totalGrowTicks;
+            }else{
+                // If the cage was waiting for harvest and now it is not take that into account.
+                this.waitingForHarvest = false;
             }
             return this.totalGrowTicks;
         }
