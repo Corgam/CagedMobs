@@ -39,7 +39,8 @@ public class CagedCreativeTabs {
                 pOutput.accept(CagedItems.SPONGE_FRAGMENT.get());
                 pOutput.accept(CagedItems.HONEY_DROP.get());
                 pOutput.accept(CagedItems.MILK_DROP.get());
-                pOutput.accept(CagedItems.EXPERIENCE_ORB.get());
+                pOutput.accept(CagedItems.CRYSTALLIZED_EXPERIENCE.get());
+                pOutput.accept(CagedItems.CRYSTALLIZED_EXPERIENCE_BLOCK.get());
                 // Star-infused Netherite
                 pOutput.accept(CagedItems.STAR_INFUSED_NETHERITE_NUGGET.get());
                 pOutput.accept(CagedItems.STAR_INFUSED_NETHERITE_INGOT.get());

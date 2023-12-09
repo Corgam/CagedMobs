@@ -33,7 +33,6 @@ public class CagedItems {
     public final static RegistryObject<Item> EXPERIENCE_UPGRADE = ITEMS_REG.register("experience_upgrade", () -> new ExperienceUpgradeItem(new Item.Properties()));
     public final static RegistryObject<Item> CREATIVE_UPGRADE = ITEMS_REG.register("creative_upgrade", () -> new CreativeUpgradeItem(new Item.Properties()));
 
-
     // MISC
     public final static RegistryObject<Item> DRAGON_SCALE = ITEMS_REG.register("dragon_scale", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
     public final static RegistryObject<Item> NETHER_STAR_FRAGMENT = ITEMS_REG.register("nether_star_fragment", () -> new SimpleFoiledItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
@@ -41,9 +40,12 @@ public class CagedItems {
     public final static RegistryObject<Item> SPONGE_FRAGMENT = ITEMS_REG.register("sponge_fragment", () -> new Item(new Item.Properties()));
     public final static RegistryObject<Item> HONEY_DROP = ITEMS_REG.register("honey_drop", () -> new Item(new Item.Properties()));
     public final static RegistryObject<Item> MILK_DROP = ITEMS_REG.register("milk_drop", () -> new Item(new Item.Properties()));
-    public final static RegistryObject<Item> EXPERIENCE_ORB = ITEMS_REG.register("experience_orb", () -> new ExperienceOrb(new Item.Properties()));
+    public final static RegistryObject<Item> CRYSTALLIZED_EXPERIENCE = ITEMS_REG.register("crystallized_experience", () -> new CrystallizedExperienceItem(new Item.Properties()));
     public final static RegistryObject<Item> EMPTY_SPAWN_EGG = ITEMS_REG.register("empty_spawn_egg", () -> new EmptySpawnEggItem(new Item.Properties()));
     public final static RegistryObject<Item> STAR_INFUSED_NETHERITE_INGOT = ITEMS_REG.register("star_infused_netherite_ingot", () -> new SimpleFoiledItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public final static RegistryObject<Item> STAR_INFUSED_NETHERITE_NUGGET = ITEMS_REG.register("star_infused_netherite_nugget", () -> new SimpleFoiledItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+    // BLOCKS
     public final static RegistryObject<Item> STAR_INFUSED_NETHERITE_BLOCK = ITEMS_REG.register("star_infused_netherite_block", () -> new BlockItem(CagedBlocks.STAR_INFUSED_NETHERITE_BLOCK.get(), new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public final static RegistryObject<Item> CRYSTALLIZED_EXPERIENCE_BLOCK = ITEMS_REG.register("crystallized_experience_block", () -> new CrystallizedExperienceBlockItem(CagedBlocks.CRYSTALLIZED_EXPERIENCE_BLOCK.get(), new Item.Properties()));
 }

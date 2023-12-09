@@ -800,7 +800,7 @@ public class MobCageBlockEntity extends BlockEntity {
         // Add experience orb if the experience upgrade is present
         if(this.hasUpgrades(CagedItems.EXPERIENCE_UPGRADE.get(), 1)){
             if(this.level != null && !this.level.isClientSide() && this.level.random.nextFloat() <= 0.7){
-                ItemStack experienceOrbItem = new ItemStack(CagedItems.EXPERIENCE_ORB.get());
+                ItemStack experienceOrbItem = new ItemStack(CagedItems.CRYSTALLIZED_EXPERIENCE.get());
                 experienceOrbItem.setCount(this.getUpgradeCount(CagedItems.EXPERIENCE_UPGRADE.get()));
                 drops.add(experienceOrbItem);
                 // Take fortune upgrade into account
