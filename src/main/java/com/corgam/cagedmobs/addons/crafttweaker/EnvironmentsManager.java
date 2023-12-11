@@ -17,8 +17,6 @@ import org.openzen.zencode.java.ZenCodeType;
 @ZenCodeType.Name("mods.cagedmobs.EnvironmentsManager")
 public class EnvironmentsManager implements IRecipeManager<EnvironmentData> {
 
-    public EnvironmentsManager() {}
-
     @ZenCodeType.Method
     public CTEnvironment create (IIngredient item, Block renderBlock, float growModifier, String category) {
         return this.create(item, renderBlock, growModifier, new String[]{category});
@@ -38,7 +36,7 @@ public class EnvironmentsManager implements IRecipeManager<EnvironmentData> {
             final EnvironmentData recipe = this.getRecipes().get(resource).value();
             return new CTEnvironment(recipe);
         }
-        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker Environment recipe ID: " + id);
+        throw new IllegalStateException("CagedMobs: Invalid CraftTweaker Environment recipe ID: " + id);
     }
 
     @Override

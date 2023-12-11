@@ -15,8 +15,6 @@ import org.openzen.zencode.java.ZenCodeType;
 @ZenCodeType.Name("mods.cagedmobs.EntitiesManager")
 public class EntitiesManager implements IRecipeManager<EntityData> {
 
-    public EntitiesManager() {}
-
     // Used for creating new entityRecipe with just one valid environment
     @ZenCodeType.Method
     public CTEntity create(String entityId, int growTicks, boolean requiresWater, int tier, String environment) {
@@ -38,7 +36,7 @@ public class EntitiesManager implements IRecipeManager<EntityData> {
             final EntityData recipe = this.getRecipes().get(resource).value();
             return new CTEntity(recipe);
         }
-        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker Entity recipe ID: " + id);
+        throw new IllegalStateException("CagedMobs: Invalid CraftTweaker Entity recipe ID: " + id);
     }
 
     @Override

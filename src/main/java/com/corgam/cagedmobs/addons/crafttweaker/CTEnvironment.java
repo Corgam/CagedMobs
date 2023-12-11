@@ -17,61 +17,61 @@ import java.util.HashSet;
 @ZenCodeType.Name("mods.cagedmobs.Environment")
 public class CTEnvironment {
 
-    private final EnvironmentData data;
+    private final EnvironmentData environmentData;
 
     public CTEnvironment(IIngredient item, Block renderBlock, float growModifier, String[] categories) {
         this(new EnvironmentData(item.asVanillaIngredient(), renderBlock, growModifier, new ArrayList<>(Arrays.asList(categories))));
     }
 
     public CTEnvironment(EnvironmentData envData){
-        this.data = envData;
+        this.environmentData = envData;
     }
 
     @ZenCodeType.Method
     public CTEnvironment addCategory(String category) {
-        this.data.getCategories().add(category);
+        this.environmentData.getCategories().add(category);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEnvironment removeCategory(String category) {
-        HashSet<String> categories = new HashSet<>(this.data.getCategories());
+        HashSet<String> categories = new HashSet<>(this.environmentData.getCategories());
         categories.remove(category);
-        this.data.setCategories(new ArrayList<>(categories));
+        this.environmentData.setCategories(new ArrayList<>(categories));
         return this;
     }
 
     @ZenCodeType.Method
     public CTEnvironment clearCategories() {
-        this.data.getCategories().clear();
+        this.environmentData.getCategories().clear();
         return this;
     }
 
     @ZenCodeType.Method
     public CTEnvironment setInputItem(IIngredient inputIngredient) {
-        this.data.setInputItem(inputIngredient.asVanillaIngredient());
+        this.environmentData.setInputItem(inputIngredient.asVanillaIngredient());
         return this;
     }
 
     @ZenCodeType.Method
     public CTEnvironment setDisplay(Block displayBlock) {
-        this.data.setRenderBlock(displayBlock);
+        this.environmentData.setRenderBlock(displayBlock);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEnvironment setGrowthModifier(float growthModifier) {
-        this.data.setGrowthModifier(growthModifier);
+        this.environmentData.setGrowthModifier(growthModifier);
         return this;
     }
 
     public RecipeHolder<EnvironmentData> getEnvironmentData () {
-        ResourceLocation itemId = ForgeRegistries.ITEMS.getKey(this.data.getInputItem().getItems()[0].getItem());
+        ResourceLocation itemId = ForgeRegistries.ITEMS.getKey(this.environmentData.getInputItem().getItems()[0].getItem());
         if(itemId != null){
-            return new RecipeHolder<>(itemId.withPrefix("environment_data_"), this.data);
+            return new RecipeHolder<>(itemId.withPrefix("environment_data_"), this.environmentData);
         }else{
-            String categories = String.join("_", this.data.getCategories());
-            return new RecipeHolder<>(new ResourceLocation("environment_data_" + categories), this.data);
+            String categories = String.join("_", this.environmentData.getCategories());
+            return new RecipeHolder<>(new ResourceLocation("environment_data_" + categories), this.environmentData);
         }
     }
 }

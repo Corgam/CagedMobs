@@ -19,33 +19,33 @@ import java.util.HashSet;
 @ZenCodeType.Name("mods.cagedmobs.Entity")
 public class CTEntity {
 
-    private final EntityData data;
+    private final EntityData entityData;
 
     public CTEntity(String entityId, int growTicks, boolean requiresWater, int tier, String[] environments){
         this(new EntityData(entityId, new ArrayList<>(Arrays.asList(environments)), growTicks, requiresWater, new ArrayList<>(),tier));
     }
 
     public CTEntity(EntityData entityData){
-        this.data = entityData;
+        this.entityData = entityData;
     }
 
     @ZenCodeType.Method
     public CTEntity addEnvironment(String environment){
-        this.data.getEnvironments().add(environment);
+        this.entityData.getEnvironments().add(environment);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity removeEnvironment(String environment){
-        HashSet<String> categories = new HashSet<>(this.data.getEnvironments());
+        HashSet<String> categories = new HashSet<>(this.entityData.getEnvironments());
         categories.remove(environment);
-        this.data.setEnvironments(new ArrayList<>(categories));
+        this.entityData.setEnvironments(new ArrayList<>(categories));
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity clearEnvironments(){
-        this.data.getEnvironments().clear();
+        this.entityData.getEnvironments().clear();
         return this;
     }
 
@@ -72,60 +72,60 @@ public class CTEntity {
     @ZenCodeType.Method
     public CTEntity addLoot(IItemStack item, IItemStack cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color, boolean randomDurability, String nbtName, String nbtData){
         // To prevent adding the same item twice, look if it's already there
-        for(LootData loot : this.data.getResults()){
+        for(LootData loot : this.entityData.getResults()){
             if(loot.getItem().getItems()[0].equals(item.getInternal(), false)){
                 return this;
             }
         }
         // If there is a cooked variant
         if(cookedItem == null || cookedItem.getInternal().getItem().equals(Items.AIR)){
-            this.data.getResults().add(new LootData(Ingredient.of(item.getInternal()), Ingredient.EMPTY, chance, min, max, lighting, arrow, color, randomDurability, nbtName, nbtData));
+            this.entityData.getResults().add(new LootData(Ingredient.of(item.getInternal()), Ingredient.EMPTY, chance, min, max, lighting, arrow, color, randomDurability, nbtName, nbtData));
         }else{
-            this.data.getResults().add(new LootData(Ingredient.of(item.getInternal()), Ingredient.of(cookedItem.getInternal()), chance, min, max, lighting, arrow, color, randomDurability, nbtName, nbtData));
+            this.entityData.getResults().add(new LootData(Ingredient.of(item.getInternal()), Ingredient.of(cookedItem.getInternal()), chance, min, max, lighting, arrow, color, randomDurability, nbtName, nbtData));
         }
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity clearLoot(){
-        this.data.getResults().clear();
+        this.entityData.getResults().clear();
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity removeLoot(IIngredient remove){
         final Ingredient ing = remove.asVanillaIngredient();
-        HashSet<LootData> loots = new HashSet<>(this.data.getResults());
+        HashSet<LootData> loots = new HashSet<>(this.entityData.getResults());
         loots.removeIf(drop -> ing.test(drop.getItem().getItems()[0]));
-        this.data.setResults(new ArrayList<>(loots));
+        this.entityData.setResults(new ArrayList<>(loots));
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity setGrowthTicks(int ticks) {
-        this.data.setTotalGrowTicks(ticks);
+        this.entityData.setTotalGrowTicks(ticks);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity setEntityType(String entityId) {
-        this.data.setEntityId(entityId);
+        this.entityData.setEntityId(entityId);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity setTier(int tier) {
-        this.data.setSamplerTier(tier);
+        this.entityData.setSamplerTier(tier);
         return this;
     }
 
     @ZenCodeType.Method
     public CTEntity setIfRequiresWater(boolean requiresWater) {
-        this.data.setIfRequiresWater(requiresWater);
+        this.entityData.setIfRequiresWater(requiresWater);
         return this;
     }
 
     public RecipeHolder<EntityData> getEntityData() {
-        return new RecipeHolder<>(new ResourceLocation("entity_data_" + this.data.getEntityId()), this.data);
+        return new RecipeHolder<>(new ResourceLocation("entity_data_" + this.entityData.getEntityId()), this.entityData);
     }
 }

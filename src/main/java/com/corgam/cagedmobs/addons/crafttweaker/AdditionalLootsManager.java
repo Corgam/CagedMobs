@@ -15,8 +15,6 @@ import org.openzen.zencode.java.ZenCodeType;
 @ZenCodeType.Name("mods.cagedmobs.AdditionalLootsManager")
 public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData> {
 
-    public AdditionalLootsManager() {}
-
     // Used for creating new additionalLootRecipe
     @ZenCodeType.Method
     public CTAdditionalLoot create(String entityId, Boolean removeFromEntity) {
@@ -32,7 +30,7 @@ public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData
             final AdditionalLootData recipe = this.getRecipes().get(resource).value();
             return new CTAdditionalLoot(recipe);
         }
-        throw new IllegalStateException("CAGEDMOBS: Invalid CraftTweaker Additional Loot Data recipe ID: " + id);
+        throw new IllegalStateException("CagedMobs: Invalid CraftTweaker Additional Loot Data recipe ID: " + id);
     }
 
     @Override

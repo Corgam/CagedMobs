@@ -18,14 +18,14 @@ import java.util.HashSet;
 @ZenCodeType.Name("mods.cagedmobs.AdditionalLoot")
 public class CTAdditionalLoot {
 
-    private final AdditionalLootData data;
+    private final AdditionalLootData additionalLootData;
 
-    public CTAdditionalLoot(String entityType, Boolean removeFromEntity){
-        this(new AdditionalLootData(entityType, new ArrayList<>(), removeFromEntity));
+    public CTAdditionalLoot(String entityId, Boolean removeFromEntity){
+        this(new AdditionalLootData(entityId, new ArrayList<>(), removeFromEntity));
     }
 
     public CTAdditionalLoot(AdditionalLootData lootData){
-        this.data = lootData;
+        this.additionalLootData = lootData;
     }
 
     @ZenCodeType.Method
@@ -51,49 +51,49 @@ public class CTAdditionalLoot {
     @ZenCodeType.Method
     public CTAdditionalLoot addLoot(IItemStack item, IItemStack cookedItem, float chance, int min, int max, boolean lighting, boolean arrow, int color, boolean randomDurability, String nbtName, String nbtData){
         // To prevent adding the same item twice, look if it's already there
-        for(LootData loot : this.data.getResults()){
+        for(LootData loot : this.additionalLootData.getResults()){
             if(loot.getItem().getItems()[0].equals(item.getInternal(),false)){
                 return this;
             }
         }
         // If there is a cooked variant
         if(cookedItem == null || cookedItem.getInternal().getItem().equals(Items.AIR)){
-            this.data.getResults().add(new LootData(Ingredient.of(item.getInternal()), Ingredient.EMPTY, chance, min, max, lighting, arrow, color, randomDurability, nbtName, nbtData));
+            this.additionalLootData.getResults().add(new LootData(Ingredient.of(item.getInternal()), Ingredient.EMPTY, chance, min, max, lighting, arrow, color, randomDurability, nbtName, nbtData));
         }else{
-            this.data.getResults().add(new LootData(Ingredient.of(item.getInternal()), Ingredient.of(cookedItem.getInternal()), chance, min, max, lighting, arrow, color, randomDurability, nbtName, nbtData));
+            this.additionalLootData.getResults().add(new LootData(Ingredient.of(item.getInternal()), Ingredient.of(cookedItem.getInternal()), chance, min, max, lighting, arrow, color, randomDurability, nbtName, nbtData));
         }
         return this;
     }
 
     @ZenCodeType.Method
     public CTAdditionalLoot clearLoot(){
-        this.data.getResults().clear();
+        this.additionalLootData.getResults().clear();
         return this;
     }
 
     @ZenCodeType.Method
     public CTAdditionalLoot removeLoot(IIngredient remove){
         final Ingredient ing = remove.asVanillaIngredient();
-        HashSet<LootData> loots = new HashSet<>(this.data.getResults());
+        HashSet<LootData> loots = new HashSet<>(this.additionalLootData.getResults());
         loots.removeIf(drop -> ing.test(drop.getItem().getItems()[0]));
-        this.data.setResults(new ArrayList<>(loots));
+        this.additionalLootData.setResults(new ArrayList<>(loots));
         return this;
     }
 
     @ZenCodeType.Method
     public CTAdditionalLoot setEntityType(String entityId) {
-        this.data.setEntityId(entityId);
+        this.additionalLootData.setEntityId(entityId);
         return this;
     }
 
     @ZenCodeType.Method
     public CTAdditionalLoot setRemoveFromEntity(boolean removeFromEntity) {
-        this.data.setRemoveFromEntity(removeFromEntity);
+        this.additionalLootData.setRemoveFromEntity(removeFromEntity);
         return this;
     }
 
     public RecipeHolder<AdditionalLootData> getAdditionalLootData () {
-        return new RecipeHolder<>(new ResourceLocation("additional_loot_data_" + this.data.getEntityId()), this.data);
+        return new RecipeHolder<>(new ResourceLocation("additional_loot_data_" + this.additionalLootData.getEntityId()), this.additionalLootData);
     }
 
 }
