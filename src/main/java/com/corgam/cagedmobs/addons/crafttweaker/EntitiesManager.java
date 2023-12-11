@@ -36,7 +36,7 @@ public class EntitiesManager implements IRecipeManager<EntityData> {
             final EntityData recipe = this.getRecipes().get(resource).value();
             return new CTEntity(recipe);
         }
-        throw new IllegalStateException("CagedMobs: Invalid CraftTweaker Entity recipe ID: " + id);
+        throw new IllegalStateException("[CagedMobs] Invalid CraftTweaker Entity recipe ID: " + id);
     }
 
     @Override

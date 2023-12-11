@@ -30,7 +30,7 @@ public class AdditionalLootsManager implements IRecipeManager<AdditionalLootData
             final AdditionalLootData recipe = this.getRecipes().get(resource).value();
             return new CTAdditionalLoot(recipe);
         }
-        throw new IllegalStateException("CagedMobs: Invalid CraftTweaker Additional Loot Data recipe ID: " + id);
+        throw new IllegalStateException("[CagedMobs] Invalid CraftTweaker Additional Loot Data recipe ID: " + id);
     }
 
     @Override

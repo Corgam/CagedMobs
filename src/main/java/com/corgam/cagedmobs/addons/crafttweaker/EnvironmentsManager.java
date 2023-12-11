@@ -36,7 +36,7 @@ public class EnvironmentsManager implements IRecipeManager<EnvironmentData> {
             final EnvironmentData recipe = this.getRecipes().get(resource).value();
             return new CTEnvironment(recipe);
         }
-        throw new IllegalStateException("CagedMobs: Invalid CraftTweaker Environment recipe ID: " + id);
+        throw new IllegalStateException("[CagedMobs] Invalid CraftTweaker Environment recipe ID: " + id);
     }
 
     @Override

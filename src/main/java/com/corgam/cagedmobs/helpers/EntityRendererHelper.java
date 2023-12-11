@@ -36,13 +36,13 @@ public class EntityRendererHelper {
      * @return optional entity
      */
     public static Optional<Entity> createEntity(Level level, EntityType<?> entityType, CompoundTag startingNbt){
+        Optional<Entity> entity = Optional.empty();
         try{
             if(startingNbt == null){
                 startingNbt = new CompoundTag();
             }
             startingNbt.putString("id", EntityType.getKey(entityType).toString());
             // Create the entity
-            Optional<Entity> entity = Optional.empty();
             if(level != null && level.isClientSide()){
                 entity = EntityType.create(startingNbt, level);
             }
