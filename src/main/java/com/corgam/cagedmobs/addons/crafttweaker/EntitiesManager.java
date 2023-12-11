@@ -9,7 +9,6 @@ import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import com.corgam.cagedmobs.serializers.entity.EntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
@@ -26,6 +25,11 @@ public class EntitiesManager implements IRecipeManager<EntityData> {
     @ZenCodeType.Method
     public CTEntity create(String entityId, int growTicks, boolean requiresWater, int tier, String[] environments) {
         final CTEntity entity = new CTEntity(entityId, growTicks, requiresWater, tier, environments );
+        CraftTweakerAPI.apply(new ActionAddRecipe<>(this, entity.getEntityData(), ""));
+        return entity;
+    }
+
+    @ZenCodeType.Method
     public CTEntity getEntity(String id){
         ResourceLocation resource = ResourceLocation.tryParse(id);
         if(resource != null) {
