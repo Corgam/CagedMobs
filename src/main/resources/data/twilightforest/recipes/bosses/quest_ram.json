@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:entity_data",
-	"conditions": [
-		{
+	"forge:condition": {
 			"type": "forge:mod_loaded",
 			"modid": "twilightforest"
-		}
-	],
+	},
 	"entity": "twilightforest:quest_ram",
 	"samplerTier": 3,
 	"environments": ["forest"],

@@ -1,11 +1,9 @@
 {
 	"type": "cagedmobs:entity_data",
-	"conditions": [
-		{
-			"type": "forge:mod_loaded",
-			"modid": "twilightforest"
-		}
-	],
+	"forge:condition": {
+		"type": "forge:mod_loaded",
+		"modid": "twilightforest"
+	},
 	"entity": "twilightforest:squirrel",
 	"samplerTier": 1,
 	"environments": ["forest"],
