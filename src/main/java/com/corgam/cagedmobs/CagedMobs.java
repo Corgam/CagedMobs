@@ -9,15 +9,14 @@ import com.corgam.cagedmobs.items.DnaSamplerNetheriteItem;
 import com.corgam.cagedmobs.registers.*;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.InterModComms;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,30 +27,28 @@ public class CagedMobs
     public static final String MOD_ID = "cagedmobs";
     // Logger
     public static final Logger LOGGER = LogManager.getLogger();
-    // Eventbus
-    final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
     // Configs
     public static final ClientConfig CLIENT_CONFIG = new ClientConfig();
     public static final ServerConfig SERVER_CONFIG = new ServerConfig();
 
-    public CagedMobs() {
-        // Client
-        eventBus.addListener(ClientSetup::renderLayerSetup);
-        // Configs
+    public CagedMobs(IEventBus modEventBus) {
+        // Register client rendering
+        modEventBus.addListener(ClientSetup::renderLayerSetup);
+        // Register configs
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG.getForgeConfigSpec());
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG.getForgeConfigSpec());
-        // Registries
-        CagedBlocks.CAGED_BLOCKS_REGISTER.register(eventBus);
-        CagedItems.CAGED_ITEMS_REGISTER.register(eventBus);
-        CagedBlockEntities.CAGED_BLOCK_ENTITIES_REGISTER.register(eventBus);
-        CagedCreativeTabs.CAGED_CREATIVE_TABS_REGISTER.register(eventBus);
-        CagedRecipeTypes.CAGED_RECIPE_TYPES_REGISTER.register(eventBus);
-        CagedRecipeSerializers.CAGED_RECIPE_SERIALIZERS_REGISTER.register(eventBus);
-        CagedContainers.CAGED_MENU_TYPES_REGISTER.register(eventBus);
+        // Register deferred registries
+        CagedBlocks.CAGED_BLOCKS_REGISTER.register(modEventBus);
+        CagedItems.CAGED_ITEMS_REGISTER.register(modEventBus);
+        CagedBlockEntities.CAGED_BLOCK_ENTITIES_REGISTER.register(modEventBus);
+        CagedCreativeTabs.CAGED_CREATIVE_TABS_REGISTER.register(modEventBus);
+        CagedRecipeTypes.CAGED_RECIPE_TYPES_REGISTER.register(modEventBus);
+        CagedRecipeSerializers.CAGED_RECIPE_SERIALIZERS_REGISTER.register(modEventBus);
+        CagedContainers.CAGED_MENU_TYPES_REGISTER.register(modEventBus);
         // Add properties to items
-        eventBus.addListener(this::addPropertiesToItems);
+        modEventBus.addListener(this::addPropertiesToItems);
         // TheOneProbe support
-        eventBus.addListener(this::initTOPSupport);
+        modEventBus.addListener(this::initTOPSupport);
     }
 
     /**

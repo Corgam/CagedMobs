@@ -1,30 +1,30 @@
 package com.corgam.cagedmobs.configs;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.Collections;
 import java.util.List;
 
 public class ServerConfig {
 
-    private final ForgeConfigSpec spec;
+    private final ModConfigSpec spec;
 
-    private final ForgeConfigSpec.BooleanValue hoppingCagesDisabled;
+    private final ModConfigSpec.BooleanValue hoppingCagesDisabled;
 
-    private final ForgeConfigSpec.BooleanValue entitiesListInWhitelistMode;
-    private final ForgeConfigSpec.ConfigValue<List<? extends String>> entitiesList;
+    private final ModConfigSpec.BooleanValue entitiesListInWhitelistMode;
+    private final ModConfigSpec.ConfigValue<List<? extends String>> entitiesList;
 
-    private final ForgeConfigSpec.BooleanValue itemsListInWhitelistMode;
-    private final ForgeConfigSpec.ConfigValue<List<? extends String>> itemsList;
+    private final ModConfigSpec.BooleanValue itemsListInWhitelistMode;
+    private final ModConfigSpec.ConfigValue<List<? extends String>> itemsList;
 
-    private final ForgeConfigSpec.BooleanValue singleUseSamplers;
-    private final ForgeConfigSpec.BooleanValue disableSamplers;
-    private final ForgeConfigSpec.BooleanValue disableSpawnEggs;
+    private final ModConfigSpec.BooleanValue singleUseSamplers;
+    private final ModConfigSpec.BooleanValue disableSamplers;
+    private final ModConfigSpec.BooleanValue disableSpawnEggs;
 
-    private final ForgeConfigSpec.DoubleValue cagesSpeed;
+    private final ModConfigSpec.DoubleValue cagesSpeed;
 
     public ServerConfig(){
-        final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+        final ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         builder.comment("Server side config for CagedMobs. If changed it will affect the whole server!");
         builder.push("server");
 
@@ -73,7 +73,7 @@ public class ServerConfig {
         this.spec = builder.build();
     }
 
-    public ForgeConfigSpec getForgeConfigSpec() {
+    public ModConfigSpec getForgeConfigSpec() {
         return this.spec;
     }
 

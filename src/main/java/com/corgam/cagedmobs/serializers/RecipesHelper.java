@@ -6,15 +6,15 @@ import com.corgam.cagedmobs.serializers.environment.EnvironmentData;
 import com.corgam.cagedmobs.serializers.entity.AdditionalLootData;
 import com.corgam.cagedmobs.serializers.entity.EntityData;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraftforge.fml.util.thread.EffectiveSide;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.fml.util.thread.EffectiveSide;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.*;
 
@@ -102,7 +102,7 @@ public class RecipesHelper {
         List<Item> blacklisted = new java.util.ArrayList<>(Collections.emptyList());
         List<? extends String> blacklistedItems = CagedMobs.SERVER_CONFIG.getItemsList();
         for(String s : blacklistedItems){
-            Item i = ForgeRegistries.ITEMS.getValue(new ResourceLocation(s));
+            Item i = BuiltInRegistries.ITEM.get(new ResourceLocation(s));
             if(i != Items.AIR || i != null){
                 blacklisted.add(i);
             }

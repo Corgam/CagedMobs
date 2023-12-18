@@ -1,19 +1,18 @@
 package com.corgam.cagedmobs.configs;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ClientConfig {
 
-    private final ForgeConfigSpec spec;
+    private final ModConfigSpec spec;
 
-    private final BooleanValue disableEnvsRender;
-    private final BooleanValue disableEntitiesRender;
-    private final BooleanValue disableGrowthRender;
-    private final BooleanValue disableUpgradesParticles;
+    private final ModConfigSpec.BooleanValue disableEnvsRender;
+    private final ModConfigSpec.BooleanValue disableEntitiesRender;
+    private final ModConfigSpec.BooleanValue disableGrowthRender;
+    private final ModConfigSpec.BooleanValue disableUpgradesParticles;
 
     public ClientConfig(){
-        final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+        final ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         builder.comment("Client side config for CagedMobs. Do not change when shipping in ModPacks!");
         builder.push("client");
 
@@ -33,7 +32,7 @@ public class ClientConfig {
         this.spec = builder.build();
     }
 
-    public ForgeConfigSpec getForgeConfigSpec() {
+    public ModConfigSpec getForgeConfigSpec() {
         return spec;
     }
 

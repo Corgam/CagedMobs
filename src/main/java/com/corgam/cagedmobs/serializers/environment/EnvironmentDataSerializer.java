@@ -4,11 +4,11 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.serializers.SerializationHelper;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class EnvironmentDataSerializer implements RecipeSerializer<EnvironmentDa
 
     private final Codec<EnvironmentData> CODEC = RecordCodecBuilder.create((codecInstance) -> codecInstance.group(
             Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(EnvironmentData::getInputItem),
-            ForgeRegistries.BLOCKS.getCodec().fieldOf("render").forGetter(EnvironmentData::getRenderBlock),
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("render").forGetter(EnvironmentData::getRenderBlock),
             Codec.FLOAT.fieldOf("growModifier").forGetter(EnvironmentData::getGrowModifier),
             Codec.list(Codec.STRING).fieldOf("categories").forGetter(EnvironmentData::getCategories))
             .apply(codecInstance, EnvironmentData::new));

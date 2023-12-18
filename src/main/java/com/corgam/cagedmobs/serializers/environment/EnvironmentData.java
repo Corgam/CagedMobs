@@ -4,6 +4,7 @@ import com.corgam.cagedmobs.CagedMobs;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -12,7 +13,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
@@ -29,8 +29,9 @@ public class EnvironmentData implements Recipe<Inventory> {
         this.growModifier = growModifier;
         this.categories = categories;
         // Add the id to the list of loaded recipes
-        if(CagedMobs.LOGGER != null && ForgeRegistries.ITEMS.getKey(item.getItems()[0].getItem()) != null){
-            CagedMobs.LOGGER.info("Loaded EnvironmentData recipe for input item: " + ForgeRegistries.ITEMS.getKey(item.getItems()[0].getItem()));
+        if(CagedMobs.LOGGER != null) {
+            BuiltInRegistries.ITEM.getKey(item.getItems()[0].getItem());
+            CagedMobs.LOGGER.info("Loaded EnvironmentData recipe for input item: " + BuiltInRegistries.ITEM.getKey(item.getItems()[0].getItem()));
         }
     }
 

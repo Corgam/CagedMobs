@@ -15,9 +15,9 @@ import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.item.DyeColor;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 @OnlyIn(Dist.CLIENT)
 public class MobCageRenderer implements BlockEntityRenderer<MobCageBlockEntity> {
@@ -61,9 +61,9 @@ public class MobCageRenderer implements BlockEntityRenderer<MobCageBlockEntity> 
                     ((Sheep) entity).setColor(DyeColor.byId(tile.getColor()));
                 }
                 // Decide what to do on which side
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+                if(FMLEnvironment.dist.isClient()){
                     Minecraft.getInstance().getEntityRenderDispatcher().render(entity,0.0D , 0.0D, getEntityZ(entity), 0.0F, partialTicks, matrix, buffer, combinedLightIn);
-                });
+                }
             }
 
             matrix.popPose();

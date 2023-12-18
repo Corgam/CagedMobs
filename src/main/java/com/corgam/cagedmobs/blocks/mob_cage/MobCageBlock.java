@@ -50,9 +50,9 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -191,7 +191,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
             if(heldItem.getItem() instanceof EmptySpawnEggItem){
                 if(!CagedMobs.SERVER_CONFIG.areSpawnEggsDisabled()){
                     if(cageBE.hasEntity()){
-                        SpawnEggItem spawnEgg = ForgeSpawnEggItem.fromEntityType(cageBE.getEntityType());
+                        SpawnEggItem spawnEgg = DeferredSpawnEggItem.deferredOnlyById(cageBE.getEntityType());
                         if(spawnEgg != null){
                             if(!player.isCreative()){
                                 player.addItem(new ItemStack(spawnEgg));
@@ -250,7 +250,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
             };
             // Open the GUI
             ServerPlayer serverPlayer = (ServerPlayer) player;
-            serverPlayer.openMenu(containerProvider, cageBE.getBlockPos());
+            serverPlayer.openMenu(containerProvider);
             return InteractionResult.SUCCESS;
         } else {
         throw new IllegalStateException("Mob Cage container provider is missing!");

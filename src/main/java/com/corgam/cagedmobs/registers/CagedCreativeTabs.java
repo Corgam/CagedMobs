@@ -5,13 +5,14 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.function.Supplier;
 
 public class CagedCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CAGED_CREATIVE_TABS_REGISTER = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CagedMobs.MOD_ID);
 
-    public static final RegistryObject<CreativeModeTab> MAIN_TAB = CAGED_CREATIVE_TABS_REGISTER.register("cagedmobs_tab", () -> CreativeModeTab.builder()
+    public static final Supplier<CreativeModeTab> MAIN_TAB = CAGED_CREATIVE_TABS_REGISTER.register("cagedmobs_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.cagedmobs_tab"))
             .icon(() -> new ItemStack(CagedItems.HOPPING_MOB_CAGE.get()))
             .displayItems(((pParameters, pOutput) -> {

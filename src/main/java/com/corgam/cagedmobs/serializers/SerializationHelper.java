@@ -1,11 +1,11 @@
 package com.corgam.cagedmobs.serializers;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
@@ -29,14 +29,14 @@ public class SerializationHelper {
     // Block
 
     public static void serializeBlock(FriendlyByteBuf buffer, Block renderBlock) {
-        String locationString = ForgeRegistries.BLOCKS.getKey(renderBlock).toString();
+        String locationString = BuiltInRegistries.BLOCK.getKey(renderBlock).toString();
         buffer.writeUtf(locationString);
     }
 
     public static Block deserializeBlock(FriendlyByteBuf buffer) {
         String locationString = buffer.readUtf();
         ResourceLocation location = new ResourceLocation(locationString);
-        return ForgeRegistries.BLOCKS.getValue(location);
+        return BuiltInRegistries.BLOCK.get(location);
     }
 
     // Entity Type
@@ -53,6 +53,6 @@ public class SerializationHelper {
         String[] splitted = resString.split(":");
         ResourceLocation res = new ResourceLocation(splitted[0], splitted[1]);
         // Search for the entity type in the registry and return it
-        return ForgeRegistries.ENTITY_TYPES.getValue(res);
+        return BuiltInRegistries.ENTITY_TYPE.get(res);
     }
 }
