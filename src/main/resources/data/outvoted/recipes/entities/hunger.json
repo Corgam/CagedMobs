@@ -1,9 +1,11 @@
 {
 	"type": "cagedmobs:entity_data",
-	"forge:condition": {
+	"neoforge:conditions": [
+		{
 			"type": "neoforge:mod_loaded",
 			"modid": "outvoted"
-	},
+		}
+	],
 	"entity": "outvoted:hunger",
 	"samplerTier": 3,
 	"environments": ["sand"],

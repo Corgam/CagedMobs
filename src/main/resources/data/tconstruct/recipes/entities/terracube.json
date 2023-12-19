@@ -1,9 +1,11 @@
 {
     "type": "cagedmobs:entity_data",
-    "forge:condition": {
-        "type": "neoforge:mod_loaded",
-        "modid": "tconstruct"
-    },
+	"neoforge:conditions": [
+		{
+			"type": "neoforge:mod_loaded",
+			"modid": "tconstruct"
+		}
+	],
     "entity": "tconstruct:terracube",
     "samplerTier": 2,
     "environments": ["farm"],

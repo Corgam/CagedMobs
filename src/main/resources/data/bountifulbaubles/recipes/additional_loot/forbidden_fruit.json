@@ -1,9 +1,11 @@
 {
     "type": "cagedmobs:additional_loot_data",
-    "forge:condition": {
-        "type": "neoforge:mod_loaded",
-        "modid": "bountifulbaubles"
-    },
+	"neoforge:conditions": [
+		{
+			"type": "neoforge:mod_loaded",
+			"modid": "bountifulbaubles"
+		}
+	],
     "entity": "minecraft:husk",
     "results": [
       {

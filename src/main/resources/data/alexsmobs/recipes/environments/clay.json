@@ -1,9 +1,11 @@
 {
 	"type": "cagedmobs:environment_data",
-	"forge:condition": {
+	"neoforge:conditions": [
+		{
 			"type": "neoforge:mod_loaded",
 			"modid": "alexsmobs"
-	},
+		}
+	],
 	"input": {
 		"item": "minecraft:clay"
 	},

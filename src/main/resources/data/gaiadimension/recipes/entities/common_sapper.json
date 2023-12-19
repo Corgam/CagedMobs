@@ -1,9 +1,11 @@
 {
 	"type": "cagedmobs:entity_data",
-	"forge:condition": {
+	"neoforge:conditions": [
+		{
 			"type": "neoforge:mod_loaded",
 			"modid": "gaiadimension"
-	},
+		}
+	],
 	"entity": "gaiadimension:common_sapper",
 	"samplerTier": 1,
 	"environments": ["gaia"],

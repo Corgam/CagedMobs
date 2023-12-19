@@ -1,9 +1,11 @@
 {
     "type": "cagedmobs:entity_data",
-    "forge:condition": {
-        "type": "neoforge:mod_loaded",
-        "modid": "upgrade_aquatic"
-    },
+	"neoforge:conditions": [
+		{
+			"type": "neoforge:mod_loaded",
+			"modid": "upgrade_aquatic"
+		}
+	],
     "entity": "upgrade_aquatic:flare",
     "samplerTier": 2,
     "environments": ["end"],

@@ -1,9 +1,11 @@
 {
 	"type": "cagedmobs:environment_data",
-	"forge:condition": {
+	"neoforge:conditions": [
+		{
 			"type": "neoforge:mod_loaded",
 			"modid": "iceandfire"
-	},
+		}
+	],
 	"input": {
 		"item": "iceandfire:dragonforge_ice_core_disabled"
 	},

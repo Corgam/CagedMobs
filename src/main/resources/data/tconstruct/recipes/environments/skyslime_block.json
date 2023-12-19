@@ -1,9 +1,11 @@
 {
     "type": "cagedmobs:environment_data",
-    "forge:condition": {
-        "type": "neoforge:mod_loaded",
-        "modid": "tconstruct"
-    },
+	"neoforge:conditions": [
+		{
+			"type": "neoforge:mod_loaded",
+			"modid": "tconstruct"
+		}
+	],
     "input": {
       "item": "tconstruct:sky_congealed_slime"
     },

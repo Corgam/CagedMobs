@@ -1,6 +1,6 @@
 {
 	"type": "cagedmobs:additional_loot_data",
-	"forge:condition": {
+	"neoforge:condition": {
 		"type": "forge:and",
 		"values": [
 			{

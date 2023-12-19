@@ -1,9 +1,11 @@
 {
 	"type": "cagedmobs:entity_data",
-	"forge:condition": {
+	"neoforge:conditions": [
+		{
 			"type": "neoforge:mod_loaded",
 			"modid": "mysticalworld"
-	},
+		}
+	],
 	"entity": "mysticalworld:silkworm",
 	"samplerTier": 1,
 	"environments": ["farm"],

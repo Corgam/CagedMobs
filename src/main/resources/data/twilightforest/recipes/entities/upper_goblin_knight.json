@@ -1,9 +1,11 @@
 {
 	"type": "cagedmobs:entity_data",
-	"forge:condition": {
+	"neoforge:conditions": [
+		{
 			"type": "neoforge:mod_loaded",
 			"modid": "twilightforest"
-	},
+		}
+	],
 	"entity": "twilightforest:upper_goblin_knight",
 	"samplerTier": 2,
 	"environments": ["cave"],

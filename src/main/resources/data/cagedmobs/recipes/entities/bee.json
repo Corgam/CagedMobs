@@ -1,9 +1,11 @@
 {
 	"type": "cagedmobs:entity_data",
-	"forge:condition": {
+	"neoforge:conditions": [
+		{
 			"type": "neoforge:mod_loaded",
 			"modid": "cagedmobs"
-	},
+		}
+	],
 	"entity": "minecraft:bee",
 	"samplerTier": 2,
 	"environments": ["farm"],
