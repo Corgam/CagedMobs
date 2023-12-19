@@ -18,6 +18,14 @@
 				},
 				"minAmount": 1,
 				"maxAmount": 1
+		},
+		{
+			"chance": 0.02,
+			"output": {
+				"item": "twilightforest:naga_trophy"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

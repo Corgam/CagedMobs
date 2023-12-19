@@ -26,6 +26,14 @@
 				},
 				"minAmount": 1,
 				"maxAmount": 1
+		},
+		{
+			"chance": 0.02,
+			"output": {
+				"item": "twilightforest:alpha_yeti_trophy"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	
