@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cage": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cagedmobs:mob_cage"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_hopping_cage": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cagedmobs:hopping_mob_cage"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "cagedmobs:crafting/speed_iii_upgrade"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_cage",
+      "has_hopping_cage",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "cagedmobs:crafting/speed_iii_upgrade"
+    ]
+  },
+  "sends_telemetry_event": false
+}

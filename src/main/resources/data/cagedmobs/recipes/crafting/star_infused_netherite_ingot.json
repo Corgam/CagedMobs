@@ -1,5 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "star_infused_netherite_ingot",
   "pattern": [
     " X ",
     "XBX",

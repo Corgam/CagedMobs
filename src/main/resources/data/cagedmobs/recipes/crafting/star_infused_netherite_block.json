@@ -7,10 +7,10 @@
   ],
   "key": {
     "#": {
-      "tag": "cagedmobs:nuggets/star_infused_netherite"
+      "tag": "cagedmobs:ingots/star_infused_netherite"
     }
   },
   "result": {
-    "item": "cagedmobs:star_infused_netherite_ingot"
+    "item": "cagedmobs:star_infused_netherite_block"
   }
 }

@@ -1,5 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "star_infused_netherite_ingot",
   "pattern": [
     "###",
     "###",
@@ -7,10 +9,10 @@
   ],
   "key": {
     "#": {
-      "tag": "cagedmobs:ingots/star_infused_netherite"
+      "tag": "cagedmobs:nuggets/star_infused_netherite"
     }
   },
   "result": {
-    "item": "cagedmobs:star_infused_netherite_block"
+    "item": "cagedmobs:star_infused_netherite_ingot"
   }
 }
