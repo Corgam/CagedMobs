@@ -114,9 +114,9 @@ dependencies {
 //    implementation fg.deobf(project.dependencies.create("mcjty.theoneprobe:theoneprobe:${top_version}") {
 //        transitive = false
 //    })
-//     //Jade
-//     compileOnly fg.deobf("curse.maven:jade-324717:${jade_version}")
-//     runtimeOnly fg.deobf("curse.maven:jade-324717:${jade_version}")
+     //Jade
+     compileOnly "curse.maven:jade-324717:${jade_version}"
+     runtimeOnly "curse.maven:jade-324717:${jade_version}"
 //     // Craft Tweaker
 //     compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${craft_tweaker_version}")
 //     runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${craft_tweaker_version}")
