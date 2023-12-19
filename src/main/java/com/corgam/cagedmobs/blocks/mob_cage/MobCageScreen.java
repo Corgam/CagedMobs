@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Optional;
 
-public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
+public class MobCageScreen extends AbstractContainerScreen<MobCageMenu> {
 
     // The path to the GUI image
     private final ResourceLocation GUI = new ResourceLocation(CagedMobs.MOD_ID, "textures/gui/mob_cage.png");
@@ -30,7 +30,7 @@ public class MobCageScreen extends AbstractContainerScreen<MobCageContainer> {
      * @param pPlayerInventory player inventory
      * @param pTitle screen name
      */
-    public MobCageScreen(MobCageContainer pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public MobCageScreen(MobCageMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         this.imageHeight = 183;
         this.imageWidth = 176;

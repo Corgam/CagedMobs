@@ -53,6 +53,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
+import net.neoforged.neoforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -234,7 +235,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
                 @Nullable
                 @Override
                 public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-                    AbstractContainerMenu menu = new MobCageContainer(pContainerId, pPlayer, pos);
+                    AbstractContainerMenu menu = new MobCageMenu(pContainerId, pPlayer, pos);
                     menu.addSlotListener(new ContainerListener() {
                         @Override
                         public void slotChanged(AbstractContainerMenu pContainerToSend, int pDataSlotIndex, ItemStack pStack) {
@@ -250,7 +251,7 @@ public class MobCageBlock extends BaseEntityBlock implements SimpleWaterloggedBl
             };
             // Open the GUI
             ServerPlayer serverPlayer = (ServerPlayer) player;
-            serverPlayer.openMenu(containerProvider);
+            NetworkHooks.openScreen(serverPlayer, containerProvider, cageBE.getBlockPos());
             return InteractionResult.SUCCESS;
         } else {
         throw new IllegalStateException("Mob Cage container provider is missing!");

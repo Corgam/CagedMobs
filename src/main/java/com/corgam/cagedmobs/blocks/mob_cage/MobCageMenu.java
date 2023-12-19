@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import static com.corgam.cagedmobs.blocks.mob_cage.MobCageBlockEntity.*;
 
-public class MobCageContainer extends AbstractContainerMenu {
+public class MobCageMenu extends AbstractContainerMenu {
 
     public final BlockPos pos;
     public final Player player;
@@ -33,7 +33,7 @@ public class MobCageContainer extends AbstractContainerMenu {
      * @param pPlayer the accessing player
      * @param pPos block position
      */
-    public MobCageContainer(int pWindowId, Player pPlayer, BlockPos pPos) {
+    public MobCageMenu(int pWindowId, Player pPlayer, BlockPos pPos) {
         super(CagedContainers.CAGE_CONTAINER.get(), pWindowId);
         this.pos = pPos;
         this.player = pPlayer;
