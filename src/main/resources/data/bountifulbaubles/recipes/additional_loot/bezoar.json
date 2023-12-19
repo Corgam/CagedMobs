@@ -1,7 +1,7 @@
 {
     "type": "cagedmobs:additional_loot_data",
     "forge:condition": {
-        "type": "forge:mod_loaded",
+        "type": "neoforge:mod_loaded",
         "modid": "bountifulbaubles"
     },
     "entity": "minecraft:cave_spider",
