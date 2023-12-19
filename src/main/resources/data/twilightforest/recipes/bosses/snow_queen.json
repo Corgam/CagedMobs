@@ -40,6 +40,14 @@
 			},
 			"minAmount": 1,
 			"maxAmount": 1
+		},
+		{
+			"chance": 0.02,
+			"output": {
+				"item": "twilightforest:snow_queen_trophy"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

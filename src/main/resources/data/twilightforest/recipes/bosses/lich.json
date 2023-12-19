@@ -55,7 +55,7 @@
 		{
 			"chance": 0.01,
 			"output": {
-				"item": "twilightforest:shield_scepter"
+				"item": "twilightforest:fortification_scepter"
 			},
 			"randomDurability": true,
 			"minAmount": 1,
@@ -103,6 +103,14 @@
 				"item": "minecraft:golden_boots"
 			},
 			"randomDurability": true,
+			"minAmount": 1,
+			"maxAmount": 1
+		},
+		{
+			"chance": 0.02,
+			"output": {
+				"item": "twilightforest:lich_trophy"
+			},
 			"minAmount": 1,
 			"maxAmount": 1
 		}

@@ -53,6 +53,14 @@
 			"randomDurability": true,
 			"minAmount": 1,
 			"maxAmount": 1
+		},
+		{
+			"chance": 0.02,
+			"output": {
+				"item": "twilightforest:knight_phantom_trophy"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 	

@@ -24,6 +24,14 @@
 			},
 			"minAmount": 1,
 			"maxAmount": 2
+		},
+		{
+			"chance": 0.02,
+			"output": {
+				"item": "twilightforest:hydra_trophy"
+			},
+			"minAmount": 1,
+			"maxAmount": 1
 		}
 	]
 
