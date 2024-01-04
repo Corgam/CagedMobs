@@ -117,10 +117,9 @@ dependencies {
      //Jade
      compileOnly "curse.maven:jade-324717:${jade_version}"
      runtimeOnly "curse.maven:jade-324717:${jade_version}"
-//     // Craft Tweaker
-//     compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${craft_tweaker_version}")
-//     runtimeOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-${craft_tweaker_version}")
-
+     // Craft Tweaker
+     compileOnly "com.blamejared.crafttweaker:CraftTweaker-neoforge-${craft_tweaker_version}"
+     runtimeOnly "com.blamejared.crafttweaker:CraftTweaker-neoforge-${craft_tweaker_version}"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
