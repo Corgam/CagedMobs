@@ -1,9 +1,9 @@
 package com.corgam.cagedmobs.serializers.entity;
 
 import com.corgam.cagedmobs.CagedMobs;
+import com.corgam.cagedmobs.registers.CagedItems;
 import com.corgam.cagedmobs.registers.CagedRecipeSerializers;
 import com.corgam.cagedmobs.registers.CagedRecipeTypes;
-import com.corgam.cagedmobs.registers.CagedItems;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
@@ -13,25 +13,27 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class EntityData implements Recipe<Inventory> {
 
     private String entityId;
     private EntityType<?> entityType;
-    private List<String> environments;
+    private ArrayList<String> environments;
     private int growTicks;
     private boolean requiresWater;
-    private List<LootData> results;
+    private ArrayList<LootData> results;
     private int samplerTier;
 
     public EntityData(String entityId, List<String> environments, int growTicks, boolean requiresWater, List<LootData> results, int tier){
         this.entityId = entityId;
-        this.environments = environments;
+        this.environments = new ArrayList<>(environments);
         this.entityType = this.getEntityType();
         this.growTicks = growTicks;
         this.requiresWater = requiresWater;
-        this.results = results;
+        this.results = new ArrayList<>(results);
         this.samplerTier = tier;
         // Add the id to the list of loaded recipes
         if(!entityId.isEmpty() && CagedMobs.LOGGER != null){
@@ -55,7 +57,7 @@ public class EntityData implements Recipe<Inventory> {
         return this.environments;
     }
 
-    public void setEnvironments(List<String> environments){
+    public void setEnvironments(ArrayList<String> environments){
         this.environments = environments;
     }
 
@@ -120,7 +122,7 @@ public class EntityData implements Recipe<Inventory> {
         this.requiresWater = requiresWater;
     }
 
-    public List<LootData> getResults() {
+    public ArrayList<LootData> getResults() {
         return this.results;
     }
 

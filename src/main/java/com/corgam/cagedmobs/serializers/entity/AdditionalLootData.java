@@ -12,19 +12,21 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class AdditionalLootData implements Recipe<Inventory> {
 
     private String entityId;
     private EntityType<?> entityType;
-    private List<LootData> results;
+    private ArrayList<LootData> results;
     private boolean removeFromEntity;
 
     public AdditionalLootData(String entityId, List<LootData> results, boolean removeFromEntity){
         this.entityId = entityId;
         this.entityType = this.getEntityType();
-        this.results = results;
+        this.results = new ArrayList<>(results);
         this.removeFromEntity = removeFromEntity;
         // Add the id to the list of loaded recipes
         if(!entityId.isEmpty() && CagedMobs.LOGGER != null){
@@ -85,11 +87,11 @@ public class AdditionalLootData implements Recipe<Inventory> {
         return CagedRecipeTypes.ADDITIONAL_LOOT_RECIPE.get();
     }
 
-    public List<LootData> getResults() {
+    public ArrayList<LootData> getResults() {
         return this.results;
     }
 
-    public void setResults(List<LootData> results) {
+    public void setResults(ArrayList<LootData> results) {
         this.results = results;
     }
 
